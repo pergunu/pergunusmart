@@ -9,6 +9,46 @@ document.addEventListener('DOMContentLoaded', function() {
         cpnsCode: 'CPNSP3K-OPENLOCK',
         adminCode: '65614222'
     };
+
+// Fungsi untuk memilih jawaban (dalam quiz.js)
+function selectAnswer(answerIndex) {
+    if (!quizStarted || userAnswers[currentQuestion] !== null) return;
+    
+    const question = questions[currentQuestion];
+    userAnswers[currentQuestion] = answerIndex;
+    
+    // Tandai jawaban yang dipilih
+    const options = document.querySelectorAll('.option');
+    options.forEach(option => option.classList.remove('selected', 'correct', 'incorrect'));
+    options[answerIndex].classList.add('selected');
+    
+    // Tampilkan feedback dan mainkan audio
+    if (answerIndex === question.correctAnswer) {
+        options[answerIndex].classList.add('correct');
+        playAudio('correct'); // Audio jawaban benar
+    } else {
+        options[answerIndex].classList.add('incorrect');
+        options[question.correctAnswer].classList.add('correct');
+        playAudio('wrong'); // Audio jawaban salah
+    }
+    
+    // ... kode lainnya tetap sama
+}
+
+// Fungsi untuk menyelesaikan quiz (dalam quiz.js)
+function finishQuiz() {
+    clearInterval(timer);
+    quizStarted = false;
+    calculateScore();
+    saveResults();
+    
+    // Mainkan audio applause sebelum redirect
+    playAudio('applause');
+    
+    setTimeout(() => {
+        window.location.href = 'results.html';
+    }, 2000); // Beri jeda 2 detik untuk applause
+}
     
     // Inisialisasi elemen
     const openingScreen = document.getElementById('openingScreen');
