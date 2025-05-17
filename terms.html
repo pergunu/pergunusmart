@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Syarat & Ketentuan - PERGUNU SMART</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .terms-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-top: 2vh;
+            margin-bottom: 2vh;
+        }
+        
+        .terms-title {
+            font-size: 2rem;
+            color: #3a0ca3;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-family: 'Playfair Display', serif;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .terms-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, #4361ee, #3a0ca3);
+            border-radius: 2px;
+        }
+        
+        .terms-content {
+            max-height: 50vh;
+            overflow-y: auto;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+            color: #444;
+        }
+        
+        .terms-content p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .terms-content strong {
+            color: #3a0ca3;
+            font-weight: 600;
+        }
+        
+        .terms-checkbox {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+        
+        .terms-checkbox input {
+            margin-right: 0.75rem;
+            width: 1.2rem;
+            height: 1.2rem;
+        }
+        
+        .continue-btn {
+            background: linear-gradient(135deg, #4361ee, #3a0ca3);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+            transition: all 0.3s;
+        }
+        
+        .continue-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .continue-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
+        }
+        
+        @media (max-width: 576px) {
+            .terms-container {
+                padding: 1.5rem;
+                margin-top: 1vh;
+            }
+            
+            .terms-title {
+                font-size: 1.5rem;
+            }
+            
+            .terms-content {
+                max-height: 60vh;
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="terms-container">
+        <h1 class="terms-title">Syarat & Ketentuan</h1>
+        
+        <div class="terms-content">
+            <p>Selamat datang di PERGUNU SMART, platform ujian online yang dikembangkan oleh Pergunu Situbondo. Dengan menggunakan aplikasi ini, Anda menyetujui ketentuan berikut:</p>
+            
+            <p><strong>1. Penggunaan Aplikasi</strong><br>
+            Aplikasi ini ditujukan untuk tujuan pendidikan dan pengujian pengetahuan. Penggunaan untuk tujuan komersial dilarang.</p>
+            
+            <p><strong>2. Data Pribadi</strong><br>
+            Data yang dikumpulkan hanya digunakan untuk keperluan validasi peserta dan sertifikat. Kami menjamin kerahasiaan data Anda.</p>
+            
+            <p><strong>3. Kode Etik</strong><br>
+            Dilarang melakukan kecurangan dalam bentuk apapun selama ujian berlangsung. Pelanggaran akan berakibat pembatalan hasil ujian.</p>
+            
+            <p><strong>4. Hak Cipta</strong><br>
+            Seluruh konten dalam aplikasi ini merupakan hak milik Pergunu Situbondo. Dilarang melakukan reproduksi tanpa izin.</p>
+            
+            <p><strong>5. Tanggung Jawab</strong><br>
+            Peserta bertanggung jawab penuh atas perangkat dan koneksi internet yang digunakan untuk mengakses ujian.</p>
+            
+            <p><strong>6. Perubahan Sistem</strong><br>
+            Pergunu Situbondo berhak melakukan perubahan sistem tanpa pemberitahuan sebelumnya.</p>
+            
+            <p>Dengan melanjutkan, Anda menyatakan telah membaca, memahami, dan menyetujui seluruh ketentuan di atas.</p>
+        </div>
+        
+        <div class="terms-checkbox">
+            <input type="checkbox" id="agreeTerms">
+            <label for="agreeTerms">Saya menyetujui syarat dan ketentuan di atas</label>
+        </div>
+        
+        <button class="continue-btn" id="continueBtn" disabled>
+            Lanjutkan <i class="fas fa-arrow-right"></i>
+        </button>
+    </div>
+
+    <script>
+        document.getElementById('agreeTerms').addEventListener('change', function() {
+            document.getElementById('continueBtn').disabled = !this.checked;
+        });
+        
+        document.getElementById('continueBtn').addEventListener('click', function() {
+            window.location.href = 'register.html';
+        });
+    </script>
+</body>
+</html>
