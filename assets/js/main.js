@@ -150,6 +150,42 @@ function init() {
     loadQuestions();
 }
 
+function generateCertificate(score) {
+    // Generate certificate code
+    const now = new Date();
+    const dateStr = `${now.getDate()}${now.getMonth()+1}${now.getFullYear()}`;
+    const randomCode = Math.random().toString(36).substring(2,6).toUpperCase();
+    
+    // Set certificate content
+    certificateName.textContent = participantData.fullName;
+    certificateScore.textContent = score;
+    
+    // Set motivational message based on score
+    const motivation = getMotivationalMessage(score);
+    certificateMotivation.textContent = motivation;
+    
+    // Format date
+    const options = { day: 'numeric', month: 'long', year: 'numeric' };
+    certificateDate.textContent = `Ditetapkan di: Situbondo, ${now.toLocaleDateString('id-ID', options)}`;
+    
+    // Show score details in small print
+    document.getElementById('scoreDetails').innerHTML = `
+        <small>Jumlah Soal: ${questions.length} | 
+        Benar: ${correctCount} | 
+        Salah: ${wrongCount} | 
+        Tidak Dijawab: ${questions.length - answeredQuestions}</small>
+    `;
+}
+
+function getMotivationalMessage(score) {
+    if (score >= 96) return "Sempurna! Anda sangat luar biasa dalam menguasai materi ini. Pertahankan prestasi ini.";
+    if (score >= 86) return "Luar biasa! Anda benar-benar menguasai materi ini.";
+    if (score >= 76) return "Prestasi yang sangat baik! Pertahankan semangat belajar Anda.";
+    if (score >= 61) return "Kerja bagus! Anda telah menunjukkan pemahaman yang baik.";
+    if (score >= 41) return "Hasil yang cukup baik. Tingkatkan lagi pemahaman Anda!";
+    return "Masih ada ruang untuk perbaikan. Teruslah belajar dan berlatih!";
+}
+
 function handleLicenseSubmit() {
     playButtonSound();
     
