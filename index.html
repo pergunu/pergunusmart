@@ -11,12 +11,12 @@
 </head>
 <body>
     <!-- Audio Elements -->
-    <audio id="openingAudio" src="assets/audio/opening.mp3"></audio>
-    <audio id="buttonAudio" src="assets/audio/audiotombol.mp3"></audio>
-    <audio id="correctAudio" src="assets/audio/jawabanbenar.mp3"></audio>
-    <audio id="wrongAudio" src="assets/audio/jawabansalah.mp3"></audio>
-    <audio id="applauseAudio" src="assets/audio/applause.mp3"></audio>
-    <audio id="bgAudio" src="assets/audio/sholawat.mp3" loop></audio>
+    <audio id="openingAudio" src="assets/audio/opening.mp3" preload="auto"></audio>
+    <audio id="buttonAudio" src="assets/audio/audiotombol.mp3" preload="auto"></audio>
+    <audio id="correctAudio" src="assets/audio/jawabanbenar.mp3" preload="auto"></audio>
+    <audio id="wrongAudio" src="assets/audio/jawabansalah.mp3" preload="auto"></audio>
+    <audio id="applauseAudio" src="assets/audio/applause.mp3" preload="auto"></audio>
+    <audio id="bgAudio" src="assets/audio/sholawat.mp3" loop preload="auto"></audio>
 
     <!-- Welcome Screen -->
     <div id="welcomeScreen" class="screen active animate__animated animate__fadeIn">
@@ -40,7 +40,7 @@
 
     <!-- Terms Screen -->
     <div id="termsScreen" class="screen">
-        <div class="terms-container">
+        <div class="terms-container animate__animated animate__fadeIn">
             <h2>Peraturan & Kebijakan Ujian</h2>
             <div class="terms-content">
                 <p>Dengan mengikuti ujian ini, Anda menyetujui:</p>
@@ -64,7 +64,7 @@
 
     <!-- Registration Form -->
     <div id="registrationScreen" class="screen">
-        <div class="form-container">
+        <div class="form-container animate__animated animate__fadeIn">
             <h2>Formulir Pendaftaran Peserta</h2>
             <form id="participantForm">
                 <div class="form-group">
@@ -143,7 +143,7 @@
 
     <!-- Exam Selection Screen -->
     <div id="examSelectionScreen" class="screen">
-        <div class="selection-container">
+        <div class="selection-container animate__animated animate__fadeIn">
             <h2>Pilih Jenis Ujian</h2>
             
             <!-- Pelajar Options -->
@@ -236,7 +236,7 @@
 
     <!-- Results Screen -->
     <div id="resultsScreen" class="screen">
-        <div class="results-container">
+        <div class="results-container animate__animated animate__fadeIn">
             <h2>Hasil Ujian Anda</h2>
             
             <div class="score-container">
@@ -308,6 +308,8 @@
                 <button class="admin-tab" data-tab="bankCode">Kode Bank Soal</button>
                 <button class="admin-tab" data-tab="adminCode">Kode Admin</button>
                 <button class="admin-tab" data-tab="examSettings">Pengaturan Ujian</button>
+                <button class="admin-tab" data-tab="musicSettings">Pengaturan Musik</button>
+                <button class="admin-tab" data-tab="websiteSettings">Pengaturan Website</button>
             </div>
             
             <div class="admin-content">
@@ -392,6 +394,49 @@
                         </div>
                     </div>
                     <button id="saveSettings" class="btn-primary">Simpan Pengaturan</button>
+                </div>
+                
+                <!-- Music Settings Tab -->
+                <div id="musicSettingsTab" class="admin-tab-content">
+                    <div class="form-group">
+                        <label>Daftar Musik Latar:</label>
+                        <div id="musicList">
+                            <!-- Music list will be loaded here -->
+                        </div>
+                        <button id="addMusicBtn" class="btn-secondary">Tambah Musik</button>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="newMusicUrl">URL Musik Baru:</label>
+                        <input type="text" id="newMusicUrl" placeholder="https://example.com/music.mp3">
+                        <input type="text" id="newMusicName" placeholder="Nama Musik">
+                        <button id="saveMusicBtn" class="btn-primary">Simpan Musik</button>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Pengaturan Musik:</label>
+                        <input type="checkbox" id="enableMusic" checked>
+                        <label for="enableMusic">Aktifkan Musik Latar</label>
+                        <input type="range" id="musicVolume" min="0" max="1" step="0.1" value="0.7">
+                    </div>
+                </div>
+                
+                <!-- Website Settings Tab -->
+                <div id="websiteSettingsTab" class="admin-tab-content">
+                    <div class="form-group">
+                        <label>Daftar Link Website:</label>
+                        <div id="websiteList">
+                            <!-- Website list will be loaded here -->
+                        </div>
+                        <button id="addWebsiteBtn" class="btn-secondary">Tambah Website</button>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="newWebsiteUrl">URL Website Baru:</label>
+                        <input type="text" id="newWebsiteUrl" placeholder="https://example.com">
+                        <input type="text" id="newWebsiteName" placeholder="Nama Website">
+                        <button id="saveWebsiteBtn" class="btn-primary">Simpan Website</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -552,6 +597,17 @@
                 <button class="social-btn twitter"><i class="fab fa-twitter"></i> Twitter</button>
             </div>
         </div>
+    </div>
+
+    <!-- Audio Play Button (for browsers that block autoplay) -->
+    <button id="audioPlayBtn" style="display:none; position:fixed; top:20px; right:20px; z-index:1000;" class="btn-primary">
+        <i class="fas fa-play"></i> Putar Audio
+    </button>
+
+    <!-- Volume Control -->
+    <div id="volumeControl" style="position:fixed; bottom:100px; right:30px; z-index:1000;">
+        <button id="muteBtn" class="floating-btn" title="Mute/Unmute"><i class="fas fa-volume-up"></i></button>
+        <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="0.7" style="display:none;">
     </div>
 
     <script src="assets/js/main.js"></script>
