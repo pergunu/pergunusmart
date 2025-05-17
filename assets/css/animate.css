@@ -1,0 +1,154 @@
+/* Animation classes */
+.animate__animated {
+    animation-duration: 1s;
+    animation-fill-mode: both;
+}
+
+.animate__fadeIn {
+    animation-name: fadeIn;
+}
+
+.animate__fadeInUp {
+    animation-name: fadeInUp;
+}
+
+.animate__bounceIn {
+    animation-name: bounceIn;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 20px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes bounceIn {
+    from, 20%, 40%, 60%, 80%, to {
+        animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+    }
+    0% {
+        opacity: 0;
+        transform: scale3d(.3, .3, .3);
+    }
+    20% {
+        transform: scale3d(1.1, 1.1, 1.1);
+    }
+    40% {
+        transform: scale3d(.9, .9, .9);
+    }
+    60% {
+        opacity: 1;
+        transform: scale3d(1.03, 1.03, 1.03);
+    }
+    80% {
+        transform: scale3d(.97, .97, .97);
+    }
+    to {
+        opacity: 1;
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+/* Button animations */
+.btn-primary:hover {
+    animation: pulse 0.5s;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Correct answer animation */
+.option-btn.correct {
+    animation: correctAnswer 0.5s;
+}
+
+@keyframes correctAnswer {
+    0% {
+        background-color: #f8f9fa;
+    }
+    50% {
+        background-color: #d4edda;
+        transform: scale(1.02);
+    }
+    100% {
+        background-color: #d4edda;
+    }
+}
+
+/* Incorrect answer animation */
+.option-btn.incorrect {
+    animation: incorrectAnswer 0.5s;
+}
+
+@keyframes incorrectAnswer {
+    0% {
+        background-color: #f8f9fa;
+    }
+    50% {
+        background-color: #f8d7da;
+        transform: scale(1.02);
+    }
+    100% {
+        background-color: #f8d7da;
+    }
+}
+
+/* Floating button animations */
+.floating-btn {
+    transition: all 0.3s ease;
+}
+
+.floating-btn:hover {
+    animation: float 2s infinite;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+/* Certificate animation */
+.certificate {
+    animation: certificateAppear 1s;
+}
+
+@keyframes certificateAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
