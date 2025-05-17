@@ -78,6 +78,9 @@ const whatsappBtn = document.getElementById('whatsappBtn');
 const goToBtn = document.getElementById('goToBtn');
 const bankSoalBtn = document.getElementById('bankSoalBtn');
 const adminBtn = document.getElementById('adminBtn');
+const muteBtn = document.getElementById('muteBtn');
+const volumeSlider = document.getElementById('volumeSlider');
+const audioPlayBtn = document.getElementById('audioPlayBtn');
 
 // Admin Panel
 const adminPanel = document.getElementById('adminPanel');
@@ -113,6 +116,8 @@ let wrongCount = 0;
 let timerInterval;
 let timeLeft = 90 * 60; // 90 minutes in seconds
 let examStarted = false;
+let isMuted = false;
+let currentVolume = 0.7;
 
 // Default codes
 const DEFAULT_LOGIN_CODE = '12345';
@@ -132,19 +137,90 @@ const MOTIVATIONAL_MESSAGES = [
 
 // Initialize the app
 function init() {
-    // Play opening audio
-    openingAudio.play();
-    bgAudio.play();
+    // Set initial volume
+    setAudioVolume(currentVolume);
     
-    // Set up event listeners
+    // Try to play opening audio
+    playOpeningAudio();
+    
+    // Setup event listeners
     setupEventListeners();
     
-    // Load questions (in a real app, this would be from a server)
+    // Load questions
     loadQuestions();
+}
+
+function playOpeningAudio() {
+    const playPromise = openingAudio.play();
+    
+    if (playPromise !== undefined) {
+        playPromise.catch(error => {
+            console.log('Autoplay prevented, showing play button');
+            audioPlayBtn.style.display = 'block';
+        });
+    }
+}
+
+function playAllAudio() {
+    openingAudio.play().then(() => {
+        audioPlayBtn.style.display = 'none';
+    }).catch(error => {
+        console.log('Audio play failed:', error);
+    });
+    
+    bgAudio.play().catch(error => {
+        console.log('Background audio play failed:', error);
+    });
+}
+
+// Set audio volume for all audio elements
+function setAudioVolume(volume) {
+    openingAudio.volume = volume;
+    buttonAudio.volume = volume;
+    correctAudio.volume = volume;
+    wrongAudio.volume = volume;
+    applauseAudio.volume = volume;
+    bgAudio.volume = volume;
+}
+
+// Toggle mute
+function toggleMute() {
+    isMuted = !isMuted;
+    
+    if (isMuted) {
+        setAudioVolume(0);
+        muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+        volumeSlider.style.display = 'none';
+    } else {
+        setAudioVolume(currentVolume);
+        muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+        volumeSlider.style.display = 'block';
+    }
+}
+
+// Update volume
+function updateVolume() {
+    currentVolume = volumeSlider.value;
+    setAudioVolume(currentVolume);
+    
+    if (currentVolume == 0) {
+        muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+        isMuted = true;
+    } else {
+        muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+        isMuted = false;
+    }
 }
 
 // Set up all event listeners
 function setupEventListeners() {
+    // Audio play button
+    audioPlayBtn.addEventListener('click', playAllAudio);
+    
+    // Volume control
+    muteBtn.addEventListener('click', toggleMute);
+    volumeSlider.addEventListener('input', updateVolume);
+    
     // Login screen
     submitLoginBtn.addEventListener('click', handleLogin);
     loginCodeInput.addEventListener('keypress', (e) => {
@@ -320,6 +396,11 @@ function handleRegistrationSubmit(e) {
         participantData.whatsapp = document.getElementById('whatsapp').value;
         participantData.email = document.getElementById('email').value;
         participantData.purpose = document.getElementById('generalPurpose').value;
+        
+        // If purpose is CPNS, set exam category
+        if (participantData.purpose === 'cpns') {
+            examData.category = 'cpns';
+        }
     }
     
     // Show exam selection based on status
@@ -331,6 +412,11 @@ function handleRegistrationSubmit(e) {
     } else {
         pelajarExamOptions.style.display = 'none';
         umumExamOptions.style.display = 'block';
+        
+        // If purpose is CPNS, show license container
+        if (participantData.purpose === 'cpns') {
+            cpnsLicenseContainer.style.display = 'block';
+        }
     }
 }
 
@@ -389,6 +475,9 @@ function startExam() {
     // Show first question
     showQuestion();
     
+    // Play background music
+    bgAudio.play().catch(e => console.log('Background audio play error:', e));
+    
     // Show exam screen
     showScreen('exam');
 }
@@ -445,10 +534,12 @@ function handleAnswer(selectedOption) {
     
     // Play correct/wrong sound
     if (isCorrect) {
-        correctAudio.play();
+        correctAudio.currentTime = 0;
+        correctAudio.play().catch(e => console.log('Correct audio error:', e));
         correctCount++;
     } else {
-        wrongAudio.play();
+        wrongAudio.currentTime = 0;
+        wrongAudio.play().catch(e => console.log('Wrong audio error:', e));
         wrongCount++;
     }
     
@@ -498,6 +589,9 @@ function finishExam() {
     clearInterval(timerInterval);
     examStarted = false;
     
+    // Stop background music
+    bgAudio.pause();
+    
     // Calculate score
     const score = Math.round((correctCount / questions.length) * 100);
     
@@ -512,7 +606,8 @@ function finishExam() {
     generateCertificate(score);
     
     // Play applause sound
-    applauseAudio.play();
+    applauseAudio.currentTime = 0;
+    applauseAudio.play().catch(e => console.log('Applause audio error:', e));
     
     // Show results screen
     showScreen('results');
@@ -687,7 +782,7 @@ function copyShareLink() {
 // Play button sound
 function playButtonSound() {
     buttonAudio.currentTime = 0;
-    buttonAudio.play();
+    buttonAudio.play().catch(e => console.log('Button audio error:', e));
 }
 
 // Shuffle array
