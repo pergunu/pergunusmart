@@ -1,25 +1,4 @@
-/* CSS untuk opsi jawaban */
-.option {
-    padding: 1.2rem;
-    border: 1px solid #eee;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 0.5rem;
-}
-
-.option:hover {
-    background: #f8f9fa;
-}
-
-.option.selected {
-    background: #f0f4ff;
-    border-color: #4361ee;
-}
-
+/* Tambahkan ini di bagian style quiz.html */
 .option.correct {
     background: #e6fcf5;
     border-color: #12b886;
@@ -42,25 +21,7 @@
     color: white;
 }
 
-.option-prefix {
-    font-weight: bold;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background: #f8f9fa;
-    flex-shrink: 0;
-    transition: all 0.3s;
-}
-
-.selected .option-prefix {
-    background: #4361ee;
-    color: white;
-}
-
-/* Animasi untuk feedback jawaban */
+/* Tambahkan animasi untuk feedback jawaban */
 @keyframes fadeIn {
     from { opacity: 0; transform: scale(0.95); }
     to { opacity: 1; transform: scale(1); }
@@ -69,34 +30,3 @@
 .option.correct, .option.incorrect {
     animation: fadeIn 0.3s ease-out;
 }
-
-/* Timer warning */
-.timer-warning {
-    color: #fa5252;
-    font-weight: bold;
-    animation: pulse 1s infinite;
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-}
-
-<script src="assets/js/quiz.js"></script>
-<script>
-    // Inisialisasi quiz
-    document.addEventListener('DOMContentLoaded', function() {
-        // Ambil data peserta dari localStorage
-        const participantData = JSON.parse(localStorage.getItem('participantData'));
-        
-        // Set info quiz
-        document.getElementById('quizCategory').textContent = 
-            `${participantData.status === 'pelajar' ? 'Pelajar' : 'Umum'} - ${participantData.purpose === 'cpns-p3k' ? 'CPNS/P3K' : (participantData.status === 'pelajar' ? participantData.level.toUpperCase() : 'Logika')}`;
-        
-        document.getElementById('quizLevel').textContent = 'Mudah';
-        
-        // Mulai quiz
-        startQuiz();
-    });
-</script>
