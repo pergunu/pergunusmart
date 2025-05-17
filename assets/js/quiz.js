@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let timer;
     let timeLeft = 90 * 60; // 90 menit dalam detik
     let questions = [];
-    let userAnswers = Array(20).fill(null); // Array untuk menyimpan jawaban user
+    let userAnswers = [];
     let quizStarted = false;
     
     // Inisialisasi quiz
@@ -14,6 +14,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // Load pertanyaan berdasarkan kategori peserta
         const participantData = JSON.parse(localStorage.getItem('participantData'));
         loadQuestions(participantData);
+        
+        // Inisialisasi array jawaban user
+        userAnswers = new Array(questions.length).fill(null);
         
         // Setup timer
         updateTimerDisplay();
@@ -26,11 +29,13 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('nextBtn').addEventListener('click', nextQuestion);
         document.getElementById('finishBtn').addEventListener('click', finishQuiz);
         document.getElementById('unansweredBtn').addEventListener('click', showUnansweredQuestions);
+        
+        quizStarted = true;
     }
     
     // Memuat pertanyaan berdasarkan kategori peserta
     function loadQuestions(participantData) {
-        // Ini adalah contoh data pertanyaan - dalam implementasi nyata, Anda akan mengambil dari database/API
+        // Contoh pertanyaan - dalam implementasi nyata, ambil dari database/API
         questions = generateSampleQuestions(participantData);
     }
     
@@ -61,6 +66,13 @@ document.addEventListener('DOMContentLoaded', function() {
             // Tambahkan kelas jika jawaban sudah dipilih
             if (userAnswers[currentQuestion] === index) {
                 optionElement.classList.add('selected');
+                
+                // Tandai jawaban benar/salah
+                if (index === question.correctAnswer) {
+                    optionElement.classList.add('correct');
+                } else {
+                    optionElement.classList.add('incorrect');
+                }
             }
             
             optionElement.innerHTML = `
@@ -72,8 +84,22 @@ document.addEventListener('DOMContentLoaded', function() {
             optionsContainer.appendChild(optionElement);
         });
         
-        // Sembunyikan penjelasan
-        document.getElementById('explanation').style.display = 'none';
+        // Tampilkan jawaban benar jika sudah dipilih
+        if (userAnswers[currentQuestion] !== null) {
+            const correctOption = document.querySelectorAll('.option')[question.correctAnswer];
+            correctOption.classList.add('correct');
+            
+            // Tampilkan penjelasan
+            document.getElementById('explanationText').textContent = question.explanation;
+            document.getElementById('explanation').style.display = 'block';
+            
+            // Nonaktifkan opsi setelah memilih jawaban
+            document.querySelectorAll('.option').forEach(option => {
+                option.style.pointerEvents = 'none';
+            });
+        } else {
+            document.getElementById('explanation').style.display = 'none';
+        }
         
         // Update tombol navigasi
         updateNavigationButtons();
@@ -81,20 +107,17 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Memilih jawaban
     function selectAnswer(answerIndex) {
-        // Jika quiz sudah selesai, tidak bisa memilih jawaban lagi
-        if (!quizStarted) return;
+        if (!quizStarted || userAnswers[currentQuestion] !== null) return;
         
         const question = questions[currentQuestion];
-        const options = document.querySelectorAll('.option');
-        
-        // Simpan jawaban user
         userAnswers[currentQuestion] = answerIndex;
         
         // Tandai jawaban yang dipilih
+        const options = document.querySelectorAll('.option');
         options.forEach(option => option.classList.remove('selected', 'correct', 'incorrect'));
         options[answerIndex].classList.add('selected');
         
-        // Tampilkan apakah jawaban benar/salah
+        // Tampilkan feedback
         if (answerIndex === question.correctAnswer) {
             options[answerIndex].classList.add('correct');
             playSound('correct');
@@ -127,22 +150,24 @@ document.addEventListener('DOMContentLoaded', function() {
     // Update tombol navigasi
     function updateNavigationButtons() {
         const nextBtn = document.getElementById('nextBtn');
-        const finishBtn = document.getElementById('finishBtn');
         
         if (currentQuestion === questions.length - 1) {
-            nextBtn.textContent = 'Selesaikan';
             nextBtn.innerHTML = '<i class="fas fa-stop"></i> Selesaikan';
+            nextBtn.classList.add('danger');
+            nextBtn.classList.remove('primary');
         } else {
-            nextBtn.textContent = 'Lanjut';
             nextBtn.innerHTML = '<i class="fas fa-arrow-right"></i> Lanjut';
+            nextBtn.classList.add('primary');
+            nextBtn.classList.remove('danger');
         }
     }
     
     // Menampilkan pertanyaan yang belum dijawab
     function showUnansweredQuestions() {
-        const unansweredQuestions = userAnswers.map((answer, index) => 
-            answer === null ? index : null
-        ).filter(val => val !== null);
+        const unansweredQuestions = [];
+        userAnswers.forEach((answer, index) => {
+            if (answer === null) unansweredQuestions.push(index);
+        });
         
         if (unansweredQuestions.length > 0) {
             currentQuestion = unansweredQuestions[0];
@@ -157,7 +182,6 @@ document.addEventListener('DOMContentLoaded', function() {
         timeLeft--;
         updateTimerDisplay();
         
-        // Jika waktu habis
         if (timeLeft <= 0) {
             clearInterval(timer);
             finishQuiz();
@@ -182,14 +206,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function finishQuiz() {
         clearInterval(timer);
         quizStarted = false;
-        
-        // Hitung skor
         calculateScore();
-        
-        // Simpan hasil
         saveResults();
-        
-        // Redirect ke halaman hasil
         window.location.href = 'results.html';
     }
     
@@ -230,31 +248,26 @@ document.addEventListener('DOMContentLoaded', function() {
         sound.play().catch(e => console.log('Autoplay prevented:', e));
     }
     
-    // Fungsi untuk menghasilkan contoh pertanyaan (simulasi)
+    // Fungsi untuk menghasilkan contoh pertanyaan
     function generateSampleQuestions(participantData) {
-        // Ini hanya contoh - dalam implementasi nyata, Anda akan mengambil dari database
         const sampleQuestions = [];
-        const categories = {
-            pelajar: ['Agama', 'PPKN', 'Sejarah', 'IPA', 'IPS', 'Matematika', 'Bahasa Indonesia', 'Bahasa Inggris'],
-            umum: ['Logika', 'CPNS/P3K']
-        };
-        
         const category = participantData.status === 'pelajar' ? 
             participantData.exam || 'IPA' : 
             participantData.purpose === 'cpns-p3k' ? 'CPNS/P3K' : 'Logika';
         
         for (let i = 0; i < 20; i++) {
+            const correctAnswer = Math.floor(Math.random() * 4);
             sampleQuestions.push({
                 id: i + 1,
-                text: `Ini adalah contoh pertanyaan ${i + 1} untuk kategori ${category}. Pertanyaan ini dimaksudkan untuk menguji pengetahuan Anda tentang topik tertentu.`,
+                text: `Contoh pertanyaan ${i + 1} untuk kategori ${category}. Manakah jawaban yang benar?`,
                 options: [
-                    `Pilihan A untuk pertanyaan ${i + 1}`,
-                    `Pilihan B untuk pertanyaan ${i + 1}`,
-                    `Pilihan C untuk pertanyaan ${i + 1}`,
-                    `Pilihan D untuk pertanyaan ${i + 1}`
+                    `Jawaban A untuk pertanyaan ${i + 1}`,
+                    `Jawaban B untuk pertanyaan ${i + 1}`,
+                    `Jawaban C untuk pertanyaan ${i + 1}`,
+                    `Jawaban D untuk pertanyaan ${i + 1}`
                 ],
-                correctAnswer: Math.floor(Math.random() * 4), // Jawaban acak untuk contoh
-                explanation: `Ini adalah penjelasan untuk pertanyaan ${i + 1}. Jawaban yang benar adalah ${String.fromCharCode(65 + Math.floor(Math.random() * 4))} karena alasan tertentu.`,
+                correctAnswer: correctAnswer,
+                explanation: `Penjelasan untuk pertanyaan ${i + 1}. Jawaban yang benar adalah ${String.fromCharCode(65 + correctAnswer)} karena alasan tertentu.`,
                 category: category,
                 difficulty: 'sedang'
             });
@@ -265,7 +278,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Mulai quiz
     function startQuiz() {
-        quizStarted = true;
         initQuiz();
     }
     
