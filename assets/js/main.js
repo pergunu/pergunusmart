@@ -150,6 +150,18 @@ function init() {
     loadQuestions();
 }
 
+function handleLicenseSubmit() {
+    playButtonSound();
+    
+    if (licenseCodeInput.value === currentCodes.cpns) {
+        licenseError.textContent = '';
+        startExam();
+    } else {
+        licenseError.textContent = 'Kode Lisensi salah. Silakan coba lagi.';
+        licenseCodeInput.focus();
+    }
+}
+
 function playOpeningAudio() {
     const playPromise = openingAudio.play();
     
