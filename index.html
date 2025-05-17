@@ -22,6 +22,7 @@
             align-items: center;
             z-index: 9999;
             color: white;
+            font-family: 'Poppins', sans-serif;
         }
         
         .loading-spinner {
@@ -74,6 +75,7 @@
             object-fit: contain;
             background: white;
             padding: 5px;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
         }
         
         .opening-title {
@@ -85,6 +87,7 @@
             background: linear-gradient(to right, #fff, #f8f9fa);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
         }
         
         .opening-subtitle {
@@ -92,6 +95,66 @@
             max-width: 700px;
             margin: 0 auto 2rem;
             opacity: 0.9;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+        
+        .welcome-message {
+            font-size: 1.2rem;
+            margin: 2rem 0;
+            line-height: 1.8;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .login-form {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .login-input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s;
+        }
+        
+        .login-input:focus {
+            outline: none;
+            border-color: #4361ee;
+            box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.15);
+        }
+        
+        .login-btn {
+            background: linear-gradient(135deg, #4361ee, #3a0ca3);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
+            font-size: 1.1rem;
+            width: 100%;
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.6);
+        }
+        
+        .login-note {
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            color: #666;
         }
         
         /* Animations */
@@ -116,6 +179,135 @@
             50% { transform: translateY(-15px); }
             100% { transform: translateY(0px); }
         }
+        
+        /* Floating Buttons */
+        .floating-buttons {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            z-index: 100;
+        }
+        
+        .floating-btn {
+            width: 4.5rem;
+            height: 4.5rem;
+            border-radius: 50%;
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            transition: all 0.3s;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        
+        .floating-btn:hover {
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .floating-btn .tooltip {
+            position: absolute;
+            right: 5.5rem;
+            background: white;
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            font-size: 0.95rem;
+            width: max-content;
+            max-width: 250px;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s;
+            text-align: right;
+            color: #333;
+        }
+        
+        .floating-btn:hover .tooltip {
+            opacity: 1;
+            right: 6rem;
+        }
+        
+        .share-btn {
+            background: #3a0ca3;
+        }
+        
+        .whatsapp-btn {
+            background: #25d366;
+            animation: pulse 2s infinite;
+        }
+        
+        .goto-btn {
+            background: #4361ee;
+        }
+        
+        .bank-btn {
+            background: #f8961e;
+        }
+        
+        .admin-btn {
+            background: #f72585;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .opening-title {
+                font-size: 2.5rem;
+            }
+            
+            .opening-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .floating-buttons {
+                bottom: 1rem;
+                right: 1rem;
+                gap: 1rem;
+            }
+            
+            .floating-btn {
+                width: 4rem;
+                height: 4rem;
+                font-size: 1.5rem;
+            }
+            
+            .floating-btn .tooltip {
+                right: 4.5rem;
+                font-size: 0.85rem;
+                padding: 0.5rem 1rem;
+            }
+            
+            .floating-btn:hover .tooltip {
+                right: 5rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .opening-title {
+                font-size: 2rem;
+            }
+            
+            .opening-subtitle {
+                font-size: 1rem;
+            }
+            
+            .floating-buttons {
+                bottom: 0.5rem;
+                right: 0.5rem;
+            }
+            
+            .floating-btn {
+                width: 3.5rem;
+                height: 3.5rem;
+                font-size: 1.3rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -130,7 +322,7 @@
         <div class="opening-content">
             <img src="assets/images/logo.png" alt="Pergunu Logo" class="opening-logo">
             <h1 class="opening-title">PERGUNU SMART</h1>
-            <p class="opening-subtitle">Uji Pengetahuan Anda & Raih Prestasi Terbaik</p>
+            <p class="opening-subtitle">Uji Pengetahuan Anda & Raih Prestasi Terbaik Bersama PERGUNU</p>
             
             <div class="welcome-message">
                 <p>Selamat datang di platform ujian online PERGUNU SMART. Silakan masukkan kode login untuk memulai.</p>
@@ -182,22 +374,42 @@
     <script src="assets/js/certificate.js"></script>
     
     <script>
-        // Sembunyikan loading screen setelah semua dimuat
-        window.addEventListener('load', function() {
+        // Inisialisasi audio dan loading screen
+        document.addEventListener('DOMContentLoaded', function() {
             // Mainkan audio opening
-            const audio = new Audio('assets/audio/opening.mp3');
-            audio.play().catch(e => console.log('Autoplay prevented:', e));
+            const openingAudio = new Audio('assets/audio/opening.mp3');
+            openingAudio.play().catch(e => console.log('Autoplay prevented:', e));
             
             // Mainkan sholawat setelah 3 detik
             setTimeout(() => {
-                const sholawat = new Audio('assets/audio/sholawat.mp3');
-                sholawat.play().catch(e => console.log('Autoplay prevented:', e));
+                const sholawatAudio = new Audio('assets/audio/sholawat.mp3');
+                sholawatAudio.play().catch(e => console.log('Autoplay prevented:', e));
             }, 3000);
             
             // Sembunyikan loading screen setelah 5 detik
             setTimeout(() => {
                 document.getElementById('loadingScreen').style.display = 'none';
             }, 5000);
+            
+            // Event listener untuk tombol login
+            document.getElementById('loginBtn').addEventListener('click', function() {
+                const loginCode = document.getElementById('loginCode').value;
+                if (loginCode === '12345') {
+                    // Mainkan audio tombol
+                    const buttonAudio = new Audio('assets/audio/audiotombol.mp3');
+                    buttonAudio.play();
+                    
+                    // Redirect ke halaman terms
+                    window.location.href = 'terms.html';
+                } else {
+                    alert('Kode login salah! Silakan coba lagi.');
+                }
+            });
+            
+            // Event listener untuk floating buttons
+            document.getElementById('whatsappBtn').addEventListener('click', function() {
+                window.open('https://wa.me/6285647709114?text=Assalamualaikum%20Admin%20PERGUNU,%20saya%20mau%20tanya%20sesuatu%20nih...');
+            });
         });
     </script>
 </body>
