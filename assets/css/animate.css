@@ -16,6 +16,10 @@
     animation-name: bounceIn;
 }
 
+.animate__pulse {
+    animation-name: pulse;
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -91,7 +95,7 @@
     }
     50% {
         background-color: #d4edda;
-        transform: scale(1.02);
+        transform: scale(1.05);
     }
     100% {
         background-color: #d4edda;
@@ -109,7 +113,7 @@
     }
     50% {
         background-color: #f8d7da;
-        transform: scale(1.02);
+        transform: scale(1.05);
     }
     100% {
         background-color: #f8d7da;
@@ -117,10 +121,6 @@
 }
 
 /* Floating button animations */
-.floating-btn {
-    transition: all 0.3s ease;
-}
-
 .floating-btn:hover {
     animation: float 2s infinite;
 }
