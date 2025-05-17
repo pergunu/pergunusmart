@@ -1,3 +1,88 @@
+/* CSS untuk opsi jawaban */
+.option {
+    padding: 1.2rem;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.option:hover {
+    background: #f8f9fa;
+}
+
+.option.selected {
+    background: #f0f4ff;
+    border-color: #4361ee;
+}
+
+.option.correct {
+    background: #e6fcf5;
+    border-color: #12b886;
+    color: #12b886;
+}
+
+.option.correct .option-prefix {
+    background: #12b886;
+    color: white;
+}
+
+.option.incorrect {
+    background: #fff0f0;
+    border-color: #fa5252;
+    color: #fa5252;
+}
+
+.option.incorrect .option-prefix {
+    background: #fa5252;
+    color: white;
+}
+
+.option-prefix {
+    font-weight: bold;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #f8f9fa;
+    flex-shrink: 0;
+    transition: all 0.3s;
+}
+
+.selected .option-prefix {
+    background: #4361ee;
+    color: white;
+}
+
+/* Animasi untuk feedback jawaban */
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.option.correct, .option.incorrect {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Timer warning */
+.timer-warning {
+    color: #fa5252;
+    font-weight: bold;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
 /* Tambahkan ini di bagian style quiz.html */
 .option.correct {
     background: #e6fcf5;
