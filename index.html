@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PERGUNU SMART - Ujian Online Pergunu Situbondo</title>
+    <link rel="icon" href="assets/images/logo.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Great+Vibes&family=Dancing+Script:wght@400;700&family=Alex+Brush&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <!-- Opening Animation -->
+    <div class="opening-screen" id="openingScreen">
+        <div class="opening-content">
+            <img src="assets/images/logo.png" alt="Pergunu Logo" class="opening-logo">
+            <h1 class="opening-title">PERGUNU SMART</h1>
+            <p class="opening-subtitle">Uji Pengetahuan Anda & Raih Prestasi Terbaik Bersama PERGUNU SITUBONDO</p>
+            
+            <div class="welcome-message">
+                <p>Selamat datang di platform ujian online PERGUNU SMART. Silakan masukkan kode login untuk memulai.</p>
+            </div>
+            
+            <div class="login-form">
+                <input type="password" id="loginCode" placeholder="Masukkan Kode Login" class="login-input">
+                <button id="loginBtn" class="login-btn">Masuk</button>
+                <p class="login-note">Kode default: 12345</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content (akan diisi secara dinamis) -->
+    <main id="mainContent"></main>
+
+    <!-- Floating Buttons -->
+    <div class="floating-buttons" id="floatingButtons">
+        <button class="floating-btn share-btn" id="shareBtn">
+            <i class="fas fa-share-alt"></i>
+            <span class="tooltip">Bagikan Aplikasi</span>
+        </button>
+        
+        <button class="floating-btn whatsapp-btn" id="whatsappBtn">
+            <i class="fab fa-whatsapp"></i>
+            <span class="tooltip">Chat Admin</span>
+        </button>
+        
+        <button class="floating-btn goto-btn" id="gotoBtn">
+            <i class="fas fa-link"></i>
+            <span class="tooltip">Tautan Penting</span>
+        </button>
+        
+        <button class="floating-btn bank-btn" id="bankBtn">
+            <i class="fas fa-book"></i>
+            <span class="tooltip">Bank Soal</span>
+        </button>
+        
+        <button class="floating-btn admin-btn" id="adminBtn">
+            <i class="fas fa-cog"></i>
+            <span class="tooltip">Panel Admin</span>
+        </button>
+    </div>
+
+    <!-- Modals -->
+    <div class="modal-overlay" id="modalOverlay"></div>
+    
+    <!-- Share Modal -->
+    <div class="modal" id="shareModal">
+        <div class="modal-header">
+            <h3>Bagikan Aplikasi</h3>
+            <button class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p>Bagikan PERGUNU SMART ke teman-teman Anda:</p>
+            <div class="share-options">
+                <button class="share-option whatsapp-share">
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                </button>
+                <button class="share-option facebook-share">
+                    <i class="fab fa-facebook"></i> Facebook
+                </button>
+                <button class="share-option twitter-share">
+                    <i class="fab fa-twitter"></i> Twitter
+                </button>
+                <button class="share-option copy-link">
+                    <i class="fas fa-copy"></i> Salin Tautan
+                </button>
+            </div>
+            <div class="share-link">
+                <input type="text" id="shareUrl" value="http://is.gd/pergunusmart" readonly>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Goto Modal -->
+    <div class="modal" id="gotoModal">
+        <div class="modal-header">
+            <h3>Tautan Penting</h3>
+            <button class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+            <ul class="goto-links">
+                <li><a href="https://is.gd/pergunusitubondo" target="_blank"><i class="fas fa-globe"></i> Website Pergunu</a></li>
+                <li><a href="https://facebook.com/pergunusitubondo" target="_blank"><i class="fab fa-facebook"></i> Facebook Pergunu</a></li>
+                <li><a href="https://instagram.com/pergunusitubondo" target="_blank"><i class="fab fa-instagram"></i> Instagram Pergunu</a></li>
+                <li><a href="https://youtube.com/pergunusitubondo" target="_blank"><i class="fab fa-youtube"></i> YouTube Pergunu</a></li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Bank Soal Modal -->
+    <div class="modal" id="bankModal">
+        <div class="modal-header">
+            <h3>Bank Soal</h3>
+            <button class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="bank-login">
+                <input type="password" id="bankCode" placeholder="Masukkan Kode Bank Soal" class="form-control">
+                <button id="bankLoginBtn" class="btn btn-primary">Masuk</button>
+                <p class="note">Kode default: BANKSOAL-OPENLOCK</p>
+            </div>
+            <div class="bank-content" id="bankContent" style="display: none;">
+                <!-- Konten bank soal akan dimuat di sini -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Admin Panel Modal -->
+    <div class="modal" id="adminModal">
+        <div class="modal-header">
+            <h3>Panel Admin</h3>
+            <button class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="admin-login">
+                <input type="password" id="adminCode" placeholder="Masukkan Kode Admin" class="form-control">
+                <button id="adminLoginBtn" class="btn btn-primary">Masuk</button>
+                <p class="note">Kode default: 65614222</p>
+            </div>
+            <div class="admin-content" id="adminContent" style="display: none;">
+                <!-- Konten admin panel akan dimuat di sini -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/quiz.js"></script>
+    <script src="assets/js/admin.js"></script>
+    <script src="assets/js/certificate.js"></script>
+</body>
+</html>
