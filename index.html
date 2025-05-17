@@ -3,20 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PERGUNU SMART - Ujian Online Pergunu Situbondo</title>
-    <link rel="icon" href="assets/images/logo.png" type="image/png">
+    <title>PERGUNU SMART - Ujian Online</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Great+Vibes&family=Dancing+Script:wght@400;700&family=Alex+Brush&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #3a0ca3 0%, #4361ee 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            color: white;
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 1rem;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Opening Animation */
+        .opening-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #4361ee, #3a0ca3);
+            z-index: 9998;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .opening-content {
+            max-width: 800px;
+            width: 90%;
+            animation: slideUp 0.8s ease-out;
+        }
+        
+        .opening-logo {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 2rem;
+            animation: pulse 2s infinite, float 3s ease-in-out infinite;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            object-fit: contain;
+            background: white;
+            padding: 5px;
+        }
+        
+        .opening-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            font-family: 'Playfair Display', serif;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            background: linear-gradient(to right, #fff, #f8f9fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .opening-subtitle {
+            font-size: 1.5rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+    </style>
 </head>
 <body>
-    <!-- Opening Animation -->
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-spinner"></div>
+        <p>Memuat aplikasi...</p>
+    </div>
+
+    <!-- Opening Screen -->
     <div class="opening-screen" id="openingScreen">
         <div class="opening-content">
             <img src="assets/images/logo.png" alt="Pergunu Logo" class="opening-logo">
             <h1 class="opening-title">PERGUNU SMART</h1>
-            <p class="opening-subtitle">Uji Pengetahuan Anda & Raih Prestasi Terbaik Bersama PERGUNU SITUBONDO</p>
+            <p class="opening-subtitle">Uji Pengetahuan Anda & Raih Prestasi Terbaik</p>
             
             <div class="welcome-message">
                 <p>Selamat datang di platform ujian online PERGUNU SMART. Silakan masukkan kode login untuk memulai.</p>
@@ -30,7 +144,7 @@
         </div>
     </div>
 
-    <!-- Main Content (akan diisi secara dinamis) -->
+    <!-- Main Content -->
     <main id="mainContent"></main>
 
     <!-- Floating Buttons -->
@@ -61,93 +175,30 @@
         </button>
     </div>
 
-    <!-- Modals -->
-    <div class="modal-overlay" id="modalOverlay"></div>
-    
-    <!-- Share Modal -->
-    <div class="modal" id="shareModal">
-        <div class="modal-header">
-            <h3>Bagikan Aplikasi</h3>
-            <button class="modal-close">&times;</button>
-        </div>
-        <div class="modal-body">
-            <p>Bagikan PERGUNU SMART ke teman-teman Anda:</p>
-            <div class="share-options">
-                <button class="share-option whatsapp-share">
-                    <i class="fab fa-whatsapp"></i> WhatsApp
-                </button>
-                <button class="share-option facebook-share">
-                    <i class="fab fa-facebook"></i> Facebook
-                </button>
-                <button class="share-option twitter-share">
-                    <i class="fab fa-twitter"></i> Twitter
-                </button>
-                <button class="share-option copy-link">
-                    <i class="fas fa-copy"></i> Salin Tautan
-                </button>
-            </div>
-            <div class="share-link">
-                <input type="text" id="shareUrl" value="http://is.gd/pergunusmart" readonly>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Goto Modal -->
-    <div class="modal" id="gotoModal">
-        <div class="modal-header">
-            <h3>Tautan Penting</h3>
-            <button class="modal-close">&times;</button>
-        </div>
-        <div class="modal-body">
-            <ul class="goto-links">
-                <li><a href="https://is.gd/pergunusitubondo" target="_blank"><i class="fas fa-globe"></i> Website Pergunu</a></li>
-                <li><a href="https://facebook.com/pergunusitubondo" target="_blank"><i class="fab fa-facebook"></i> Facebook Pergunu</a></li>
-                <li><a href="https://instagram.com/pergunusitubondo" target="_blank"><i class="fab fa-instagram"></i> Instagram Pergunu</a></li>
-                <li><a href="https://youtube.com/pergunusitubondo" target="_blank"><i class="fab fa-youtube"></i> YouTube Pergunu</a></li>
-            </ul>
-        </div>
-    </div>
-    
-    <!-- Bank Soal Modal -->
-    <div class="modal" id="bankModal">
-        <div class="modal-header">
-            <h3>Bank Soal</h3>
-            <button class="modal-close">&times;</button>
-        </div>
-        <div class="modal-body">
-            <div class="bank-login">
-                <input type="password" id="bankCode" placeholder="Masukkan Kode Bank Soal" class="form-control">
-                <button id="bankLoginBtn" class="btn btn-primary">Masuk</button>
-                <p class="note">Kode default: BANKSOAL-OPENLOCK</p>
-            </div>
-            <div class="bank-content" id="bankContent" style="display: none;">
-                <!-- Konten bank soal akan dimuat di sini -->
-            </div>
-        </div>
-    </div>
-    
-    <!-- Admin Panel Modal -->
-    <div class="modal" id="adminModal">
-        <div class="modal-header">
-            <h3>Panel Admin</h3>
-            <button class="modal-close">&times;</button>
-        </div>
-        <div class="modal-body">
-            <div class="admin-login">
-                <input type="password" id="adminCode" placeholder="Masukkan Kode Admin" class="form-control">
-                <button id="adminLoginBtn" class="btn btn-primary">Masuk</button>
-                <p class="note">Kode default: 65614222</p>
-            </div>
-            <div class="admin-content" id="adminContent" style="display: none;">
-                <!-- Konten admin panel akan dimuat di sini -->
-            </div>
-        </div>
-    </div>
-
     <!-- Scripts -->
     <script src="assets/js/main.js"></script>
     <script src="assets/js/quiz.js"></script>
     <script src="assets/js/admin.js"></script>
     <script src="assets/js/certificate.js"></script>
+    
+    <script>
+        // Sembunyikan loading screen setelah semua dimuat
+        window.addEventListener('load', function() {
+            // Mainkan audio opening
+            const audio = new Audio('assets/audio/opening.mp3');
+            audio.play().catch(e => console.log('Autoplay prevented:', e));
+            
+            // Mainkan sholawat setelah 3 detik
+            setTimeout(() => {
+                const sholawat = new Audio('assets/audio/sholawat.mp3');
+                sholawat.play().catch(e => console.log('Autoplay prevented:', e));
+            }, 3000);
+            
+            // Sembunyikan loading screen setelah 5 detik
+            setTimeout(() => {
+                document.getElementById('loadingScreen').style.display = 'none';
+            }, 5000);
+        });
+    </script>
 </body>
 </html>
