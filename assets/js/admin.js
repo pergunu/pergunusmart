@@ -95,6 +95,27 @@ function initAdminPanel() {
     loadQuestionsForEditing();
 }
 
+// Bank Soal Panel Implementation
+function initBankSoalPanel() {
+    // Load questions for editing
+    loadQuestionsForEditing();
+    
+    // Setup event listeners
+    document.getElementById('generateQuestionBtn').addEventListener('click', generateQuestionWithAI);
+    document.getElementById('saveQuestionBtn').addEventListener('click', saveQuestion);
+    document.getElementById('searchBtn').addEventListener('click', searchQuestions);
+    
+    // Add question category change handler
+    document.getElementById('questionCategory').addEventListener('change', function() {
+        const levelSelect = document.getElementById('questionLevel');
+        if (this.value === 'logika' || this.value === 'cpns') {
+            levelSelect.disabled = true;
+        } else {
+            levelSelect.disabled = false;
+        }
+    });
+}
+
 // Load music list
 function loadMusicList() {
     const musicList = document.getElementById('musicList');
