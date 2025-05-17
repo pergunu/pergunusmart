@@ -1,4 +1,4 @@
-// Admin Panel Functionality for PERGUNU SMART
+// Admin Panel Functionality for PERGUNU SMART - FINAL VERSION
 
 // DOM Elements
 const saveLoginCodeBtn = document.getElementById('saveLoginCode');
@@ -10,8 +10,14 @@ const generateQuestionBtn = document.getElementById('generateQuestionBtn');
 const saveQuestionBtn = document.getElementById('saveQuestionBtn');
 const resetQuestionBtn = document.getElementById('resetQuestionBtn');
 const searchBtn = document.getElementById('searchBtn');
+const addMusicBtn = document.getElementById('addMusicBtn');
+const saveMusicBtn = document.getElementById('saveMusicBtn');
+const addWebsiteBtn = document.getElementById('addWebsiteBtn');
+const saveWebsiteBtn = document.getElementById('saveWebsiteBtn');
+const enableMusicCheckbox = document.getElementById('enableMusic');
+const musicVolumeSlider = document.getElementById('musicVolume');
 
-// Current codes and settings (in a real app, these would be saved to a database)
+// Current codes and settings
 let currentCodes = {
     login: '12345',
     cpns: 'CPNSP3K-OPENLOCK',
@@ -38,6 +44,18 @@ let currentSettings = {
         { min: 76, max: 85, message: "Prestasi yang sangat baik! Pertahankan semangat belajar Anda." },
         { min: 86, max: 95, message: "Luar biasa! Anda benar-benar menguasai materi ini." },
         { min: 96, max: 100, message: "Sempurna! Anda sangat luar biasa dalam menguasai materi ini. Pertahankan prestasi ini." }
+    ],
+    musicSettings: {
+        enabled: true,
+        volume: 0.7,
+        playlist: [
+            { name: "Sholawat", url: "assets/audio/sholawat.mp3" }
+        ]
+    },
+    websiteLinks: [
+        { name: "Website PERGUNU Pusat", url: "https://pergunu.or.id" },
+        { name: "PERGUNU Situbondo", url: "https://situbondo.pergunu.or.id" },
+        { name: "Tombol Smart", url: "https://is.gd/pTombol" }
     ]
 };
 
@@ -62,6 +80,14 @@ function initAdminPanel() {
     document.getElementById('currentBankCode').value = currentCodes.bank;
     document.getElementById('currentAdminCode').value = currentCodes.admin;
     
+    // Load music settings
+    enableMusicCheckbox.checked = currentSettings.musicSettings.enabled;
+    musicVolumeSlider.value = currentSettings.musicSettings.volume;
+    loadMusicList();
+    
+    // Load website links
+    loadWebsiteList();
+    
     // Set up event listeners
     setupAdminEventListeners();
     
@@ -69,7 +95,83 @@ function initAdminPanel() {
     loadQuestionsForEditing();
 }
 
-// Set up admin event listeners
+// Load music list
+function loadMusicList() {
+    const musicList = document.getElementById('musicList');
+    musicList.innerHTML = '';
+    
+    currentSettings.musicSettings.playlist.forEach((music, index) => {
+        const musicItem = document.createElement('div');
+        musicItem.className = 'music-item';
+        musicItem.innerHTML = `
+            <p>${index + 1}. ${music.name}</p>
+            <div class="music-actions">
+                <button class="btn-primary play-music" data-url="${music.url}"><i class="fas fa-play"></i></button>
+                <button class="btn-danger delete-music" data-index="${index}"><i class="fas fa-trash"></i></button>
+            </div>
+        `;
+        musicList.appendChild(musicItem);
+    });
+    
+    // Add event listeners to new buttons
+    document.querySelectorAll('.play-music').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const audio = new Audio(e.target.dataset.url || e.target.parentElement.dataset.url);
+            audio.volume = currentSettings.musicSettings.volume;
+            audio.play().catch(e => console.log('Music play error:', e));
+        });
+    });
+    
+    document.querySelectorAll('.delete-music').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const index = parseInt(e.target.dataset.index || e.target.parentElement.dataset.index);
+            currentSettings.musicSettings.playlist.splice(index, 1);
+            loadMusicList();
+        });
+    });
+}
+
+// Load website list
+function loadWebsiteList() {
+    const websiteList = document.getElementById('websiteList');
+    websiteList.innerHTML = '';
+    
+    currentSettings.websiteLinks.forEach((website, index) => {
+        const websiteItem = document.createElement('div');
+        websiteItem.className = 'website-item';
+        websiteItem.innerHTML = `
+            <p>${index + 1}. <a href="${website.url}" target="_blank">${website.name}</a></p>
+            <div class="website-actions">
+                <button class="btn-danger delete-website" data-index="${index}"><i class="fas fa-trash"></i></button>
+            </div>
+        `;
+        websiteList.appendChild(websiteItem);
+    });
+    
+    // Add event listeners to delete buttons
+    document.querySelectorAll('.delete-website').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const index = parseInt(e.target.dataset.index || e.target.parentElement.dataset.index);
+            currentSettings.websiteLinks.splice(index, 1);
+            loadWebsiteList();
+            updateGoToPanel();
+        });
+    });
+}
+
+// Update Go To panel with current website links
+function updateGoToPanel() {
+    const websiteList = document.querySelector('.website-list');
+    websiteList.innerHTML = '';
+    
+    currentSettings.websiteLinks.forEach(website => {
+        const listItem = document.createElement('li');
+        listItem.innerHTML = `<a href="${website.url}" target="_blank">${website.name}</a>`;
+        websiteList.appendChild(listItem);
+    });
+}
+
+// Set up all admin event listeners
 function setupAdminEventListeners() {
     // Save code buttons
     saveLoginCodeBtn.addEventListener('click', () => {
@@ -143,7 +245,72 @@ function setupAdminEventListeners() {
             cpns: document.getElementById('enableCPNS').checked
         };
         
+        // Save motivational messages
+        const motivationContainer = document.getElementById('motivationMessages');
+        if (motivationContainer) {
+            const messages = [];
+            motivationContainer.querySelectorAll('.motivation-item').forEach(item => {
+                const min = parseInt(item.querySelector('.motivation-min').value) || 0;
+                const max = parseInt(item.querySelector('.motivation-max').value) || 0;
+                const message = item.querySelector('.motivation-text').value;
+                messages.push({ min, max, message });
+            });
+            currentSettings.motivationalMessages = messages;
+        }
+        
         alert('Pengaturan berhasil disimpan!');
+    });
+    
+    // Music settings
+    enableMusicCheckbox.addEventListener('change', (e) => {
+        currentSettings.musicSettings.enabled = e.target.checked;
+    });
+    
+    musicVolumeSlider.addEventListener('input', (e) => {
+        currentSettings.musicSettings.volume = parseFloat(e.target.value);
+    });
+    
+    // Add music
+    addMusicBtn.addEventListener('click', () => {
+        document.getElementById('newMusicUrl').value = '';
+        document.getElementById('newMusicName').value = '';
+    });
+    
+    saveMusicBtn.addEventListener('click', () => {
+        const url = document.getElementById('newMusicUrl').value;
+        const name = document.getElementById('newMusicName').value;
+        
+        if (url && name) {
+            currentSettings.musicSettings.playlist.push({ name, url });
+            loadMusicList();
+            document.getElementById('newMusicUrl').value = '';
+            document.getElementById('newMusicName').value = '';
+            alert('Musik berhasil ditambahkan!');
+        } else {
+            alert('Harap isi nama dan URL musik!');
+        }
+    });
+    
+    // Add website
+    addWebsiteBtn.addEventListener('click', () => {
+        document.getElementById('newWebsiteUrl').value = '';
+        document.getElementById('newWebsiteName').value = '';
+    });
+    
+    saveWebsiteBtn.addEventListener('click', () => {
+        const url = document.getElementById('newWebsiteUrl').value;
+        const name = document.getElementById('newWebsiteName').value;
+        
+        if (url && name) {
+            currentSettings.websiteLinks.push({ name, url });
+            loadWebsiteList();
+            updateGoToPanel();
+            document.getElementById('newWebsiteUrl').value = '';
+            document.getElementById('newWebsiteName').value = '';
+            alert('Website berhasil ditambahkan!');
+        } else {
+            alert('Harap isi nama dan URL website!');
+        }
     });
     
     // Question bank functionality
@@ -155,41 +322,32 @@ function setupAdminEventListeners() {
 
 // Load questions for editing
 function loadQuestionsForEditing() {
-    // In a real app, this would be an API call to get questions
     const questionsList = document.getElementById('questionsList');
     questionsList.innerHTML = '';
     
-    // Mock data - in a real app, this would come from a database
-    const mockQuestions = [
-        {
-            id: 1,
-            category: 'agama',
-            level: 'sd',
-            text: 'Siapakah nabi pertama dalam Islam?',
-            options: ['Adam', 'Nuh', 'Ibrahim', 'Musa', 'Muhammad'],
-            correctAnswer: 'A',
-            explanation: 'Nabi Adam adalah manusia pertama sekaligus nabi pertama dalam Islam.'
-        },
-        {
-            id: 2,
-            category: 'ppkn',
-            level: 'smp',
-            text: 'Pancasila sebagai dasar negara tercantum dalam pembukaan UUD 1945 alinea ke...',
-            options: ['1', '2', '3', '4', 'Tidak ada yang benar'],
-            correctAnswer: 'D',
-            explanation: 'Pancasila sebagai dasar negara tercantum dalam alinea ke-4 Pembukaan UUD 1945.'
+    // Get all questions from all categories
+    let allQuestions = [];
+    for (const category in questionBank) {
+        if (typeof questionBank[category] === 'object') {
+            for (const level in questionBank[category]) {
+                if (Array.isArray(questionBank[category][level])) {
+                    allQuestions = allQuestions.concat(questionBank[category][level]);
+                }
+            }
+        } else if (Array.isArray(questionBank[category])) {
+            allQuestions = allQuestions.concat(questionBank[category]);
         }
-    ];
+    }
     
-    mockQuestions.forEach(question => {
+    allQuestions.forEach(question => {
         const questionItem = document.createElement('div');
         questionItem.className = 'question-item';
         questionItem.dataset.id = question.id;
         
         questionItem.innerHTML = `
             <h4>${question.text}</h4>
-            <p><strong>Kategori:</strong> ${question.category.toUpperCase()} | 
-            <strong>Tingkat:</strong> ${question.level.toUpperCase()} | 
+            <p><strong>Kategori:</strong> ${question.category ? question.category.toUpperCase() : 'UMUM'} | 
+            <strong>Tingkat:</strong> ${question.level ? question.level.toUpperCase() : '-'} | 
             <strong>Jawaban benar:</strong> ${question.correctAnswer}</p>
             <div class="question-actions">
                 <button class="btn-primary edit-question" data-id="${question.id}">Edit</button>
@@ -240,9 +398,7 @@ function generateQuestionWithAI() {
     generateQuestionBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
     
     // In a real app, this would call an AI API
-    // Here we use a mock implementation with setTimeout
     setTimeout(() => {
-        // Mock generated question based on category
         let generatedQuestion = {
             text: '',
             options: [],
@@ -261,7 +417,16 @@ function generateQuestionWithAI() {
                 generatedQuestion.options = ['Pilihan 1', 'Pilihan 2', 'Pilihan 3', 'Pilihan 4', 'Pilihan 5'];
                 generatedQuestion.explanation = 'Penjelasan berdasarkan peraturan yang berlaku';
                 break;
-            // Add more cases for other categories
+            case 'logika':
+                generatedQuestion.text = `Pertanyaan logika: ${prompt}`;
+                generatedQuestion.options = ['Jawaban A', 'Jawaban B', 'Jawaban C', 'Jawaban D', 'Jawaban E'];
+                generatedQuestion.explanation = 'Penjelasan logika jawaban yang benar';
+                break;
+            case 'cpns':
+                generatedQuestion.text = `Pertanyaan CPNS/P3K: ${prompt}`;
+                generatedQuestion.options = ['Opsi A', 'Opsi B', 'Opsi C', 'Opsi D', 'Opsi E'];
+                generatedQuestion.explanation = 'Penjelasan berdasarkan peraturan CPNS/P3K';
+                break;
             default:
                 generatedQuestion.text = `Pertanyaan tentang ${category}: ${prompt}`;
                 generatedQuestion.options = ['Jawaban A', 'Jawaban B', 'Jawaban C', 'Jawaban D', 'Jawaban E'];
@@ -307,15 +472,32 @@ function saveQuestion() {
         return;
     }
     
-    // In a real app, this would be an API call to save the question
-    console.log('Question saved:', {
+    // Create new question object
+    const newQuestion = {
+        id: Date.now(), // Use timestamp as temporary ID
         category,
-        level,
+        level: category === 'logika' || category === 'cpns' ? null : level,
         text,
         options,
         correctAnswer,
         explanation
-    });
+    };
+    
+    // Add to appropriate category in questionBank
+    if (category === 'logika' || category === 'cpns') {
+        if (!questionBank[category]) {
+            questionBank[category] = [];
+        }
+        questionBank[category].push(newQuestion);
+    } else {
+        if (!questionBank[category]) {
+            questionBank[category] = {};
+        }
+        if (!questionBank[category][level]) {
+            questionBank[category][level] = [];
+        }
+        questionBank[category][level].push(newQuestion);
+    }
     
     alert('Soal berhasil disimpan!');
     resetQuestionForm();
@@ -340,7 +522,6 @@ function searchQuestions() {
     const searchTerm = document.getElementById('searchQuestion').value.toLowerCase();
     const filterCategory = document.getElementById('filterCategory').value;
     
-    // In a real app, this would be an API call with filters
     const questionItems = document.querySelectorAll('.question-item');
     
     questionItems.forEach(item => {
@@ -360,32 +541,31 @@ function searchQuestions() {
 
 // Edit question
 function editQuestion(questionId) {
-    // In a real app, this would fetch the question from database
-    // Here we use mock data
-    const mockQuestions = [
-        {
-            id: 1,
-            category: 'agama',
-            level: 'sd',
-            text: 'Siapakah nabi pertama dalam Islam?',
-            options: ['Adam', 'Nuh', 'Ibrahim', 'Musa', 'Muhammad'],
-            correctAnswer: 'A',
-            explanation: 'Nabi Adam adalah manusia pertama sekaligus nabi pertama dalam Islam.'
-        },
-        {
-            id: 2,
-            category: 'ppkn',
-            level: 'smp',
-            text: 'Pancasila sebagai dasar negara tercantum dalam pembukaan UUD 1945 alinea ke...',
-            options: ['1', '2', '3', '4', 'Tidak ada yang benar'],
-            correctAnswer: 'D',
-            explanation: 'Pancasila sebagai dasar negara tercantum dalam alinea ke-4 Pembukaan UUD 1945.'
+    // Find the question in questionBank
+    let questionToEdit = null;
+    
+    for (const category in questionBank) {
+        if (typeof questionBank[category] === 'object') {
+            for (const level in questionBank[category]) {
+                if (Array.isArray(questionBank[category][level])) {
+                    const foundQuestion = questionBank[category][level].find(q => q.id == questionId);
+                    if (foundQuestion) {
+                        questionToEdit = foundQuestion;
+                        break;
+                    }
+                }
+            }
+        } else if (Array.isArray(questionBank[category])) {
+            const foundQuestion = questionBank[category].find(q => q.id == questionId);
+            if (foundQuestion) {
+                questionToEdit = foundQuestion;
+                break;
+            }
         }
-    ];
+        if (questionToEdit) break;
+    }
     
-    const question = mockQuestions.find(q => q.id == questionId);
-    
-    if (question) {
+    if (questionToEdit) {
         // Switch to add question tab
         document.querySelector('.bank-tab.active').classList.remove('active');
         document.querySelector('.bank-tab-content.active').classList.remove('active');
@@ -394,27 +574,51 @@ function editQuestion(questionId) {
         document.getElementById('addQuestionTab').classList.add('active');
         
         // Fill the form
-        document.getElementById('questionCategory').value = question.category;
-        document.getElementById('questionLevel').value = question.level;
-        document.getElementById('questionTextArea').value = question.text;
-        document.getElementById('optionA').value = question.options[0];
-        document.getElementById('optionB').value = question.options[1];
-        document.getElementById('optionC').value = question.options[2];
-        document.getElementById('optionD').value = question.options[3];
-        document.getElementById('optionE').value = question.options[4];
-        document.getElementById('correctOption').value = question.correctAnswer;
-        document.getElementById('explanation').value = question.explanation;
+        document.getElementById('questionCategory').value = questionToEdit.category;
+        document.getElementById('questionLevel').value = questionToEdit.level || 'easy';
+        document.getElementById('questionTextArea').value = questionToEdit.text;
+        document.getElementById('optionA').value = questionToEdit.options[0];
+        document.getElementById('optionB').value = questionToEdit.options[1];
+        document.getElementById('optionC').value = questionToEdit.options[2];
+        document.getElementById('optionD').value = questionToEdit.options[3];
+        document.getElementById('optionE').value = questionToEdit.options[4];
+        document.getElementById('correctOption').value = questionToEdit.correctAnswer;
+        document.getElementById('explanation').value = questionToEdit.explanation;
         
         // Scroll to form
         document.getElementById('questionTextArea').scrollIntoView({ behavior: 'smooth' });
+        
+        // Store the question ID for update
+        document.getElementById('questionTextArea').dataset.id = questionToEdit.id;
     }
 }
 
 // Delete question
 function deleteQuestion(questionId) {
     if (confirm('Apakah Anda yakin ingin menghapus soal ini?')) {
-        // In a real app, this would be an API call to delete the question
-        console.log('Question deleted:', questionId);
+        // Find and remove the question from questionBank
+        for (const category in questionBank) {
+            if (typeof questionBank[category] === 'object') {
+                for (const level in questionBank[category]) {
+                    if (Array.isArray(questionBank[category][level])) {
+                        const index = questionBank[category][level].findIndex(q => q.id == questionId);
+                        if (index !== -1) {
+                            questionBank[category][level].splice(index, 1);
+                            loadQuestionsForEditing();
+                            return;
+                        }
+                    }
+                }
+            } else if (Array.isArray(questionBank[category])) {
+                const index = questionBank[category].findIndex(q => q.id == questionId);
+                if (index !== -1) {
+                    questionBank[category].splice(index, 1);
+                    loadQuestionsForEditing();
+                    return;
+                }
+            }
+        }
+        
         alert('Soal berhasil dihapus!');
         loadQuestionsForEditing();
     }
@@ -422,49 +626,48 @@ function deleteQuestion(questionId) {
 
 // Preview question
 function previewQuestion(questionId) {
-    // In a real app, this would fetch the question from database
-    // Here we use mock data
-    const mockQuestions = [
-        {
-            id: 1,
-            category: 'agama',
-            level: 'sd',
-            text: 'Siapakah nabi pertama dalam Islam?',
-            options: ['Adam', 'Nuh', 'Ibrahim', 'Musa', 'Muhammad'],
-            correctAnswer: 'A',
-            explanation: 'Nabi Adam adalah manusia pertama sekaligus nabi pertama dalam Islam.'
-        },
-        {
-            id: 2,
-            category: 'ppkn',
-            level: 'smp',
-            text: 'Pancasila sebagai dasar negara tercantum dalam pembukaan UUD 1945 alinea ke...',
-            options: ['1', '2', '3', '4', 'Tidak ada yang benar'],
-            correctAnswer: 'D',
-            explanation: 'Pancasila sebagai dasar negara tercantum dalam alinea ke-4 Pembukaan UUD 1945.'
+    // Find the question in questionBank
+    let questionToPreview = null;
+    
+    for (const category in questionBank) {
+        if (typeof questionBank[category] === 'object') {
+            for (const level in questionBank[category]) {
+                if (Array.isArray(questionBank[category][level])) {
+                    const foundQuestion = questionBank[category][level].find(q => q.id == questionId);
+                    if (foundQuestion) {
+                        questionToPreview = foundQuestion;
+                        break;
+                    }
+                }
+            }
+        } else if (Array.isArray(questionBank[category])) {
+            const foundQuestion = questionBank[category].find(q => q.id == questionId);
+            if (foundQuestion) {
+                questionToPreview = foundQuestion;
+                break;
+            }
         }
-    ];
+        if (questionToPreview) break;
+    }
     
-    const question = mockQuestions.find(q => q.id == questionId);
-    
-    if (question) {
+    if (questionToPreview) {
         const previewContainer = document.getElementById('questionPreview');
         
         previewContainer.innerHTML = `
             <h3>Preview Soal</h3>
             <div class="preview-question">
-                <p><strong>Kategori:</strong> ${question.category.toUpperCase()} | 
-                <strong>Tingkat:</strong> ${question.level.toUpperCase()}</p>
-                <p class="question-text">${question.text}</p>
+                <p><strong>Kategori:</strong> ${questionToPreview.category ? questionToPreview.category.toUpperCase() : 'UMUM'} | 
+                <strong>Tingkat:</strong> ${questionToPreview.level ? questionToPreview.level.toUpperCase() : '-'}</p>
+                <p class="question-text">${questionToPreview.text}</p>
                 <div class="preview-options">
-                    <p><strong>A.</strong> ${question.options[0]}</p>
-                    <p><strong>B.</strong> ${question.options[1]}</p>
-                    <p><strong>C.</strong> ${question.options[2]}</p>
-                    <p><strong>D.</strong> ${question.options[3]}</p>
-                    <p><strong>E.</strong> ${question.options[4]}</p>
+                    <p><strong>A.</strong> ${questionToPreview.options[0]}</p>
+                    <p><strong>B.</strong> ${questionToPreview.options[1]}</p>
+                    <p><strong>C.</strong> ${questionToPreview.options[2]}</p>
+                    <p><strong>D.</strong> ${questionToPreview.options[3]}</p>
+                    <p><strong>E.</strong> ${questionToPreview.options[4]}</p>
                 </div>
-                <p class="preview-answer"><strong>Jawaban benar:</strong> ${question.correctAnswer}</p>
-                <p class="preview-explanation"><strong>Penjelasan:</strong> ${question.explanation}</p>
+                <p class="preview-answer"><strong>Jawaban benar:</strong> ${questionToPreview.correctAnswer}</p>
+                <p class="preview-explanation"><strong>Penjelasan:</strong> ${questionToPreview.explanation}</p>
             </div>
         `;
         
