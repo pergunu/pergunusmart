@@ -84,6 +84,60 @@ function initAdminPanel() {
     enableMusicCheckbox.checked = currentSettings.musicSettings.enabled;
     musicVolumeSlider.value = currentSettings.musicSettings.volume;
     loadMusicList();
+
+    // Enhanced Admin Panel with Statistics
+function initAdminPanel() {
+    // Load current settings
+    loadAdminSettings();
+    
+    // Setup event listeners
+    setupAdminEventListeners();
+    
+    // Load statistics
+    loadParticipantStatistics();
+    
+    // Initialize bank soal panel
+    initBankSoalPanel();
+}
+
+function loadParticipantStatistics() {
+    // In a real app, this would come from a database
+    const stats = {
+        totalParticipants: 0,
+        byCategory: {
+            sd: 0,
+            smp: 0,
+            sma: 0,
+            logika: 0,
+            cpns: 0
+        },
+        averageScores: {
+            sd: 0,
+            smp: 0,
+            sma: 0,
+            logika: 0,
+            cpns: 0
+        }
+    };
+    
+    // Update UI with statistics
+    document.getElementById('totalParticipants').textContent = stats.totalParticipants;
+    // Update other stats elements...
+}
+
+function saveQuestionPointValues() {
+    const pointValues = {
+        sd: parseInt(document.getElementById('pointValueSD').value) || 1,
+        smp: parseInt(document.getElementById('pointValueSMP').value) || 1,
+        sma: parseInt(document.getElementById('pointValueSMA').value) || 1,
+        logika: parseInt(document.getElementById('pointValueLogika').value) || 1,
+        cpns: parseInt(document.getElementById('pointValueCPNS').value) || 1
+    };
+    
+    // Save to settings
+    currentSettings.questionPointValues = pointValues;
+    alert('Nilai point soal berhasil disimpan!');
+}
     
     // Load website links
     loadWebsiteList();
