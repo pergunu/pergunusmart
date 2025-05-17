@@ -1,4 +1,4 @@
-// This file would contain the actual questions for the exam
+// This file contains the actual questions for the exam
 // In a real application, this would likely come from a database
 
 const questionBank = {
