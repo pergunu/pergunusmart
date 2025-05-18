@@ -333,15 +333,16 @@ function checkExamReady() {
 }
 
 // Start exam
+// Update startExam function
 function startExam() {
     playButtonSound();
     
     // Filter questions based on selection
     let filteredQuestions = questions.filter(q => {
         if (isStudent) {
-            return q.category === selectedSubject && q.level === participantData.level;
+            return q.category === selectedSubject && q.level === participantData.level.toLowerCase();
         } else {
-            return q.category === selectedSubject;
+            return q.category === selectedSubject && q.level === 'umum';
         }
     });
     
@@ -369,7 +370,6 @@ function startExam() {
     showScreen(4);
     displayQuestion();
 }
-
 // Display current question
 function displayQuestion() {
     if (currentQuestionIndex >= questions.length) {
