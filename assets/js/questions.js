@@ -1,260 +1,276 @@
-// PERGUNU SMART - FINAL QUESTIONS.JS
-const questionBank = {
-  agama: {
-    sd: [
-      {
-        id: 1,
-        text: "Berapa jumlah Rukun Islam?",
-        options: ["3", "4", "5", "6", "7"],
-        correctAnswer: "C",
-        explanation: "Rukun Islam ada 5 yaitu: Syahadat, Shalat, Zakat, Puasa, dan Haji."
-      },
-      {
-        id: 2,
-        text: "Siapakah malaikat yang bertugas menyampaikan wahyu?",
-        options: ["Mikail", "Israfil", "Izrail", "Jibril", "Ridwan"],
-        correctAnswer: "D",
-        explanation: "Malaikat Jibril bertugas menyampaikan wahyu dari Allah kepada para nabi dan rasul."
-      },
-      {
-        id: 3,
-        text: "Apa nama kitab suci yang diturunkan kepada Nabi Muhammad SAW?",
-        options: ["Taurat", "Zabur", "Injil", "Al-Qur'an", "Shuhuf"],
-        correctAnswer: "D",
-        explanation: "Al-Qur'an adalah kitab suci yang diturunkan kepada Nabi Muhammad SAW sebagai penyempurna kitab-kitab sebelumnya."
-      }
-    ],
-    smp: [
-      {
-        id: 101,
-        text: "Apa hukum melaksanakan shalat Jum'at bagi laki-laki muslim?",
-        options: ["Sunnah", "Wajib", "Mubah", "Makruh", "Haram"],
-        correctAnswer: "B",
-        explanation: "Shalat Jum'at hukumnya wajib bagi laki-laki muslim yang sudah baligh dan berakal."
-      },
-      {
-        id: 102,
-        text: "Berapa jumlah ayat dalam surat Al-Fatihah?",
-        options: ["5", "6", "7", "8", "9"],
-        correctAnswer: "C",
-        explanation: "Surat Al-Fatihah terdiri dari 7 ayat dan merupakan surat pembuka dalam Al-Qur'an."
-      }
-    ],
-    sma: [
-      {
-        id: 201,
-        text: "Apa nama ilmu yang mempelajari tentang cara membaca Al-Qur'an dengan benar?",
-        options: ["Fiqih", "Tauhid", "Tajwid", "Tafsir", "Hadits"],
-        correctAnswer: "C",
-        explanation: "Ilmu Tajwid adalah ilmu yang mempelajari tentang cara membaca Al-Qur'an dengan benar sesuai dengan makhraj dan sifat huruf."
-      }
-    ]
-  },
-  ppkn: {
-    sd: [
-      {
-        id: 301,
-        text: "Pancasila sebagai dasar negara tercantum dalam pembukaan UUD 1945 alinea ke...",
-        options: ["1", "2", "3", "4", "Tidak ada yang benar"],
-        correctAnswer: "D",
-        explanation: "Pancasila sebagai dasar negara tercantum dalam alinea ke-4 Pembukaan UUD 1945."
-      }
-    ],
-    smp: [
-      {
-        id: 401,
-        text: "Lambang negara Indonesia adalah...",
-        options: ["Garuda", "Harimau", "Elang", "Rajawali", "Merpati"],
-        correctAnswer: "A",
-        explanation: "Garuda Pancasila adalah lambang negara Indonesia yang diresmikan pemakaiannya pada 11 Februari 1950."
-      }
-    ],
-    sma: [
-      {
-        id: 501,
-        text: "BPUPKI dibentuk pada tanggal...",
-        options: ["1 Maret 1945", "29 April 1945", "1 Juni 1945", "22 Juni 1945", "17 Agustus 1945"],
-        correctAnswer: "A",
-        explanation: "BPUPKI (Badan Penyelidik Usaha-usaha Persiapan Kemerdekaan Indonesia) dibentuk pada 1 Maret 1945."
-      }
-    ]
-  },
-  matematika: {
-    sd: [
-      {
-        id: 601,
-        text: "Hasil dari 25 + 37 adalah...",
-        options: ["52", "53", "62", "63", "72"],
-        correctAnswer: "C",
-        explanation: "25 + 37 = 62. Penjumlahan dilakukan dengan menambahkan satuan (5+7=12, tulis 2 simpan 1) kemudian puluhan (2+3=5 plus simpanan 1 menjadi 6)."
-      }
-    ],
-    smp: [
-      {
-        id: 701,
-        text: "Nilai dari 3² + 4² adalah...",
-        options: ["5", "7", "12", "25", "49"],
-        correctAnswer: "D",
-        explanation: "3² = 9 dan 4² = 16. Jadi 9 + 16 = 25."
-      }
-    ],
-    sma: [
-      {
-        id: 801,
-        text: "Turunan pertama dari f(x) = 3x² + 2x - 5 adalah...",
-        options: ["3x + 2", "6x + 2", "6x - 5", "3x² + 2", "6x² + 2x"],
-        correctAnswer: "B",
-        explanation: "Turunan dari 3x² adalah 6x, turunan dari 2x adalah 2, dan turunan dari konstanta (-5) adalah 0. Jadi f'(x) = 6x + 2."
-      }
-    ]
-  },
-  logika: [
-    {
-      id: 901,
-      text: "Jika semua A adalah B dan semua B adalah C, maka...",
-      options: [
-        "Semua A adalah C",
-        "Semua C adalah A",
-        "Beberapa A bukan C",
-        "Beberapa C bukan B",
-        "Tidak dapat disimpulkan"
-      ],
-      correctAnswer: "A",
-      explanation: "Ini adalah contoh silogisme. Jika semua A adalah B dan semua B adalah C, maka pasti semua A adalah C."
-    },
-    {
-      id: 902,
-      text: "A, B, C, D, E, F, G. Huruf apakah yang berikutnya?",
-      options: ["H", "I", "J", "K", "L"],
-      correctAnswer: "A",
-      explanation: "Ini adalah deret huruf alfabet yang berurutan, sehingga setelah G adalah H."
-    }
-  ],
-  cpns: [
-    {
-      id: 1001,
-      text: "Menurut UUD 1945, kekuasaan yudikatif dilaksanakan oleh...",
-      options: [
-        "Presiden",
-        "DPR",
-        "Mahkamah Agung",
-        "BPK",
-        "Komisi Yudisial"
-      ],
-      correctAnswer: "C",
-      explanation: "Kekuasaan yudikatif menurut UUD 1945 dilaksanakan oleh Mahkamah Agung dan badan peradilan di bawahnya."
-    },
-    {
-      id: 1002,
-      text: "Asas pemilihan umum di Indonesia adalah...",
-      options: [
-        "Langsung, umum, bebas, rahasia, jujur, dan adil",
-        "Langsung, umum, bebas, terbuka, jujur, dan adil",
-        "Langsung, umum, bebas, rahasia, transparan, dan adil",
-        "Tidak langsung, umum, bebas, rahasia, jujur, dan adil",
-        "Langsung, terbatas, bebas, rahasia, jujur, dan adil"
-      ],
-      correctAnswer: "A",
-      explanation: "Asas pemilu di Indonesia adalah Langsung, Umum, Bebas, Rahasia, Jujur, dan Adil (LUBER JURDIL)."
-    }
-  ]
-};
-
-/**
- * Get questions by category and level
- * @param {string} category - The question category (e.g., 'agama', 'ppkn')
- * @param {string|null} level - The education level (e.g., 'sd', 'smp', 'sma')
- * @returns {Array} - Array of questions
- */
-function getQuestions(category, level = null) {
-  try {
-    // Validate input
-    if (!category || typeof category !== 'string') {
-      throw new Error('Invalid category parameter');
-    }
-
-    // Get questions based on category and level
-    if (level) {
-      // For categorized questions (agama, ppkn, etc.)
-      if (questionBank[category] && questionBank[category][level]) {
-        return [...questionBank[category][level]]; // Return a copy to prevent modification
-      }
-      return [];
-    } else {
-      // For uncategorized questions (logika, cpns)
-      if (questionBank[category]) {
-        return [...questionBank[category]]; // Return a copy to prevent modification
-      }
-      return [];
-    }
-  } catch (error) {
-    console.error('Error getting questions:', error);
-    return [];
-  }
-}
-
-/**
- * Get all available categories
- * @returns {Array} - Array of category names
- */
-function getCategories() {
-  return Object.keys(questionBank);
-}
-
-/**
- * Get levels available for a specific category
- * @param {string} category - The question category
- * @returns {Array|null} - Array of levels or null if uncategorized
- */
-function getLevels(category) {
-  if (!category || !questionBank[category]) return null;
-  
-  // Check if category has levels (sd, smp, sma)
-  if (questionBank[category].sd) {
-    return Object.keys(questionBank[category]);
-  }
-  
-  return null;
-}
-
-/**
- * Get question by ID
- * @param {number} id - The question ID
- * @returns {Object|null} - The question object or null if not found
- */
-function getQuestionById(id) {
-  try {
-    // Search through all categories and levels
-    for (const category of getCategories()) {
-      const levels = getLevels(category);
-      
-      if (levels) {
-        // For categorized questions
-        for (const level of levels) {
-          const question = questionBank[category][level].find(q => q.id === id);
-          if (question) return question;
+// Question Bank Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const questionList = document.getElementById('question-list');
+    const questionEditor = document.getElementById('question-editor');
+    const aiGenerator = document.getElementById('ai-generator');
+    const addQuestionBtn = document.getElementById('add-question-btn');
+    const aiGenerateBtn = document.getElementById('ai-generate-btn');
+    const saveQuestionBtn = document.getElementById('save-question-btn');
+    const cancelEditBtn = document.getElementById('cancel-edit-btn');
+    const generateQuestionsBtn = document.getElementById('generate-questions-btn');
+    const cancelAiBtn = document.getElementById('cancel-ai-btn');
+    const resetBankBtn = document.getElementById('reset-bank-btn');
+    
+    // Sample questions data (in a real app, this would be from a database)
+    let questions = [
+        {
+            id: 1,
+            category: 'agama',
+            level: 'SD',
+            text: 'Apa nama kitab suci umat Islam?',
+            options: [
+                { text: 'Al-Quran' },
+                { text: 'Alkitab' },
+                { text: 'Weda' },
+                { text: 'Tripitaka' }
+            ],
+            correctAnswer: 0,
+            explanation: 'Kitab suci umat Islam adalah Al-Quran yang diturunkan kepada Nabi Muhammad SAW.'
+        },
+        {
+            id: 2,
+            category: 'ppkn',
+            level: 'SMP',
+            text: 'Pancasila sebagai dasar negara tercantum dalam pembukaan UUD 1945 pada alinea keberapa?',
+            options: [
+                { text: 'Pertama' },
+                { text: 'Kedua' },
+                { text: 'Ketiga' },
+                { text: 'Keempat' }
+            ],
+            correctAnswer: 3,
+            explanation: 'Pancasila tercantum dalam Pembukaan UUD 1945 alinea keempat setelah kalimat "maka disusunlah Kemerdekaan Kebangsaan Indonesia itu dalam suatu Undang-Undang Dasar Negara Indonesia".'
         }
-      } else {
-        // For uncategorized questions
-        const question = questionBank[category].find(q => q.id === id);
-        if (question) return question;
-      }
+    ];
+    
+    // Load questions into the list
+    function loadQuestions() {
+        questionList.innerHTML = '';
+        
+        questions.forEach(question => {
+            const questionItem = document.createElement('div');
+            questionItem.className = 'question-item';
+            questionItem.dataset.id = question.id;
+            
+            const questionHeader = document.createElement('div');
+            questionHeader.className = 'question-item-header';
+            
+            const questionCategory = document.createElement('span');
+            questionCategory.className = 'question-item-category';
+            questionCategory.textContent = question.category.toUpperCase();
+            
+            const questionLevel = document.createElement('span');
+            questionLevel.className = 'question-item-level';
+            questionLevel.textContent = question.level.toUpperCase();
+            
+            const questionText = document.createElement('div');
+            questionText.className = 'question-item-text';
+            questionText.textContent = question.text;
+            
+            const questionOptions = document.createElement('div');
+            questionOptions.className = 'question-item-options';
+            
+            question.options.forEach((option, index) => {
+                const optionText = document.createElement('div');
+                optionText.textContent = `${String.fromCharCode(65 + index)}. ${option.text} ${index === question.correctAnswer ? '✓' : ''}`;
+                questionOptions.appendChild(optionText);
+            });
+            
+            const questionActions = document.createElement('div');
+            questionActions.className = 'question-item-actions';
+            
+            const editBtn = document.createElement('button');
+            editBtn.className = 'question-item-btn';
+            editBtn.textContent = 'Edit';
+            editBtn.addEventListener('click', () => editQuestion(question.id));
+            
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'question-item-btn';
+            deleteBtn.textContent = 'Hapus';
+            deleteBtn.addEventListener('click', () => deleteQuestion(question.id));
+            
+            questionHeader.appendChild(questionCategory);
+            questionHeader.appendChild(questionLevel);
+            
+            questionActions.appendChild(editBtn);
+            questionActions.appendChild(deleteBtn);
+            
+            questionItem.appendChild(questionHeader);
+            questionItem.appendChild(questionText);
+            questionItem.appendChild(questionOptions);
+            questionItem.appendChild(questionActions);
+            
+            questionList.appendChild(questionItem);
+        });
     }
     
-    return null;
-  } catch (error) {
-    console.error('Error getting question by ID:', error);
-    return null;
-  }
-}
-
-// Export functions for use in other modules
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = {
-    getQuestions,
-    getCategories,
-    getLevels,
-    getQuestionById,
-    questionBank // For testing purposes only
-  };
-}
+    // Add new question
+    addQuestionBtn.addEventListener('click', function() {
+        questionEditor.style.display = 'block';
+        aiGenerator.style.display = 'none';
+        
+        // Reset form
+        document.getElementById('question-category').value = 'agama';
+        document.getElementById('question-level').value = 'SD';
+        document.getElementById('question-text-editor').value = '';
+        document.getElementById('option-a').value = '';
+        document.getElementById('option-b').value = '';
+        document.getElementById('option-c').value = '';
+        document.getElementById('option-d').value = '';
+        document.getElementById('explanation-editor').value = '';
+    });
+    
+    // Save question
+    saveQuestionBtn.addEventListener('click', function() {
+        const category = document.getElementById('question-category').value;
+        const level = document.getElementById('question-level').value;
+        const text = document.getElementById('question-text-editor').value.trim();
+        const optionA = document.getElementById('option-a').value.trim();
+        const optionB = document.getElementById('option-b').value.trim();
+        const optionC = document.getElementById('option-c').value.trim();
+        const optionD = document.getElementById('option-d').value.trim();
+        const correctAnswer = document.querySelector('input[name="correct-answer"]:checked').value;
+        const explanation = document.getElementById('explanation-editor').value.trim();
+        
+        if (!text || !optionA || !optionB || !optionC || !optionD) {
+            alert('Harap isi semua bidang yang diperlukan.');
+            return;
+        }
+        
+        const newQuestion = {
+            id: questions.length > 0 ? Math.max(...questions.map(q => q.id)) + 1 : 1,
+            category: category,
+            level: level,
+            text: text,
+            options: [
+                { text: optionA },
+                { text: optionB },
+                { text: optionC },
+                { text: optionD }
+            ],
+            correctAnswer: correctAnswer.charCodeAt(0) - 97, // Convert a,b,c,d to 0,1,2,3
+            explanation: explanation
+        };
+        
+        questions.push(newQuestion);
+        loadQuestions();
+        questionEditor.style.display = 'none';
+        alert('Soal berhasil disimpan!');
+    });
+    
+    // Cancel editing
+    cancelEditBtn.addEventListener('click', function() {
+        questionEditor.style.display = 'none';
+    });
+    
+    // AI Generate questions
+    aiGenerateBtn.addEventListener('click', function() {
+        aiGenerator.style.display = 'block';
+        questionEditor.style.display = 'none';
+    });
+    
+    // Generate questions with AI (simulated)
+    generateQuestionsBtn.addEventListener('click', function() {
+        const prompt = document.getElementById('ai-prompt').value.trim();
+        const count = parseInt(document.getElementById('ai-question-count').value);
+        
+        if (!prompt) {
+            alert('Masukkan prompt untuk AI terlebih dahulu.');
+            return;
+        }
+        
+        if (count < 1 || count > 10) {
+            alert('Jumlah soal harus antara 1-10.');
+            return;
+        }
+        
+        // Simulate AI generation (in a real app, this would call an API)
+        alert(`Sedang menghasilkan ${count} soal berdasarkan prompt: "${prompt}"\n\nIni hanya simulasi. Dalam aplikasi nyata, ini akan memanggil API AI.`);
+        
+        // For demo purposes, just hide the AI generator
+        aiGenerator.style.display = 'none';
+    });
+    
+    // Cancel AI generation
+    cancelAiBtn.addEventListener('click', function() {
+        aiGenerator.style.display = 'none';
+    });
+    
+    // Reset question bank
+    resetBankBtn.addEventListener('click', function() {
+        if (confirm('Apakah Anda yakin ingin mereset bank soal? Semua soal akan dihapus.')) {
+            questions = [];
+            loadQuestions();
+            alert('Bank soal telah direset.');
+        }
+    });
+    
+    // Edit question
+    function editQuestion(id) {
+        const question = questions.find(q => q.id === id);
+        if (!question) return;
+        
+        document.getElementById('question-category').value = question.category;
+        document.getElementById('question-level').value = question.level;
+        document.getElementById('question-text-editor').value = question.text;
+        document.getElementById('option-a').value = question.options[0].text;
+        document.getElementById('option-b').value = question.options[1].text;
+        document.getElementById('option-c').value = question.options[2].text;
+        document.getElementById('option-d').value = question.options[3].text;
+        document.querySelector(`input[name="correct-answer"][value="${String.fromCharCode(97 + question.correctAnswer)}"]`).checked = true;
+        document.getElementById('explanation-editor').value = question.explanation;
+        
+        questionEditor.style.display = 'block';
+        aiGenerator.style.display = 'none';
+        
+        // Update save button to handle editing
+        saveQuestionBtn.onclick = function() {
+            const category = document.getElementById('question-category').value;
+            const level = document.getElementById('question-level').value;
+            const text = document.getElementById('question-text-editor').value.trim();
+            const optionA = document.getElementById('option-a').value.trim();
+            const optionB = document.getElementById('option-b').value.trim();
+            const optionC = document.getElementById('option-c').value.trim();
+            const optionD = document.getElementById('option-d').value.trim();
+            const correctAnswer = document.querySelector('input[name="correct-answer"]:checked').value;
+            const explanation = document.getElementById('explanation-editor').value.trim();
+            
+            if (!text || !optionA || !optionB || !optionC || !optionD) {
+                alert('Harap isi semua bidang yang diperlukan.');
+                return;
+            }
+            
+            // Update the question
+            question.category = category;
+            question.level = level;
+            question.text = text;
+            question.options = [
+                { text: optionA },
+                { text: optionB },
+                { text: optionC },
+                { text: optionD }
+            ];
+            question.correctAnswer = correctAnswer.charCodeAt(0) - 97;
+            question.explanation = explanation;
+            
+            loadQuestions();
+            questionEditor.style.display = 'none';
+            alert('Soal berhasil diperbarui!');
+            
+            // Reset save button to default behavior
+            saveQuestionBtn.onclick = arguments.callee;
+        };
+    }
+    
+    // Delete question
+    function deleteQuestion(id) {
+        if (confirm('Apakah Anda yakin ingin menghapus soal ini?')) {
+            questions = questions.filter(q => q.id !== id);
+            loadQuestions();
+            alert('Soal berhasil dihapus.');
+        }
+    }
+    
+    // Initial load
+    loadQuestions();
+});
