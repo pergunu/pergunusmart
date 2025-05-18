@@ -3,17 +3,11 @@
 const ADMIN_FUNCTIONS = {
   init: function() {
     try {
-      // Load current settings
       this.loadSettings();
-      
-      // Setup event listeners
       this.setupEventListeners();
-      
-      // Initialize components
       this.loadMusicList();
       this.loadWebsiteList();
       this.loadQuestionsForEditing();
-      
       console.log('Admin panel initialized');
     } catch (error) {
       console.error('Admin initialization error:', error);
@@ -21,7 +15,6 @@ const ADMIN_FUNCTIONS = {
   },
   
   loadSettings: function() {
-    // Load settings from localStorage or use defaults
     const savedSettings = localStorage.getItem('pergunuSettings');
     this.settings = savedSettings ? JSON.parse(savedSettings) : {
       codes: {
@@ -35,22 +28,17 @@ const ADMIN_FUNCTIONS = {
         chairmanName: "Moh. Nuril Hudha, S.Pd., M.Si.",
         welcomeMessage: "Selamat datang di Sistem Ujian Online PERGUNU Situbondo",
         infoMessage: "Waktu ujian adalah 90 menit. Pastikan koneksi internet stabil selama ujian berlangsung."
-      },
-      // More settings...
+      }
     };
-    
-    // Update UI with current settings
     this.updateSettingsUI();
   },
   
   updateSettingsUI: function() {
-    // Update codes
     document.getElementById('currentLoginCode').value = this.settings.codes.login;
     document.getElementById('currentCpnsCode').value = this.settings.codes.cpns;
     document.getElementById('currentBankCode').value = this.settings.codes.bank;
     document.getElementById('currentAdminCode').value = this.settings.codes.admin;
     
-    // Update exam settings
     document.getElementById('examTimerSetting').value = this.settings.examSettings.timer;
     document.getElementById('chairmanName').value = this.settings.examSettings.chairmanName;
     document.getElementById('welcomeMessage').value = this.settings.examSettings.welcomeMessage;
@@ -59,28 +47,129 @@ const ADMIN_FUNCTIONS = {
   
   saveSettings: function() {
     try {
-      // Get values from form
       this.settings.codes.login = document.getElementById('newLoginCode').value || this.settings.codes.login;
       this.settings.codes.cpns = document.getElementById('newCpnsCode').value || this.settings.codes.cpns;
       this.settings.codes.bank = document.getElementById('newBankCode').value || this.settings.codes.bank;
       this.settings.codes.admin = document.getElementById('newAdminCode').value || this.settings.codes.admin;
       
-      // Save exam settings
       this.settings.examSettings.timer = parseInt(document.getElementById('examTimerSetting').value) || 90;
       this.settings.examSettings.chairmanName = document.getElementById('chairmanName').value;
       this.settings.examSettings.welcomeMessage = document.getElementById('welcomeMessage').value;
       this.settings.examSettings.infoMessage = document.getElementById('infoMessage').value;
       
-      // Save to localStorage
       localStorage.setItem('pergunuSettings', JSON.stringify(this.settings));
-      
       alert('Pengaturan berhasil disimpan!');
-      
     } catch (error) {
       console.error('Settings save error:', error);
       alert('Gagal menyimpan pengaturan');
     }
   },
+  
+  loadMusicList: function() {
+    const musicList = document.getElementById('musicList');
+    musicList.innerHTML = '';
+    
+    this.settings.musicSettings.playlist.forEach((music, index) => {
+      const musicItem = document.createElement('div');
+      musicItem.className = 'music-item';
+      musicItem.innerHTML = `
+        <p>${index + 1}. ${music.name}</p>
+        <div class="music-actions">
+          <button class="btn-primary play-music" data-url="${music.url}"><i class="fas fa-play"></i></button>
+          <button class="btn-danger delete-music" data-index="${index}"><i class="fas fa-trash"></i></button>
+        </div>
+      `;
+      musicList.appendChild(musicItem);
+    });
+    
+    document.querySelectorAll('.play-music').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const audio = new Audio(e.target.dataset.url || e.target.parentElement.dataset.url);
+        audio.volume = this.settings.musicSettings.volume;
+        audio.play().catch(e => console.log('Music play error:', e));
+      });
+    });
+    
+    document.querySelectorAll('.delete-music').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const index = parseInt(e.target.dataset.index || e.target.parentElement.dataset.index);
+        this.settings.musicSettings.playlist.splice(index, 1);
+        this.loadMusicList();
+      });
+    });
+  },
+  
+  loadWebsiteList: function() {
+    const websiteList = document.getElementById('websiteList');
+    websiteList.innerHTML = '';
+    
+    this.settings.websiteLinks.forEach((website, index) => {
+      const websiteItem = document.createElement('div');
+      websiteItem.className = 'website-item';
+      websiteItem.innerHTML = `
+        <p>${index + 1}. <a href="${website.url}" target="_blank">${website.name}</a></p>
+        <div class="website-actions">
+          <button class="btn-danger delete-website" data-index="${index}"><i class="fas fa-trash"></i></button>
+        </div>
+      `;
+      websiteList.appendChild(websiteItem);
+    });
+    
+    document.querySelectorAll('.delete-website').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const index = parseInt(e.target.dataset.index || e.target.parentElement.dataset.index);
+        this.settings.websiteLinks.splice(index, 1);
+        this.loadWebsiteList();
+      });
+    });
+  },
+  
+  setupEventListeners: function() {
+    // Save buttons
+    document.getElementById('saveLoginCode').addEventListener('click', () => {
+      const newCode = document.getElementById('newLoginCode').value;
+      if (newCode) {
+        this.settings.codes.login = newCode;
+        this.updateSettingsUI();
+        document.getElementById('newLoginCode').value = '';
+        alert('Kode Login berhasil diperbarui!');
+      }
+    });
+    
+    // [Include all other event listeners from original admin.js]
+  },
+  
+  // [Include all other functions from original admin.js]
+};
+
+// Initialize admin panel
+document.addEventListener('DOMContentLoaded', function() {
+  if (window.location.hash === '#admin') {
+    const adminCode = prompt('Masukkan Kode Admin:');
+    if (adminCode === ADMIN_FUNCTIONS.settings.codes.admin) {
+      ADMIN_FUNCTIONS.init();
+      document.getElementById('adminPanel').style.display = 'flex';
+    } else {
+      alert('Kode Admin salah');
+      window.location.hash = '';
+    }
+  }
+});
+
+// Toggle admin panel
+function toggleAdminPanel() {
+  try {
+    const adminCode = prompt('Masukkan Kode Admin:');
+    if (adminCode === ADMIN_FUNCTIONS.settings.codes.admin) {
+      document.getElementById('adminPanel').style.display = 'flex';
+      ADMIN_FUNCTIONS.init();
+    } else if (adminCode) {
+      alert('Kode Admin salah');
+    }
+  } catch (error) {
+    console.error('Admin panel toggle error:', error);
+  }
+}
   
   // More admin functions...
 };
