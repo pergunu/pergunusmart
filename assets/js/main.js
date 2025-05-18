@@ -150,31 +150,50 @@ function init() {
     loadQuestions();
 }
 
+// Enhanced certificate generation
 function generateCertificate(score) {
     // Generate certificate code
     const now = new Date();
     const dateStr = `${now.getDate()}${now.getMonth()+1}${now.getFullYear()}`;
     const randomCode = Math.random().toString(36).substring(2,6).toUpperCase();
     
-    // Set certificate content
+    let codeParts = [
+        participantData.fullName.replace(/\s+/g, '_').toUpperCase(),
+        participantData.status.toUpperCase(),
+        participantData.status === 'pelajar' ? participantData.schoolLevel.toUpperCase() : '',
+        participantData.status === 'pelajar' ? examData.subject.toUpperCase() : examData.category.toUpperCase(),
+        dateStr,
+        `${randomCode}-${Math.random().toString(36).substring(2,5).toUpperCase()}`,
+        'PERGUNU-STB'
+    ];
+    
+    certificateCode.textContent = codeParts.join('/');
     certificateName.textContent = participantData.fullName;
+    
+    // Set achievement text based on exam type
+    let achievementText = '';
+    if (participantData.status === 'pelajar') {
+        achievementText = `Atas Partisipasi & Pencapaian Luar Biasa dalam <strong>Ujian Pergunu Situbondo</strong>`;
+    } else {
+        achievementText = examData.category === 'cpns' 
+            ? `Atas Partisipasi & Pencapaian Luar Biasa dalam <strong>Sketsa Ujian CPNS/P3K Pergunu Situbondo</strong>`
+            : `Atas Partisipasi & Pencapaian Luar Biasa dalam <strong>Tes Logika Pergunu Situbondo</strong>`;
+    }
+    
+    certificateAchievement.innerHTML = achievementText;
     certificateScore.textContent = score;
     
     // Set motivational message based on score
-    const motivation = getMotivationalMessage(score);
-    certificateMotivation.textContent = motivation;
+    const motivation = MOTIVATIONAL_MESSAGES.find(m => score >= m.min && score <= m.max);
+    certificateMotivation.textContent = motivation ? motivation.message : '';
     
     // Format date
     const options = { day: 'numeric', month: 'long', year: 'numeric' };
     certificateDate.textContent = `Ditetapkan di: Situbondo, ${now.toLocaleDateString('id-ID', options)}`;
     
-    // Show score details in small print
-    document.getElementById('scoreDetails').innerHTML = `
-        <small>Jumlah Soal: ${questions.length} | 
-        Benar: ${correctCount} | 
-        Salah: ${wrongCount} | 
-        Tidak Dijawab: ${questions.length - answeredQuestions}</small>
-    `;
+    // Play applause sound
+    applauseAudio.currentTime = 0;
+    applauseAudio.play().catch(e => console.log('Applause audio error:', e));
 }
 
 function getMotivationalMessage(score) {
@@ -186,6 +205,7 @@ function getMotivationalMessage(score) {
     return "Masih ada ruang untuk perbaikan. Teruslah belajar dan berlatih!";
 }
 
+/ Enhanced CPNS license verification
 function handleLicenseSubmit() {
     playButtonSound();
     
@@ -197,7 +217,6 @@ function handleLicenseSubmit() {
         licenseCodeInput.focus();
     }
 }
-
 function playOpeningAudio() {
     const playPromise = openingAudio.play();
     
@@ -234,24 +253,30 @@ function setAudioVolume(volume) {
 // Toggle mute
 function toggleMute() {
     isMuted = !isMuted;
+    setAudioVolume(isMuted ? 0 : currentVolume);
+    muteBtn.innerHTML = `<i class="fas fa-volume-${isMuted ? 'mute' : 'up'}"></i>`;
+    volumeSlider.style.display = isMuted ? 'none' : 'block';
+}
+
+function updateVolume() {
+    currentVolume = parseFloat(volumeSlider.value);
+    setAudioVolume(currentVolume);
     
-    if (isMuted) {
-        setAudioVolume(0);
+    if (currentVolume === 0) {
         muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
-        volumeSlider.style.display = 'none';
+        isMuted = true;
     } else {
-        setAudioVolume(currentVolume);
         muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
-        volumeSlider.style.display = 'block';
+        isMuted = false;
     }
 }
 
 // Update volume
 function updateVolume() {
-    currentVolume = volumeSlider.value;
+    currentVolume = parseFloat(volumeSlider.value);
     setAudioVolume(currentVolume);
     
-    if (currentVolume == 0) {
+    if (currentVolume === 0) {
         muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
         isMuted = true;
     } else {
