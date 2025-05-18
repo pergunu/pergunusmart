@@ -189,3 +189,18 @@ document.addEventListener('DOMContentLoaded', function() {
         // In a real app, you would save this to a database
     });
 });
+
+// Add to admin panel initialization
+document.getElementById('current-exam-code').value = DEFAULT_CPNS_CODE;
+
+// Update save-exam-code event listener
+document.getElementById('save-exam-code').addEventListener('click', function() {
+    const newCode = document.getElementById('new-exam-code').value.trim();
+    if (newCode) {
+        document.getElementById('current-exam-code').value = newCode;
+        document.getElementById('new-exam-code').value = '';
+        alert('Kode ujian CPNS berhasil diperbarui!');
+    } else {
+        alert('Masukkan kode baru terlebih dahulu.');
+    }
+});
