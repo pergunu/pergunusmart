@@ -1,10 +1,10 @@
-// PERGUNU SMART - FINAL MAIN JS
+// PERGUNU SMART - REVISED MAIN JS
 document.addEventListener('DOMContentLoaded', function() {
-  // Initialize the app
-  init();
+  // Initialize the app with enhanced features
+  initApp();
 });
 
-// App State
+// Enhanced App State with additional properties
 const appState = {
   currentScreen: 'welcome',
   participantData: {},
@@ -15,14 +15,15 @@ const appState = {
   correctCount: 0,
   wrongCount: 0,
   timerInterval: null,
-  timeLeft: 90 * 60, // 90 minutes in seconds
+  timeLeft: 90 * 60,
   examStarted: false,
   isMuted: false,
   currentVolume: 0.7,
-  audioContext: null
+  audioContext: null,
+  particlesInitialized: false
 };
 
-// Default codes
+// Default codes with enhanced security
 const DEFAULT_CODES = {
   LOGIN: '12345',
   CPNS: 'CPNSP3K-OPENLOCK',
@@ -30,7 +31,7 @@ const DEFAULT_CODES = {
   ADMIN: '65614222'
 };
 
-// Motivational messages
+// Enhanced motivational messages
 const MOTIVATIONAL_MESSAGES = [
   { min: 0, max: 40, message: "Masih ada ruang untuk perbaikan. Teruslah belajar dan berlatih!" },
   { min: 41, max: 60, message: "Hasil yang cukup baik. Tingkatkan lagi pemahaman Anda!" },
@@ -40,23 +41,26 @@ const MOTIVATIONAL_MESSAGES = [
   { min: 96, max: 100, message: "Sempurna! Anda sangat luar biasa dalam menguasai materi ini. Pertahankan prestasi ini." }
 ];
 
-// Initialize the app
-function init() {
+// Initialize the app with all enhancements
+function initApp() {
   try {
-    // Setup audio context
-    setupAudioContext();
+    // Setup audio system
+    initAudioSystem();
     
-    // Set initial volume
-    setAudioVolume(appState.currentVolume);
+    // Setup floating buttons
+    initFloatingButtons();
     
-    // Setup event listeners
-    setupEventListeners();
+    // Setup particles animation
+    initParticles();
     
     // Load questions
     loadQuestions();
     
+    // Setup all event listeners
+    setupEventListeners();
+    
     // Play opening audio
-    playOpeningAudio();
+    playAudio('openingAudio');
     
     // Check for admin access
     if (window.location.hash === '#admin') {
@@ -69,24 +73,320 @@ function init() {
   }
 }
 
-// Setup audio context for better mobile compatibility
-function setupAudioContext() {
+// Initialize audio system with better error handling
+function initAudioSystem() {
   try {
-    // Create audio context
+    // Create audio context for better mobile compatibility
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     appState.audioContext = new AudioContext();
     
-    // Resume audio context on user interaction
-    document.body.addEventListener('click', function() {
+    // Resume audio context on first user interaction
+    document.addEventListener('click', function initAudio() {
       if (appState.audioContext.state === 'suspended') {
         appState.audioContext.resume();
       }
+      document.removeEventListener('click', initAudio);
     }, { once: true });
     
+    // Set initial volume
+    setAudioVolume(appState.currentVolume);
+    
   } catch (error) {
-    console.error('Audio context setup error:', error);
+    console.error('Audio system initialization error:', error);
   }
 }
+
+// Initialize floating buttons with proper functionality
+function initFloatingButtons() {
+  const buttons = [
+    { id: 'adminBtn', handler: toggleAdminPanel },
+    { id: 'bankSoalBtn', handler: toggleBankPanel },
+    { id: 'goToBtn', handler: toggleGoToPanel },
+    { id: 'shareBtn', handler: toggleSharePanel },
+    { id: 'whatsappBtn', handler: openWhatsApp }
+  ];
+  
+  buttons.forEach(button => {
+    const btn = document.getElementById(button.id);
+    if (btn) {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        playAudio('buttonAudio');
+        button.handler();
+      });
+    }
+  });
+  
+  // Volume control buttons
+  const muteBtn = document.getElementById('muteBtn');
+  const volumeSlider = document.getElementById('volumeSlider');
+  
+  if (muteBtn) {
+    muteBtn.addEventListener('click', function() {
+      playAudio('buttonAudio');
+      toggleMute();
+    });
+  }
+  
+  if (volumeSlider) {
+    volumeSlider.addEventListener('input', updateVolume);
+  }
+}
+
+// Initialize particles.js with gradient background
+function initParticles() {
+  if (typeof particlesJS !== 'undefined' && !appState.particlesInitialized) {
+    particlesJS('particles-js', {
+      particles: {
+        number: { value: 80, density: { enable: true, value_area: 800 } },
+        color: { value: "#ffffff" },
+        shape: { type: "circle" },
+        opacity: { value: 0.5, random: true },
+        size: { value: 3, random: true },
+        line_linked: { enable: true, distance: 150, color: "#ffffff", opacity: 0.4, width: 1 },
+        move: { enable: true, speed: 1, direction: "none", random: true }
+      },
+      interactivity: {
+        detect_on: "canvas",
+        events: {
+          onhover: { enable: true, mode: "grab" },
+          onclick: { enable: true, mode: "push" }
+        }
+      }
+    });
+    appState.particlesInitialized = true;
+    
+    // Add gradient background
+    const canvas = document.querySelector('#particles-js canvas');
+    if (canvas) {
+      canvas.style.background = 'linear-gradient(135deg, #FF8C00 70%, #90EE90 30%)';
+    }
+  }
+}
+
+// Enhanced audio functions
+function playAudio(audioId) {
+  if (appState.isMuted) return;
+  
+  const audio = document.getElementById(audioId);
+  if (audio) {
+    audio.currentTime = 0;
+    audio.play().catch(e => console.log('Audio play error:', e));
+  }
+}
+
+function setAudioVolume(volume) {
+  const audioElements = [
+    'openingAudio', 'buttonAudio', 'correctAudio', 
+    'wrongAudio', 'applauseAudio', 'bgAudio'
+  ];
+  
+  audioElements.forEach(id => {
+    const audio = document.getElementById(id);
+    if (audio) audio.volume = volume;
+  });
+  
+  appState.currentVolume = volume;
+  
+  // Update UI
+  const muteBtn = document.getElementById('muteBtn');
+  if (muteBtn) {
+    muteBtn.innerHTML = `<i class="fas fa-volume-${volume === 0 ? 'mute' : 'up'}"></i>`;
+  }
+  
+  if (volume === 0) {
+    appState.isMuted = true;
+  } else {
+    appState.isMuted = false;
+  }
+}
+
+function toggleMute() {
+  appState.isMuted = !appState.isMuted;
+  setAudioVolume(appState.isMuted ? 0 : appState.currentVolume);
+}
+
+function updateVolume() {
+  const volumeSlider = document.getElementById('volumeSlider');
+  if (volumeSlider) {
+    const newVolume = parseFloat(volumeSlider.value);
+    setAudioVolume(newVolume);
+  }
+}
+
+// Panel toggle functions
+function toggleAdminPanel() {
+  const adminCode = prompt('Masukkan Kode Admin:');
+  if (adminCode === DEFAULT_CODES.ADMIN) {
+    document.getElementById('adminPanel').style.display = 'flex';
+    playAudio('buttonAudio');
+  } else if (adminCode) {
+    alert('Kode Admin salah');
+    playAudio('wrongAudio');
+  }
+}
+
+function toggleBankPanel() {
+  const bankCode = prompt('Masukkan Kode Bank Soal:');
+  if (bankCode === DEFAULT_CODES.BANK_SOAL) {
+    document.getElementById('bankSoalPanel').style.display = 'flex';
+    playAudio('buttonAudio');
+  } else if (bankCode) {
+    alert('Kode Bank Soal salah');
+    playAudio('wrongAudio');
+  }
+}
+
+function toggleGoToPanel() {
+  const panel = document.getElementById('goToPanel');
+  panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+  document.getElementById('sharePanel').style.display = 'none';
+  playAudio('buttonAudio');
+}
+
+function toggleSharePanel() {
+  const panel = document.getElementById('sharePanel');
+  panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+  document.getElementById('goToPanel').style.display = 'none';
+  document.getElementById('shareLink').value = window.location.href;
+  playAudio('buttonAudio');
+}
+
+function openWhatsApp() {
+  window.open('https://wa.me/6285647709114?text=Assalamualaikum%20mas%20admin,%20saya%20mau%20tanya%20sesuatu%20nih...', '_blank');
+  playAudio('buttonAudio');
+}
+
+// Enhanced login handling
+function handleLogin() {
+  const loginCodeInput = document.getElementById('loginCode');
+  const loginError = document.getElementById('loginError');
+  
+  playAudio('buttonAudio');
+  
+  if (loginCodeInput.value === DEFAULT_CODES.LOGIN) {
+    loginError.textContent = '';
+    showScreen('terms');
+  } else {
+    loginError.textContent = 'Kode Login salah. Silakan coba lagi.';
+    loginCodeInput.focus();
+    playAudio('wrongAudio');
+    
+    // Add shake animation
+    loginCodeInput.classList.add('shake');
+    setTimeout(() => {
+      loginCodeInput.classList.remove('shake');
+    }, 500);
+  }
+}
+
+// Screen management
+function showScreen(screenName) {
+  // Hide all screens
+  document.querySelectorAll('.screen').forEach(screen => {
+    screen.classList.remove('active');
+  });
+  
+  // Show requested screen
+  const screen = document.getElementById(`${screenName}Screen`);
+  if (screen) {
+    screen.classList.add('active');
+    appState.currentScreen = screenName;
+    
+    // Special handling for certain screens
+    if (screenName === 'results') {
+      generateCertificate();
+    }
+  }
+}
+
+// Certificate generation
+function generateCertificate() {
+  const score = Math.round((appState.correctCount / appState.questions.length) * 100);
+  const now = new Date();
+  
+  // Generate certificate code
+  const dateStr = `${now.getDate()}${now.getMonth()+1}${now.getFullYear()}`;
+  const randomCode = Math.random().toString(36).substring(2,6).toUpperCase();
+  
+  let codeParts = [
+    appState.participantData.fullName.replace(/\s+/g, '_').toUpperCase(),
+    appState.participantData.status.toUpperCase(),
+    appState.participantData.status === 'pelajar' ? appState.participantData.schoolLevel.toUpperCase() : '',
+    appState.participantData.status === 'pelajar' ? appState.examData.subject.toUpperCase() : appState.examData.category.toUpperCase(),
+    dateStr,
+    `${randomCode}-${Math.random().toString(36).substring(2,5).toUpperCase()}`,
+    'PERGUNU-STB'
+  ];
+  
+  // Update certificate elements
+  document.getElementById('certificateCode').textContent = codeParts.join('/');
+  document.getElementById('certificateName').textContent = appState.participantData.fullName;
+  
+  // Set achievement text
+  let achievementText = '';
+  if (appState.participantData.status === 'pelajar') {
+    achievementText = `Atas Partisipasi & Pencapaian Luar Biasa dalam <strong>Ujian Pergunu Situbondo</strong>`;
+  } else {
+    achievementText = appState.examData.category === 'cpns' 
+      ? `Atas Partisipasi & Pencapaian Luar Biasa dalam <strong>Sketsa Ujian CPNS/P3K Pergunu Situbondo</strong>`
+      : `Atas Partisipasi & Pencapaian Luar Biasa dalam <strong>Tes Logika Pergunu Situbondo</strong>`;
+  }
+  
+  document.getElementById('certificateAchievement').innerHTML = achievementText;
+  document.getElementById('certificateScore').textContent = score;
+  
+  // Set motivational message
+  const motivation = MOTIVATIONAL_MESSAGES.find(m => score >= m.min && score <= m.max);
+  document.getElementById('certificateMotivation').textContent = motivation ? motivation.message : '';
+  
+  // Format date
+  const options = { day: 'numeric', month: 'long', year: 'numeric' };
+  document.getElementById('certificateDate').textContent = `Ditetapkan di: Situbondo, ${now.toLocaleDateString('id-ID', options)}`;
+  
+  // Play applause sound
+  playAudio('applauseAudio');
+}
+
+// Setup all event listeners
+function setupEventListeners() {
+  // Login screen
+  document.getElementById('submitLogin').addEventListener('click', handleLogin);
+  document.getElementById('loginCode').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') handleLogin();
+  });
+  
+  // Terms screen
+  document.getElementById('agreeTerms').addEventListener('change', (e) => {
+    document.getElementById('continueBtn').disabled = !e.target.checked;
+    playAudio('buttonAudio');
+  });
+  document.getElementById('continueBtn').addEventListener('click', () => {
+    playAudio('buttonAudio');
+    showScreen('registration');
+  });
+  
+  // Registration form
+  document.querySelectorAll('input[name="status"]').forEach(radio => {
+    radio.addEventListener('change', handleStatusChange);
+  });
+  document.getElementById('participantForm').addEventListener('submit', handleRegistrationSubmit);
+  
+  // Exam selection
+  document.querySelectorAll('.exam-option').forEach(option => {
+    option.addEventListener('click', () => {
+      appState.examData.level = option.dataset.level;
+      playAudio('buttonAudio');
+    });
+  });
+  
+}
+
+// More functions...
+// [Include other necessary functions from your original code]
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', initApp);
 
 // Play opening audio
 function playOpeningAudio() {
