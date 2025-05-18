@@ -1,5 +1,49 @@
 // PERGUNU SMART - REVISED MAIN JS
 document.addEventListener('DOMContentLoaded', function() {
+    // Fungsi untuk menampilkan panel Admin
+    document.getElementById('adminBtn').addEventListener('click', function() {
+        const adminCode = prompt('Masukkan Kode Admin:');
+        if (adminCode === '65614222') {  // Ganti dengan kode admin yang benar
+            document.getElementById('adminPanel').style.display = 'flex';
+        } else {
+            alert('Kode Admin salah');
+        }
+    });
+
+    // Fungsi untuk menampilkan Bank Soal
+    document.getElementById('bankSoalBtn').addEventListener('click', function() {
+        document.getElementById('bankSoalPanel').style.display = 'flex';
+    });
+
+    // Fungsi untuk tombol "Go to" untuk membuka daftar website
+    document.getElementById('goToBtn').addEventListener('click', function() {
+        document.getElementById('goToPanel').style.display = 'flex';
+    });
+
+    // Fungsi untuk tombol "Share" untuk menyalin link website
+    document.getElementById('shareBtn').addEventListener('click', function() {
+        document.getElementById('sharePanel').style.display = 'flex';
+    });
+
+    // Fungsi untuk tombol "Chat WhatsApp"
+    document.getElementById('whatsappBtn').addEventListener('click', function() {
+        window.open('https://wa.me/6281234567890', '_blank'); // Ganti dengan nomor WhatsApp yang benar
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Inisialisasi efek partikel
+    if (typeof particlesJS !== 'undefined') {
+        particlesJS.load('particles-js', 'assets/js/particles-config.json', function() {
+            console.log('Particles.js telah dimuat');
+        });
+    } else {
+        console.error('particles.js tidak ditemukan');
+    }
+});
+
+
+document.addEventListener('DOMContentLoaded', function() {
   // Initialize the app with enhanced features
   initApp();
 });
@@ -351,10 +395,17 @@ function generateCertificate() {
 // Setup all event listeners
 function setupEventListeners() {
   // Login screen
-  document.getElementById('submitLogin').addEventListener('click', handleLogin);
-  document.getElementById('loginCode').addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') handleLogin();
-  });
+ document.getElementById('submitLogin').addEventListener('click', function() {
+    const loginCode = document.getElementById('loginCode').value;
+    if (loginCode === '12345') {  // Ganti dengan kode login yang benar
+        // Pindahkan ke layar berikutnya setelah login berhasil
+        document.getElementById('welcomeScreen').classList.remove('active');
+        document.getElementById('termsScreen').classList.add('active');
+    } else {
+        document.getElementById('loginError').textContent = 'Kode salah!';
+    }
+});
+
   
   // Terms screen
   document.getElementById('agreeTerms').addEventListener('change', (e) => {
@@ -837,12 +888,18 @@ const examScreen = document.getElementById('examScreen');
 const resultsScreen = document.getElementById('resultsScreen');
 
 // Audio Elements
-const openingAudio = document.getElementById('openingAudio');
-const buttonAudio = document.getElementById('buttonAudio');
+document.addEventListener('DOMContentLoaded', function() {
+document.getElementById('openingAudio').play();  // Play audio opening saat halaman dimuat
+    document.getElementById('buttonAudio').play();  // Play audio saat tombol diklik
+});
 const correctAudio = document.getElementById('correctAudio');
 const wrongAudio = document.getElementById('wrongAudio');
 const applauseAudio = document.getElementById('applauseAudio');
-const bgAudio = document.getElementById('bgAudio');
+document.getElementById('volumeSlider').addEventListener('input', function() {
+    const volume = this.value;
+    const audio = document.getElementById('bgAudio');
+    audio.volume = volume;  // Atur volume berdasarkan slider
+});
 
 // Login Screen
 const loginCodeInput = document.getElementById('loginCode');
@@ -1841,37 +1898,9 @@ function init() {
     }
 }
 
+<script src="assets/js/particles.js"></script>
+
 document.addEventListener('DOMContentLoaded', init);
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Fungsi untuk menampilkan panel Admin
-    document.getElementById('adminBtn').addEventListener('click', function() {
-        const adminCode = prompt('Masukkan Kode Admin:');
-        if (adminCode === '65614222') {  // Ganti dengan kode admin yang benar
-            document.getElementById('adminPanel').style.display = 'flex';
-        } else {
-            alert('Kode Admin salah');
-        }
-    });
 
-    // Fungsi untuk menampilkan Bank Soal
-    document.getElementById('bankSoalBtn').addEventListener('click', function() {
-        document.getElementById('bankSoalPanel').style.display = 'flex';
-    });
-
-    // Fungsi untuk tombol "Go to" untuk membuka daftar website
-    document.getElementById('goToBtn').addEventListener('click', function() {
-        document.getElementById('goToPanel').style.display = 'flex';
-    });
-
-    // Fungsi untuk tombol "Share" untuk menyalin link website
-    document.getElementById('shareBtn').addEventListener('click', function() {
-        document.getElementById('sharePanel').style.display = 'flex';
-    });
-
-    // Fungsi untuk tombol "Chat WhatsApp"
-    document.getElementById('whatsappBtn').addEventListener('click', function() {
-        window.open('https://wa.me/6281234567890', '_blank'); // Ganti dengan nomor WhatsApp yang benar
-    });
-});
 
