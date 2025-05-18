@@ -39,6 +39,17 @@ settingGroup.innerHTML = `
     </label>
 `;
 
+// Update question-count options
+const questionCountSelect = document.getElementById('question-count');
+questionCountSelect.innerHTML = '';
+[5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130, 135, 140, 145, 150].forEach(num => {
+    const option = document.createElement('option');
+    option.value = num;
+    option.textContent = num;
+    if (num === 10) option.selected = true;
+    questionCountSelect.appendChild(option);
+});
+
 // Admin Panel Functionality
 document.addEventListener('DOMContentLoaded', function() {
     // Tab switching
