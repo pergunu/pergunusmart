@@ -1,10 +1,10 @@
-// PERGUNU SMART - REVISED MAIN JS
+// PERGUNU SMART - FINAL MAIN JS
 document.addEventListener('DOMContentLoaded', function() {
-  // Initialize the app with enhanced features
-  initApp();
+  // Initialize the app
+  init();
 });
 
-// Enhanced App State with additional properties
+// App State
 const appState = {
   currentScreen: 'welcome',
   participantData: {},
@@ -15,15 +15,14 @@ const appState = {
   correctCount: 0,
   wrongCount: 0,
   timerInterval: null,
-  timeLeft: 90 * 60,
+  timeLeft: 90 * 60, // 90 minutes in seconds
   examStarted: false,
   isMuted: false,
   currentVolume: 0.7,
-  audioContext: null,
-  particlesInitialized: false
+  audioContext: null
 };
 
-// Default codes with enhanced security
+// Default codes
 const DEFAULT_CODES = {
   LOGIN: '12345',
   CPNS: 'CPNSP3K-OPENLOCK',
@@ -31,7 +30,7 @@ const DEFAULT_CODES = {
   ADMIN: '65614222'
 };
 
-// Enhanced motivational messages
+// Motivational messages
 const MOTIVATIONAL_MESSAGES = [
   { min: 0, max: 40, message: "Masih ada ruang untuk perbaikan. Teruslah belajar dan berlatih!" },
   { min: 41, max: 60, message: "Hasil yang cukup baik. Tingkatkan lagi pemahaman Anda!" },
@@ -41,26 +40,23 @@ const MOTIVATIONAL_MESSAGES = [
   { min: 96, max: 100, message: "Sempurna! Anda sangat luar biasa dalam menguasai materi ini. Pertahankan prestasi ini." }
 ];
 
-// Initialize the app with all enhancements
-function initApp() {
+// Initialize the app
+function init() {
   try {
-    // Setup audio system
-    initAudioSystem();
+    // Setup audio context
+    setupAudioContext();
     
-    // Setup floating buttons
-    initFloatingButtons();
+    // Set initial volume
+    setAudioVolume(appState.currentVolume);
     
-    // Setup particles animation
-    initParticles();
+    // Setup event listeners
+    setupEventListeners();
     
     // Load questions
     loadQuestions();
     
-    // Setup all event listeners
-    setupEventListeners();
-    
     // Play opening audio
-    playAudio('openingAudio');
+    playOpeningAudio();
     
     // Check for admin access
     if (window.location.hash === '#admin') {
@@ -73,315 +69,790 @@ function initApp() {
   }
 }
 
-// Initialize audio system with better error handling
-function initAudioSystem() {
+// Setup audio context for better mobile compatibility
+function setupAudioContext() {
   try {
-    // Create audio context for better mobile compatibility
+    // Create audio context
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     appState.audioContext = new AudioContext();
     
-    // Resume audio context on first user interaction
-    document.addEventListener('click', function initAudio() {
+    // Resume audio context on user interaction
+    document.body.addEventListener('click', function() {
       if (appState.audioContext.state === 'suspended') {
         appState.audioContext.resume();
       }
-      document.removeEventListener('click', initAudio);
     }, { once: true });
     
-    // Set initial volume
-    setAudioVolume(appState.currentVolume);
-    
   } catch (error) {
-    console.error('Audio system initialization error:', error);
+    console.error('Audio context setup error:', error);
   }
 }
 
-// Initialize floating buttons with proper functionality
-function initFloatingButtons() {
-  const buttons = [
-    { id: 'adminBtn', handler: toggleAdminPanel },
-    { id: 'bankSoalBtn', handler: toggleBankPanel },
-    { id: 'goToBtn', handler: toggleGoToPanel },
-    { id: 'shareBtn', handler: toggleSharePanel },
-    { id: 'whatsappBtn', handler: openWhatsApp }
-  ];
-  
-  buttons.forEach(button => {
-    const btn = document.getElementById(button.id);
-    if (btn) {
-      btn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        playAudio('buttonAudio');
-        button.handler();
+// Play opening audio
+function playOpeningAudio() {
+  try {
+    const openingAudio = document.getElementById('openingAudio');
+    const playPromise = openingAudio.play();
+    
+    if (playPromise !== undefined) {
+      playPromise.catch(error => {
+        console.log('Autoplay prevented, showing play button');
+        document.getElementById('audioPlayBtn').style.display = 'block';
       });
     }
-  });
-  
-  // Volume control buttons
-  const muteBtn = document.getElementById('muteBtn');
-  const volumeSlider = document.getElementById('volumeSlider');
-  
-  if (muteBtn) {
-    muteBtn.addEventListener('click', function() {
-      playAudio('buttonAudio');
-      toggleMute();
-    });
-  }
-  
-  if (volumeSlider) {
-    volumeSlider.addEventListener('input', updateVolume);
+  } catch (error) {
+    console.error('Opening audio error:', error);
   }
 }
 
-// Initialize particles.js with gradient background
-function initParticles() {
-  if (typeof particlesJS !== 'undefined' && !appState.particlesInitialized) {
-    particlesJS('particles-js', {
-      particles: {
-        number: { value: 80, density: { enable: true, value_area: 800 } },
-        color: { value: "#ffffff" },
-        shape: { type: "circle" },
-        opacity: { value: 0.5, random: true },
-        size: { value: 3, random: true },
-        line_linked: { enable: true, distance: 150, color: "#ffffff", opacity: 0.4, width: 1 },
-        move: { enable: true, speed: 1, direction: "none", random: true }
-      },
-      interactivity: {
-        detect_on: "canvas",
-        events: {
-          onhover: { enable: true, mode: "grab" },
-          onclick: { enable: true, mode: "push" }
-        }
+// Set audio volume for all audio elements
+function setAudioVolume(volume) {
+  try {
+    const audioElements = [
+      'openingAudio', 'buttonAudio', 'correctAudio', 
+      'wrongAudio', 'applauseAudio', 'bgAudio'
+    ];
+    
+    audioElements.forEach(id => {
+      const audio = document.getElementById(id);
+      if (audio) {
+        audio.volume = volume;
       }
     });
-    appState.particlesInitialized = true;
     
-    // Add gradient background
-    const canvas = document.querySelector('#particles-js canvas');
-    if (canvas) {
-      canvas.style.background = 'linear-gradient(135deg, #FF8C00 70%, #90EE90 30%)';
+    // Update mute state
+    if (volume === 0) {
+      appState.isMuted = true;
+      document.getElementById('muteBtn').innerHTML = '<i class="fas fa-volume-mute"></i>';
+    } else {
+      appState.isMuted = false;
+      document.getElementById('muteBtn').innerHTML = '<i class="fas fa-volume-up"></i>';
     }
+    
+  } catch (error) {
+    console.error('Volume setting error:', error);
   }
 }
 
-// Enhanced audio functions
-function playAudio(audioId) {
-  if (appState.isMuted) return;
-  
-  const audio = document.getElementById(audioId);
-  if (audio) {
-    audio.currentTime = 0;
-    audio.play().catch(e => console.log('Audio play error:', e));
-  }
-}
-
-function setAudioVolume(volume) {
-  const audioElements = [
-    'openingAudio', 'buttonAudio', 'correctAudio', 
-    'wrongAudio', 'applauseAudio', 'bgAudio'
-  ];
-  
-  audioElements.forEach(id => {
-    const audio = document.getElementById(id);
-    if (audio) audio.volume = volume;
-  });
-  
-  appState.currentVolume = volume;
-  
-  // Update UI
-  const muteBtn = document.getElementById('muteBtn');
-  if (muteBtn) {
-    muteBtn.innerHTML = `<i class="fas fa-volume-${volume === 0 ? 'mute' : 'up'}"></i>`;
-  }
-  
-  if (volume === 0) {
-    appState.isMuted = true;
-  } else {
-    appState.isMuted = false;
-  }
-}
-
+// Toggle mute
 function toggleMute() {
-  appState.isMuted = !appState.isMuted;
-  setAudioVolume(appState.isMuted ? 0 : appState.currentVolume);
+  try {
+    appState.isMuted = !appState.isMuted;
+    setAudioVolume(appState.isMuted ? 0 : appState.currentVolume);
+    
+    // Show/hide volume slider
+    const volumeSlider = document.getElementById('volumeSlider');
+    if (volumeSlider) {
+      volumeSlider.style.display = appState.isMuted ? 'none' : 'block';
+    }
+    
+  } catch (error) {
+    console.error('Mute toggle error:', error);
+  }
+}
+
+// Update volume from slider
+function updateVolume() {
+  try {
+    const volumeSlider = document.getElementById('volumeSlider');
+    if (volumeSlider) {
+      appState.currentVolume = parseFloat(volumeSlider.value);
+      setAudioVolume(appState.currentVolume);
+    }
+  } catch (error) {
+    console.error('Volume update error:', error);
+  }
+}
+
+// Show specific screen
+function showScreen(screenName) {
+  try {
+    // Hide all screens
+    document.querySelectorAll('.screen').forEach(screen => {
+      screen.classList.remove('active');
+    });
+    
+    // Show requested screen
+    const screen = document.getElementById(screenName + 'Screen');
+    if (screen) {
+      screen.classList.add('active');
+      appState.currentScreen = screenName;
+      
+      // Special handling for certain screens
+      if (screenName === 'results') {
+        generateCertificate();
+      }
+    }
+    
+  } catch (error) {
+    console.error('Screen transition error:', error);
+  }
+}
+
+// Generate certificate
+function generateCertificate() {
+  try {
+    const score = Math.round((appState.correctCount / appState.questions.length) * 100);
+    
+    // Generate certificate code
+    const now = new Date();
+    const dateStr = `${now.getDate()}${now.getMonth()+1}${now.getFullYear()}`;
+    const randomCode = Math.random().toString(36).substring(2,6).toUpperCase();
+    
+    let codeParts = [
+      appState.participantData.fullName.replace(/\s+/g, '_').toUpperCase(),
+      appState.participantData.status.toUpperCase(),
+      appState.participantData.status === 'pelajar' ? appState.participantData.schoolLevel.toUpperCase() : '',
+      appState.participantData.status === 'pelajar' ? appState.examData.subject.toUpperCase() : appState.examData.category.toUpperCase(),
+      dateStr,
+      `${randomCode}-${Math.random().toString(36).substring(2,5).toUpperCase()}`,
+      'PERGUNU-STB'
+    ];
+    
+    // Update certificate elements
+    document.getElementById('certificateCode').textContent = codeParts.join('/');
+    document.getElementById('certificateName').textContent = appState.participantData.fullName;
+    
+    // Set achievement text
+    let achievementText = '';
+    if (appState.participantData.status === 'pelajar') {
+      achievementText = `Atas Partisipasi & Pencapaian Luar Biasa dalam <strong>Ujian Pergunu Situbondo</strong>`;
+    } else {
+      achievementText = appState.examData.category === 'cpns' 
+        ? `Atas Partisipasi & Pencapaian Luar Biasa dalam <strong>Sketsa Ujian CPNS/P3K Pergunu Situbondo</strong>`
+        : `Atas Partisipasi & Pencapaian Luar Biasa dalam <strong>Tes Logika Pergunu Situbondo</strong>`;
+    }
+    
+    document.getElementById('certificateAchievement').innerHTML = achievementText;
+    document.getElementById('certificateScore').textContent = score;
+    
+    // Set motivational message
+    const motivation = MOTIVATIONAL_MESSAGES.find(m => score >= m.min && score <= m.max);
+    document.getElementById('certificateMotivation').textContent = motivation ? motivation.message : '';
+    
+    // Format date
+    const options = { day: 'numeric', month: 'long', year: 'numeric' };
+    document.getElementById('certificateDate').textContent = `Ditetapkan di: Situbondo, ${now.toLocaleDateString('id-ID', options)}`;
+    
+    // Play applause sound
+    playSound('applauseAudio');
+    
+  } catch (error) {
+    console.error('Certificate generation error:', error);
+  }
+}
+
+// Play sound effect
+function playSound(audioId) {
+  try {
+    const audio = document.getElementById(audioId);
+    if (audio) {
+      audio.currentTime = 0;
+      audio.play().catch(e => console.log('Audio play error:', e));
+    }
+  } catch (error) {
+    console.error('Sound play error:', error);
+  }
+}
+
+// Start exam
+function startExam() {
+  try {
+    // Filter questions based on exam data
+    let filteredQuestions = [];
+    
+    if (appState.participantData.status === 'pelajar') {
+      filteredQuestions = appState.questions.filter(q => 
+        q.category === appState.examData.subject && 
+        q.level === appState.examData.level
+      );
+    } else {
+      filteredQuestions = appState.questions.filter(q => 
+        q.category === appState.examData.category
+      );
+    }
+    
+    // Shuffle questions and select first 20
+    appState.questions = shuffleArray(filteredQuestions).slice(0, 20);
+    
+    if (appState.questions.length === 0) {
+      showError('Tidak ada soal yang tersedia untuk kategori ini');
+      return;
+    }
+    
+    // Reset exam state
+    appState.currentQuestionIndex = 0;
+    appState.answeredQuestions = 0;
+    appState.correctCount = 0;
+    appState.wrongCount = 0;
+    appState.timeLeft = 90 * 60; // 90 minutes
+    appState.examStarted = true;
+    
+    // Update UI
+    document.getElementById('totalQuestions').textContent = appState.questions.length;
+    document.getElementById('currentQuestion').textContent = 1;
+    
+    // Start timer
+    startTimer();
+    
+    // Show first question
+    showQuestion();
+    
+    // Play background music
+    playBackgroundMusic();
+    
+    // Show exam screen
+    showScreen('exam');
+    
+  } catch (error) {
+    console.error('Exam start error:', error);
+    showError('Gagal memulai ujian');
+  }
+}
+
+// Start exam timer
+function startTimer() {
+  clearInterval(appState.timerInterval);
+  
+  appState.timerInterval = setInterval(() => {
+    appState.timeLeft--;
+    
+    if (appState.timeLeft <= 0) {
+      clearInterval(appState.timerInterval);
+      finishExam();
+      return;
+    }
+    
+    // Update timer display
+    const minutes = Math.floor(appState.timeLeft / 60);
+    const seconds = appState.timeLeft % 60;
+    const timerElement = document.getElementById('examTimer');
+    
+    if (timerElement) {
+      timerElement.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+      
+      // Add warning style when time is running out
+      if (appState.timeLeft <= 600) { // 10 minutes
+        timerElement.classList.add('timer-warning');
+      }
+    }
+    
+  }, 1000);
+}
+
+// Show current question
+function showQuestion() {
+  try {
+    if (appState.currentQuestionIndex >= appState.questions.length) {
+      finishExam();
+      return;
+    }
+    
+    const question = appState.questions[appState.currentQuestionIndex];
+    
+    // Update question text
+    document.getElementById('questionText').textContent = question.text;
+    
+    // Update option buttons
+    const optionButtons = document.querySelectorAll('.option-btn');
+    optionButtons.forEach((button, index) => {
+      const optionLetter = button.querySelector('.option-letter');
+      const optionText = button.querySelector('.option-text');
+      
+      optionText.textContent = question.options[index];
+      button.dataset.option = String.fromCharCode(65 + index); // A, B, C, D, E
+      
+      // Reset button styles
+      button.classList.remove('correct', 'incorrect', 'selected');
+      button.disabled = false;
+    });
+    
+    // Hide feedback
+    document.getElementById('answerFeedback').style.display = 'none';
+    
+    // Update current question number
+    document.getElementById('currentQuestion').textContent = appState.currentQuestionIndex + 1;
+    
+  } catch (error) {
+    console.error('Question display error:', error);
+  }
+}
+
+// Handle answer selection
+function handleAnswer(selectedOption) {
+  try {
+    playSound('buttonAudio');
+    
+    const question = appState.questions[appState.currentQuestionIndex];
+    const isCorrect = selectedOption === question.correctAnswer;
+    
+    // Disable all option buttons
+    const optionButtons = document.querySelectorAll('.option-btn');
+    optionButtons.forEach(button => {
+      button.disabled = true;
+      
+      if (button.dataset.option === question.correctAnswer) {
+        button.classList.add('correct');
+      } else if (button.dataset.option === selectedOption && !isCorrect) {
+        button.classList.add('incorrect');
+      }
+    });
+    
+    // Play correct/wrong sound
+    playSound(isCorrect ? 'correctAudio' : 'wrongAudio');
+    
+    // Update counts
+    if (isCorrect) {
+      appState.correctCount++;
+    } else {
+      appState.wrongCount++;
+    }
+    
+    appState.answeredQuestions++;
+    
+    // Show feedback
+    document.getElementById('feedbackTitle').textContent = isCorrect ? 'Jawaban Benar!' : 'Jawaban Salah';
+    document.getElementById('feedbackText').textContent = isCorrect ? 'Anda telah memilih jawaban yang benar.' : `Jawaban Anda: ${selectedOption}`;
+    document.getElementById('correctAnswerText').textContent = `Jawaban benar: ${question.correctAnswer}`;
+    document.getElementById('answerFeedback').style.display = 'block';
+    
+  } catch (error) {
+    console.error('Answer handling error:', error);
+  }
+}
+
+// Finish exam
+function finishExam() {
+  try {
+    clearInterval(appState.timerInterval);
+    appState.examStarted = false;
+    
+    // Stop background music
+    const bgAudio = document.getElementById('bgAudio');
+    if (bgAudio) {
+      bgAudio.pause();
+    }
+    
+    // Calculate score
+    const score = Math.round((appState.correctCount / appState.questions.length) * 100);
+    
+    // Update results screen
+    document.getElementById('finalScore').textContent = score;
+    document.getElementById('totalQuestionsResult').textContent = appState.questions.length;
+    document.getElementById('correctAnswers').textContent = appState.correctCount;
+    document.getElementById('wrongAnswers').textContent = appState.wrongCount;
+    document.getElementById('unanswered').textContent = appState.questions.length - appState.answeredQuestions;
+    
+    // Show results screen
+    showScreen('results');
+    
+  } catch (error) {
+    console.error('Exam finish error:', error);
+    showError('Gagal menyelesaikan ujian');
+  }
+}
+
+// Shuffle array
+function shuffleArray(array) {
+  const newArray = [...array];
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+  }
+  return newArray;
+}
+
+// Show error message
+function showError(message) {
+  try {
+    const errorElement = document.getElementById('errorMessage');
+    if (errorElement) {
+      errorElement.textContent = message;
+      errorElement.style.display = 'block';
+      setTimeout(() => {
+        errorElement.style.display = 'none';
+      }, 5000);
+    }
+  } catch (error) {
+    console.error('Error display error:', error);
+  }
+}
+
+// Setup event listeners
+function setupEventListeners() {
+  try {
+    // Audio play button
+    document.getElementById('audioPlayBtn').addEventListener('click', playAllAudio);
+    
+    // Volume control
+    document.getElementById('muteBtn').addEventListener('click', toggleMute);
+    document.getElementById('volumeSlider').addEventListener('input', updateVolume);
+    
+    // Login screen
+    document.getElementById('submitLogin').addEventListener('click', handleLogin);
+    document.getElementById('loginCode').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') handleLogin();
+    });
+    
+    // Terms screen
+    document.getElementById('agreeTerms').addEventListener('change', (e) => {
+      document.getElementById('continueBtn').disabled = !e.target.checked;
+      playSound('buttonAudio');
+    });
+    document.getElementById('continueBtn').addEventListener('click', () => {
+      playSound('buttonAudio');
+      showScreen('registration');
+    });
+    
+    // Registration form
+    document.querySelectorAll('input[name="status"]').forEach(radio => {
+      radio.addEventListener('change', handleStatusChange);
+    });
+    document.getElementById('participantForm').addEventListener('submit', handleRegistrationSubmit);
+    
+    // Exam selection
+    document.querySelectorAll('.exam-option').forEach(option => {
+      option.addEventListener('click', () => {
+        appState.examData.level = option.dataset.level;
+        playSound('buttonAudio');
+      });
+    });
+    
+    // More event listeners...
+    
+  } catch (error) {
+    console.error('Event listener setup error:', error);
+  }
+}
+
+// More functions...
+
+// DOM Elements
+const screens = document.querySelectorAll('.screen');
+const loginScreen = document.getElementById('welcomeScreen');
+const termsScreen = document.getElementById('termsScreen');
+const registrationScreen = document.getElementById('registrationScreen');
+const examSelectionScreen = document.getElementById('examSelectionScreen');
+const examScreen = document.getElementById('examScreen');
+const resultsScreen = document.getElementById('resultsScreen');
+
+// Audio Elements
+const openingAudio = document.getElementById('openingAudio');
+const buttonAudio = document.getElementById('buttonAudio');
+const correctAudio = document.getElementById('correctAudio');
+const wrongAudio = document.getElementById('wrongAudio');
+const applauseAudio = document.getElementById('applauseAudio');
+const bgAudio = document.getElementById('bgAudio');
+
+// Login Screen
+const loginCodeInput = document.getElementById('loginCode');
+const submitLoginBtn = document.getElementById('submitLogin');
+const loginError = document.getElementById('loginError');
+
+// Terms Screen
+const agreeTermsCheckbox = document.getElementById('agreeTerms');
+const continueBtn = document.getElementById('continueBtn');
+
+// Registration Form
+const participantForm = document.getElementById('participantForm');
+const statusRadios = document.querySelectorAll('input[name="status"]');
+const pelajarFields = document.getElementById('pelajarFields');
+const umumFields = document.getElementById('umumFields');
+
+// Exam Selection
+const pelajarExamOptions = document.getElementById('pelajarExamOptions');
+const umumExamOptions = document.getElementById('umumExamOptions');
+const examOptions = document.querySelectorAll('.exam-option');
+const subjectOptions = document.querySelectorAll('.subject-option');
+const generalOptions = document.querySelectorAll('.general-option');
+const cpnsLicenseContainer = document.getElementById('cpnsLicenseContainer');
+const licenseCodeInput = document.getElementById('licenseCode');
+const submitLicenseBtn = document.getElementById('submitLicense');
+const licenseError = document.getElementById('licenseError');
+
+// Exam Screen
+const examTimer = document.getElementById('examTimer');
+const questionText = document.getElementById('questionText');
+const optionButtons = document.querySelectorAll('.option-btn');
+const answerFeedback = document.getElementById('answerFeedback');
+const feedbackTitle = document.getElementById('feedbackTitle');
+const feedbackText = document.getElementById('feedbackText');
+const correctAnswerText = document.getElementById('correctAnswerText');
+const nextQuestionBtn = document.getElementById('nextQuestionBtn');
+const skipQuestionBtn = document.getElementById('skipQuestionBtn');
+const unansweredBtn = document.getElementById('unansweredBtn');
+const finishExamBtn = document.getElementById('finishExamBtn');
+const currentQuestionSpan = document.getElementById('currentQuestion');
+const totalQuestionsSpan = document.getElementById('totalQuestions');
+
+// Results Screen
+const finalScore = document.getElementById('finalScore');
+const totalQuestionsResult = document.getElementById('totalQuestionsResult');
+const correctAnswers = document.getElementById('correctAnswers');
+const wrongAnswers = document.getElementById('wrongAnswers');
+const unanswered = document.getElementById('unanswered');
+const certificateCode = document.getElementById('certificateCode');
+const certificateName = document.getElementById('certificateName');
+const certificateAchievement = document.getElementById('certificateAchievement');
+const certificateScore = document.getElementById('certificateScore');
+const certificateMotivation = document.getElementById('certificateMotivation');
+const certificateDate = document.getElementById('certificateDate');
+const printCertificateBtn = document.getElementById('printCertificateBtn');
+const retakeExamBtn = document.getElementById('retakeExamBtn');
+
+// Floating Buttons
+const floatingButtons = document.querySelector('.floating-buttons');
+const shareBtn = document.getElementById('shareBtn');
+const whatsappBtn = document.getElementById('whatsappBtn');
+const goToBtn = document.getElementById('goToBtn');
+const bankSoalBtn = document.getElementById('bankSoalBtn');
+const adminBtn = document.getElementById('adminBtn');
+const muteBtn = document.getElementById('muteBtn');
+const volumeSlider = document.getElementById('volumeSlider');
+const audioPlayBtn = document.getElementById('audioPlayBtn');
+
+// Admin Panel
+const adminPanel = document.getElementById('adminPanel');
+const closeAdminBtn = document.getElementById('closeAdminBtn');
+const adminTabs = document.querySelectorAll('.admin-tab');
+const adminTabContents = document.querySelectorAll('.admin-tab-content');
+
+// Bank Soal Panel
+const bankSoalPanel = document.getElementById('bankSoalPanel');
+const closeBankBtn = document.getElementById('closeBankBtn');
+const bankTabs = document.querySelectorAll('.bank-tab');
+const bankTabContents = document.querySelectorAll('.bank-tab-content');
+
+// Share Panel
+const sharePanel = document.getElementById('sharePanel');
+const closeShareBtn = document.getElementById('closeShareBtn');
+const shareLink = document.getElementById('shareLink');
+const copyLinkBtn = document.getElementById('copyLinkBtn');
+
+// Go To Panel
+const goToPanel = document.getElementById('goToPanel');
+const closeGoToBtn = document.getElementById('closeGoToBtn');
+
+// App State
+let currentScreen = 'welcome';
+let participantData = {};
+let examData = {};
+let questions = [];
+let currentQuestionIndex = 0;
+let answeredQuestions = 0;
+let correctCount = 0;
+let wrongCount = 0;
+let timerInterval;
+let timeLeft = 90 * 60; // 90 minutes in seconds
+let examStarted = false;
+let isMuted = false;
+let currentVolume = 0.7;
+
+// Default codes
+const DEFAULT_LOGIN_CODE = '12345';
+const DEFAULT_CPNS_CODE = 'CPNSP3K-OPENLOCK';
+const DEFAULT_BANK_SOAL_CODE = 'BANKSOAL-OPENLOCK';
+const DEFAULT_ADMIN_CODE = '65614222';
+
+// Motivational messages based on score
+const MOTIVATIONAL_MESSAGES = [
+    { min: 0, max: 40, message: "Masih ada ruang untuk perbaikan. Teruslah belajar dan berlatih!" },
+    { min: 41, max: 60, message: "Hasil yang cukup baik. Tingkatkan lagi pemahaman Anda!" },
+    { min: 61, max: 75, message: "Kerja bagus! Anda telah menunjukkan pemahaman yang baik." },
+    { min: 76, max: 85, message: "Prestasi yang sangat baik! Pertahankan semangat belajar Anda." },
+    { min: 86, max: 95, message: "Luar biasa! Anda benar-benar menguasai materi ini." },
+    { min: 96, max: 100, message: "Sempurna! Anda sangat luar biasa dalam menguasai materi ini. Pertahankan prestasi ini." }
+];
+
+// Initialize the app
+function init() {
+    // Set initial volume
+    setAudioVolume(currentVolume);
+    
+    // Try to play opening audio
+    playOpeningAudio();
+    
+    // Setup event listeners
+    setupEventListeners();
+    
+    // Load questions
+    loadQuestions();
+}
+
+// Enhanced certificate generation
+function generateCertificate(score) {
+    // Generate certificate code
+    const now = new Date();
+    const dateStr = `${now.getDate()}${now.getMonth()+1}${now.getFullYear()}`;
+    const randomCode = Math.random().toString(36).substring(2,6).toUpperCase();
+    
+    let codeParts = [
+        participantData.fullName.replace(/\s+/g, '_').toUpperCase(),
+        participantData.status.toUpperCase(),
+        participantData.status === 'pelajar' ? participantData.schoolLevel.toUpperCase() : '',
+        participantData.status === 'pelajar' ? examData.subject.toUpperCase() : examData.category.toUpperCase(),
+        dateStr,
+        `${randomCode}-${Math.random().toString(36).substring(2,5).toUpperCase()}`,
+        'PERGUNU-STB'
+    ];
+    
+    certificateCode.textContent = codeParts.join('/');
+    certificateName.textContent = participantData.fullName;
+    
+    // Set achievement text based on exam type
+    let achievementText = '';
+    if (participantData.status === 'pelajar') {
+        achievementText = `Atas Partisipasi & Pencapaian Luar Biasa dalam <strong>Ujian Pergunu Situbondo</strong>`;
+    } else {
+        achievementText = examData.category === 'cpns' 
+            ? `Atas Partisipasi & Pencapaian Luar Biasa dalam <strong>Sketsa Ujian CPNS/P3K Pergunu Situbondo</strong>`
+            : `Atas Partisipasi & Pencapaian Luar Biasa dalam <strong>Tes Logika Pergunu Situbondo</strong>`;
+    }
+    
+    certificateAchievement.innerHTML = achievementText;
+    certificateScore.textContent = score;
+    
+    // Set motivational message based on score
+    const motivation = MOTIVATIONAL_MESSAGES.find(m => score >= m.min && score <= m.max);
+    certificateMotivation.textContent = motivation ? motivation.message : '';
+    
+    // Format date
+    const options = { day: 'numeric', month: 'long', year: 'numeric' };
+    certificateDate.textContent = `Ditetapkan di: Situbondo, ${now.toLocaleDateString('id-ID', options)}`;
+    
+    // Play applause sound
+    applauseAudio.currentTime = 0;
+    applauseAudio.play().catch(e => console.log('Applause audio error:', e));
+}
+
+function getMotivationalMessage(score) {
+    if (score >= 96) return "Sempurna! Anda sangat luar biasa dalam menguasai materi ini. Pertahankan prestasi ini.";
+    if (score >= 86) return "Luar biasa! Anda benar-benar menguasai materi ini.";
+    if (score >= 76) return "Prestasi yang sangat baik! Pertahankan semangat belajar Anda.";
+    if (score >= 61) return "Kerja bagus! Anda telah menunjukkan pemahaman yang baik.";
+    if (score >= 41) return "Hasil yang cukup baik. Tingkatkan lagi pemahaman Anda!";
+    return "Masih ada ruang untuk perbaikan. Teruslah belajar dan berlatih!";
+}
+
+/ Enhanced CPNS license verification
+function handleLicenseSubmit() {
+    playButtonSound();
+    
+    if (licenseCodeInput.value === currentCodes.cpns) {
+        licenseError.textContent = '';
+        startExam();
+    } else {
+        licenseError.textContent = 'Kode Lisensi salah. Silakan coba lagi.';
+        licenseCodeInput.focus();
+    }
+}
+function playOpeningAudio() {
+    const playPromise = openingAudio.play();
+    
+    if (playPromise !== undefined) {
+        playPromise.catch(error => {
+            console.log('Autoplay prevented, showing play button');
+            audioPlayBtn.style.display = 'block';
+        });
+    }
+}
+
+function playAllAudio() {
+    openingAudio.play().then(() => {
+        audioPlayBtn.style.display = 'none';
+    }).catch(error => {
+        console.log('Audio play failed:', error);
+    });
+    
+    bgAudio.play().catch(error => {
+        console.log('Background audio play failed:', error);
+    });
+}
+
+// Set audio volume for all audio elements
+function setAudioVolume(volume) {
+    openingAudio.volume = volume;
+    buttonAudio.volume = volume;
+    correctAudio.volume = volume;
+    wrongAudio.volume = volume;
+    applauseAudio.volume = volume;
+    bgAudio.volume = volume;
+}
+
+// Toggle mute
+function toggleMute() {
+    isMuted = !isMuted;
+    setAudioVolume(isMuted ? 0 : currentVolume);
+    muteBtn.innerHTML = `<i class="fas fa-volume-${isMuted ? 'mute' : 'up'}"></i>`;
+    volumeSlider.style.display = isMuted ? 'none' : 'block';
 }
 
 function updateVolume() {
-  const volumeSlider = document.getElementById('volumeSlider');
-  if (volumeSlider) {
-    const newVolume = parseFloat(volumeSlider.value);
-    setAudioVolume(newVolume);
-  }
-}
-
-// Panel toggle functions
-function toggleAdminPanel() {
-  const adminCode = prompt('Masukkan Kode Admin:');
-  if (adminCode === DEFAULT_CODES.ADMIN) {
-    document.getElementById('adminPanel').style.display = 'flex';
-    playAudio('buttonAudio');
-  } else if (adminCode) {
-    alert('Kode Admin salah');
-    playAudio('wrongAudio');
-  }
-}
-
-function toggleBankPanel() {
-  const bankCode = prompt('Masukkan Kode Bank Soal:');
-  if (bankCode === DEFAULT_CODES.BANK_SOAL) {
-    document.getElementById('bankSoalPanel').style.display = 'flex';
-    playAudio('buttonAudio');
-  } else if (bankCode) {
-    alert('Kode Bank Soal salah');
-    playAudio('wrongAudio');
-  }
-}
-
-function toggleGoToPanel() {
-  const panel = document.getElementById('goToPanel');
-  panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
-  document.getElementById('sharePanel').style.display = 'none';
-  playAudio('buttonAudio');
-}
-
-function toggleSharePanel() {
-  const panel = document.getElementById('sharePanel');
-  panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
-  document.getElementById('goToPanel').style.display = 'none';
-  document.getElementById('shareLink').value = window.location.href;
-  playAudio('buttonAudio');
-}
-
-function openWhatsApp() {
-  window.open('https://wa.me/6285647709114?text=Assalamualaikum%20mas%20admin,%20saya%20mau%20tanya%20sesuatu%20nih...', '_blank');
-  playAudio('buttonAudio');
-}
-
-// Enhanced login handling
-function handleLogin() {
-  const loginCodeInput = document.getElementById('loginCode');
-  const loginError = document.getElementById('loginError');
-  
-  playAudio('buttonAudio');
-  
-  if (loginCodeInput.value === DEFAULT_CODES.LOGIN) {
-    loginError.textContent = '';
-    showScreen('terms');
-  } else {
-    loginError.textContent = 'Kode Login salah. Silakan coba lagi.';
-    loginCodeInput.focus();
-    playAudio('wrongAudio');
+    currentVolume = parseFloat(volumeSlider.value);
+    setAudioVolume(currentVolume);
     
-    // Add shake animation
-    loginCodeInput.classList.add('shake');
-    setTimeout(() => {
-      loginCodeInput.classList.remove('shake');
-    }, 500);
-  }
-}
-
-// Screen management
-function showScreen(screenName) {
-  // Hide all screens
-  document.querySelectorAll('.screen').forEach(screen => {
-    screen.classList.remove('active');
-  });
-  
-  // Show requested screen
-  const screen = document.getElementById(`${screenName}Screen`);
-  if (screen) {
-    screen.classList.add('active');
-    appState.currentScreen = screenName;
-    
-    // Special handling for certain screens
-    if (screenName === 'results') {
-      generateCertificate();
+    if (currentVolume === 0) {
+        muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+        isMuted = true;
+    } else {
+        muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+        isMuted = false;
     }
-  }
 }
 
-// Certificate generation
-function generateCertificate() {
-  const score = Math.round((appState.correctCount / appState.questions.length) * 100);
-  const now = new Date();
-  
-  // Generate certificate code
-  const dateStr = `${now.getDate()}${now.getMonth()+1}${now.getFullYear()}`;
-  const randomCode = Math.random().toString(36).substring(2,6).toUpperCase();
-  
-  let codeParts = [
-    appState.participantData.fullName.replace(/\s+/g, '_').toUpperCase(),
-    appState.participantData.status.toUpperCase(),
-    appState.participantData.status === 'pelajar' ? appState.participantData.schoolLevel.toUpperCase() : '',
-    appState.participantData.status === 'pelajar' ? appState.examData.subject.toUpperCase() : appState.examData.category.toUpperCase(),
-    dateStr,
-    `${randomCode}-${Math.random().toString(36).substring(2,5).toUpperCase()}`,
-    'PERGUNU-STB'
-  ];
-  
-  // Update certificate elements
-  document.getElementById('certificateCode').textContent = codeParts.join('/');
-  document.getElementById('certificateName').textContent = appState.participantData.fullName;
-  
-  // Set achievement text
-  let achievementText = '';
-  if (appState.participantData.status === 'pelajar') {
-    achievementText = `Atas Partisipasi & Pencapaian Luar Biasa dalam <strong>Ujian Pergunu Situbondo</strong>`;
-  } else {
-    achievementText = appState.examData.category === 'cpns' 
-      ? `Atas Partisipasi & Pencapaian Luar Biasa dalam <strong>Sketsa Ujian CPNS/P3K Pergunu Situbondo</strong>`
-      : `Atas Partisipasi & Pencapaian Luar Biasa dalam <strong>Tes Logika Pergunu Situbondo</strong>`;
-  }
-  
-  document.getElementById('certificateAchievement').innerHTML = achievementText;
-  document.getElementById('certificateScore').textContent = score;
-  
-  // Set motivational message
-  const motivation = MOTIVATIONAL_MESSAGES.find(m => score >= m.min && score <= m.max);
-  document.getElementById('certificateMotivation').textContent = motivation ? motivation.message : '';
-  
-  // Format date
-  const options = { day: 'numeric', month: 'long', year: 'numeric' };
-  document.getElementById('certificateDate').textContent = `Ditetapkan di: Situbondo, ${now.toLocaleDateString('id-ID', options)}`;
-  
-  // Play applause sound
-  playAudio('applauseAudio');
+// Update volume
+function updateVolume() {
+    currentVolume = parseFloat(volumeSlider.value);
+    setAudioVolume(currentVolume);
+    
+    if (currentVolume === 0) {
+        muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+        isMuted = true;
+    } else {
+        muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+        isMuted = false;
+    }
 }
 
-// Setup all event listeners
+// Set up all event listeners
 function setupEventListeners() {
-  // Login screen
-  document.getElementById('submitLogin').addEventListener('click', handleLogin);
-  document.getElementById('loginCode').addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') handleLogin();
-  });
-  
-  // Terms screen
-  document.getElementById('agreeTerms').addEventListener('change', (e) => {
-    document.getElementById('continueBtn').disabled = !e.target.checked;
-    playAudio('buttonAudio');
-  });
-  document.getElementById('continueBtn').addEventListener('click', () => {
-    playAudio('buttonAudio');
-    showScreen('registration');
-  });
-  
-  // Registration form
-  document.querySelectorAll('input[name="status"]').forEach(radio => {
-    radio.addEventListener('change', handleStatusChange);
-  });
-  document.getElementById('participantForm').addEventListener('submit', handleRegistrationSubmit);
-  
-  // Exam selection
-  document.querySelectorAll('.exam-option').forEach(option => {
-    option.addEventListener('click', () => {
-      appState.examData.level = option.dataset.level;
-      playAudio('buttonAudio');
+    // Audio play button
+    audioPlayBtn.addEventListener('click', playAllAudio);
+    
+    // Volume control
+    muteBtn.addEventListener('click', toggleMute);
+    volumeSlider.addEventListener('input', updateVolume);
+    
+    // Login screen
+    submitLoginBtn.addEventListener('click', handleLogin);
+    loginCodeInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') handleLogin();
     });
-  });
-  
-  // More event listeners...
-}
+    
+    // Terms screen
+    agreeTermsCheckbox.addEventListener('change', (e) => {
+        continueBtn.disabled = !e.target.checked;
+        playButtonSound();
+    });
+    continueBtn.addEventListener('click', () => {
+        playButtonSound();
+        showScreen('registration');
+    });
+    
+    // Registration form
+    statusRadios.forEach(radio => {
+        radio.addEventListener('change', handleStatusChange);
+    });
+    participantForm.addEventListener('submit', handleRegistrationSubmit);
+    
+    // Exam selection
+    examOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            examData.level = option.dataset.level;
+            playButtonSound();
+        });
+    });
+    
     subjectOptions.forEach(option => {
         option.addEventListener('click', () => {
             examData.subject = option.dataset.subject;
