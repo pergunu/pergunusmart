@@ -1,3 +1,44 @@
+// Update setting-group untuk toggle ujian
+const settingGroup = document.querySelector('.toggle-group');
+settingGroup.innerHTML = `
+    <label class="toggle-label">
+        <input type="checkbox" id="toggle-agama" checked> AGAMA
+    </label>
+    <label class="toggle-label">
+        <input type="checkbox" id="toggle-ppkn" checked> PPKN
+    </label>
+    <label class="toggle-label">
+        <input type="checkbox" id="toggle-sejarah" checked> SEJARAH
+    </label>
+    <label class="toggle-label">
+        <input type="checkbox" id="toggle-ipa" checked> IPA
+    </label>
+    <label class="toggle-label">
+        <input type="checkbox" id="toggle-ips" checked> IPS
+    </label>
+    <label class="toggle-label">
+        <input type="checkbox" id="toggle-matematika" checked> MATEMATIKA
+    </label>
+    <label class="toggle-label">
+        <input type="checkbox" id="toggle-indonesia" checked> BAHASA INDONESIA
+    </label>
+    <label class="toggle-label">
+        <input type="checkbox" id="toggle-inggris" checked> BAHASA INGGRIS
+    </label>
+    <label class="toggle-label">
+        <input type="checkbox" id="toggle-extra" checked> MATERI EXTRA
+    </label>
+    <label class="toggle-label">
+        <input type="checkbox" id="toggle-khusus" checked> MATERI KHUSUS
+    </label>
+    <label class="toggle-label">
+        <input type="checkbox" id="toggle-logika" checked> UJIAN LOGIKA
+    </label>
+    <label class="toggle-label">
+        <input type="checkbox" id="toggle-cpns" checked> UJIAN CPNS/P3K
+    </label>
+`;
+
 // Admin Panel Functionality
 document.addEventListener('DOMContentLoaded', function() {
     // Tab switching
