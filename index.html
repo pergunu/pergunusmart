@@ -7,91 +7,41 @@
     <link rel="stylesheet" href="assets/css/animate.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="icon" href="assets/images/logo.png">
 </head>
 <body>
+    <div id="particles-js"></div>
+    
     <!-- Audio Elements -->
     <audio id="openingAudio" src="assets/audio/opening.mp3" preload="auto"></audio>
-    <audio id="buttonAudio" src="assets/audio/audiotombol.mp3" preload="auto"></audio>
-    <audio id="correctAudio" src="assets/audio/jawabanbenar.mp3" preload="auto"></audio>
-    <audio id="wrongAudio" src="assets/audio/jawabansalah.mp3" preload="auto"></audio>
+    <audio id="buttonAudio" src="assets/audio/button-click.mp3" preload="auto"></audio>
+    <audio id="correctAudio" src="assets/audio/correct-answer.mp3" preload="auto"></audio>
+    <audio id="wrongAudio" src="assets/audio/wrong-answer.mp3" preload="auto"></audio>
     <audio id="applauseAudio" src="assets/audio/applause.mp3" preload="auto"></audio>
-    <audio id="bgAudio" src="assets/audio/sholawat.mp3" loop preload="auto"></audio>
+    <audio id="bgAudio" src="assets/audio/background-music.mp3" loop preload="auto"></audio>
 
     <!-- Welcome Screen -->
-    <div id="welcomeScreen" class="screen active animate__animated animate__fadeIn">
-        </div>
-
-    <!-- Terms Screen -->
-    <div id="termsScreen" class="screen">
-        <!-- Content... -->
-    </div>
-
-    <!-- Registration Form -->
-    <div id="registrationScreen" class="screen">
-        <!-- Content... -->
-    </div>
-
-    <!-- Exam Selection Screen -->
-    <div id="examSelectionScreen" class="screen">
-        <!-- Content... -->
-    </div>
-
-    <!-- Exam Screen -->
-    <div id="examScreen" class="screen">
-        <!-- Content... -->
-    </div>
-
-    <!-- Results Screen -->
-    <div id="resultsScreen" class="screen">
-        <!-- Content... -->
-    </div>
-
-    <!-- Floating Buttons -->
-    <div class="floating-buttons">
-        <!-- Buttons... -->
-    </div>
-
-    <!-- Admin Panels -->
-    <div id="adminPanel" class="admin-overlay">
-        <!-- Content... -->
-    </div>
-
-    <!-- Bank Soal Panel -->
-    <div id="bankSoalPanel" class="admin-overlay">
-        <!-- Content... -->
-    </div>
-
-    <!-- Go To Panel -->
-    <div id="goToPanel" class="floating-panel">
-        <!-- Content... -->
-    </div>
-
-    <!-- Share Panel -->
-    <div id="sharePanel" class="floating-panel">
-        <!-- Content... -->
-    </div>
-
-    <!-- Audio Play Button -->
-    <button id="audioPlayBtn" style="display:none;" class="btn-primary floating-btn">
-        <i class="fas fa-play"></i>
-    </button>
-
-    <!-- Volume Control -->
-    <div id="volumeControl">
-        <button id="muteBtn" class="floating-btn" title="Mute/Unmute"><i class="fas fa-volume-up"></i></button>
-        <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="0.7" style="display:none;">
-    </div>
-        
-        <div class="welcome-container">
-            <img src="assets/images/logo.png" alt="PERGUNU Logo" class="logo animate__animated animate__bounceIn">
+    <div id="welcomeScreen" class="screen active">
+        <div class="welcome-container animate__animated animate__fadeIn">
+            <div class="logo-container animate__animated animate__bounceIn">
+                <img src="assets/images/logo.png" alt="PERGUNU Logo" class="logo">
+                <div class="logo-glow"></div>
+            </div>
             <h1 class="animate__animated animate__fadeInUp">PERGUNU SMART</h1>
             <p class="welcome-message animate__animated animate__fadeIn">Selamat datang di Sistem Ujian Online PERGUNU Situbondo</p>
             
             <div class="login-form animate__animated animate__fadeInUp">
-                <p>Silakan masukkan Kode Login untuk melanjutkan:</p>
-                <input type="password" id="loginCode" placeholder="Masukkan Kode Login">
-                <button id="submitLogin" class="btn-primary">Masuk</button>
+                <div class="input-group">
+                    <i class="fas fa-key input-icon"></i>
+                    <input type="password" id="loginCode" placeholder="Masukkan Kode Login">
+                </div>
+                <button id="submitLogin" class="btn-primary btn-glow">
+                    <span class="btn-text">Masuk</span>
+                    <i class="fas fa-arrow-right btn-icon"></i>
+                </button>
                 <p class="error-message" id="loginError"></p>
             </div>
             
@@ -121,7 +71,10 @@
                 <input type="checkbox" id="agreeTerms">
                 <label for="agreeTerms">Saya telah membaca dan menyetujui peraturan di atas</label>
             </div>
-            <button id="continueBtn" class="btn-primary" disabled>Lanjut Ikut Ujian</button>
+            <button id="continueBtn" class="btn-primary btn-glow" disabled>
+                <span class="btn-text">Lanjut Ikut Ujian</span>
+                <i class="fas fa-arrow-right btn-icon"></i>
+            </button>
         </div>
     </div>
 
@@ -199,7 +152,10 @@
                     </div>
                 </div>
                 
-                <button type="submit" class="btn-primary">Simpan & Ikut Ujian</button>
+                <button type="submit" class="btn-primary btn-glow">
+                    <span class="btn-text">Simpan & Ikut Ujian</span>
+                    <i class="fas fa-arrow-right btn-icon"></i>
+                </button>
             </form>
         </div>
     </div>
@@ -244,7 +200,10 @@
                     <div class="form-group">
                         <label for="licenseCode">Masukkan Kode Lisensi CPNS/P3K:</label>
                         <input type="password" id="licenseCode" placeholder="Masukkan Kode Lisensi">
-                        <button id="submitLicense" class="btn-primary">Verifikasi</button>
+                        <button id="submitLicense" class="btn-primary btn-glow">
+                            <span class="btn-text">Verifikasi</span>
+                            <i class="fas fa-check btn-icon"></i>
+                        </button>
                         <p class="error-message" id="licenseError"></p>
                     </div>
                 </div>
@@ -285,7 +244,10 @@
                     <h4 id="feedbackTitle">Jawaban Anda</h4>
                     <p id="feedbackText"></p>
                     <p id="correctAnswerText"></p>
-                    <button id="nextQuestionBtn" class="btn-primary">Soal Berikutnya</button>
+                    <button id="nextQuestionBtn" class="btn-primary btn-glow">
+                        <span class="btn-text">Soal Berikutnya</span>
+                        <i class="fas fa-arrow-right btn-icon"></i>
+                    </button>
                 </div>
             </div>
         </div>
@@ -293,7 +255,10 @@
         <div class="exam-footer">
             <button id="skipQuestionBtn" class="btn-secondary">Lewati Soal</button>
             <button id="unansweredBtn" class="btn-secondary">Soal Belum Dijawab</button>
-            <button id="finishExamBtn" class="btn-danger">Selesaikan Ujian Sekarang</button>
+            <button id="finishExamBtn" class="btn-danger btn-glow">
+                <span class="btn-text">Selesaikan Ujian Sekarang</span>
+                <i class="fas fa-flag-checkered btn-icon"></i>
+            </button>
         </div>
     </div>
 
@@ -342,19 +307,43 @@
             </div>
             
             <div class="results-buttons">
-                <button id="printCertificateBtn" class="btn-primary"><i class="fas fa-print"></i> Cetak Sertifikat</button>
-                <button id="retakeExamBtn" class="btn-secondary"><i class="fas fa-redo"></i> Ulangi Ujian</button>
+                <button id="printCertificateBtn" class="btn-primary btn-glow">
+                    <i class="fas fa-print"></i> Cetak Sertifikat
+                </button>
+                <button id="retakeExamBtn" class="btn-secondary">
+                    <i class="fas fa-redo"></i> Ulangi Ujian
+                </button>
             </div>
         </div>
     </div>
 
     <!-- Floating Buttons -->
     <div class="floating-buttons">
-        <button id="shareBtn" class="floating-btn" title="Bagikan Website"><i class="fas fa-share-alt"></i></button>
-        <button id="whatsappBtn" class="floating-btn" title="Chat WhatsApp Admin"><i class="fab fa-whatsapp"></i></button>
-        <button id="goToBtn" class="floating-btn" title="Daftar Website"><i class="fas fa-external-link-alt"></i></button>
-        <button id="bankSoalBtn" class="floating-btn" title="Bank Soal"><i class="fas fa-book"></i></button>
-        <button id="adminBtn" class="floating-btn" title="Kontrol Panel Admin"><i class="fas fa-cog"></i></button>
+        <div class="floating-btn-group">
+            <button id="adminBtn" class="floating-btn" title="Kontrol Panel Admin">
+                <i class="fas fa-cog"></i>
+            </button>
+            <button id="bankSoalBtn" class="floating-btn" title="Bank Soal">
+                <i class="fas fa-book"></i>
+            </button>
+            <button id="goToBtn" class="floating-btn" title="Daftar Website">
+                <i class="fas fa-external-link-alt"></i>
+            </button>
+            <button id="shareBtn" class="floating-btn" title="Bagikan Website">
+                <i class="fas fa-share-alt"></i>
+            </button>
+            <button id="whatsappBtn" class="floating-btn" title="Chat WhatsApp Admin">
+                <i class="fab fa-whatsapp"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Volume Control -->
+    <div class="volume-control">
+        <button id="muteBtn" class="volume-btn">
+            <i class="fas fa-volume-up"></i>
+        </button>
+        <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="0.7">
     </div>
 
     <!-- Admin Panels -->
@@ -386,7 +375,10 @@
                         <label for="currentLoginCode">Kode Login Lama:</label>
                         <input type="password" id="currentLoginCode">
                     </div>
-                    <button id="saveLoginCode" class="btn-primary">Simpan Kode</button>
+                    <button id="saveLoginCode" class="btn-primary btn-glow">
+                        <span class="btn-text">Simpan Kode</span>
+                        <i class="fas fa-save btn-icon"></i>
+                    </button>
                 </div>
                 
                 <!-- CPNS Code Tab -->
@@ -399,7 +391,10 @@
                         <label for="currentCpnsCode">Kode Ujian Lama:</label>
                         <input type="password" id="currentCpnsCode">
                     </div>
-                    <button id="saveCpnsCode" class="btn-primary">Simpan Kode</button>
+                    <button id="saveCpnsCode" class="btn-primary btn-glow">
+                        <span class="btn-text">Simpan Kode</span>
+                        <i class="fas fa-save btn-icon"></i>
+                    </button>
                 </div>
                 
                 <!-- Bank Soal Code Tab -->
@@ -412,7 +407,10 @@
                         <label for="currentBankCode">Kode Soal Lama:</label>
                         <input type="password" id="currentBankCode">
                     </div>
-                    <button id="saveBankCode" class="btn-primary">Simpan Kode</button>
+                    <button id="saveBankCode" class="btn-primary btn-glow">
+                        <span class="btn-text">Simpan Kode</span>
+                        <i class="fas fa-save btn-icon"></i>
+                    </button>
                 </div>
                 
                 <!-- Admin Code Tab -->
@@ -425,7 +423,10 @@
                         <label for="currentAdminCode">Kode Admin Lama:</label>
                         <input type="password" id="currentAdminCode">
                     </div>
-                    <button id="saveAdminCode" class="btn-primary">Simpan Kode Admin</button>
+                    <button id="saveAdminCode" class="btn-primary btn-glow">
+                        <span class="btn-text">Simpan Kode Admin</span>
+                        <i class="fas fa-save btn-icon"></i>
+                    </button>
                 </div>
                 
                 <!-- Exam Settings Tab -->
@@ -456,7 +457,10 @@
                             <input type="checkbox" id="enableCPNS" checked><label for="enableCPNS">CPNS/P3K</label>
                         </div>
                     </div>
-                    <button id="saveSettings" class="btn-primary">Simpan Pengaturan</button>
+                    <button id="saveSettings" class="btn-primary btn-glow">
+                        <span class="btn-text">Simpan Pengaturan</span>
+                        <i class="fas fa-save btn-icon"></i>
+                    </button>
                 </div>
                 
                 <!-- Music Settings Tab -->
@@ -466,14 +470,19 @@
                         <div id="musicList">
                             <!-- Music list will be loaded here -->
                         </div>
-                        <button id="addMusicBtn" class="btn-secondary">Tambah Musik</button>
+                        <button id="addMusicBtn" class="btn-secondary">
+                            <i class="fas fa-plus"></i> Tambah Musik
+                        </button>
                     </div>
                     
                     <div class="form-group">
                         <label for="newMusicUrl">URL Musik Baru:</label>
                         <input type="text" id="newMusicUrl" placeholder="https://example.com/music.mp3">
                         <input type="text" id="newMusicName" placeholder="Nama Musik">
-                        <button id="saveMusicBtn" class="btn-primary">Simpan Musik</button>
+                        <button id="saveMusicBtn" class="btn-primary btn-glow">
+                            <span class="btn-text">Simpan Musik</span>
+                            <i class="fas fa-save btn-icon"></i>
+                        </button>
                     </div>
                     
                     <div class="form-group">
@@ -491,14 +500,19 @@
                         <div id="websiteList">
                             <!-- Website list will be loaded here -->
                         </div>
-                        <button id="addWebsiteBtn" class="btn-secondary">Tambah Website</button>
+                        <button id="addWebsiteBtn" class="btn-secondary">
+                            <i class="fas fa-plus"></i> Tambah Website
+                        </button>
                     </div>
                     
                     <div class="form-group">
                         <label for="newWebsiteUrl">URL Website Baru:</label>
                         <input type="text" id="newWebsiteUrl" placeholder="https://example.com">
                         <input type="text" id="newWebsiteName" placeholder="Nama Website">
-                        <button id="saveWebsiteBtn" class="btn-primary">Simpan Website</button>
+                        <button id="saveWebsiteBtn" class="btn-primary btn-glow">
+                            <span class="btn-text">Simpan Website</span>
+                            <i class="fas fa-save btn-icon"></i>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -584,11 +598,18 @@
                     <div class="form-group">
                         <label for="aiGenerate">Generate dengan AI:</label>
                         <textarea id="aiPrompt" rows="2" placeholder="Masukkan prompt untuk menghasilkan soal"></textarea>
-                        <button id="generateQuestionBtn" class="btn-secondary">Generate Soal</button>
+                        <button id="generateQuestionBtn" class="btn-secondary">
+                            <i class="fas fa-robot"></i> Generate Soal
+                        </button>
                     </div>
                     <div class="form-buttons">
-                        <button id="saveQuestionBtn" class="btn-primary">Simpan Soal</button>
-                        <button id="resetQuestionBtn" class="btn-secondary">Reset</button>
+                        <button id="saveQuestionBtn" class="btn-primary btn-glow">
+                            <span class="btn-text">Simpan Soal</span>
+                            <i class="fas fa-save btn-icon"></i>
+                        </button>
+                        <button id="resetQuestionBtn" class="btn-secondary">
+                            <i class="fas fa-redo"></i> Reset
+                        </button>
                     </div>
                 </div>
                 
@@ -609,7 +630,9 @@
                             <option value="logika">UJIAN LOGIKA</option>
                             <option value="cpns">UJIAN CPNS/P3K</option>
                         </select>
-                        <button id="searchBtn" class="btn-secondary">Cari</button>
+                        <button id="searchBtn" class="btn-secondary">
+                            <i class="fas fa-search"></i> Cari
+                        </button>
                     </div>
                     
                     <div class="questions-list" id="questionsList">
@@ -652,7 +675,9 @@
             <p>Bagikan link ujian ini:</p>
             <div class="share-input">
                 <input type="text" id="shareLink" value="http://is.gd/pTombol" readonly>
-                <button id="copyLinkBtn" class="btn-secondary">Salin</button>
+                <button id="copyLinkBtn" class="btn-secondary">
+                    <i class="fas fa-copy"></i> Salin
+                </button>
             </div>
             <div class="social-share">
                 <button class="social-btn whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</button>
@@ -662,19 +687,17 @@
         </div>
     </div>
 
-    <!-- Audio Play Button (for browsers that block autoplay) -->
-    <button id="audioPlayBtn" style="display:none; position:fixed; top:20px; right:20px; z-index:1000;" class="btn-primary">
-        <i class="fas fa-play"></i> Putar Audio
-    </button>
-
-    <!-- Volume Control -->
-    <div id="volumeControl" style="position:fixed; bottom:100px; right:30px; z-index:1000;">
-        <button id="muteBtn" class="floating-btn" title="Mute/Unmute"><i class="fas fa-volume-up"></i></button>
-        <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="0.7" style="display:none;">
-    </div>
-
+    <script src="assets/js/particles.js"></script>
     <script src="assets/js/main.js"></script>
     <script src="assets/js/questions.js"></script>
     <script src="assets/js/admin.js"></script>
+    <script>
+        // Initialize particles.js
+        document.addEventListener('DOMContentLoaded', function() {
+            particlesJS.load('particles-js', 'assets/js/particles-config.json', function() {
+                console.log('Particles.js loaded');
+            });
+        });
+    </script>
 </body>
 </html>
