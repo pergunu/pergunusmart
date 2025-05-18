@@ -1,4 +1,119 @@
 // Admin Panel Functionality for PERGUNU SMART - FINAL VERSION
+// PERGUNU SMART - FINAL ADMIN JS
+const ADMIN_FUNCTIONS = {
+  init: function() {
+    try {
+      // Load current settings
+      this.loadSettings();
+      
+      // Setup event listeners
+      this.setupEventListeners();
+      
+      // Initialize components
+      this.loadMusicList();
+      this.loadWebsiteList();
+      this.loadQuestionsForEditing();
+      
+      console.log('Admin panel initialized');
+    } catch (error) {
+      console.error('Admin initialization error:', error);
+    }
+  },
+  
+  loadSettings: function() {
+    // Load settings from localStorage or use defaults
+    const savedSettings = localStorage.getItem('pergunuSettings');
+    this.settings = savedSettings ? JSON.parse(savedSettings) : {
+      codes: {
+        login: '12345',
+        cpns: 'CPNSP3K-OPENLOCK',
+        bank: 'BANKSOAL-OPENLOCK',
+        admin: '65614222'
+      },
+      examSettings: {
+        timer: 90,
+        chairmanName: "Moh. Nuril Hudha, S.Pd., M.Si.",
+        welcomeMessage: "Selamat datang di Sistem Ujian Online PERGUNU Situbondo",
+        infoMessage: "Waktu ujian adalah 90 menit. Pastikan koneksi internet stabil selama ujian berlangsung."
+      },
+      // More settings...
+    };
+    
+    // Update UI with current settings
+    this.updateSettingsUI();
+  },
+  
+  updateSettingsUI: function() {
+    // Update codes
+    document.getElementById('currentLoginCode').value = this.settings.codes.login;
+    document.getElementById('currentCpnsCode').value = this.settings.codes.cpns;
+    document.getElementById('currentBankCode').value = this.settings.codes.bank;
+    document.getElementById('currentAdminCode').value = this.settings.codes.admin;
+    
+    // Update exam settings
+    document.getElementById('examTimerSetting').value = this.settings.examSettings.timer;
+    document.getElementById('chairmanName').value = this.settings.examSettings.chairmanName;
+    document.getElementById('welcomeMessage').value = this.settings.examSettings.welcomeMessage;
+    document.getElementById('infoMessage').value = this.settings.examSettings.infoMessage;
+  },
+  
+  saveSettings: function() {
+    try {
+      // Get values from form
+      this.settings.codes.login = document.getElementById('newLoginCode').value || this.settings.codes.login;
+      this.settings.codes.cpns = document.getElementById('newCpnsCode').value || this.settings.codes.cpns;
+      this.settings.codes.bank = document.getElementById('newBankCode').value || this.settings.codes.bank;
+      this.settings.codes.admin = document.getElementById('newAdminCode').value || this.settings.codes.admin;
+      
+      // Save exam settings
+      this.settings.examSettings.timer = parseInt(document.getElementById('examTimerSetting').value) || 90;
+      this.settings.examSettings.chairmanName = document.getElementById('chairmanName').value;
+      this.settings.examSettings.welcomeMessage = document.getElementById('welcomeMessage').value;
+      this.settings.examSettings.infoMessage = document.getElementById('infoMessage').value;
+      
+      // Save to localStorage
+      localStorage.setItem('pergunuSettings', JSON.stringify(this.settings));
+      
+      alert('Pengaturan berhasil disimpan!');
+      
+    } catch (error) {
+      console.error('Settings save error:', error);
+      alert('Gagal menyimpan pengaturan');
+    }
+  },
+  
+  // More admin functions...
+};
+
+// Initialize admin panel when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+  // Check for admin access
+  if (window.location.hash === '#admin') {
+    const adminCode = prompt('Masukkan Kode Admin:');
+    if (adminCode === ADMIN_FUNCTIONS.settings.codes.admin) {
+      ADMIN_FUNCTIONS.init();
+      document.getElementById('adminPanel').style.display = 'flex';
+    } else {
+      alert('Kode Admin salah');
+      window.location.hash = '';
+    }
+  }
+});
+
+// Toggle admin panel
+function toggleAdminPanel() {
+  try {
+    const adminCode = prompt('Masukkan Kode Admin:');
+    if (adminCode === ADMIN_FUNCTIONS.settings.codes.admin) {
+      document.getElementById('adminPanel').style.display = 'flex';
+      ADMIN_FUNCTIONS.init();
+    } else if (adminCode) {
+      alert('Kode Admin salah');
+    }
+  } catch (error) {
+    console.error('Admin panel toggle error:', error);
+  }
+}
 
 // DOM Elements
 const saveLoginCodeBtn = document.getElementById('saveLoginCode');
