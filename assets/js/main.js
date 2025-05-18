@@ -1,3 +1,532 @@
+// PERGUNU SMART - FINAL MAIN JS
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize the app
+  init();
+});
+
+// App State
+const appState = {
+  currentScreen: 'welcome',
+  participantData: {},
+  examData: {},
+  questions: [],
+  currentQuestionIndex: 0,
+  answeredQuestions: 0,
+  correctCount: 0,
+  wrongCount: 0,
+  timerInterval: null,
+  timeLeft: 90 * 60, // 90 minutes in seconds
+  examStarted: false,
+  isMuted: false,
+  currentVolume: 0.7,
+  audioContext: null
+};
+
+// Default codes
+const DEFAULT_CODES = {
+  LOGIN: '12345',
+  CPNS: 'CPNSP3K-OPENLOCK',
+  BANK_SOAL: 'BANKSOAL-OPENLOCK',
+  ADMIN: '65614222'
+};
+
+// Motivational messages
+const MOTIVATIONAL_MESSAGES = [
+  { min: 0, max: 40, message: "Masih ada ruang untuk perbaikan. Teruslah belajar dan berlatih!" },
+  { min: 41, max: 60, message: "Hasil yang cukup baik. Tingkatkan lagi pemahaman Anda!" },
+  { min: 61, max: 75, message: "Kerja bagus! Anda telah menunjukkan pemahaman yang baik." },
+  { min: 76, max: 85, message: "Prestasi yang sangat baik! Pertahankan semangat belajar Anda." },
+  { min: 86, max: 95, message: "Luar biasa! Anda benar-benar menguasai materi ini." },
+  { min: 96, max: 100, message: "Sempurna! Anda sangat luar biasa dalam menguasai materi ini. Pertahankan prestasi ini." }
+];
+
+// Initialize the app
+function init() {
+  try {
+    // Setup audio context
+    setupAudioContext();
+    
+    // Set initial volume
+    setAudioVolume(appState.currentVolume);
+    
+    // Setup event listeners
+    setupEventListeners();
+    
+    // Load questions
+    loadQuestions();
+    
+    // Play opening audio
+    playOpeningAudio();
+    
+    // Check for admin access
+    if (window.location.hash === '#admin') {
+      toggleAdminPanel();
+    }
+    
+  } catch (error) {
+    console.error('Initialization error:', error);
+    showError('Terjadi kesalahan saat memulai aplikasi');
+  }
+}
+
+// Setup audio context for better mobile compatibility
+function setupAudioContext() {
+  try {
+    // Create audio context
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    appState.audioContext = new AudioContext();
+    
+    // Resume audio context on user interaction
+    document.body.addEventListener('click', function() {
+      if (appState.audioContext.state === 'suspended') {
+        appState.audioContext.resume();
+      }
+    }, { once: true });
+    
+  } catch (error) {
+    console.error('Audio context setup error:', error);
+  }
+}
+
+// Play opening audio
+function playOpeningAudio() {
+  try {
+    const openingAudio = document.getElementById('openingAudio');
+    const playPromise = openingAudio.play();
+    
+    if (playPromise !== undefined) {
+      playPromise.catch(error => {
+        console.log('Autoplay prevented, showing play button');
+        document.getElementById('audioPlayBtn').style.display = 'block';
+      });
+    }
+  } catch (error) {
+    console.error('Opening audio error:', error);
+  }
+}
+
+// Set audio volume for all audio elements
+function setAudioVolume(volume) {
+  try {
+    const audioElements = [
+      'openingAudio', 'buttonAudio', 'correctAudio', 
+      'wrongAudio', 'applauseAudio', 'bgAudio'
+    ];
+    
+    audioElements.forEach(id => {
+      const audio = document.getElementById(id);
+      if (audio) {
+        audio.volume = volume;
+      }
+    });
+    
+    // Update mute state
+    if (volume === 0) {
+      appState.isMuted = true;
+      document.getElementById('muteBtn').innerHTML = '<i class="fas fa-volume-mute"></i>';
+    } else {
+      appState.isMuted = false;
+      document.getElementById('muteBtn').innerHTML = '<i class="fas fa-volume-up"></i>';
+    }
+    
+  } catch (error) {
+    console.error('Volume setting error:', error);
+  }
+}
+
+// Toggle mute
+function toggleMute() {
+  try {
+    appState.isMuted = !appState.isMuted;
+    setAudioVolume(appState.isMuted ? 0 : appState.currentVolume);
+    
+    // Show/hide volume slider
+    const volumeSlider = document.getElementById('volumeSlider');
+    if (volumeSlider) {
+      volumeSlider.style.display = appState.isMuted ? 'none' : 'block';
+    }
+    
+  } catch (error) {
+    console.error('Mute toggle error:', error);
+  }
+}
+
+// Update volume from slider
+function updateVolume() {
+  try {
+    const volumeSlider = document.getElementById('volumeSlider');
+    if (volumeSlider) {
+      appState.currentVolume = parseFloat(volumeSlider.value);
+      setAudioVolume(appState.currentVolume);
+    }
+  } catch (error) {
+    console.error('Volume update error:', error);
+  }
+}
+
+// Show specific screen
+function showScreen(screenName) {
+  try {
+    // Hide all screens
+    document.querySelectorAll('.screen').forEach(screen => {
+      screen.classList.remove('active');
+    });
+    
+    // Show requested screen
+    const screen = document.getElementById(screenName + 'Screen');
+    if (screen) {
+      screen.classList.add('active');
+      appState.currentScreen = screenName;
+      
+      // Special handling for certain screens
+      if (screenName === 'results') {
+        generateCertificate();
+      }
+    }
+    
+  } catch (error) {
+    console.error('Screen transition error:', error);
+  }
+}
+
+// Generate certificate
+function generateCertificate() {
+  try {
+    const score = Math.round((appState.correctCount / appState.questions.length) * 100);
+    
+    // Generate certificate code
+    const now = new Date();
+    const dateStr = `${now.getDate()}${now.getMonth()+1}${now.getFullYear()}`;
+    const randomCode = Math.random().toString(36).substring(2,6).toUpperCase();
+    
+    let codeParts = [
+      appState.participantData.fullName.replace(/\s+/g, '_').toUpperCase(),
+      appState.participantData.status.toUpperCase(),
+      appState.participantData.status === 'pelajar' ? appState.participantData.schoolLevel.toUpperCase() : '',
+      appState.participantData.status === 'pelajar' ? appState.examData.subject.toUpperCase() : appState.examData.category.toUpperCase(),
+      dateStr,
+      `${randomCode}-${Math.random().toString(36).substring(2,5).toUpperCase()}`,
+      'PERGUNU-STB'
+    ];
+    
+    // Update certificate elements
+    document.getElementById('certificateCode').textContent = codeParts.join('/');
+    document.getElementById('certificateName').textContent = appState.participantData.fullName;
+    
+    // Set achievement text
+    let achievementText = '';
+    if (appState.participantData.status === 'pelajar') {
+      achievementText = `Atas Partisipasi & Pencapaian Luar Biasa dalam <strong>Ujian Pergunu Situbondo</strong>`;
+    } else {
+      achievementText = appState.examData.category === 'cpns' 
+        ? `Atas Partisipasi & Pencapaian Luar Biasa dalam <strong>Sketsa Ujian CPNS/P3K Pergunu Situbondo</strong>`
+        : `Atas Partisipasi & Pencapaian Luar Biasa dalam <strong>Tes Logika Pergunu Situbondo</strong>`;
+    }
+    
+    document.getElementById('certificateAchievement').innerHTML = achievementText;
+    document.getElementById('certificateScore').textContent = score;
+    
+    // Set motivational message
+    const motivation = MOTIVATIONAL_MESSAGES.find(m => score >= m.min && score <= m.max);
+    document.getElementById('certificateMotivation').textContent = motivation ? motivation.message : '';
+    
+    // Format date
+    const options = { day: 'numeric', month: 'long', year: 'numeric' };
+    document.getElementById('certificateDate').textContent = `Ditetapkan di: Situbondo, ${now.toLocaleDateString('id-ID', options)}`;
+    
+    // Play applause sound
+    playSound('applauseAudio');
+    
+  } catch (error) {
+    console.error('Certificate generation error:', error);
+  }
+}
+
+// Play sound effect
+function playSound(audioId) {
+  try {
+    const audio = document.getElementById(audioId);
+    if (audio) {
+      audio.currentTime = 0;
+      audio.play().catch(e => console.log('Audio play error:', e));
+    }
+  } catch (error) {
+    console.error('Sound play error:', error);
+  }
+}
+
+// Start exam
+function startExam() {
+  try {
+    // Filter questions based on exam data
+    let filteredQuestions = [];
+    
+    if (appState.participantData.status === 'pelajar') {
+      filteredQuestions = appState.questions.filter(q => 
+        q.category === appState.examData.subject && 
+        q.level === appState.examData.level
+      );
+    } else {
+      filteredQuestions = appState.questions.filter(q => 
+        q.category === appState.examData.category
+      );
+    }
+    
+    // Shuffle questions and select first 20
+    appState.questions = shuffleArray(filteredQuestions).slice(0, 20);
+    
+    if (appState.questions.length === 0) {
+      showError('Tidak ada soal yang tersedia untuk kategori ini');
+      return;
+    }
+    
+    // Reset exam state
+    appState.currentQuestionIndex = 0;
+    appState.answeredQuestions = 0;
+    appState.correctCount = 0;
+    appState.wrongCount = 0;
+    appState.timeLeft = 90 * 60; // 90 minutes
+    appState.examStarted = true;
+    
+    // Update UI
+    document.getElementById('totalQuestions').textContent = appState.questions.length;
+    document.getElementById('currentQuestion').textContent = 1;
+    
+    // Start timer
+    startTimer();
+    
+    // Show first question
+    showQuestion();
+    
+    // Play background music
+    playBackgroundMusic();
+    
+    // Show exam screen
+    showScreen('exam');
+    
+  } catch (error) {
+    console.error('Exam start error:', error);
+    showError('Gagal memulai ujian');
+  }
+}
+
+// Start exam timer
+function startTimer() {
+  clearInterval(appState.timerInterval);
+  
+  appState.timerInterval = setInterval(() => {
+    appState.timeLeft--;
+    
+    if (appState.timeLeft <= 0) {
+      clearInterval(appState.timerInterval);
+      finishExam();
+      return;
+    }
+    
+    // Update timer display
+    const minutes = Math.floor(appState.timeLeft / 60);
+    const seconds = appState.timeLeft % 60;
+    const timerElement = document.getElementById('examTimer');
+    
+    if (timerElement) {
+      timerElement.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+      
+      // Add warning style when time is running out
+      if (appState.timeLeft <= 600) { // 10 minutes
+        timerElement.classList.add('timer-warning');
+      }
+    }
+    
+  }, 1000);
+}
+
+// Show current question
+function showQuestion() {
+  try {
+    if (appState.currentQuestionIndex >= appState.questions.length) {
+      finishExam();
+      return;
+    }
+    
+    const question = appState.questions[appState.currentQuestionIndex];
+    
+    // Update question text
+    document.getElementById('questionText').textContent = question.text;
+    
+    // Update option buttons
+    const optionButtons = document.querySelectorAll('.option-btn');
+    optionButtons.forEach((button, index) => {
+      const optionLetter = button.querySelector('.option-letter');
+      const optionText = button.querySelector('.option-text');
+      
+      optionText.textContent = question.options[index];
+      button.dataset.option = String.fromCharCode(65 + index); // A, B, C, D, E
+      
+      // Reset button styles
+      button.classList.remove('correct', 'incorrect', 'selected');
+      button.disabled = false;
+    });
+    
+    // Hide feedback
+    document.getElementById('answerFeedback').style.display = 'none';
+    
+    // Update current question number
+    document.getElementById('currentQuestion').textContent = appState.currentQuestionIndex + 1;
+    
+  } catch (error) {
+    console.error('Question display error:', error);
+  }
+}
+
+// Handle answer selection
+function handleAnswer(selectedOption) {
+  try {
+    playSound('buttonAudio');
+    
+    const question = appState.questions[appState.currentQuestionIndex];
+    const isCorrect = selectedOption === question.correctAnswer;
+    
+    // Disable all option buttons
+    const optionButtons = document.querySelectorAll('.option-btn');
+    optionButtons.forEach(button => {
+      button.disabled = true;
+      
+      if (button.dataset.option === question.correctAnswer) {
+        button.classList.add('correct');
+      } else if (button.dataset.option === selectedOption && !isCorrect) {
+        button.classList.add('incorrect');
+      }
+    });
+    
+    // Play correct/wrong sound
+    playSound(isCorrect ? 'correctAudio' : 'wrongAudio');
+    
+    // Update counts
+    if (isCorrect) {
+      appState.correctCount++;
+    } else {
+      appState.wrongCount++;
+    }
+    
+    appState.answeredQuestions++;
+    
+    // Show feedback
+    document.getElementById('feedbackTitle').textContent = isCorrect ? 'Jawaban Benar!' : 'Jawaban Salah';
+    document.getElementById('feedbackText').textContent = isCorrect ? 'Anda telah memilih jawaban yang benar.' : `Jawaban Anda: ${selectedOption}`;
+    document.getElementById('correctAnswerText').textContent = `Jawaban benar: ${question.correctAnswer}`;
+    document.getElementById('answerFeedback').style.display = 'block';
+    
+  } catch (error) {
+    console.error('Answer handling error:', error);
+  }
+}
+
+// Finish exam
+function finishExam() {
+  try {
+    clearInterval(appState.timerInterval);
+    appState.examStarted = false;
+    
+    // Stop background music
+    const bgAudio = document.getElementById('bgAudio');
+    if (bgAudio) {
+      bgAudio.pause();
+    }
+    
+    // Calculate score
+    const score = Math.round((appState.correctCount / appState.questions.length) * 100);
+    
+    // Update results screen
+    document.getElementById('finalScore').textContent = score;
+    document.getElementById('totalQuestionsResult').textContent = appState.questions.length;
+    document.getElementById('correctAnswers').textContent = appState.correctCount;
+    document.getElementById('wrongAnswers').textContent = appState.wrongCount;
+    document.getElementById('unanswered').textContent = appState.questions.length - appState.answeredQuestions;
+    
+    // Show results screen
+    showScreen('results');
+    
+  } catch (error) {
+    console.error('Exam finish error:', error);
+    showError('Gagal menyelesaikan ujian');
+  }
+}
+
+// Shuffle array
+function shuffleArray(array) {
+  const newArray = [...array];
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+  }
+  return newArray;
+}
+
+// Show error message
+function showError(message) {
+  try {
+    const errorElement = document.getElementById('errorMessage');
+    if (errorElement) {
+      errorElement.textContent = message;
+      errorElement.style.display = 'block';
+      setTimeout(() => {
+        errorElement.style.display = 'none';
+      }, 5000);
+    }
+  } catch (error) {
+    console.error('Error display error:', error);
+  }
+}
+
+// Setup event listeners
+function setupEventListeners() {
+  try {
+    // Audio play button
+    document.getElementById('audioPlayBtn').addEventListener('click', playAllAudio);
+    
+    // Volume control
+    document.getElementById('muteBtn').addEventListener('click', toggleMute);
+    document.getElementById('volumeSlider').addEventListener('input', updateVolume);
+    
+    // Login screen
+    document.getElementById('submitLogin').addEventListener('click', handleLogin);
+    document.getElementById('loginCode').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') handleLogin();
+    });
+    
+    // Terms screen
+    document.getElementById('agreeTerms').addEventListener('change', (e) => {
+      document.getElementById('continueBtn').disabled = !e.target.checked;
+      playSound('buttonAudio');
+    });
+    document.getElementById('continueBtn').addEventListener('click', () => {
+      playSound('buttonAudio');
+      showScreen('registration');
+    });
+    
+    // Registration form
+    document.querySelectorAll('input[name="status"]').forEach(radio => {
+      radio.addEventListener('change', handleStatusChange);
+    });
+    document.getElementById('participantForm').addEventListener('submit', handleRegistrationSubmit);
+    
+    // Exam selection
+    document.querySelectorAll('.exam-option').forEach(option => {
+      option.addEventListener('click', () => {
+        appState.examData.level = option.dataset.level;
+        playSound('buttonAudio');
+      });
+    });
+    
+    // More event listeners...
+    
+  } catch (error) {
+    console.error('Event listener setup error:', error);
+  }
+}
+
+// More functions...
+
 // DOM Elements
 const screens = document.querySelectorAll('.screen');
 const loginScreen = document.getElementById('welcomeScreen');
