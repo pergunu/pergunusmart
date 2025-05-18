@@ -194,7 +194,7 @@ function toggleParticipantFields() {
     }
 }
 
-// Save participant data
+// Update saveParticipantData function
 function saveParticipantData(e) {
     e.preventDefault();
     playButtonSound();
@@ -218,20 +218,34 @@ function saveParticipantData(e) {
     }
     
     // Validate
-    if (!participantData.fullname) {
-        alert('Nama lengkap harus diisi');
-        return;
+    let isValid = true;
+    const requiredFields = [
+        { field: participantData.fullname, message: 'Nama lengkap harus diisi' },
+        { field: participantData.purpose, message: 'Tujuan ujian harus dipilih' }
+    ];
+    
+    if (isStudent) {
+        requiredFields.push(
+            { field: participantData.school, message: 'Nama sekolah harus diisi' },
+            { field: participantData.nis, message: 'NIS harus diisi' }
+        );
+    } else {
+        requiredFields.push(
+            { field: participantData.address, message: 'Alamat harus diisi' },
+            { field: participantData.whatsapp, message: 'Nomor WhatsApp harus diisi' },
+            { field: participantData.email, message: 'Email harus diisi' }
+        );
     }
     
-    if (isStudent && (!participantData.school || !participantData.nis)) {
-        alert('Data sekolah harus lengkap');
-        return;
+    for (const { field, message } of requiredFields) {
+        if (!field) {
+            alert(message);
+            isValid = false;
+            break;
+        }
     }
     
-    if (!isStudent && (!participantData.address || !participantData.whatsapp || !participantData.email)) {
-        alert('Data umum harus lengkap');
-        return;
-    }
+    if (!isValid) return;
     
     // Go to next screen
     showScreen(3);
