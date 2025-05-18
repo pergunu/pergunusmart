@@ -1,3 +1,9 @@
+<!-- Di bagian head -->
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+<!-- Atau jika menggunakan file lokal -->
+<script src="assets/js/particles.min.js"></script>
+
 // Perbaikan konfigurasi particles.js
 document.addEventListener('DOMContentLoaded', function() {
     // Periksa apakah elemen particles-js ada sebelum diinisialisasi
