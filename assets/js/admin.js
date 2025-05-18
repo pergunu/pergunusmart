@@ -93,13 +93,31 @@ function initAdminPanel() {
     // Setup event listeners
     setupAdminEventListeners();
     
+    // Initialize components
+    loadMusicList();
+    loadWebsiteList();
+    loadQuestionsForEditing();
+
+    
+    // Load current settings
+    loadAdminSettings();
+    
+    // Setup event listeners
+    setupAdminEventListeners();
+    
     // Load statistics
     loadParticipantStatistics();
     
     // Initialize bank soal panel
     initBankSoalPanel();
+    
+ // Set default codes
+    document.getElementById('currentLoginCode').value = currentCodes.login;
+    document.getElementById('currentCpnsCode').value = currentCodes.cpns;
+    document.getElementById('currentBankCode').value = currentCodes.bank;
+    document.getElementById('currentAdminCode').value = currentCodes.admin;
 }
-
+    
 function loadParticipantStatistics() {
     // In a real app, this would come from a database
     const stats = {
@@ -414,6 +432,7 @@ function loadQuestionsForEditing() {
         }
     }
     
+    // Render questions
     allQuestions.forEach(question => {
         const questionItem = document.createElement('div');
         questionItem.className = 'question-item';
@@ -421,8 +440,8 @@ function loadQuestionsForEditing() {
         
         questionItem.innerHTML = `
             <h4>${question.text}</h4>
-            <p><strong>Kategori:</strong> ${question.category ? question.category.toUpperCase() : 'UMUM'} | 
-            <strong>Tingkat:</strong> ${question.level ? question.level.toUpperCase() : '-'} | 
+            <p><strong>Kategori:</strong> ${question.category || 'UMUM'} | 
+            <strong>Tingkat:</strong> ${question.level || '-'} | 
             <strong>Jawaban benar:</strong> ${question.correctAnswer}</p>
             <div class="question-actions">
                 <button class="btn-primary edit-question" data-id="${question.id}">Edit</button>
@@ -434,30 +453,21 @@ function loadQuestionsForEditing() {
         questionsList.appendChild(questionItem);
     });
     
-    // Add event listeners to the new buttons
+    // Add event listeners
     document.querySelectorAll('.edit-question').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const questionId = e.target.dataset.id;
-            editQuestion(questionId);
-        });
+        btn.addEventListener('click', () => editQuestion(btn.dataset.id));
     });
     
     document.querySelectorAll('.delete-question').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const questionId = e.target.dataset.id;
-            deleteQuestion(questionId);
-        });
+        btn.addEventListener('click', () => deleteQuestion(btn.dataset.id));
     });
     
     document.querySelectorAll('.preview-question').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const questionId = e.target.dataset.id;
-            previewQuestion(questionId);
-        });
+        btn.addEventListener('click', () => previewQuestion(btn.dataset.id));
     });
 }
 
-// Generate question with AI (mock implementation)
+// Enhanced AI question generation
 function generateQuestionWithAI() {
     const prompt = document.getElementById('aiPrompt').value;
     const category = document.getElementById('questionCategory').value;
@@ -472,43 +482,12 @@ function generateQuestionWithAI() {
     generateQuestionBtn.disabled = true;
     generateQuestionBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
     
-    // In a real app, this would call an AI API
+    // Simulate AI generation (in real app, this would call an API)
     setTimeout(() => {
-        let generatedQuestion = {
-            text: '',
-            options: [],
-            correctAnswer: 'A',
-            explanation: ''
-        };
+        // Generate question based on category and level
+        const generatedQuestion = generateAIQuestion(prompt, category, level);
         
-        switch(category) {
-            case 'agama':
-                generatedQuestion.text = `Dalam ${level === 'easy' ? 'dasar' : level === 'medium' ? 'menengah' : 'lanjutan'} pengetahuan agama, ${prompt}`;
-                generatedQuestion.options = ['Option A', 'Option B', 'Option C', 'Option D', 'Option E'];
-                generatedQuestion.explanation = 'Penjelasan untuk jawaban yang benar';
-                break;
-            case 'ppkn':
-                generatedQuestion.text = `Dalam materi PPKn tingkat ${level}, ${prompt}`;
-                generatedQuestion.options = ['Pilihan 1', 'Pilihan 2', 'Pilihan 3', 'Pilihan 4', 'Pilihan 5'];
-                generatedQuestion.explanation = 'Penjelasan berdasarkan peraturan yang berlaku';
-                break;
-            case 'logika':
-                generatedQuestion.text = `Pertanyaan logika: ${prompt}`;
-                generatedQuestion.options = ['Jawaban A', 'Jawaban B', 'Jawaban C', 'Jawaban D', 'Jawaban E'];
-                generatedQuestion.explanation = 'Penjelasan logika jawaban yang benar';
-                break;
-            case 'cpns':
-                generatedQuestion.text = `Pertanyaan CPNS/P3K: ${prompt}`;
-                generatedQuestion.options = ['Opsi A', 'Opsi B', 'Opsi C', 'Opsi D', 'Opsi E'];
-                generatedQuestion.explanation = 'Penjelasan berdasarkan peraturan CPNS/P3K';
-                break;
-            default:
-                generatedQuestion.text = `Pertanyaan tentang ${category}: ${prompt}`;
-                generatedQuestion.options = ['Jawaban A', 'Jawaban B', 'Jawaban C', 'Jawaban D', 'Jawaban E'];
-                generatedQuestion.explanation = 'Penjelasan jawaban yang benar';
-        }
-        
-        // Fill the form with generated question
+        // Fill the form
         document.getElementById('questionTextArea').value = generatedQuestion.text;
         document.getElementById('optionA').value = generatedQuestion.options[0];
         document.getElementById('optionB').value = generatedQuestion.options[1];
@@ -518,7 +497,7 @@ function generateQuestionWithAI() {
         document.getElementById('correctOption').value = generatedQuestion.correctAnswer;
         document.getElementById('explanation').value = generatedQuestion.explanation;
         
-        // Reset button state
+        // Reset button
         generateQuestionBtn.disabled = false;
         generateQuestionBtn.innerHTML = 'Generate Soal';
         
