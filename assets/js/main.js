@@ -1842,3 +1842,36 @@ function init() {
 }
 
 document.addEventListener('DOMContentLoaded', init);
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Fungsi untuk menampilkan panel Admin
+    document.getElementById('adminBtn').addEventListener('click', function() {
+        const adminCode = prompt('Masukkan Kode Admin:');
+        if (adminCode === '65614222') {  // Ganti dengan kode admin yang benar
+            document.getElementById('adminPanel').style.display = 'flex';
+        } else {
+            alert('Kode Admin salah');
+        }
+    });
+
+    // Fungsi untuk menampilkan Bank Soal
+    document.getElementById('bankSoalBtn').addEventListener('click', function() {
+        document.getElementById('bankSoalPanel').style.display = 'flex';
+    });
+
+    // Fungsi untuk tombol "Go to" untuk membuka daftar website
+    document.getElementById('goToBtn').addEventListener('click', function() {
+        document.getElementById('goToPanel').style.display = 'flex';
+    });
+
+    // Fungsi untuk tombol "Share" untuk menyalin link website
+    document.getElementById('shareBtn').addEventListener('click', function() {
+        document.getElementById('sharePanel').style.display = 'flex';
+    });
+
+    // Fungsi untuk tombol "Chat WhatsApp"
+    document.getElementById('whatsappBtn').addEventListener('click', function() {
+        window.open('https://wa.me/6281234567890', '_blank'); // Ganti dengan nomor WhatsApp yang benar
+    });
+});
+
