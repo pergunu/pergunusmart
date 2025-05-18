@@ -9,9 +9,88 @@
     --warning-color: #f39c12;
     --danger-color: #e74c3c;
     --white: #ffffff;
-    --black: #000000;
+    --black: #1a237e;
+    --gold: #ffd700;
+    --certificate-gold: #d4af37;
     --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+}
+
+/* Enhanced button animations */
+.btn {
+    transition: all 0.3s ease;
+    transform: translateY(0);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+/* Certificate enhancements */
+.certificate {
+    background-image: url('../images/certificate.png');
+    background-size: cover;
+    background-position: center;
+    padding: 60px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    animation: certificateAppear 1s;
+    border-radius: 10px;
+}
+
+.certificate-border {
+    border: 2px solid var(--certificate-gold);
+    padding: 40px;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.certificate-title {
+    font-size: 2.5rem;
+    color: var(--certificate-gold);
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    font-weight: 700;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.certificate-name {
+    font-size: 2rem;
+    margin: 20px 0;
+    color: var(--dark-blue);
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+/* Enhanced exam interface */
+.exam-option, .subject-option, .general-option {
+    transition: all 0.3s ease;
+    transform: scale(1);
+}
+
+.exam-option:hover, .subject-option:hover, .general-option:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Floating buttons enhancements */
+.floating-btn {
+    transition: all 0.3s ease;
+    animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+
 }
 
 * {
