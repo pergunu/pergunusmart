@@ -275,7 +275,7 @@ function selectLevel(e) {
     checkExamReady();
 }
 
-// Select subject
+// Update selectSubject function
 function selectSubject(e) {
     playButtonSound();
     selectedSubject = e.target.dataset.subject;
@@ -293,6 +293,20 @@ function selectSubject(e) {
     } else {
         cpnsLicense.style.display = 'none';
         checkExamReady();
+    }
+}
+
+// Update verifyCpnsCode function
+function verifyCpnsCode() {
+    playButtonSound();
+    const code = cpnsCodeInput.value.trim();
+    const currentCode = document.getElementById('current-exam-code').value;
+    
+    if (code === currentCode) {
+        checkExamReady();
+    } else {
+        alert('Kode lisensi salah. Silakan coba lagi.');
+        cpnsCodeInput.focus();
     }
 }
 
