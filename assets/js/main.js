@@ -114,6 +114,68 @@ function init() {
     whatsappBtn.addEventListener('click', contactAdmin);
     goToBtn.addEventListener('click', showGoToLinks);
 
+// Tambahkan status initialization
+function init() {
+    // Status inisialisasi
+    const initStatus = {
+        particles: false,
+        audio: false,
+        questions: false
+    };
+
+    // Cek inisialisasi particles
+    if (document.getElementById('particles-js')) {
+        initStatus.particles = true;
+    }
+
+    // Cek inisialisasi audio
+    if (typeof Audio !== 'undefined') {
+        initStatus.audio = true;
+    }
+
+    // Cek inisialisasi questions
+    if (questions && questions.length > 0) {
+        initStatus.questions = true;
+    }
+
+    // Tampilkan status inisialisasi
+    showInitStatus(initStatus);
+    
+    // ... kode init lainnya ...
+}
+
+// Fungsi untuk menampilkan status inisialisasi
+function showInitStatus(status) {
+    const statusContainer = document.createElement('div');
+    statusContainer.className = 'init-status';
+    statusContainer.style.position = 'fixed';
+    statusContainer.style.bottom = '10px';
+    statusContainer.style.left = '10px';
+    statusContainer.style.zIndex = '1000';
+    statusContainer.style.backgroundColor = 'rgba(0,0,0,0.7)';
+    statusContainer.style.padding = '10px';
+    statusContainer.style.borderRadius = '5px';
+    statusContainer.style.color = 'white';
+    statusContainer.style.fontFamily = 'Arial, sans-serif';
+    statusContainer.style.fontSize = '12px';
+
+    let statusHTML = '<h3 style="margin:0 0 5px 0;">Status Sistem:</h3>';
+    statusHTML += `<p style="margin:3px 0;"><span class="status-icon">${status.particles ? '✔️' : '❌'}</span> Particles.js</p>`;
+    statusHTML += `<p style="margin:3px 0;"><span class="status-icon">${status.audio ? '✔️' : '❌'}</span> Sistem Audio</p>`;
+    statusHTML += `<p style="margin:3px 0;"><span class="status-icon">${status.questions ? '✔️' : '❌'}</span> Bank Soal</p>`;
+
+    statusContainer.innerHTML = statusHTML;
+    document.body.appendChild(statusContainer);
+
+    // Sembunyikan setelah 5 detik
+    setTimeout(() => {
+        statusContainer.style.opacity = '0';
+        setTimeout(() => {
+            document.body.removeChild(statusContainer);
+        }, 500);
+    }, 5000);
+}
+    
     // Add event listeners for subject buttons in participant form
 document.querySelectorAll('#student-fields .subject-btn').forEach(btn => {
     btn.addEventListener('click', function() {
