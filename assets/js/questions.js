@@ -42,6 +42,92 @@ document.addEventListener('DOMContentLoaded', function() {
             explanation: 'Pancasila tercantum dalam Pembukaan UUD 1945 alinea keempat setelah kalimat "maka disusunlah Kemerdekaan Kebangsaan Indonesia itu dalam suatu Undang-Undang Dasar Negara Indonesia".'
         }
     ];
+
+    // Update question editor form
+const questionEditor = document.getElementById('question-editor');
+questionEditor.innerHTML = `
+    <div class="form-group">
+        <label>Kategori:</label>
+        <select id="question-category">
+            <option value="agama">AGAMA</option>
+            <option value="ppkn">PPKN</option>
+            <option value="sejarah">SEJARAH</option>
+            <option value="ipa">IPA</option>
+            <option value="ips">IPS</option>
+            <option value="matematika">MATEMATIKA</option>
+            <option value="indonesia">BAHASA INDONESIA</option>
+            <option value="inggris">BAHASA INGGRIS</option>
+            <option value="extra">MATERI EXTRA</option>
+            <option value="khusus">MATERI KHUSUS</option>
+            <option value="logika">UJIAN LOGIKA</option>
+            <option value="cpns">UJIAN CPNS/P3K</option>
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <label>Tingkat:</label>
+        <select id="question-level">
+            <option value="sd">SD</option>
+            <option value="smp">SMP</option>
+            <option value="sma">SMA/SMK</option>
+            <option value="umum">Umum</option>
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <label>Pertanyaan:</label>
+        <textarea id="question-text-editor" rows="3"></textarea>
+    </div>
+    
+    <div class="form-group">
+        <label>Gambar (opsional):</label>
+        <input type="file" id="question-image" accept="image/*">
+    </div>
+    
+    <div class="form-group">
+        <label>Opsi Jawaban:</label>
+        <div class="option-group">
+            <label>A:</label>
+            <input type="text" id="option-a">
+            <input type="radio" name="correct-answer" value="a" checked>
+            <label>Benar</label>
+        </div>
+        <div class="option-group">
+            <label>B:</label>
+            <input type="text" id="option-b">
+            <input type="radio" name="correct-answer" value="b">
+            <label>Benar</label>
+        </div>
+        <div class="option-group">
+            <label>C:</label>
+            <input type="text" id="option-c">
+            <input type="radio" name="correct-answer" value="c">
+            <label>Benar</label>
+        </div>
+        <div class="option-group">
+            <label>D:</label>
+            <input type="text" id="option-d">
+            <input type="radio" name="correct-answer" value="d">
+            <label>Benar</label>
+        </div>
+        <div class="option-group">
+            <label>E:</label>
+            <input type="text" id="option-e">
+            <input type="radio" name="correct-answer" value="e">
+            <label>Benar</label>
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label>Penjelasan Jawaban:</label>
+        <textarea id="explanation-editor" rows="3"></textarea>
+    </div>
+    
+    <div class="editor-actions">
+        <button id="save-question-btn" class="btn-gradient">Simpan Soal</button>
+        <button id="cancel-edit-btn" class="btn-outline">Batal</button>
+    </div>
+`;
     
     // Load questions into the list
     function loadQuestions() {
@@ -121,42 +207,50 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Save question
-    saveQuestionBtn.addEventListener('click', function() {
-        const category = document.getElementById('question-category').value;
-        const level = document.getElementById('question-level').value;
-        const text = document.getElementById('question-text-editor').value.trim();
-        const optionA = document.getElementById('option-a').value.trim();
-        const optionB = document.getElementById('option-b').value.trim();
-        const optionC = document.getElementById('option-c').value.trim();
-        const optionD = document.getElementById('option-d').value.trim();
-        const correctAnswer = document.querySelector('input[name="correct-answer"]:checked').value;
-        const explanation = document.getElementById('explanation-editor').value.trim();
-        
-        if (!text || !optionA || !optionB || !optionC || !optionD) {
-            alert('Harap isi semua bidang yang diperlukan.');
-            return;
-        }
-        
-        const newQuestion = {
-            id: questions.length > 0 ? Math.max(...questions.map(q => q.id)) + 1 : 1,
-            category: category,
-            level: level,
-            text: text,
-            options: [
-                { text: optionA },
-                { text: optionB },
-                { text: optionC },
-                { text: optionD }
-            ],
-            correctAnswer: correctAnswer.charCodeAt(0) - 97, // Convert a,b,c,d to 0,1,2,3
-            explanation: explanation
-        };
-        
-        questions.push(newQuestion);
-        loadQuestions();
-        questionEditor.style.display = 'none';
-        alert('Soal berhasil disimpan!');
-    });
+    // Update saveQuestionBtn event listener
+saveQuestionBtn.addEventListener('click', function() {
+    const category = document.getElementById('question-category').value;
+    const level = document.getElementById('question-level').value;
+    const text = document.getElementById('question-text-editor').value.trim();
+    const optionA = document.getElementById('option-a').value.trim();
+    const optionB = document.getElementById('option-b').value.trim();
+    const optionC = document.getElementById('option-c').value.trim();
+    const optionD = document.getElementById('option-d').value.trim();
+    const optionE = document.getElementById('option-e').value.trim();
+    const correctAnswer = document.querySelector('input[name="correct-answer"]:checked').value;
+    const explanation = document.getElementById('explanation-editor').value.trim();
+    
+    if (!text || !optionA || !optionB || !optionC || !optionD) {
+        alert('Harap isi semua bidang yang diperlukan (minimal sampai opsi D).');
+        return;
+    }
+    
+    const options = [
+        { text: optionA },
+        { text: optionB },
+        { text: optionC },
+        { text: optionD }
+    ];
+    
+    if (optionE) {
+        options.push({ text: optionE });
+    }
+    
+    const newQuestion = {
+        id: questions.length > 0 ? Math.max(...questions.map(q => q.id)) + 1 : 1,
+        category: category,
+        level: level,
+        text: text,
+        options: options,
+        correctAnswer: correctAnswer.charCodeAt(0) - 97, // Convert a,b,c,d,e to 0,1,2,3,4
+        explanation: explanation
+    };
+    
+    questions.push(newQuestion);
+    loadQuestions();
+    questionEditor.style.display = 'none';
+    alert('Soal berhasil disimpan!');
+});
     
     // Cancel editing
     cancelEditBtn.addEventListener('click', function() {
