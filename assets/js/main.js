@@ -113,6 +113,52 @@ function init() {
     shareBtn.addEventListener('click', shareWebsite);
     whatsappBtn.addEventListener('click', contactAdmin);
     goToBtn.addEventListener('click', showGoToLinks);
+
+    // Add event listeners for subject buttons in participant form
+document.querySelectorAll('#student-fields .subject-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('#student-fields .subject-btn').forEach(b => {
+            b.classList.remove('active');
+        });
+        this.classList.add('active');
+        selectedSubject = this.dataset.subject;
+    });
+});
+
+document.querySelectorAll('#general-fields .subject-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('#general-fields .subject-btn').forEach(b => {
+            b.classList.remove('active');
+        });
+        this.classList.add('active');
+        selectedSubject = this.dataset.subject;
+        
+        // Show CPNS license if needed
+        if (selectedSubject === 'cpns') {
+            cpnsLicense.style.display = 'block';
+        } else {
+            cpnsLicense.style.display = 'none';
+        }
+    });
+});
+
+// Add get location functionality
+document.getElementById('get-location').addEventListener('click', function() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            position => {
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+                document.getElementById('address').value = `Lat: ${lat}, Lng: ${lng}`;
+            },
+            error => {
+                alert('Tidak dapat mendapatkan lokasi: ' + error.message);
+            }
+        );
+    } else {
+        alert('Browser tidak mendukung geolocation.');
+    }
+});
     
     // Level selection buttons
     document.querySelectorAll('.level-btn').forEach(btn => {
