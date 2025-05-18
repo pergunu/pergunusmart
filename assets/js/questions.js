@@ -191,65 +191,67 @@ questionEditor.innerHTML = `
     }
     
     // Add new question
-    addQuestionBtn.addEventListener('click', function() {
-        questionEditor.style.display = 'block';
-        aiGenerator.style.display = 'none';
+  // Update addQuestionBtn event listener
+addQuestionBtn.addEventListener('click', function() {
+    questionEditor.style.display = 'block';
+    aiGenerator.style.display = 'none';
+    
+    // Reset form
+    document.getElementById('question-category').value = 'agama';
+    document.getElementById('question-level').value = 'sd';
+    document.getElementById('question-text-editor').value = '';
+    document.getElementById('option-a').value = '';
+    document.getElementById('option-b').value = '';
+    document.getElementById('option-c').value = '';
+    document.getElementById('option-d').value = '';
+    document.getElementById('option-e').value = '';
+    document.querySelector('input[name="correct-answer"][value="a"]').checked = true;
+    document.getElementById('explanation-editor').value = '';
+    
+    // Reset save button to default behavior
+    saveQuestionBtn.onclick = function() {
+        const category = document.getElementById('question-category').value;
+        const level = document.getElementById('question-level').value;
+        const text = document.getElementById('question-text-editor').value.trim();
+        const optionA = document.getElementById('option-a').value.trim();
+        const optionB = document.getElementById('option-b').value.trim();
+        const optionC = document.getElementById('option-c').value.trim();
+        const optionD = document.getElementById('option-d').value.trim();
+        const optionE = document.getElementById('option-e').value.trim();
+        const correctAnswer = document.querySelector('input[name="correct-answer"]:checked').value;
+        const explanation = document.getElementById('explanation-editor').value.trim();
         
-        // Reset form
-        document.getElementById('question-category').value = 'agama';
-        document.getElementById('question-level').value = 'SD';
-        document.getElementById('question-text-editor').value = '';
-        document.getElementById('option-a').value = '';
-        document.getElementById('option-b').value = '';
-        document.getElementById('option-c').value = '';
-        document.getElementById('option-d').value = '';
-        document.getElementById('explanation-editor').value = '';
-    });
-    
-    // Save question
-    // Update saveQuestionBtn event listener
-saveQuestionBtn.addEventListener('click', function() {
-    const category = document.getElementById('question-category').value;
-    const level = document.getElementById('question-level').value;
-    const text = document.getElementById('question-text-editor').value.trim();
-    const optionA = document.getElementById('option-a').value.trim();
-    const optionB = document.getElementById('option-b').value.trim();
-    const optionC = document.getElementById('option-c').value.trim();
-    const optionD = document.getElementById('option-d').value.trim();
-    const optionE = document.getElementById('option-e').value.trim();
-    const correctAnswer = document.querySelector('input[name="correct-answer"]:checked').value;
-    const explanation = document.getElementById('explanation-editor').value.trim();
-    
-    if (!text || !optionA || !optionB || !optionC || !optionD) {
-        alert('Harap isi semua bidang yang diperlukan (minimal sampai opsi D).');
-        return;
-    }
-    
-    const options = [
-        { text: optionA },
-        { text: optionB },
-        { text: optionC },
-        { text: optionD }
-    ];
-    
-    if (optionE) {
-        options.push({ text: optionE });
-    }
-    
-    const newQuestion = {
-        id: questions.length > 0 ? Math.max(...questions.map(q => q.id)) + 1 : 1,
-        category: category,
-        level: level,
-        text: text,
-        options: options,
-        correctAnswer: correctAnswer.charCodeAt(0) - 97, // Convert a,b,c,d,e to 0,1,2,3,4
-        explanation: explanation
+        if (!text || !optionA || !optionB || !optionC || !optionD) {
+            alert('Harap isi semua bidang yang diperlukan (minimal sampai opsi D).');
+            return;
+        }
+        
+        const options = [
+            { text: optionA },
+            { text: optionB },
+            { text: optionC },
+            { text: optionD }
+        ];
+        
+        if (optionE) {
+            options.push({ text: optionE });
+        }
+        
+        const newQuestion = {
+            id: questions.length > 0 ? Math.max(...questions.map(q => q.id)) + 1 : 1,
+            category: category,
+            level: level,
+            text: text,
+            options: options,
+            correctAnswer: correctAnswer.charCodeAt(0) - 97,
+            explanation: explanation
+        };
+        
+        questions.push(newQuestion);
+        loadQuestions();
+        questionEditor.style.display = 'none';
+        alert('Soal berhasil disimpan!');
     };
-    
-    questions.push(newQuestion);
-    loadQuestions();
-    questionEditor.style.display = 'none';
-    alert('Soal berhasil disimpan!');
 });
     
     // Cancel editing
