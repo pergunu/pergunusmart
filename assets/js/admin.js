@@ -204,3 +204,67 @@ document.getElementById('save-exam-code').addEventListener('click', function() {
         alert('Masukkan kode baru terlebih dahulu.');
     }
 });
+
+// Add link management to admin panel
+const adminSettings = document.querySelector('.admin-settings');
+const linkManagement = document.createElement('div');
+linkManagement.className = 'setting-group';
+linkManagement.innerHTML = `
+    <label>Daftar Link (satu link per baris):</label>
+    <textarea id="link-list" rows="5">http://is.gd/pergunusmart</textarea>
+    <button id="save-links" class="btn-small">Simpan Link</button>
+`;
+adminSettings.appendChild(linkManagement);
+
+// Add event listener for saving links
+document.getElementById('save-links').addEventListener('click', function() {
+    const links = document.getElementById('link-list').value.trim();
+    if (links) {
+        alert('Daftar link berhasil disimpan!');
+        // In a real app, you would save this to a database
+    } else {
+        alert('Masukkan daftar link terlebih dahulu.');
+    }
+});
+
+// Update showGoToLinks function in main.js
+function showGoToLinks() {
+    playButtonSound();
+    const links = document.getElementById('link-list').value.trim().split('\n');
+    let linksHtml = '<h3>Daftar Link:</h3><ul>';
+    
+    links.forEach(link => {
+        if (link.trim()) {
+            linksHtml += `<li><a href="${link.trim()}" target="_blank">${link.trim()}</a></li>`;
+        }
+    });
+    
+    linksHtml += '</ul>';
+    alertModal('Daftar Link', linksHtml);
+}
+
+// Add alertModal function
+function alertModal(title, content) {
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <h3>${title}</h3>
+            <div class="modal-body">${content}</div>
+            <button class="btn-gradient modal-close">Tutup</button>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    modal.querySelector('.modal-close').addEventListener('click', function() {
+        document.body.removeChild(modal);
+    });
+    
+    // Click outside to close
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            document.body.removeChild(modal);
+        }
+    });
+}
