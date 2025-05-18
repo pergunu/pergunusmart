@@ -1330,99 +1330,215 @@ function showScreen(screenName) {
 }
 
 // Toggle admin panel
+// Enhanced Audio Handling
+function setupAudio() {
+    // Set initial volume
+    setAudioVolume(0.7);
+    
+    // Try to play opening audio
+    playOpeningAudio();
+    
+    // Setup audio context for better mobile compatibility
+    setupAudioContext();
+}
+
+function setupAudioContext() {
+    try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        appState.audioContext = new AudioContext();
+        
+        // Resume audio context on user interaction
+        document.addEventListener('click', function initAudio() {
+            if (appState.audioContext.state === 'suspended') {
+                appState.audioContext.resume();
+            }
+            document.removeEventListener('click', initAudio);
+        });
+    } catch (error) {
+        console.error('Audio context setup error:', error);
+    }
+}
+
+function playOpeningAudio() {
+    try {
+        const openingAudio = document.getElementById('openingAudio');
+        const playPromise = openingAudio.play();
+        
+        if (playPromise !== undefined) {
+            playPromise.catch(error => {
+                console.log('Autoplay prevented:', error);
+                // Show play button if needed
+            });
+        }
+    } catch (error) {
+        console.error('Opening audio error:', error);
+    }
+}
+
+function playSound(audioId) {
+    try {
+        if (appState.isMuted) return;
+        
+        const audio = document.getElementById(audioId);
+        if (audio) {
+            audio.currentTime = 0;
+            audio.play().catch(e => console.log('Audio play error:', e));
+        }
+    } catch (error) {
+        console.error('Sound play error:', error);
+    }
+}
+
+function setAudioVolume(volume) {
+    try {
+        const audioElements = [
+            'openingAudio', 'buttonAudio', 'correctAudio', 
+            'wrongAudio', 'applauseAudio', 'bgAudio'
+        ];
+        
+        audioElements.forEach(id => {
+            const audio = document.getElementById(id);
+            if (audio) {
+                audio.volume = volume;
+            }
+        });
+        
+        appState.currentVolume = volume;
+        
+        // Update mute state
+        if (volume === 0) {
+            appState.isMuted = true;
+            document.getElementById('muteBtn').innerHTML = '<i class="fas fa-volume-mute"></i>';
+        } else {
+            appState.isMuted = false;
+            document.getElementById('muteBtn').innerHTML = '<i class="fas fa-volume-up"></i>';
+        }
+    } catch (error) {
+        console.error('Volume setting error:', error);
+    }
+}
+
+function toggleMute() {
+    try {
+        appState.isMuted = !appState.isMuted;
+        setAudioVolume(appState.isMuted ? 0 : appState.currentVolume);
+    } catch (error) {
+        console.error('Mute toggle error:', error);
+    }
+}
+
+function updateVolume() {
+    try {
+        const volumeSlider = document.getElementById('volumeSlider');
+        if (volumeSlider) {
+            const newVolume = parseFloat(volumeSlider.value);
+            setAudioVolume(newVolume);
+        }
+    } catch (error) {
+        console.error('Volume update error:', error);
+    }
+}
+
+// Enhanced Floating Buttons
+function setupFloatingButtons() {
+    const buttons = {
+        adminBtn: toggleAdminPanel,
+        bankSoalBtn: toggleBankSoalPanel,
+        goToBtn: toggleGoToPanel,
+        shareBtn: toggleSharePanel,
+        whatsappBtn: openWhatsApp
+    };
+    
+    Object.entries(buttons).forEach(([id, handler]) => {
+        const btn = document.getElementById(id);
+        if (btn) {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                playSound('buttonAudio');
+                handler();
+            });
+        }
+    });
+    
+    // Volume control
+    document.getElementById('muteBtn').addEventListener('click', function() {
+        playSound('buttonAudio');
+        toggleMute();
+    });
+    
+    document.getElementById('volumeSlider').addEventListener('input', updateVolume);
+}
+
 function toggleAdminPanel() {
-    playButtonSound();
     const adminCode = prompt('Masukkan Kode Admin:');
-    
-    if (adminCode === DEFAULT_ADMIN_CODE) {
-        adminPanel.style.display = 'flex';
+    if (adminCode === DEFAULT_CODES.ADMIN) {
+        document.getElementById('adminPanel').style.display = 'flex';
     } else if (adminCode) {
-        alert('Kode Admin salah.');
+        alert('Kode Admin salah');
     }
 }
 
-// Toggle bank soal panel
 function toggleBankSoalPanel() {
-    playButtonSound();
     const bankCode = prompt('Masukkan Kode Bank Soal:');
-    
-    if (bankCode === DEFAULT_BANK_SOAL_CODE) {
-        bankSoalPanel.style.display = 'flex';
+    if (bankCode === DEFAULT_CODES.BANK_SOAL) {
+        document.getElementById('bankSoalPanel').style.display = 'flex';
     } else if (bankCode) {
-        alert('Kode Bank Soal salah.');
+        alert('Kode Bank Soal salah');
     }
 }
 
-// Toggle share panel
-function toggleSharePanel() {
-    playButtonSound();
-    sharePanel.style.display = sharePanel.style.display === 'block' ? 'none' : 'block';
-    goToPanel.style.display = 'none';
-}
-
-// Toggle go to panel
 function toggleGoToPanel() {
-    playButtonSound();
-    goToPanel.style.display = goToPanel.style.display === 'block' ? 'none' : 'block';
-    sharePanel.style.display = 'none';
+    const panel = document.getElementById('goToPanel');
+    panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+    document.getElementById('sharePanel').style.display = 'none';
 }
 
-// Open WhatsApp chat
+function toggleSharePanel() {
+    const panel = document.getElementById('sharePanel');
+    panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+    document.getElementById('goToPanel').style.display = 'none';
+    
+    // Update share link
+    document.getElementById('shareLink').value = window.location.href;
+}
+
 function openWhatsApp() {
-    playButtonSound();
     window.open('https://wa.me/6285647709114?text=Assalamualaikum%20mas%20admin,%20saya%20mau%20tanya%20sesuatu%20nih...', '_blank');
 }
 
-// Copy share link
-function copyShareLink() {
-    playButtonSound();
-    shareLink.select();
-    document.execCommand('copy');
-    alert('Link telah disalin ke clipboard!');
-}
-
-// Play button sound
-function playButtonSound() {
-    buttonAudio.currentTime = 0;
-    buttonAudio.play().catch(e => console.log('Button audio error:', e));
-}
-
-// Shuffle array
-function shuffleArray(array) {
-    const newArray = [...array];
-    for (let i = newArray.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+// Enhanced Login Handling
+function handleLogin() {
+    playSound('buttonAudio');
+    
+    const loginCodeInput = document.getElementById('loginCode');
+    const loginError = document.getElementById('loginError');
+    
+    if (loginCodeInput.value === DEFAULT_CODES.LOGIN) {
+        loginError.textContent = '';
+        showScreen('terms');
+    } else {
+        loginError.textContent = 'Kode Login salah. Silakan coba lagi.';
+        loginCodeInput.focus();
+        
+        // Shake animation for error
+        loginCodeInput.classList.add('shake');
+        setTimeout(() => {
+            loginCodeInput.classList.remove('shake');
+        }, 500);
     }
-    return newArray;
 }
 
-// Load questions (mock data)
-function loadQuestions() {
-    // In a real app, this would be an API call
-    questions = [
-        // Sample questions for different categories
-        {
-            id: 1,
-            category: 'agama',
-            level: 'sd',
-            text: 'Siapakah nabi pertama dalam Islam?',
-            options: ['Adam', 'Nuh', 'Ibrahim', 'Musa', 'Muhammad'],
-            correctAnswer: 'A',
-            explanation: 'Nabi Adam adalah manusia pertama sekaligus nabi pertama dalam Islam.'
-        },
-        {
-            id: 2,
-            category: 'ppkn',
-            level: 'smp',
-            text: 'Pancasila sebagai dasar negara tercantum dalam pembukaan UUD 1945 alinea ke...',
-            options: ['1', '2', '3', '4', 'Tidak ada yang benar'],
-            correctAnswer: 'D',
-            explanation: 'Pancasila sebagai dasar negara tercantum dalam alinea ke-4 Pembukaan UUD 1945.'
-        },
-        // Add more questions as needed
-    ];
+// Initialize the app
+function init() {
+    setupAudio();
+    setupFloatingButtons();
+    loadQuestions();
+    setupEventListeners();
+    
+    // Check for admin access
+    if (window.location.hash === '#admin') {
+        toggleAdminPanel();
+    }
 }
 
-// Initialize the app when DOM is loaded
 document.addEventListener('DOMContentLoaded', init);
