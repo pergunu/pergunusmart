@@ -1,3 +1,60 @@
+// Error handling global
+window.addEventListener('error', function(event) {
+    console.error('Error:', event.message, 'in', event.filename, 'line:', event.lineno);
+    
+    // Tampilkan notifikasi error yang lebih user-friendly
+    const errorNotification = document.createElement('div');
+    errorNotification.className = 'error-notification';
+    errorNotification.innerHTML = `
+        <div class="error-content">
+            <span class="close-error">&times;</span>
+            <h3>Terjadi Kesalahan</h3>
+            <p>Maaf, terjadi masalah teknis. Silakan muat ulang halaman.</p>
+            <p><small>${event.message}</small></p>
+            <button class="btn-small" onclick="window.location.reload()">Muat Ulang</button>
+        </div>
+    `;
+    
+    document.body.appendChild(errorNotification);
+    
+    // Handler untuk tombol close
+    errorNotification.querySelector('.close-error').addEventListener('click', function() {
+        document.body.removeChild(errorNotification);
+    });
+});
+
+// CSS untuk error notification
+const errorStyle = document.createElement('style');
+errorStyle.textContent = `
+.error-notification {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+.error-content {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 80%;
+    position: relative;
+}
+.close-error {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    cursor: pointer;
+}
+`;
+document.head.appendChild(errorStyle);
+
 // DOM Elements
 const screens = document.querySelectorAll('.screen');
 const examCodeInput = document.getElementById('exam-code');
