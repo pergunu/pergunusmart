@@ -1034,3 +1034,50 @@ body {
     background: var(--accent-color);
     box-shadow: 0 0 0 2px white, 0 0 0 4px var(--accent-color);
 }
+
+/* Status Indicator Styles */
+.init-status {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    transition: opacity 0.5s ease;
+}
+
+.init-status h3 {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+}
+
+.init-status p {
+    margin: 3px 0;
+    display: flex;
+    align-items: center;
+}
+
+.status-icon {
+    display: inline-block;
+    width: 20px;
+    text-align: center;
+    margin-right: 5px;
+}
+
+/* Success checkmark */
+.status-success::before {
+    content: "✓";
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+/* Error cross */
+.status-error::before {
+    content: "✗";
+    color: #F44336;
+    font-weight: bold;
+}
