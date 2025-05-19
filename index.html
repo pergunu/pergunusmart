@@ -24,6 +24,7 @@
                 <input type="password" id="login-code" placeholder="Masukkan Kode Login" class="form-input">
                 <button id="login-btn" class="btn-primary">Masuk</button>
             </div>
+            <div id="error-message" class="error-message"></div>
             <audio id="opening-audio" src="assets/audio/opening.mp3" autoplay></audio>
         </div>
     </div>
@@ -43,5 +44,33 @@
 
     <script src="assets/js/particles.js"></script>
     <script src="assets/js/main.js"></script>
+    <script>
+        document.getElementById('login-btn').addEventListener('click', function() {
+            const code = document.getElementById('login-code').value.trim();
+            const errorElement = document.getElementById('error-message');
+            
+            if (code === '12345') {
+                // Play button sound
+                const audio = new Audio('assets/audio/audiotombol.mp3');
+                audio.play();
+                
+                // Clear error
+                errorElement.textContent = '';
+                
+                // Redirect to agreement page
+                window.location.href = 'agreement.html';
+            } else {
+                errorElement.textContent = 'Kode login salah! Silakan coba lagi.';
+                document.getElementById('login-code').focus();
+            }
+        });
+
+        // Enable login when Enter key is pressed
+        document.getElementById('login-code').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('login-btn').click();
+            }
+        });
+    </script>
 </body>
 </html>
