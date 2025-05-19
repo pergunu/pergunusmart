@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - PERGUNU Situbondo</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <style>
+        .admin-login-container {
+            max-width: 500px;
+            margin: 5rem auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .admin-login-container h1 {
+            color: #4e54c8;
+            margin-bottom: 1.5rem;
+        }
+        
+        .admin-logo {
+            margin-bottom: 1.5rem;
+        }
+        
+        .admin-logo img {
+            max-width: 150px;
+        }
+    </style>
+</head>
+<body class="gradient-bg">
+    <div id="particles-js"></div>
+    <div class="admin-login-container">
+        <div class="admin-logo">
+            <img src="../assets/images/logo.png" alt="PERGUNU Logo">
+        </div>
+        <h1>Admin Login</h1>
+        <div class="form-group">
+            <input type="password" id="admin-code" placeholder="Masukkan Kode Admin" class="form-input">
+        </div>
+        <div class="form-group">
+            <button id="admin-login-btn" class="btn-primary">Masuk</button>
+        </div>
+    </div>
+
+    <script src="../assets/js/particles.js"></script>
+    <script>
+        document.getElementById('admin-login-btn').addEventListener('click', function() {
+            const code = document.getElementById('admin-code').value.trim();
+            const savedCode = localStorage.getItem('admin_kode-kontrol-panel-admin') || '65614222';
+            
+            if (code === savedCode) {
+                window.location.href = 'panel.html';
+            } else {
+                alert('Kode admin salah! Silakan coba lagi.');
+                document.getElementById('admin-code').focus();
+            }
+        });
+        
+        // Auto focus on input
+        document.getElementById('admin-code').focus();
+    </script>
+</body>
+</html>
