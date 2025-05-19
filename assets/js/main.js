@@ -22,21 +22,39 @@ document.addEventListener('DOMContentLoaded', function() {
     // Login functionality
     const loginBtn = document.getElementById('login-btn');
     const loginCode = document.getElementById('login-code');
+    const errorElement = document.getElementById('error-message');
     
-    loginBtn.addEventListener('click', function() {
+    function handleLogin() {
         const code = loginCode.value.trim();
         if (code === '12345') {
             // Play button sound
             const audio = new Audio('assets/audio/audiotombol.mp3');
             audio.play();
             
+            // Clear error
+            if (errorElement) errorElement.textContent = '';
+            
             // Redirect to agreement page
             setTimeout(() => {
                 window.location.href = 'agreement.html';
             }, 500);
         } else {
-            alert('Kode login salah! Silakan coba lagi.');
+            // Show error message
+            if (errorElement) {
+                errorElement.textContent = 'Kode login salah! Silakan coba lagi.';
+            } else {
+                alert('Kode login salah! Silakan coba lagi.');
+            }
             loginCode.focus();
+        }
+    }
+
+    loginBtn.addEventListener('click', handleLogin);
+    
+    // Enable login on Enter key
+    loginCode.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            handleLogin();
         }
     });
 
