@@ -939,5 +939,32 @@
     <script src="js/admin-panel.js"></script>
     <script src="js/certificate-generator.js"></script>
     <script src="js/particles.js"></script>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+  const audio = document.getElementById('opening-audio');
+  
+  // Solusi autoplay terblokir
+  function unlockAudio() {
+    audio.play().then(() => {
+      audio.pause();
+      audio.currentTime = 0;
+    }).catch(e => {
+      document.body.addEventListener('click', () => {
+        audio.play();
+      }, { once: true });
+    });
+  }
+  
+  unlockAudio();
+  
+  // Fallback jika masih stuck
+  setTimeout(() => {
+    if(document.querySelector('.loading-screen').style.display === 'block') {
+      document.querySelector('.loading-screen').style.display = 'none';
+    }
+  }, 3000);
+});
+</script>
 </body>
 </html>
