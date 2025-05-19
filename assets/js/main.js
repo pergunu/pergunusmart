@@ -1,1068 +1,1020 @@
-// DOM Elements
-const screens = document.querySelectorAll('.screen');
-const examCodeInput = document.getElementById('exam-code');
-const enterBtn = document.getElementById('enter-btn');
-const agreeTermsCheckbox = document.getElementById('agree-terms');
-const continueBtn = document.getElementById('continue-btn');
-const participantForm = document.getElementById('participant-data');
-const studentRadio = document.getElementById('student');
-const generalRadio = document.getElementById('general');
-const studentFields = document.getElementById('student-fields');
-const generalFields = document.getElementById('general-fields');
-const startExamBtn = document.getElementById('start-exam-btn');
-const examScreen = document.getElementById('exam-screen');
-const questionText = document.getElementById('question-text');
-const optionsContainer = document.getElementById('options-container');
-const currentQuestionSpan = document.getElementById('current-question');
-const totalQuestionsSpan = document.getElementById('total-questions');
-const timerSpan = document.getElementById('timer');
-const finishExamBtn = document.getElementById('finish-exam-btn');
-const skipQuestionBtn = document.getElementById('skip-question-btn');
-const unansweredBtn = document.getElementById('unanswered-btn');
-const answerExplanation = document.getElementById('answer-explanation');
-const explanationText = document.getElementById('explanation-text');
-const resultsScreen = document.getElementById('results-screen');
-const scorePercentage = document.getElementById('score-percentage');
-const totalAnswered = document.getElementById('total-answered');
-const correctAnswers = document.getElementById('correct-answers');
-const wrongAnswers = document.getElementById('wrong-answers');
-const viewCertificateBtn = document.getElementById('view-certificate-btn');
-const retakeExamBtn = document.getElementById('retake-exam-btn');
-const certificateScreen = document.getElementById('certificate-screen');
-const certName = document.getElementById('cert-name');
-const certScore = document.getElementById('cert-score');
-const certMotivation = document.getElementById('cert-motivation');
-const certPeriod = document.getElementById('cert-period');
-const certificateCode = document.getElementById('certificate-code');
-const printCertificateBtn = document.getElementById('print-certificate-btn');
-const backToResultsBtn = document.getElementById('back-to-results-btn');
-const sdLevels = document.getElementById('sd-levels');
-const smpLevels = document.getElementById('smp-levels');
-const smaLevels = document.getElementById('sma-levels');
-const studentLevels = document.getElementById('student-levels');
-const generalLevels = document.getElementById('general-levels');
-const cpnsLicense = document.getElementById('cpns-license');
-const verifyCpnsBtn = document.getElementById('verify-cpns');
-const cpnsCodeInput = document.getElementById('cpns-code');
-const timeWarning = document.getElementById('time-warning');
-const adminPanelBtn = document.getElementById('admin-panel-btn');
-const questionBankBtn = document.getElementById('question-bank-btn');
-const shareBtn = document.getElementById('share-btn');
-const whatsappBtn = document.getElementById('whatsapp-btn');
-const goToBtn = document.getElementById('go-to-btn');
-const floatingButtons = document.querySelectorAll('.floating-btn');
-const adminPanel = document.getElementById('admin-panel');
-const questionBank = document.getElementById('question-bank');
-const openingAudio = document.getElementById('opening-audio');
-const correctAudio = document.getElementById('correct-audio');
-const wrongAudio = document.getElementById('wrong-audio');
-const buttonAudio = document.getElementById('button-audio');
-const applauseAudio = document.getElementById('applause-audio');
-const backgroundAudio = document.getElementById('background-audio');
-
-// Default codes
-const DEFAULT_LOGIN_CODE = '12345';
-const DEFAULT_CPNS_CODE = 'OPENLOCK-1926';
-const DEFAULT_ADMIN_CODE = '65614222';
-const DEFAULT_QUESTION_BANK_CODE = 'OPENLOCK-1926';
-
-// Exam variables
-let currentScreen = 0;
-let questions = [];
-let currentQuestionIndex = 0;
-let answeredQuestions = [];
-let correctCount = 0;
-let wrongCount = 0;
-let unansweredCount = 0;
-let timerInterval;
-let examDuration = 120; // in minutes
-let remainingTime = examDuration * 60; // in seconds
-let selectedSubject = '';
-let selectedLevel = '';
-let participantData = {};
-let isStudent = true;
-
-// Initialize the app
-function init() {
-    // Status initialization
-    const initStatus = {
-        particles: false,
-        audio: false,
-        questions: false
+// Main Application Script
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize variables
+    let currentScreen = 'opening';
+    let participantData = {};
+    let examData = {};
+    let questions = [];
+    let currentQuestionIndex = 0;
+    let timer;
+    let timeLeft = 120 * 60; // 120 minutes in seconds
+    let score = 0;
+    let correctAnswers = 0;
+    let wrongAnswers = 0;
+    let unanswered = 0;
+    let totalQuestions = 0;
+    
+    // Default codes
+    const defaultCodes = {
+        login: '12345',
+        cpns: 'OPENLOCK-1926',
+        bank: 'OPENLOCK-1926',
+        admin: '65614222'
     };
-
-    // Check particles initialization
-    if (document.getElementById('particles-js')) {
-        initStatus.particles = true;
-    }
-
-    // Check audio initialization
-    if (typeof Audio !== 'undefined') {
-        initStatus.audio = true;
-    }
-
-    // Check questions initialization
-    if (questions && questions.length > 0) {
-        initStatus.questions = true;
-    }
-
-    // Show initialization status
-    showInitStatus(initStatus);
     
-    // Set default exam code for development
-    examCodeInput.value = DEFAULT_LOGIN_CODE;
+    // Sample questions for demonstration
+    const sampleQuestions = {
+        agama: [
+            {
+                question: "Apa rukun Islam yang pertama?",
+                options: {
+                    a: "Shalat",
+                    b: "Puasa",
+                    c: "Syahadat",
+                    d: "Zakat",
+                    e: "Haji"
+                },
+                correctAnswer: "c",
+                explanation: "Rukun Islam yang pertama adalah mengucapkan dua kalimat syahadat."
+            }
+        ],
+        ppkn: [
+            {
+                question: "Pancasila sebagai dasar negara tercantum dalam?",
+                options: {
+                    a: "Pembukaan UUD 1945",
+                    b: "Batang Tubuh UUD 1945",
+                    c: "Penjelasan UUD 1945",
+                    d: "Keputusan Presiden",
+                    e: "Peraturan Pemerintah"
+                },
+                correctAnswer: "a",
+                explanation: "Pancasila sebagai dasar negara tercantum dalam Pembukaan UUD 1945 alinea keempat."
+            }
+        ],
+        sejarah: [
+            {
+                question: "Kapan Indonesia merdeka?",
+                options: {
+                    a: "16 Agustus 1945",
+                    b: "17 Agustus 1945",
+                    c: "18 Agustus 1945",
+                    d: "19 Agustus 1945",
+                    e: "20 Agustus 1945"
+                },
+                correctAnswer: "b",
+                explanation: "Indonesia merdeka pada tanggal 17 Agustus 1945."
+            }
+        ],
+        ipa: [
+            {
+                question: "Planet terdekat dari matahari adalah?",
+                options: {
+                    a: "Venus",
+                    b: "Bumi",
+                    c: "Mars",
+                    d: "Merkurius",
+                    e: "Jupiter"
+                },
+                correctAnswer: "d",
+                explanation: "Merkurius adalah planet terdekat dari matahari dalam tata surya kita."
+            }
+        ],
+        ips: [
+            {
+                question: "Ibu kota provinsi Jawa Timur adalah?",
+                options: {
+                    a: "Surabaya",
+                    b: "Malang",
+                    c: "Sidoarjo",
+                    d: "Kediri",
+                    e: "Madiun"
+                },
+                correctAnswer: "a",
+                explanation: "Ibu kota provinsi Jawa Timur adalah Surabaya."
+            }
+        ],
+        matematika: [
+            {
+                question: "Berapakah hasil dari 7 x 8?",
+                options: {
+                    a: "48",
+                    b: "54",
+                    c: "56",
+                    d: "64",
+                    e: "72"
+                },
+                correctAnswer: "c",
+                explanation: "Hasil dari 7 x 8 adalah 56."
+            }
+        ],
+        bahasa_indonesia: [
+            {
+                question: "Apa yang dimaksud dengan antonim?",
+                options: {
+                    a: "Kata yang memiliki arti sama",
+                    b: "Kata yang memiliki arti berlawanan",
+                    c: "Kata yang berasal dari bahasa asing",
+                    d: "Kata yang tidak baku",
+                    e: "Kata yang jarang digunakan"
+                },
+                correctAnswer: "b",
+                explanation: "Antonim adalah kata yang memiliki arti berlawanan."
+            }
+        ],
+        bahasa_inggris: [
+            {
+                question: "What is the meaning of 'book' in Indonesian?",
+                options: {
+                    a: "Pensil",
+                    b: "Buku",
+                    c: "Meja",
+                    d: "Papan tulis",
+                    e: "Pulpen"
+                },
+                correctAnswer: "b",
+                explanation: "Arti dari 'book' dalam bahasa Indonesia adalah 'buku'."
+            }
+        ],
+        materi_extra: [
+            {
+                question: "Siapakah pencipta lagu Indonesia Raya?",
+                options: {
+                    a: "W.R. Supratman",
+                    b: "C. Simanjuntak",
+                    c: "Ismail Marzuki",
+                    d: "Gesang",
+                    e: "Ibu Sud"
+                },
+                correctAnswer: "a",
+                explanation: "Lagu Indonesia Raya diciptakan oleh Wage Rudolf Supratman."
+            }
+        ],
+        materi_khusus: [
+            {
+                question: "Apa nama kitab suci agama Hindu?",
+                options: {
+                    a: "Al-Quran",
+                    b: "Alkitab",
+                    c: "Tripitaka",
+                    d: "Wedha",
+                    e: "Talmud"
+                },
+                correctAnswer: "d",
+                explanation: "Kitab suci agama Hindu adalah Wedha."
+            }
+        ],
+        ujian_logika: [
+            {
+                question: "Jika semua manusia adalah makhluk hidup, dan Budi adalah manusia, maka:",
+                options: {
+                    a: "Budi adalah makhluk hidup",
+                    b: "Budi bukan makhluk hidup",
+                    c: "Semua makhluk hidup adalah Budi",
+                    d: "Tidak ada yang benar",
+                    e: "Semua benar"
+                },
+                correctAnswer: "a",
+                explanation: "Jika semua manusia adalah makhluk hidup, dan Budi adalah manusia, maka Budi adalah makhluk hidup."
+            }
+        ],
+        ujian_cpns: [
+            {
+                question: "Sistem pemerintahan Indonesia berdasarkan UUD 1945 adalah:",
+                options: {
+                    a: "Presidensial",
+                    b: "Parlamen",
+                    c: "Monarki",
+                    d: "Federal",
+                    e: "Komunis"
+                },
+                correctAnswer: "a",
+                explanation: "Sistem pemerintahan Indonesia berdasarkan UUD 1945 adalah presidensial."
+            }
+        ]
+    };
     
-    // Set current date for certificate
-    const now = new Date();
-    const formattedDate = `${now.getDate()}${now.getMonth()+1}${now.getFullYear()}`;
-    certPeriod.textContent = `Ditetapkan di: Situbondo, ${formatDate(now)}`;
+    // Motivational messages based on score
+    const motivationalMessages = [
+        { min: 0, max: 40, message: "Jangan menyerah! Teruslah belajar dan tingkatkan kemampuan Anda." },
+        { min: 41, max: 60, message: "Hasil yang cukup baik. Tingkatkan lagi untuk hasil yang lebih maksimal!" },
+        { min: 61, max: 80, message: "Kerja bagus! Anda sudah menguasai sebagian besar materi." },
+        { min: 81, max: 95, message: "Luar biasa! Hampir sempurna dalam menguasai materi ini." },
+        { min: 96, max: 100, message: "Sempurna! Anda sangat luar biasa dalam menguasai materi ini. Pertahankan prestasi ini." }
+    ];
     
-    // Event listeners
-    enterBtn.addEventListener('click', validateExamCode);
-    agreeTermsCheckbox.addEventListener('change', toggleContinueButton);
-    continueBtn.addEventListener('click', goToNextScreen);
+    // DOM Elements
+    const loginCodeInput = document.getElementById('loginCode');
+    const loginBtn = document.getElementById('loginBtn');
+    const loginError = document.getElementById('loginError');
+    const agreeTerms = document.getElementById('agreeTerms');
+    const continueBtn = document.getElementById('continueBtn');
+    const participantForm = document.getElementById('participantDataForm');
+    const pelajarRadio = document.getElementById('pelajar');
+    const umumRadio = document.getElementById('umum');
+    const getLocationBtn = document.getElementById('getLocationBtn');
+    const locationStatus = document.getElementById('locationStatus');
+    const startExamBtn = document.getElementById('startExamBtn');
+    const cpnsLicenseForm = document.getElementById('cpnsLicenseForm');
+    const verifyLicenseBtn = document.getElementById('verifyLicenseBtn');
+    const licenseError = document.getElementById('licenseError');
+    const examTimer = document.getElementById('examTimer');
+    const currentQuestionElement = document.getElementById('currentQuestion');
+    const totalQuestionsElement = document.getElementById('totalQuestions');
+    const questionText = document.getElementById('questionText');
+    const optionsContainer = document.getElementById('optionsContainer');
+    const explanationBox = document.getElementById('explanationBox');
+    const explanationText = document.getElementById('explanationText');
+    const finishExamBtn = document.getElementById('finishExamBtn');
+    const skipQuestionBtn = document.getElementById('skipQuestionBtn');
+    const unansweredBtn = document.getElementById('unansweredBtn');
+    const timeWarning = document.getElementById('timeWarning');
+    const finalScore = document.getElementById('finalScore');
+    const totalQuestionsStat = document.getElementById('totalQuestionsStat');
+    const correctAnswersElement = document.getElementById('correctAnswers');
+    const wrongAnswersElement = document.getElementById('wrongAnswers');
+    const unansweredElement = document.getElementById('unanswered');
+    const certificatePreview = document.getElementById('certificatePreview');
+    const printCertificateBtn = document.getElementById('printCertificateBtn');
+    const retakeExamBtn = document.getElementById('retakeExamBtn');
+    const shareBtn = document.getElementById('shareBtn');
+    const whatsappBtn = document.getElementById('whatsappBtn');
+    const goToBtn = document.getElementById('goToBtn');
+    const questionBankBtn = document.getElementById('questionBankBtn');
+    const adminPanelBtn = document.getElementById('adminPanelBtn');
+    const musicBtn = document.getElementById('musicBtn');
+    const musicPlayer = document.getElementById('musicPlayer');
+    const closePlayerBtn = document.getElementById('closePlayerBtn');
+    const musicPlaylist = document.getElementById('musicPlaylist');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const prevTrackBtn = document.getElementById('prevTrackBtn');
+    const nextTrackBtn = document.getElementById('nextTrackBtn');
+    const volumeControl = document.getElementById('volumeControl');
+    const volumeIcon = document.getElementById('volumeIcon');
+    const goToMenu = document.getElementById('goToMenu');
+    const closeMenuBtn = document.getElementById('closeMenuBtn');
+    const websiteLinksList = document.getElementById('websiteLinksList');
+    const adminAccess = document.getElementById('adminAccess');
+    const adminAccessCode = document.getElementById('adminAccessCode');
+    const verifyAdminBtn = document.getElementById('verifyAdminBtn');
+    const adminError = document.getElementById('adminError');
+    const bankAccessCode = document.getElementById('bankAccessCode');
+    const accessBankBtn = document.getElementById('accessBankBtn');
+    const bankError = document.getElementById('bankError');
+    
+    // Screen elements
+    const screens = {
+        opening: document.getElementById('openingScreen'),
+        terms: document.getElementById('termsScreen'),
+        participant: document.getElementById('participantForm'),
+        examSelection: document.getElementById('examSelection'),
+        exam: document.getElementById('examScreen'),
+        results: document.getElementById('resultsScreen'),
+        admin: document.getElementById('adminPanel'),
+        bank: document.getElementById('questionBank')
+    };
+    
+    // Audio elements
+    const audioElements = {
+        opening: new Audio('assets/audio/opening.mp3'),
+        applause: new Audio('assets/audio/applause.mp3'),
+        correct: new Audio('assets/audio/jawabanbenar.mp3'),
+        wrong: new Audio('assets/audio/jawbansalah.mp3'),
+        button: new Audio('assets/audio/audiotombol.mp3')
+    };
+    
+    // Initialize particles.js
+    particlesJS.load('particles-js', 'js/particles.json', function() {
+        console.log('Particles.js loaded');
+    });
+    
+    // Play opening audio
+    audioElements.opening.play();
+    
+    // Event Listeners
+    loginBtn.addEventListener('click', verifyLoginCode);
+    agreeTerms.addEventListener('change', toggleContinueButton);
+    continueBtn.addEventListener('click', showParticipantForm);
+    pelajarRadio.addEventListener('change', toggleParticipantFields);
+    umumRadio.addEventListener('change', toggleParticipantFields);
+    getLocationBtn.addEventListener('click', getLocation);
     participantForm.addEventListener('submit', saveParticipantData);
-    studentRadio.addEventListener('change', toggleParticipantFields);
-    generalRadio.addEventListener('change', toggleParticipantFields);
+    verifyLicenseBtn.addEventListener('click', verifyLicenseCode);
     startExamBtn.addEventListener('click', startExam);
-    finishExamBtn.addEventListener('click', finishExam);
     skipQuestionBtn.addEventListener('click', skipQuestion);
-    unansweredBtn.addEventListener('click', showUnansweredQuestions);
-    viewCertificateBtn.addEventListener('click', showCertificate);
-    retakeExamBtn.addEventListener('click', retakeExam);
+    unansweredBtn.addEventListener('click', showUnanswered);
+    finishExamBtn.addEventListener('click', finishExam);
     printCertificateBtn.addEventListener('click', printCertificate);
-    backToResultsBtn.addEventListener('click', goBackToResults);
-    verifyCpnsBtn.addEventListener('click', verifyCpnsCode);
-    adminPanelBtn.addEventListener('click', toggleAdminPanel);
-    questionBankBtn.addEventListener('click', toggleQuestionBank);
+    retakeExamBtn.addEventListener('click', retakeExam);
     shareBtn.addEventListener('click', shareWebsite);
     whatsappBtn.addEventListener('click', contactAdmin);
-    goToBtn.addEventListener('click', showGoToLinks);
+    goToBtn.addEventListener('click', showGoToMenu);
+    questionBankBtn.addEventListener('click', showQuestionBankAccess);
+    adminPanelBtn.addEventListener('click', showAdminAccess);
+    musicBtn.addEventListener('click', toggleMusicPlayer);
+    closePlayerBtn.addEventListener('click', closeMusicPlayer);
+    playPauseBtn.addEventListener('click', togglePlayPause);
+    prevTrackBtn.addEventListener('click', playPreviousTrack);
+    nextTrackBtn.addEventListener('click', playNextTrack);
+    volumeControl.addEventListener('input', changeVolume);
+    closeMenuBtn.addEventListener('click', closeGoToMenu);
+    verifyAdminBtn.addEventListener('click', verifyAdminCode);
+    accessBankBtn.addEventListener('click', verifyBankCode);
     
-    // Level selection buttons
-    document.querySelectorAll('.level-btn').forEach(btn => {
-        btn.addEventListener('click', selectLevel);
-    });
+    // Functions
+    function verifyLoginCode() {
+        playButtonSound();
+        
+        if (loginCodeInput.value === defaultCodes.login) {
+            hideScreen('opening');
+            showScreen('terms');
+        } else {
+            loginError.textContent = "Kode login salah. Silakan coba lagi.";
+            loginError.style.display = "block";
+        }
+    }
     
-    document.querySelectorAll('.subject-btn').forEach(btn => {
-        btn.addEventListener('click', selectSubject);
-    });
+    function toggleContinueButton() {
+        playButtonSound();
+        continueBtn.disabled = !agreeTerms.checked;
+    }
     
-    // Subject buttons in participant form
-    document.querySelectorAll('#student-fields .subject-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            document.querySelectorAll('#student-fields .subject-btn').forEach(b => {
-                b.classList.remove('active');
-            });
-            this.classList.add('active');
-            selectedSubject = this.dataset.subject;
-        });
-    });
-
-    document.querySelectorAll('#general-fields .subject-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            document.querySelectorAll('#general-fields .subject-btn').forEach(b => {
-                b.classList.remove('active');
-            });
-            this.classList.add('active');
-            selectedSubject = this.dataset.subject;
-            
-            // Show CPNS license if needed
-            if (selectedSubject === 'cpns') {
-                cpnsLicense.style.display = 'block';
-            } else {
-                cpnsLicense.style.display = 'none';
-            }
-        });
-    });
-
-    // Get location functionality
-    document.getElementById('get-location')?.addEventListener('click', function() {
+    function showParticipantForm() {
+        playButtonSound();
+        hideScreen('terms');
+        showScreen('participant');
+    }
+    
+    function toggleParticipantFields() {
+        playButtonSound();
+        const pelajarFields = document.querySelectorAll('.pelajar-fields');
+        const umumFields = document.querySelectorAll('.umum-fields');
+        
+        if (pelajarRadio.checked) {
+            pelajarFields.forEach(field => field.style.display = 'block');
+            umumFields.forEach(field => field.style.display = 'none');
+        } else {
+            pelajarFields.forEach(field => field.style.display = 'none');
+            umumFields.forEach(field => field.style.display = 'block');
+        }
+    }
+    
+    function getLocation() {
+        playButtonSound();
+        locationStatus.textContent = "Mencoba mendapatkan lokasi...";
+        
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 position => {
-                    const lat = position.coords.latitude;
-                    const lng = position.coords.longitude;
-                    document.getElementById('address').value = `Lat: ${lat}, Lng: ${lng}`;
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    document.getElementById('address').value = `${latitude}, ${longitude}`;
+                    locationStatus.textContent = "Lokasi berhasil didapatkan!";
                 },
                 error => {
-                    alert('Tidak dapat mendapatkan lokasi: ' + error.message);
+                    console.error("Error getting location:", error);
+                    locationStatus.textContent = "Gagal mendapatkan lokasi: " + error.message;
                 }
             );
         } else {
-            alert('Browser tidak mendukung geolocation.');
+            locationStatus.textContent = "Geolocation tidak didukung oleh browser Anda.";
         }
-    });
-    
-    // Floating buttons
-    floatingButtons.forEach(btn => {
-        btn.addEventListener('click', playButtonSound);
-    });
-    
-    // Show first screen
-    showScreen(0);
-    
-    // Load questions (in a real app, this would be from a server)
-    loadSampleQuestions();
-    
-    // Start background music
-    backgroundAudio.volume = 0.3;
-    backgroundAudio.play();
-
-    // Initialize admin panel
-    initAdminPanel();
-}
-
-// Admin Panel Initialization
-function initAdminPanel() {
-    // Update setting-group untuk toggle ujian
-    const settingGroup = document.querySelector('.toggle-group');
-    if (settingGroup) {
-        settingGroup.innerHTML = `
-            <label class="toggle-label">
-                <input type="checkbox" id="toggle-agama" checked> AGAMA
-            </label>
-            <label class="toggle-label">
-                <input type="checkbox" id="toggle-ppkn" checked> PPKN
-            </label>
-            <label class="toggle-label">
-                <input type="checkbox" id="toggle-sejarah" checked> SEJARAH
-            </label>
-            <label class="toggle-label">
-                <input type="checkbox" id="toggle-ipa" checked> IPA
-            </label>
-            <label class="toggle-label">
-                <input type="checkbox" id="toggle-ips" checked> IPS
-            </label>
-            <label class="toggle-label">
-                <input type="checkbox" id="toggle-matematika" checked> MATEMATIKA
-            </label>
-            <label class="toggle-label">
-                <input type="checkbox" id="toggle-indonesia" checked> BAHASA INDONESIA
-            </label>
-            <label class="toggle-label">
-                <input type="checkbox" id="toggle-inggris" checked> BAHASA INGGRIS
-            </label>
-            <label class="toggle-label">
-                <input type="checkbox" id="toggle-extra" checked> MATERI EXTRA
-            </label>
-            <label class="toggle-label">
-                <input type="checkbox" id="toggle-khusus" checked> MATERI KHUSUS
-            </label>
-            <label class="toggle-label">
-                <input type="checkbox" id="toggle-logika" checked> UJIAN LOGIKA
-            </label>
-            <label class="toggle-label">
-                <input type="checkbox" id="toggle-cpns" checked> UJIAN CPNS/P3K
-            </label>
-        `;
-    }
-
-    // Update question-count options
-    const questionCountSelect = document.getElementById('question-count');
-    if (questionCountSelect) {
-        questionCountSelect.innerHTML = '';
-        [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130, 135, 140, 145, 150].forEach(num => {
-            const option = document.createElement('option');
-            option.value = num;
-            option.textContent = num;
-            if (num === 10) option.selected = true;
-            questionCountSelect.appendChild(option);
-        });
-    }
-
-    // Add link management to admin panel
-    const adminSettings = document.querySelector('.admin-settings');
-    if (adminSettings) {
-        const linkManagement = document.createElement('div');
-        linkManagement.className = 'setting-group';
-        linkManagement.innerHTML = `
-            <label>Daftar Link (satu link per baris):</label>
-            <textarea id="link-list" rows="5">http://is.gd/pergunusmart</textarea>
-            <button id="save-links" class="btn-small">Simpan Link</button>
-        `;
-        adminSettings.appendChild(linkManagement);
-
-        // Add event listener for saving links
-        document.getElementById('save-links')?.addEventListener('click', function() {
-            const links = document.getElementById('link-list').value.trim();
-            if (links) {
-                alert('Daftar link berhasil disimpan!');
-            } else {
-                alert('Masukkan daftar link terlebih dahulu.');
-            }
-        });
-    }
-}
-
-// Show initialization status
-function showInitStatus(status) {
-    const statusContainer = document.createElement('div');
-    statusContainer.className = 'init-status';
-    statusContainer.style.position = 'fixed';
-    statusContainer.style.bottom = '10px';
-    statusContainer.style.left = '10px';
-    statusContainer.style.zIndex = '1000';
-    statusContainer.style.backgroundColor = 'rgba(0,0,0,0.7)';
-    statusContainer.style.padding = '10px';
-    statusContainer.style.borderRadius = '5px';
-    statusContainer.style.color = 'white';
-    statusContainer.style.fontFamily = 'Arial, sans-serif';
-    statusContainer.style.fontSize = '12px';
-
-    let statusHTML = '<h3 style="margin:0 0 5px 0;">Status Sistem:</h3>';
-    statusHTML += `<p style="margin:3px 0;"><span class="status-icon">${status.particles ? '✔️' : '❌'}</span> Particles.js</p>`;
-    statusHTML += `<p style="margin:3px 0;"><span class="status-icon">${status.audio ? '✔️' : '❌'}</span> Sistem Audio</p>`;
-    statusHTML += `<p style="margin:3px 0;"><span class="status-icon">${status.questions ? '✔️' : '❌'}</span> Bank Soal</p>`;
-
-    statusContainer.innerHTML = statusHTML;
-    document.body.appendChild(statusContainer);
-
-    // Hide after 5 seconds
-    setTimeout(() => {
-        statusContainer.style.opacity = '0';
-        setTimeout(() => {
-            document.body.removeChild(statusContainer);
-        }, 500);
-    }, 5000);
-}
-
-// Show screen by index
-function showScreen(index) {
-    screens.forEach((screen, i) => {
-        screen.classList.toggle('active', i === index);
-    });
-    currentScreen = index;
-    
-    // Special cases
-    if (index === 4) { // Exam screen
-        startTimer();
     }
     
-    if (index === 6) { // Certificate screen
-        generateCertificate();
-        applauseAudio.play();
-    }
-}
-
-// Validate exam code
-function validateExamCode() {
-    playButtonSound();
-    const code = examCodeInput.value.trim();
-    
-    if (code === DEFAULT_LOGIN_CODE) {
-        showScreen(1);
-    } else {
-        alert('Kode ujian salah. Silakan coba lagi.');
-        examCodeInput.focus();
-    }
-}
-
-// Toggle continue button based on terms agreement
-function toggleContinueButton() {
-    continueBtn.disabled = !agreeTermsCheckbox.checked;
-}
-
-// Go to next screen
-function goToNextScreen() {
-    playButtonSound();
-    showScreen(currentScreen + 1);
-}
-
-// Toggle participant fields based on status
-function toggleParticipantFields() {
-    isStudent = studentRadio.checked;
-    
-    if (isStudent) {
-        studentFields.style.display = 'block';
-        generalFields.style.display = 'none';
-    } else {
-        studentFields.style.display = 'none';
-        generalFields.style.display = 'block';
-    }
-}
-
-// Save participant data
-function saveParticipantData(e) {
-    e.preventDefault();
-    playButtonSound();
-    
-    // Get form values
-    participantData = {
-        fullname: document.getElementById('fullname').value.trim(),
-        status: isStudent ? 'pelajar' : 'umum',
-        purpose: isStudent ? document.getElementById('student-purpose').value : document.getElementById('general-purpose').value,
-        level: isStudent ? document.querySelector('input[name="school-level"]:checked').value : 'umum',
-        classLevel: ''
-    };
-    
-    if (isStudent) {
-        participantData.school = document.getElementById('school').value.trim();
-        participantData.nis = document.getElementById('nis').value.trim();
-    } else {
-        participantData.address = document.getElementById('address').value.trim();
-        participantData.whatsapp = document.getElementById('whatsapp').value.trim();
-        participantData.email = document.getElementById('email').value.trim();
-    }
-    
-    // Validate
-    let isValid = true;
-    const requiredFields = [
-        { field: participantData.fullname, message: 'Nama lengkap harus diisi' },
-        { field: participantData.purpose, message: 'Tujuan ujian harus dipilih' }
-    ];
-    
-    if (isStudent) {
-        requiredFields.push(
-            { field: participantData.school, message: 'Nama sekolah harus diisi' },
-            { field: participantData.nis, message: 'NIS harus diisi' }
-        );
-    } else {
-        requiredFields.push(
-            { field: participantData.address, message: 'Alamat harus diisi' },
-            { field: participantData.whatsapp, message: 'Nomor WhatsApp harus diisi' },
-            { field: participantData.email, message: 'Email harus diisi' }
-        );
-    }
-    
-    for (const { field, message } of requiredFields) {
-        if (!field) {
-            alert(message);
+    function saveParticipantData(e) {
+        e.preventDefault();
+        playButtonSound();
+        
+        // Collect participant data
+        participantData = {
+            fullName: document.getElementById('fullName').value,
+            status: document.querySelector('input[name="status"]:checked').value,
+            schoolName: document.getElementById('schoolName').value,
+            studentId: document.getElementById('studentId').value,
+            studentPurpose: document.getElementById('studentPurpose').value,
+            schoolLevel: document.getElementById('schoolLevel').value,
+            address: document.getElementById('address').value,
+            whatsapp: document.getElementById('whatsapp').value,
+            email: document.getElementById('email').value,
+            generalPurpose: document.getElementById('generalPurpose').value
+        };
+        
+        // Validate all required fields
+        let isValid = true;
+        
+        if (!participantData.fullName) {
             isValid = false;
-            break;
+            alert("Nama lengkap harus diisi!");
         }
-    }
-    
-    if (!isValid) return;
-    
-    // Go to next screen
-    showScreen(3);
-    
-    // Show appropriate level options
-    if (isStudent) {
-        studentLevels.style.display = 'block';
-        generalLevels.style.display = 'none';
         
-        if (participantData.level === 'SD') {
-            sdLevels.style.display = 'flex';
-            smpLevels.style.display = 'none';
-            smaLevels.style.display = 'none';
-        } else if (participantData.level === 'SMP') {
-            sdLevels.style.display = 'none';
-            smpLevels.style.display = 'flex';
-            smaLevels.style.display = 'none';
+        if (participantData.status === 'pelajar') {
+            if (!participantData.schoolName || !participantData.studentId || !participantData.studentPurpose || !participantData.schoolLevel) {
+                isValid = false;
+                alert("Semua data pelajar harus diisi!");
+            }
         } else {
-            sdLevels.style.display = 'none';
-            smpLevels.style.display = 'none';
-            smaLevels.style.display = 'flex';
+            if (!participantData.address || !participantData.whatsapp || !participantData.email || !participantData.generalPurpose) {
+                isValid = false;
+                alert("Semua data umum harus diisi!");
+            }
         }
-    } else {
-        studentLevels.style.display = 'none';
-        generalLevels.style.display = 'block';
+        
+        if (isValid) {
+            hideScreen('participant');
+            showScreen('examSelection');
+            setupExamSelection();
+        }
     }
-}
-
-// Select level
-function selectLevel(e) {
-    playButtonSound();
-    const level = e.target.dataset.level;
-    participantData.classLevel = level;
     
-    // Update UI
-    document.querySelectorAll('.level-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    e.target.classList.add('active');
-    
-    checkExamReady();
-}
-
-// Select subject
-function selectSubject(e) {
-    playButtonSound();
-    selectedSubject = e.target.dataset.subject;
-    
-    // Update UI
-    document.querySelectorAll('.subject-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    e.target.classList.add('active');
-    
-    // Show CPNS license if needed
-    if (selectedSubject === 'cpns') {
-        cpnsLicense.style.display = 'block';
-        startExamBtn.disabled = true;
-    } else {
-        cpnsLicense.style.display = 'none';
-        checkExamReady();
-    }
-}
-
-// Verify CPNS code
-function verifyCpnsCode() {
-    playButtonSound();
-    const code = cpnsCodeInput.value.trim();
-    const currentCode = document.getElementById('current-exam-code') ? document.getElementById('current-exam-code').value : DEFAULT_CPNS_CODE;
-    
-    if (code === currentCode) {
-        checkExamReady();
-    } else {
-        alert('Kode lisensi salah. Silakan coba lagi.');
-        cpnsCodeInput.focus();
-    }
-}
-
-// Check if exam is ready to start
-function checkExamReady() {
-    const levelSelected = isStudent ? participantData.classLevel : true;
-    const subjectSelected = selectedSubject !== '';
-    const cpnsVerified = selectedSubject === 'cpns' ? cpnsCodeInput.value.trim() === (document.getElementById('current-exam-code') ? document.getElementById('current-exam-code').value : DEFAULT_CPNS_CODE) : true;
-    
-    startExamBtn.disabled = !(levelSelected && subjectSelected && cpnsVerified);
-}
-
-// Start exam
-function startExam() {
-    playButtonSound();
-    
-    // Filter questions based on selection
-    let filteredQuestions = questions.filter(q => {
-        if (isStudent) {
-            return q.category === selectedSubject && q.level === participantData.level.toLowerCase();
+    function setupExamSelection() {
+        if (participantData.status === 'pelajar') {
+            document.querySelector('.pelajar-options').style.display = 'block';
+            document.querySelector('.umum-options').style.display = 'none';
+            
+            // Setup class buttons based on school level
+            const classButtonsContainer = document.getElementById('classButtons');
+            classButtonsContainer.innerHTML = '';
+            
+            let classes = [];
+            if (participantData.schoolLevel === 'SD') {
+                classes = ['Kelas IV', 'Kelas V', 'Kelas VI'];
+            } else if (participantData.schoolLevel === 'SMP') {
+                classes = ['Kelas VII', 'Kelas VIII', 'Kelas IX'];
+            } else {
+                classes = ['Kelas X', 'Kelas XI', 'Kelas XII'];
+            }
+            
+            classes.forEach(className => {
+                const btn = document.createElement('button');
+                btn.className = 'btn-subject';
+                btn.textContent = className;
+                btn.dataset.class = className.toLowerCase().replace(' ', '-');
+                btn.addEventListener('click', function() {
+                    playButtonSound();
+                    document.querySelectorAll('#classButtons .btn-subject').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    checkExamReady();
+                });
+                classButtonsContainer.appendChild(btn);
+            });
         } else {
-            return q.category === selectedSubject && q.level === 'umum';
+            document.querySelector('.pelajar-options').style.display = 'none';
+            document.querySelector('.umum-options').style.display = 'block';
+            
+            // Setup general exam options
+            document.querySelectorAll('.umum-options .btn-subject').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    playButtonSound();
+                    document.querySelectorAll('.umum-options .btn-subject').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    if (this.dataset.subject === 'ujian_cpns') {
+                        cpnsLicenseForm.style.display = 'block';
+                    } else {
+                        cpnsLicenseForm.style.display = 'none';
+                        examData.subject = this.dataset.subject;
+                        checkExamReady();
+                    }
+                });
+            });
         }
-    });
-    
-    // Randomize questions if setting is enabled
-    if (true) { // In a real app, check admin setting
-        filteredQuestions = shuffleArray(filteredQuestions);
+        
+        // Setup subject buttons
+        document.querySelectorAll('.subject-selection .btn-subject').forEach(btn => {
+            btn.addEventListener('click', function() {
+                playButtonSound();
+                document.querySelectorAll('.subject-selection .btn-subject').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                examData.subject = this.dataset.subject;
+                checkExamReady();
+            });
+        });
     }
     
-    // Limit number of questions
-    const questionCount = 10; // In a real app, get from admin setting
-    questions = filteredQuestions.slice(0, questionCount);
-    
-    // Reset exam variables
-    currentQuestionIndex = 0;
-    answeredQuestions = [];
-    correctCount = 0;
-    wrongCount = 0;
-    unansweredCount = questions.length;
-    remainingTime = examDuration * 60;
-    
-    // Update UI
-    totalQuestionsSpan.textContent = questions.length;
-    
-    // Show exam screen
-    showScreen(4);
-    displayQuestion();
-}
-
-// Display current question
-function displayQuestion() {
-    if (currentQuestionIndex >= questions.length) {
-        finishExam();
-        return;
+    function verifyLicenseCode() {
+        playButtonSound();
+        
+        if (document.getElementById('cpnsLicenseCode').value === defaultCodes.cpns) {
+            examData.subject = 'ujian_cpns';
+            licenseError.style.display = 'none';
+            checkExamReady();
+        } else {
+            licenseError.textContent = "Kode lisensi salah. Silakan coba lagi.";
+            licenseError.style.display = "block";
+        }
     }
     
-    const question = questions[currentQuestionIndex];
-    
-    // Update UI
-    questionText.textContent = question.text;
-    currentQuestionSpan.textContent = currentQuestionIndex + 1;
-    
-    // Clear previous options
-    optionsContainer.innerHTML = '';
-    answerExplanation.style.display = 'none';
-    
-    // Add new options
-    question.options.forEach((option, index) => {
-        const optionElement = document.createElement('div');
-        optionElement.className = 'option';
-        optionElement.dataset.index = index;
-        
-        const optionLetter = document.createElement('span');
-        optionLetter.className = 'option-letter';
-        optionLetter.textContent = String.fromCharCode(65 + index) + '.';
-        
-        const optionText = document.createElement('span');
-        optionText.className = 'option-text';
-        optionText.textContent = option.text;
-        
-        optionElement.appendChild(optionLetter);
-        optionElement.appendChild(optionText);
-        
-        optionElement.addEventListener('click', () => selectAnswer(index));
-        optionsContainer.appendChild(optionElement);
-    });
-    
-    // Check if already answered
-    const answeredQuestion = answeredQuestions.find(aq => aq.index === currentQuestionIndex);
-    if (answeredQuestion) {
-        showAnswerFeedback(answeredQuestion);
+    function checkExamReady() {
+        if (participantData.status === 'pelajar') {
+            const classSelected = document.querySelector('#classButtons .btn-subject.active');
+            const subjectSelected = document.querySelector('.subject-selection .btn-subject.active');
+            
+            if (classSelected && subjectSelected) {
+                examData.class = classSelected.dataset.class;
+                examData.subject = subjectSelected.dataset.subject;
+                startExamBtn.disabled = false;
+            } else {
+                startExamBtn.disabled = true;
+            }
+        } else {
+            const subjectSelected = document.querySelector('.umum-options .btn-subject.active');
+            
+            if (subjectSelected) {
+                if (subjectSelected.dataset.subject === 'ujian_cpns') {
+                    if (document.getElementById('cpnsLicenseCode').value === defaultCodes.cpns) {
+                        startExamBtn.disabled = false;
+                    } else {
+                        startExamBtn.disabled = true;
+                    }
+                } else {
+                    startExamBtn.disabled = false;
+                }
+            } else {
+                startExamBtn.disabled = true;
+            }
+        }
     }
-}
-
-// Select answer
-function selectAnswer(optionIndex) {
-    const question = questions[currentQuestionIndex];
-    const isCorrect = optionIndex === question.correctAnswer;
     
-    // Record answer
-    answeredQuestions.push({
-        index: currentQuestionIndex,
-        option: optionIndex,
-        isCorrect: isCorrect
-    });
-    
-    // Update counters
-    if (isCorrect) {
-        correctCount++;
-        playCorrectSound();
-    } else {
-        wrongCount++;
-        playWrongSound();
-    }
-    unansweredCount--;
-    
-    // Show feedback
-    showAnswerFeedback({
-        index: currentQuestionIndex,
-        option: optionIndex,
-        isCorrect: isCorrect
-    });
-    
-    // Move to next question after delay
-    setTimeout(() => {
-        currentQuestionIndex++;
+    function startExam() {
+        playButtonSound();
+        hideScreen('examSelection');
+        showScreen('exam');
+        
+        // Load questions based on selected subject
+        questions = sampleQuestions[examData.subject] || [];
+        totalQuestions = questions.length;
+        currentQuestionIndex = 0;
+        score = 0;
+        correctAnswers = 0;
+        wrongAnswers = 0;
+        unanswered = 0;
+        
+        // Set timer (120 minutes by default)
+        timeLeft = 120 * 60;
+        updateTimerDisplay();
+        timer = setInterval(updateTimer, 1000);
+        
+        // Update question counters
+        currentQuestionElement.textContent = currentQuestionIndex + 1;
+        totalQuestionsElement.textContent = totalQuestions;
+        
+        // Display first question
         displayQuestion();
-    }, 1500);
-}
-
-// Show answer feedback
-function showAnswerFeedback(answer) {
-    const question = questions[answer.index];
-    const options = document.querySelectorAll('.option');
-    
-    options.forEach((option, index) => {
-        if (index === answer.option) {
-            option.classList.add(answer.isCorrect ? 'correct' : 'incorrect');
-        } else if (index === question.correctAnswer) {
-            option.classList.add('correct');
-        }
-    });
-    
-    // Show explanation
-    explanationText.textContent = question.explanation;
-    answerExplanation.style.display = 'block';
-}
-
-// Skip question
-function skipQuestion() {
-    playButtonSound();
-    currentQuestionIndex++;
-    displayQuestion();
-}
-
-// Show unanswered questions
-function showUnansweredQuestions() {
-    playButtonSound();
-    const unanswered = [];
-    
-    for (let i = 0; i < questions.length; i++) {
-        if (!answeredQuestions.some(aq => aq.index === i)) {
-            unanswered.push(i);
-        }
     }
     
-    if (unanswered.length > 0) {
-        currentQuestionIndex = unanswered[0];
-        displayQuestion();
-    } else {
-        alert('Semua soal sudah dijawab.');
-    }
-}
-
-// Start timer
-function startTimer() {
-    clearInterval(timerInterval);
-    
-    timerInterval = setInterval(() => {
-        remainingTime--;
-        
-        // Update timer display
-        const minutes = Math.floor(remainingTime / 60);
-        const seconds = remainingTime % 60;
-        timerSpan.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-        
-        // Time warning
-        if (remainingTime === 600) { // 10 minutes
-            timerSpan.classList.add('warning');
-            timeWarning.style.display = 'block';
-        }
-        
-        if (remainingTime === 60) { // 1 minute
-            timeWarning.style.display = 'none';
-        }
-        
-        // End exam if time is up
-        if (remainingTime <= 0) {
-            clearInterval(timerInterval);
+    function displayQuestion() {
+        if (currentQuestionIndex < questions.length) {
+            const question = questions[currentQuestionIndex];
+            questionText.textContent = question.question;
+            
+            // Clear previous options
+            optionsContainer.innerHTML = '';
+            
+            // Add new options
+            for (const [key, value] of Object.entries(question.options)) {
+                const optionBtn = document.createElement('button');
+                optionBtn.className = 'option-btn';
+                optionBtn.textContent = `${key.toUpperCase()}. ${value}`;
+                optionBtn.dataset.option = key;
+                optionBtn.addEventListener('click', selectAnswer);
+                optionsContainer.appendChild(optionBtn);
+            }
+            
+            // Hide explanation
+            explanationBox.style.display = 'none';
+        } else {
             finishExam();
         }
-    }, 1000);
-}
-
-// Finish exam
-function finishExam() {
-    clearInterval(timerInterval);
-    
-    // Calculate score
-    const totalQuestions = questions.length;
-    const score = Math.round((correctCount / totalQuestions) * 100);
-    
-    // Update results screen
-    scorePercentage.textContent = score;
-    totalAnswered.textContent = totalQuestions;
-    correctAnswers.textContent = correctCount;
-    wrongAnswers.textContent = wrongCount;
-    
-    // Show results screen
-    showScreen(5);
-}
-
-// Show certificate
-function showCertificate() {
-    playButtonSound();
-    showScreen(6);
-}
-
-// Generate certificate data
-function generateCertificate() {
-    // Participant name
-    certName.textContent = participantData.fullname
-        .split(' ')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-        .join(' ');
-    
-    // Score
-    const score = Math.round((correctCount / questions.length) * 100);
-    certScore.textContent = score;
-    
-    // Motivation text based on score
-    let motivation = '';
-    if (score >= 90) {
-        motivation = 'Sempurna! Anda sangat luar biasa dalam menguasai materi ini. Pertahankan prestasi ini.';
-    } else if (score >= 70) {
-        motivation = 'Bagus! Anda telah menunjukkan pemahaman yang baik. Tingkatkan terus kemampuan Anda.';
-    } else if (score >= 50) {
-        motivation = 'Cukup baik. Terus belajar untuk hasil yang lebih maksimal.';
-    } else {
-        motivation = 'Anda perlu lebih banyak belajar lagi. Jangan menyerah!';
     }
-    certMotivation.textContent = motivation;
     
-    // Certificate code
-    const now = new Date();
-    const randomCode = generateRandomCode();
-    certificateCode.textContent = `${participantData.fullname.toUpperCase().replace(/ /g, '')}/${participantData.status.toUpperCase()}/${participantData.level.toUpperCase()}/${selectedSubject.toUpperCase()}/${formatDate(now, true)}/${randomCode}/PERGUNU-STB`;
-}
-
-// Retake exam
-function retakeExam() {
-    playButtonSound();
-    showScreen(3);
-}
-
-// Print certificate
-function printCertificate() {
-    playButtonSound();
-    window.print();
-}
-
-// Go back to results
-function goBackToResults() {
-    playButtonSound();
-    showScreen(5);
-}
-
-// Toggle admin panel
-function toggleAdminPanel() {
-    playButtonSound();
-    const isAdminPanelVisible = adminPanel.classList.contains('active');
-    
-    if (isAdminPanelVisible) {
-        adminPanel.classList.remove('active');
-    } else {
-        // Prompt for admin code
-        const code = prompt('Masukkan Kode Admin:');
+    function selectAnswer(e) {
+        playButtonSound();
+        const selectedOption = e.target.dataset.option;
+        const question = questions[currentQuestionIndex];
         
-        if (code === DEFAULT_ADMIN_CODE) {
-            adminPanel.classList.add('active');
-            questionBank.classList.remove('active');
-        } else {
-            alert('Kode admin salah.');
-        }
-    }
-}
-
-// Toggle question bank
-function toggleQuestionBank() {
-    playButtonSound();
-    const isQuestionBankVisible = questionBank.classList.contains('active');
-    
-    if (isQuestionBankVisible) {
-        questionBank.classList.remove('active');
-    } else {
-        // Prompt for question bank code
-        const code = prompt('Masukkan Kode Bank Soal:');
-        
-        if (code === DEFAULT_QUESTION_BANK_CODE) {
-            questionBank.classList.add('active');
-            adminPanel.classList.remove('active');
-            document.getElementById('bank-content').style.display = 'block';
-        } else {
-            alert('Kode bank soal salah.');
-        }
-    }
-}
-
-// Share website
-function shareWebsite() {
-    playButtonSound();
-    if (navigator.share) {
-        navigator.share({
-            title: 'Ujian Online PERGUNU Situbondo',
-            text: 'Ikuti ujian online dari PERGUNU Situbondo sekarang!',
-            url: 'http://is.gd/pergunusmart'
-        }).catch(err => {
-            console.log('Error sharing:', err);
+        // Disable all options
+        document.querySelectorAll('.option-btn').forEach(btn => {
+            btn.classList.add('disabled');
+            btn.removeEventListener('click', selectAnswer);
         });
-    } else {
-        // Fallback for browsers that don't support Web Share API
-        prompt('Salin link berikut untuk berbagi:', 'http://is.gd/pergunusmart');
-    }
-}
-
-// Contact admin via WhatsApp
-function contactAdmin() {
-    playButtonSound();
-    const message = encodeURIComponent('Assalamualaikum mas admin, saya mau tanya sesuatu nih...');
-    window.open(`https://wa.me/6285647709114?text=${message}`, '_blank');
-}
-
-// Show Go To links
-function showGoToLinks() {
-    playButtonSound();
-    const links = document.getElementById('link-list') ? document.getElementById('link-list').value.trim().split('\n') : ['http://is.gd/pergunusmart'];
-    let linksHtml = '<h3>Daftar Link:</h3><ul>';
-    
-    links.forEach(link => {
-        if (link.trim()) {
-            linksHtml += `<li><a href="${link.trim()}" target="_blank">${link.trim()}</a></li>`;
+        
+        // Highlight selected option
+        e.target.classList.add('selected');
+        
+        // Check if answer is correct
+        if (selectedOption === question.correctAnswer) {
+            e.target.classList.add('correct');
+            playCorrectSound();
+            score += 10; // 10 points per correct answer
+            correctAnswers++;
+        } else {
+            e.target.classList.add('incorrect');
+            playWrongSound();
+            wrongAnswers++;
+            
+            // Highlight correct answer
+            document.querySelector(`.option-btn[data-option="${question.correctAnswer}"]`).classList.add('correct');
         }
-    });
+        
+        // Show explanation
+        explanationText.textContent = question.explanation;
+        explanationBox.style.display = 'block';
+        
+        // Update counters
+        currentQuestionIndex++;
+        currentQuestionElement.textContent = currentQuestionIndex + 1;
+    }
     
-    linksHtml += '</ul>';
-    alertModal('Daftar Link', linksHtml);
-}
-
-// Alert modal function
-function alertModal(title, content) {
-    const modal = document.createElement('div');
-    modal.className = 'modal';
-    modal.innerHTML = `
-        <div class="modal-content">
-            <h3>${title}</h3>
-            <div class="modal-body">${content}</div>
-            <button class="btn-gradient modal-close">Tutup</button>
-        </div>
-    `;
+    function skipQuestion() {
+        playButtonSound();
+        unanswered++;
+        currentQuestionIndex++;
+        currentQuestionElement.textContent = currentQuestionIndex + 1;
+        displayQuestion();
+    }
     
-    document.body.appendChild(modal);
+    function showUnanswered() {
+        playButtonSound();
+        // Implement logic to show unanswered questions
+        alert("Fitur ini akan menampilkan soal-soal yang belum dijawab.");
+    }
     
-    modal.querySelector('.modal-close').addEventListener('click', function() {
-        document.body.removeChild(modal);
-    });
-    
-    // Click outside to close
-    modal.addEventListener('click', function(e) {
-        if (e.target === modal) {
-            document.body.removeChild(modal);
+    function updateTimer() {
+        timeLeft--;
+        updateTimerDisplay();
+        
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            finishExam();
+        } else if (timeLeft === 10 * 60) { // 10 minutes left
+            showTimeWarning();
+        } else if (timeLeft === 1 * 60) { // 1 minute left
+            hideTimeWarning();
         }
-    });
-}
-
-// Play button sound
-function playButtonSound() {
-    buttonAudio.currentTime = 0;
-    buttonAudio.play();
-}
-
-// Play correct answer sound
-function playCorrectSound() {
-    correctAudio.currentTime = 0;
-    correctAudio.play();
-}
-
-// Play wrong answer sound
-function playWrongSound() {
-    wrongAudio.currentTime = 0;
-    wrongAudio.play();
-}
-
-// Format date for certificate
-function formatDate(date, forCode = false) {
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-    
-    if (forCode) {
-        return `${day < 10 ? '0' : ''}${day}${month < 10 ? '0' : ''}${month}${year}`;
-    } else {
-        return `${day} ${getMonthName(month)} ${year}`;
-    }
-}
-
-// Get month name
-function getMonthName(month) {
-    const months = [
-        'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-        'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
-    ];
-    return months[month - 1];
-}
-
-// Generate random code
-function generateRandomCode() {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let result = '';
-    
-    for (let i = 0; i < 4; i++) {
-        result += chars.charAt(Math.floor(Math.random() * chars.length));
     }
     
-    result += '-';
-    
-    for (let i = 0; i < 4; i++) {
-        result += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    
-    return result;
-}
-
-// Shuffle array
-function shuffleArray(array) {
-    const newArray = [...array];
-    for (let i = newArray.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-    }
-    return newArray;
-}
-
-// Load sample questions (in a real app, this would be from a server)
-function loadSampleQuestions() {
-    questions = [
-        {
-            category: 'agama',
-            level: 'SD',
-            text: 'Apa nama kitab suci umat Islam?',
-            options: [
-                { text: 'Al-Quran' },
-                { text: 'Alkitab' },
-                { text: 'Weda' },
-                { text: 'Tripitaka' }
-            ],
-            correctAnswer: 0,
-            explanation: 'Kitab suci umat Islam adalah Al-Quran yang diturunkan kepada Nabi Muhammad SAW.'
-        },
-        {
-            category: 'ppkn',
-            level: 'SMP',
-            text: 'Pancasila sebagai dasar negara tercantum dalam pembukaan UUD 1945 pada alinea keberapa?',
-            options: [
-                { text: 'Pertama' },
-                { text: 'Kedua' },
-                { text: 'Ketiga' },
-                { text: 'Keempat' }
-            ],
-            correctAnswer: 3,
-            explanation: 'Pancasila tercantum dalam Pembukaan UUD 1945 alinea keempat setelah kalimat "maka disusunlah Kemerdekaan Kebangsaan Indonesia itu dalam suatu Undang-Undang Dasar Negara Indonesia".'
-        },
-        {
-            category: 'logika',
-            level: 'umum',
-            text: 'Jika semua A adalah B dan semua B adalah C, maka:',
-            options: [
-                { text: 'Semua A adalah C' },
-                { text: 'Beberapa A adalah C' },
-                { text: 'Semua C adalah A' },
-                { text: 'Tidak ada yang benar' }
-            ],
-            correctAnswer: 0,
-            explanation: 'Jika semua A adalah B dan semua B adalah C, maka dapat disimpulkan bahwa semua A adalah C.'
+    function updateTimerDisplay() {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        examTimer.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        
+        // Make timer bigger when 10 minutes or less
+        if (timeLeft <= 10 * 60) {
+            examTimer.style.fontSize = '24px';
+            examTimer.style.color = 'var(--error-color)';
+        } else {
+            examTimer.style.fontSize = '18px';
+            examTimer.style.color = 'var(--primary-color)';
         }
-    ];
-}
-
-// Global error handling
-window.addEventListener('error', function(event) {
-    console.error('Error:', event.message, 'in', event.filename, 'line:', event.lineno);
+    }
     
-    // Show user-friendly error notification
-    const errorNotification = document.createElement('div');
-    errorNotification.className = 'error-notification';
-    errorNotification.innerHTML = `
-        <div class="error-content">
-            <span class="close-error">&times;</span>
-            <h3>Terjadi Kesalahan</h3>
-            <p>Maaf, terjadi masalah teknis. Silakan muat ulang halaman.</p>
-            <p><small>${event.message}</small></p>
-            <button class="btn-small" onclick="window.location.reload()">Muat Ulang</button>
-        </div>
-    `;
+    function showTimeWarning() {
+        timeWarning.style.display = 'block';
+        setTimeout(() => {
+            timeWarning.style.opacity = '1';
+        }, 100);
+    }
     
-    document.body.appendChild(errorNotification);
+    function hideTimeWarning() {
+        timeWarning.style.opacity = '0';
+        setTimeout(() => {
+            timeWarning.style.display = 'none';
+        }, 500);
+    }
     
-    // Handler for close button
-    errorNotification.querySelector('.close-error').addEventListener('click', function() {
-        document.body.removeChild(errorNotification);
-    });
+    function finishExam() {
+        playButtonSound();
+        clearInterval(timer);
+        
+        // Calculate unanswered questions
+        unanswered += questions.length - (correctAnswers + wrongAnswers);
+        
+        // Hide exam screen and show results
+        hideScreen('exam');
+        showScreen('results');
+        
+        // Display results
+        finalScore.textContent = Math.round((correctAnswers / totalQuestions) * 100);
+        totalQuestionsStat.textContent = totalQuestions;
+        correctAnswersElement.textContent = correctAnswers;
+        wrongAnswersElement.textContent = wrongAnswers;
+        unansweredElement.textContent = unanswered;
+        
+        // Generate certificate
+        generateCertificate();
+        
+        // Play applause sound
+        audioElements.applause.play();
+    }
+    
+    function generateCertificate() {
+        // Generate certificate code
+        const now = new Date();
+        const dateStr = `${now.getDate()}${now.getMonth() + 1}${now.getFullYear()}`;
+        const randomCode = Math.random().toString(36).substring(2, 6).toUpperCase() + '-' + 
+                          Math.random().toString(36).substring(2, 6).toUpperCase();
+        
+        const certificateCode = `${participantData.fullName.toUpperCase().replace(/ /g, '_')}/${
+            participantData.status.toUpperCase()}/${
+            participantData.schoolLevel ? participantData.schoolLevel.toUpperCase() : 'UMUM'}/${
+            examData.subject.toUpperCase()}/${
+            dateStr}/${
+            randomCode}/PERGUNU-STB`;
+        
+        // Get motivation message based on score
+        const percentage = Math.round((correctAnswers / totalQuestions) * 100);
+        let motivation = "";
+        
+        for (const msg of motivationalMessages) {
+            if (percentage >= msg.min && percentage <= msg.max) {
+                motivation = msg.message;
+                break;
+            }
+        }
+        
+        // Create certificate HTML
+        certificatePreview.innerHTML = `
+            <div class="certificate-content">
+                <div class="certificate-title">SERTIFIKAT PRESTASI</div>
+                <div class="certificate-recipient">Diberikan Kepada</div>
+                <div class="certificate-recipient-name">${participantData.fullName}</div>
+                <div class="certificate-text">Atas Partisipasi & Pencapaian Luar Biasa dalam <strong>Ujian Pergunu Situbondo</strong></div>
+                <div class="certificate-text">Sebagai penghargaan atas dedikasi dalam memahami materi ujian dan mengasah logika, sertifikat ini diberikan sebagai motivasi untuk terus berkembang.</div>
+                <div class="certificate-score">Nilai: ${percentage}</div>
+                <div class="certificate-motivation">${motivation}</div>
+                <div class="certificate-footer">
+                    <div class="certificate-code">Kode Sertifikat: ${certificateCode}</div>
+                    <div class="certificate-date">Ditetapkan di: Situbondo, ${now.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
+                    <div class="certificate-signature">
+                        <div>Ketua Pergunu Situbondo</div>
+                        <div style="margin-top: 30px; font-weight: bold;">Moh. Nuril Hudha, S.Pd., M.Si.</div>
+                    </div>
+                    <div class="certificate-barcode">
+                        <img src="assets/images/BARCODE.png" alt="Barcode">
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+    
+    function printCertificate() {
+        playButtonSound();
+        window.print();
+    }
+    
+    function retakeExam() {
+        playButtonSound();
+        hideScreen('results');
+        showScreen('examSelection');
+    }
+    
+    function shareWebsite() {
+        playButtonSound();
+        if (navigator.share) {
+            navigator.share({
+                title: 'Ujian Online PERGUNU Situbondo',
+                text: 'Ikuti ujian online dari PERGUNU Situbondo sekarang!',
+                url: 'http://is.gd/ujianonline'
+            }).catch(err => {
+                console.log('Error sharing:', err);
+            });
+        } else {
+            // Fallback for browsers that don't support Web Share API
+            const shareUrl = 'http://is.gd/ujianonline';
+            const tempInput = document.createElement('input');
+            document.body.appendChild(tempInput);
+            tempInput.value = shareUrl;
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            alert('Link telah disalin ke clipboard: ' + shareUrl);
+        }
+    }
+    
+    function contactAdmin() {
+        playButtonSound();
+        const phoneNumber = '6285647709114';
+        const message = 'Assalamualaikum mas admin, saya mau tanya sesuatu nih…';
+        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, '_blank');
+    }
+    
+    function showGoToMenu() {
+        playButtonSound();
+        goToMenu.style.display = 'block';
+        
+        // Load website links (in a real app, these would come from a database or settings)
+        const links = [
+            { name: 'Website PERGUNU', url: 'https://pergunu.github.io/pergunusmart/' },
+            { name: 'Contoh Link 1', url: 'http://example.com' },
+            { name: 'Contoh Link 2', url: 'http://anothersite.com' }
+        ];
+        
+        websiteLinksList.innerHTML = '';
+        links.forEach(link => {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = link.url;
+            a.textContent = link.name;
+            a.target = '_blank';
+            li.appendChild(a);
+            websiteLinksList.appendChild(li);
+        });
+    }
+    
+    function closeGoToMenu() {
+        playButtonSound();
+        goToMenu.style.display = 'none';
+    }
+    
+    function showQuestionBankAccess() {
+        playButtonSound();
+        bankAccess.style.display = 'flex';
+    }
+    
+    function verifyBankCode() {
+        playButtonSound();
+        
+        if (bankAccessCode.value === defaultCodes.bank) {
+            bankError.style.display = 'none';
+            bankAccess.style.display = 'none';
+            hideScreen(currentScreen);
+            showScreen('bank');
+            currentScreen = 'bank';
+            
+            // Show bank content
+            document.querySelector('.bank-content').style.display = 'block';
+            
+            // Load questions (in a real app, this would come from a database)
+            loadQuestionBank();
+        } else {
+            bankError.textContent = "Kode bank soal salah. Silakan coba lagi.";
+            bankError.style.display = "block";
+        }
+    }
+    
+    function loadQuestionBank() {
+        const questionList = document.getElementById('questionList');
+        questionList.innerHTML = '';
+        
+        // Combine all questions from all subjects
+        let allQuestions = [];
+        for (const [subject, qs] of Object.entries(sampleQuestions)) {
+            qs.forEach(q => {
+                q.subject = subject;
+                allQuestions.push(q);
+            });
+        }
+        
+        // Display questions
+        allQuestions.forEach((q, index) => {
+            const questionItem = document.createElement('div');
+            questionItem.className = 'question-item';
+            
+            let difficultyClass = '';
+            let difficultyText = '';
+            
+            // In a real app, difficulty would be part of the question data
+            if (index % 3 === 0) {
+                difficultyClass = 'easy';
+                difficultyText = 'Mudah';
+            } else if (index % 3 === 1) {
+                difficultyClass = 'medium';
+                difficultyText = 'Sedang';
+            } else {
+                difficultyClass = 'hard';
+                difficultyText = 'Sulit';
+            }
+            
+            questionItem.innerHTML = `
+                <div class="question-item-header">
+                    <span class="question-item-subject">${q.subject.toUpperCase()}</span>
+                    <span class="question-item-difficulty ${difficultyClass}">${difficultyText}</span>
+                </div>
+                <div class="question-item-text">${q.question}</div>
+                <div class="question-item-options">
+                    ${Object.entries(q.options).map(([key, value]) => `
+                        <div class="question-item-option ${key === q.correctAnswer ? 'correct' : ''}">
+                            ${key.toUpperCase()}. ${value}
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="question-item-actions">
+                    <button class="question-item-btn edit">Edit</button>
+                    <button class="question-item-btn delete">Hapus</button>
+                    <button class="question-item-btn preview">Preview</button>
+                </div>
+            `;
+            
+            questionList.appendChild(questionItem);
+        });
+    }
+    
+    function showAdminAccess() {
+        playButtonSound();
+        adminAccess.style.display = 'flex';
+    }
+    
+    function verifyAdminCode() {
+        playButtonSound();
+        
+        if (adminAccessCode.value === defaultCodes.admin) {
+            adminError.style.display = 'none';
+            adminAccess.style.display = 'none';
+            hideScreen(currentScreen);
+            showScreen('admin');
+            currentScreen = 'admin';
+        } else {
+            adminError.textContent = "Kode admin salah. Silakan coba lagi.";
+            adminError.style.display = "block";
+        }
+    }
+    
+    function toggleMusicPlayer() {
+        playButtonSound();
+        if (musicPlayer.style.display === 'block') {
+            closeMusicPlayer();
+        } else {
+            musicPlayer.style.display = 'block';
+            
+            // Load music playlist (in a real app, these would come from settings)
+            const tracks = [
+                { name: 'Musik Relaksasi 1', url: 'https://example.com/music1.mp3' },
+                { name: 'Musik Relaksasi 2', url: 'https://example.com/music2.mp3' },
+                { name: 'Musik Relaksasi 3', url: 'https://example.com/music3.mp3' }
+            ];
+            
+            musicPlaylist.innerHTML = '';
+            tracks.forEach(track => {
+                const trackItem = document.createElement('div');
+                trackItem.className = 'playlist-item';
+                trackItem.textContent = track.name;
+                trackItem.addEventListener('click', () => playTrack(track.url));
+                musicPlaylist.appendChild(trackItem);
+            });
+        }
+    }
+    
+    function closeMusicPlayer() {
+        musicPlayer.style.display = 'none';
+    }
+    
+    function playTrack(url) {
+        // In a real app, this would play the selected track
+        console.log('Playing:', url);
+    }
+    
+    function togglePlayPause() {
+        // In a real app, this would toggle play/pause
+        console.log('Toggle play/pause');
+    }
+    
+    function playPreviousTrack() {
+        // In a real app, this would play previous track
+        console.log('Previous track');
+    }
+    
+    function playNextTrack() {
+        // In a real app, this would play next track
+        console.log('Next track');
+    }
+    
+    function changeVolume() {
+        const volume = volumeControl.value / 100;
+        // In a real app, this would change audio volume
+        console.log('Volume:', volume);
+        
+        // Update volume icon
+        if (volume == 0) {
+            volumeIcon.innerHTML = '<i class="fas fa-volume-mute"></i>';
+        } else if (volume < 0.5) {
+            volumeIcon.innerHTML = '<i class="fas fa-volume-down"></i>';
+        } else {
+            volumeIcon.innerHTML = '<i class="fas fa-volume-up"></i>';
+        }
+    }
+    
+    function hideScreen(screenName) {
+        screens[screenName].style.display = 'none';
+    }
+    
+    function showScreen(screenName) {
+        screens[screenName].style.display = 'flex';
+        currentScreen = screenName;
+    }
+    
+    function playButtonSound() {
+        audioElements.button.currentTime = 0;
+        audioElements.button.play();
+    }
+    
+    function playCorrectSound() {
+        audioElements.correct.currentTime = 0;
+        audioElements.correct.play();
+    }
+    
+    function playWrongSound() {
+        audioElements.wrong.currentTime = 0;
+        audioElements.wrong.play();
+    }
 });
-
-// CSS for error notification
-const errorStyle = document.createElement('style');
-errorStyle.textContent = `
-.error-notification {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0,0,0,0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-}
-.error-content {
-    background: white;
-    padding: 20px;
-    border-radius: 5px;
-    max-width: 80%;
-    position: relative;
-}
-.close-error {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 20px;
-    cursor: pointer;
-}
-`;
-document.head.appendChild(errorStyle);
-
-// Initialize the app when DOM is loaded
-document.addEventListener('DOMContentLoaded', init);
