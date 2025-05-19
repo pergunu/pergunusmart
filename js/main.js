@@ -705,3 +705,13 @@ function generateRandomCode(length) {
     }
     return result;
 }
+
+// Ganti ini:
+openingAudio.play().catch(e => console.log(e));
+
+// Menjadi:
+document.body.addEventListener('click', () => {
+  openingAudio.play().then(() => {
+    startApplication();
+  });
+});
