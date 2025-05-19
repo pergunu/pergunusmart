@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pendaftaran Peserta - PERGUNU Situbondo</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="gradient-bg">
+    <div id="particles-js"></div>
+    <div class="container">
+        <div class="registration-box">
+            <h1>Formulir Pendaftaran Peserta Ujian</h1>
+            <p>Silakan isi data diri Anda dengan benar. Data ini akan digunakan untuk sertifikat ujian.</p>
+            
+            <form id="registration-form">
+                <div class="form-group">
+                    <label for="fullname">Nama Lengkap:</label>
+                    <input type="text" id="fullname" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Status:</label>
+                    <div class="radio-group">
+                        <input type="radio" id="student" name="status" value="pelajar" checked>
+                        <label for="student">Pelajar</label>
+                        
+                        <input type="radio" id="general" name="status" value="umum">
+                        <label for="general">Umum</label>
+                    </div>
+                </div>
+                
+                <!-- Student Fields -->
+                <div id="student-fields">
+                    <div class="form-group">
+                        <label for="school">Nama Sekolah:</label>
+                        <input type="text" id="school" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="nis">NIS (Nomor Induk Siswa):</label>
+                        <input type="number" id="nis" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="student-purpose">Tujuan Ikut Ujian:</label>
+                        <select id="student-purpose" class="form-input" required>
+                            <option value="">Pilih Tujuan</option>
+                            <option value="tugas-sekolah">Tugas Sekolah</option>
+                            <option value="tugas-ulangan">Tugas Ulangan</option>
+                            <option value="tes-belajar">Tes dan Belajar</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="school-level">Tingkat Sekolah:</label>
+                        <select id="school-level" class="form-input" required>
+                            <option value="">Pilih Tingkat</option>
+                            <option value="SD">SD</option>
+                            <option value="SMP">SMP</option>
+                            <option value="SMA/SMK">SMA/SMK</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- General Public Fields -->
+                <div id="general-fields" style="display: none;">
+                    <div class="form-group">
+                        <label for="address">Alamat:</label>
+                        <input type="text" id="address" class="form-input" required>
+                        <button type="button" id="get-location" class="btn-secondary">Dapatkan Lokasi via GPS</button>
+                        <small id="location-status"></small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="whatsapp">Nomor WhatsApp Aktif:</label>
+                        <input type="tel" id="whatsapp" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Alamat Email:</label>
+                        <input type="email" id="email" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="general-purpose">Tujuan Ikut Ujian:</label>
+                        <select id="general-purpose" class="form-input">
+                            <option value="">Pilih Tujuan</option>
+                            <option value="tes-iq">Tes IQ</option>
+                            <option value="ujian-cpns">Ujian CPNS/P3K</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <button type="submit" class="btn-primary">Simpan & Ikut Ujian</button>
+                </div>
+            </form>
+            
+            <div class="info-box">
+                <h3>Informasi Berkala</h3>
+                <p id="periodic-info">Ujian online ini diselenggarakan oleh PERGUNU Situbondo untuk meningkatkan kompetensi peserta dalam berbagai bidang pengetahuan. Hasil ujian akan menentukan tingkat pemahaman Anda terhadap materi yang diujikan.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/particles.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        // Toggle between student and general fields
+        document.querySelectorAll('input[name="status"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value === 'pelajar') {
+                    document.getElementById('student-fields').style.display = 'block';
+                    document.getElementById('general-fields').style.display = 'none';
+                } else {
+                    document.getElementById('student-fields').style.display = 'none';
+                    document.getElementById('general-fields').style.display = 'block';
+                }
+            });
+        });
+        
+        // Get GPS location
+        document.getElementById('get-location').addEventListener('click', function() {
+            const status = document.getElementById('location-status');
+            status.textContent = 'Mendapatkan lokasi...';
+            
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    position => {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        document.getElementById('address').value = `Lat: ${lat}, Lng: ${lng}`;
+                        status.textContent = 'Lokasi berhasil didapatkan!';
+                        status.style.color = 'green';
+                    },
+                    error => {
+                        status.textContent = 'Gagal mendapatkan lokasi: ' + error.message;
+                        status.style.color = 'red';
+                    }
+                );
+            } else {
+                status.textContent = 'GPS tidak didukung oleh browser Anda';
+                status.style.color = 'red';
+            }
+        });
+        
+        // Form submission
+        document.getElementById('registration-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Play button sound
+            const audio = new Audio('assets/audio/audiotombol.mp3');
+            audio.play();
+            
+            // Save participant data to localStorage
+            const participant = {
+                fullname: document.getElementById('fullname').value,
+                status: document.querySelector('input[name="status"]:checked').value,
+                purpose: document.querySelector('input[name="status"]:checked').value === 'pelajar' 
+                    ? document.getElementById('student-purpose').value 
+                    : document.getElementById('general-purpose').value,
+                timestamp: new Date().toISOString()
+            };
+            
+            if (participant.status === 'pelajar') {
+                participant.school = document.getElementById('school').value;
+                participant.nis = document.getElementById('nis').value;
+                participant.level = document.getElementById('school-level').value;
+            } else {
+                participant.address = document.getElementById('address').value;
+                participant.whatsapp = document.getElementById('whatsapp').value;
+                participant.email = document.getElementById('email').value;
+            }
+            
+            localStorage.setItem('participantData', JSON.stringify(participant));
+            
+            // Redirect to exam selection
+            setTimeout(() => {
+                window.location.href = 'exam-selection.html';
+            }, 500);
+        });
+    </script>
+</body>
+</html>
