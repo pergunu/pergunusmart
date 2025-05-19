@@ -1,255 +1,85 @@
-// Admin Panel Functionality
+// Admin Panel functionality
 document.addEventListener('DOMContentLoaded', function() {
     // Tab switching
     const tabButtons = document.querySelectorAll('.tab-btn');
-    const tabContents = document.querySelectorAll('.tab-content');
-    
     tabButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            // Remove active class from all buttons and contents
-            tabButtons.forEach(btn => btn.classList.remove('active'));
-            tabContents.forEach(content => content.classList.remove('active'));
+        button.addEventListener('click', function() {
+            // Remove active class from all buttons and content
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
             
             // Add active class to clicked button and corresponding content
-            button.classList.add('active');
-            const tabId = button.dataset.tab;
+            this.classList.add('active');
+            const tabId = this.dataset.tab;
             document.getElementById(tabId).classList.add('active');
         });
     });
     
-    // Code saving functionality
-    document.getElementById('save-login-code').addEventListener('click', function() {
-        const newCode = document.getElementById('new-login-code').value.trim();
-        if (newCode) {
-            document.getElementById('current-login-code').value = newCode;
-            document.getElementById('new-login-code').value = '';
-            alert('Kode login berhasil diperbarui!');
-        } else {
-            alert('Masukkan kode baru terlebih dahulu.');
-        }
+    // Save code buttons
+    document.getElementById('saveLoginCodeBtn').addEventListener('click', function() {
+        alert("Kode login berhasil disimpan!");
     });
     
-    // Repeat for other code types
-    document.getElementById('save-exam-code').addEventListener('click', function() {
-        const newCode = document.getElementById('new-exam-code').value.trim();
-        if (newCode) {
-            document.getElementById('current-exam-code').value = newCode;
-            document.getElementById('new-exam-code').value = '';
-            alert('Kode ujian CPNS berhasil diperbarui!');
-        } else {
-            alert('Masukkan kode baru terlebih dahulu.');
-        }
+    document.getElementById('saveExamCodeBtn').addEventListener('click', function() {
+        alert("Kode ujian CPNS berhasil disimpan!");
     });
     
-    document.getElementById('save-question-code').addEventListener('click', function() {
-        const newCode = document.getElementById('new-question-code').value.trim();
-        if (newCode) {
-            document.getElementById('current-question-code').value = newCode;
-            document.getElementById('new-question-code').value = '';
-            alert('Kode bank soal berhasil diperbarui!');
-        } else {
-            alert('Masukkan kode baru terlebih dahulu.');
-        }
+    document.getElementById('saveQuestionCodeBtn').addEventListener('click', function() {
+        alert("Kode bank soal berhasil disimpan!");
     });
     
-    document.getElementById('save-admin-code').addEventListener('click', function() {
-        const newCode = document.getElementById('new-admin-code').value.trim();
-        if (newCode) {
-            document.getElementById('current-admin-code').value = newCode;
-            document.getElementById('new-admin-code').value = '';
-            alert('Kode admin berhasil diperbarui!');
-        } else {
-            alert('Masukkan kode baru terlebih dahulu.');
-        }
+    document.getElementById('saveAdminCodeBtn').addEventListener('click', function() {
+        alert("Kode admin berhasil disimpan!");
     });
     
-    // Timer setting
-    document.getElementById('save-timer').addEventListener('click', function() {
-        const minutes = parseInt(document.getElementById('exam-timer').value);
-        if (minutes >= 5) {
-            alert(`Timer ujian berhasil diatur menjadi ${minutes} menit.`);
-            // In a real app, you would save this to a database
-        } else {
-            alert('Waktu ujian minimal 5 menit.');
-        }
+    // Save settings buttons
+    document.getElementById('saveTimerBtn').addEventListener('click', function() {
+        alert("Timer ujian berhasil disimpan!");
     });
     
-    // Chairman name setting
-    document.getElementById('save-chairman').addEventListener('click', function() {
-        const name = document.getElementById('chairman-name-input').value.trim();
-        if (name) {
-            alert(`Nama ketua berhasil diperbarui menjadi: ${name}`);
-            // In a real app, you would save this to a database
-        } else {
-            alert('Masukkan nama ketua terlebih dahulu.');
-        }
+    document.getElementById('saveChairmanBtn').addEventListener('click', function() {
+        alert("Nama ketua berhasil disimpan!");
     });
     
-    // Welcome message setting
-    document.getElementById('save-welcome').addEventListener('click', function() {
-        const message = document.getElementById('welcome-message').value.trim();
-        if (message) {
-            alert('Pesan pembuka berhasil diperbarui.');
-            // In a real app, you would save this to a database
-        } else {
-            alert('Masukkan pesan pembuka terlebih dahulu.');
-        }
+    document.getElementById('savePointsBtn').addEventListener('click', function() {
+        alert("Poin per soal berhasil disimpan!");
     });
     
-    // Periodic info setting
-    document.getElementById('save-periodic').addEventListener('click', function() {
-        const info = document.getElementById('periodic-info-input').value.trim();
-        if (info) {
-            document.getElementById('periodic-info').innerHTML = info;
-            alert('Informasi berkala berhasil diperbarui.');
-            // In a real app, you would save this to a database
-        } else {
-            alert('Masukkan informasi berkala terlebih dahulu.');
-        }
+    document.getElementById('saveQuestionCountBtn').addEventListener('click', function() {
+        alert("Jumlah soal berhasil disimpan!");
     });
     
-    // Motivation messages setting
-    document.getElementById('save-motivation').addEventListener('click', function() {
-        const messages = document.getElementById('motivation-messages').value.trim();
-        if (messages) {
-            alert('Pesan motivasi berhasil diperbarui.');
-            // In a real app, you would save this to a database
-        } else {
-            alert('Masukkan pesan motivasi terlebih dahulu.');
-        }
+    document.getElementById('saveRandomizeBtn').addEventListener('click', function() {
+        alert("Pengaturan acak soal berhasil disimpan!");
     });
     
-    // Question count setting
-    document.getElementById('save-question-count').addEventListener('click', function() {
-        const count = parseInt(document.getElementById('question-count').value);
-        if (count % 5 === 0 || count % 10 === 0) {
-            alert(`Jumlah soal berhasil diatur menjadi ${count}.`);
-            // In a real app, you would save this to a database
-        } else {
-            alert('Jumlah soal harus kelipatan 5 atau 10.');
-        }
+    document.getElementById('saveWelcomeBtn').addEventListener('click', function() {
+        alert("Teks sapa pembuka berhasil disimpan!");
     });
     
-    // Randomize questions setting
-    document.getElementById('save-randomize').addEventListener('click', function() {
-        const isRandomized = document.getElementById('randomize-questions').checked;
-        alert(`Pengacakan soal ${isRandomized ? 'diaktifkan' : 'dinonaktifkan'}.`);
-        // In a real app, you would save this to a database
+    document.getElementById('saveInfoBtn').addEventListener('click', function() {
+        alert("Informasi berkala berhasil disimpan!");
     });
     
-    // Update setting-group untuk toggle ujian
-    const settingGroup = document.querySelector('.toggle-group');
-    settingGroup.innerHTML = `
-        <label class="toggle-label">
-            <input type="checkbox" id="toggle-agama" checked> AGAMA
-        </label>
-        <label class="toggle-label">
-            <input type="checkbox" id="toggle-ppkn" checked> PPKN
-        </label>
-        <label class="toggle-label">
-            <input type="checkbox" id="toggle-sejarah" checked> SEJARAH
-        </label>
-        <label class="toggle-label">
-            <input type="checkbox" id="toggle-ipa" checked> IPA
-        </label>
-        <label class="toggle-label">
-            <input type="checkbox" id="toggle-ips" checked> IPS
-        </label>
-        <label class="toggle-label">
-            <input type="checkbox" id="toggle-matematika" checked> MATEMATIKA
-        </label>
-        <label class="toggle-label">
-            <input type="checkbox" id="toggle-indonesia" checked> BAHASA INDONESIA
-        </label>
-        <label class="toggle-label">
-            <input type="checkbox" id="toggle-inggris" checked> BAHASA INGGRIS
-        </label>
-        <label class="toggle-label">
-            <input type="checkbox" id="toggle-extra" checked> MATERI EXTRA
-        </label>
-        <label class="toggle-label">
-            <input type="checkbox" id="toggle-khusus" checked> MATERI KHUSUS
-        </label>
-        <label class="toggle-label">
-            <input type="checkbox" id="toggle-logika" checked> UJIAN LOGIKA
-        </label>
-        <label class="toggle-label">
-            <input type="checkbox" id="toggle-cpns" checked> UJIAN CPNS/P3K
-        </label>
-    `;
-
-    // Update question-count options
-    const questionCountSelect = document.getElementById('question-count');
-    questionCountSelect.innerHTML = '';
-    [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130, 135, 140, 145, 150].forEach(num => {
-        const option = document.createElement('option');
-        option.value = num;
-        option.textContent = num;
-        if (num === 10) option.selected = true;
-        questionCountSelect.appendChild(option);
+    document.getElementById('saveMotivationBtn').addEventListener('click', function() {
+        alert("Pesan motivasi berhasil disimpan!");
     });
-
-    // Add link management to admin panel
-    const adminSettings = document.querySelector('.admin-settings');
-    const linkManagement = document.createElement('div');
-    linkManagement.className = 'setting-group';
-    linkManagement.innerHTML = `
-        <label>Daftar Link (satu link per baris):</label>
-        <textarea id="link-list" rows="5">http://is.gd/pergunusmart</textarea>
-        <button id="save-links" class="btn-small">Simpan Link</button>
-    `;
-    adminSettings.appendChild(linkManagement);
-
-    // Add event listener for saving links
-    document.getElementById('save-links').addEventListener('click', function() {
-        const links = document.getElementById('link-list').value.trim();
-        if (links) {
-            alert('Daftar link berhasil disimpan!');
-            // In a real app, you would save this to a database
-        } else {
-            alert('Masukkan daftar link terlebih dahulu.');
-        }
+    
+    document.getElementById('saveLinksBtn').addEventListener('click', function() {
+        alert("Link website berhasil disimpan!");
+    });
+    
+    document.getElementById('saveMusicBtn').addEventListener('click', function() {
+        alert("Link musik berhasil disimpan!");
+    });
+    
+    // Toggle exam buttons
+    document.querySelectorAll('.toggle-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            this.classList.toggle('active');
+            const exam = this.dataset.exam;
+            const isActive = this.classList.contains('active');
+            alert(`Ujian ${exam} ${isActive ? 'diaktifkan' : 'dinonaktifkan'}!`);
+        });
     });
 });
-
-// Update showGoToLinks function in main.js
-function showGoToLinks() {
-    playButtonSound();
-    const links = document.getElementById('link-list').value.trim().split('\n');
-    let linksHtml = '<h3>Daftar Link:</h3><ul>';
-    
-    links.forEach(link => {
-        if (link.trim()) {
-            linksHtml += `<li><a href="${link.trim()}" target="_blank">${link.trim()}</a></li>`;
-        }
-    });
-    
-    linksHtml += '</ul>';
-    alertModal('Daftar Link', linksHtml);
-}
-
-// Add alertModal function
-function alertModal(title, content) {
-    const modal = document.createElement('div');
-    modal.className = 'modal';
-    modal.innerHTML = `
-        <div class="modal-content">
-            <h3>${title}</h3>
-            <div class="modal-body">${content}</div>
-            <button class="btn-gradient modal-close">Tutup</button>
-        </div>
-    `;
-    
-    document.body.appendChild(modal);
-    
-    modal.querySelector('.modal-close').addEventListener('click', function() {
-        document.body.removeChild(modal);
-    });
-    
-    // Click outside to close
-    modal.addEventListener('click', function(e) {
-        if (e.target === modal) {
-            document.body.removeChild(modal);
-        }
-    });
-}
