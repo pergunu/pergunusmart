@@ -965,6 +965,20 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }, 3000);
 });
+
+        <script>
+// PASTE SEBELUM </body>
+document.addEventListener('DOMContentLoaded', function() {
+  // Hapus autoplay audio
+  const audio = document.getElementById('opening-audio');
+  if(audio) audio.remove();
+
+  // Force start application
+  setTimeout(() => {
+    document.querySelector('.loading-screen').style.display = 'none';
+    document.getElementById('opening-screen').classList.add('active');
+  }, 500);
+});
 </script>
 </body>
 </html>
