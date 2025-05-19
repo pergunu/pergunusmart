@@ -15,7 +15,7 @@
     <div id="particles-js"></div>
 
     <!-- Opening Screen -->
-    <div id="opening-screen" class="screen active">
+    <div id="opening-screen" class="screen">
         <div class="opening-container animate__animated animate__fadeIn">
             <img src="assets/images/logo.png" alt="PERGUNU Logo" class="logo">
             <h1 class="greeting">Selamat Datang di Ujian Online PERGUNU SITUBONDO</h1>
@@ -30,10 +30,10 @@
                 <div class="progress"></div>
             </div>
             
-            <audio id="opening-audio" src="assets/audio/opening.mp3" autoplay></audio>
+            <audio id="opening-audio" src="assets/audio/opening.mp3"></audio>
         </div>
     </div>
-
+    
     <!-- Terms and Conditions Screen -->
     <div id="terms-screen" class="screen">
         <div class="terms-container">
@@ -925,7 +925,7 @@
     </div>
 
     <!-- Loading Screen -->
-    <div class="loading-screen" id="loading-screen">
+     <div class="loading-screen" id="loading-screen">
         <div class="loading-content">
             <div class="spinner"></div>
             <p>Memuat...</p>
@@ -938,47 +938,33 @@
     <script src="js/exam-logic.js"></script>
     <script src="js/admin-panel.js"></script>
     <script src="js/certificate-generator.js"></script>
-    <script src="js/particles.js"></script>
 
     <script>
-document.addEventListener('DOMContentLoaded', function() {
-  const audio = document.getElementById('opening-audio');
-  
-  // Solusi autoplay terblokir
-  function unlockAudio() {
-    audio.play().then(() => {
-      audio.pause();
-      audio.currentTime = 0;
-    }).catch(e => {
-      document.body.addEventListener('click', () => {
-        audio.play();
-      }, { once: true });
-    });
-  }
-  
-  unlockAudio();
-  
-  // Fallback jika masih stuck
-  setTimeout(() => {
-    if(document.querySelector('.loading-screen').style.display === 'block') {
-      document.querySelector('.loading-screen').style.display = 'none';
-    }
-  }, 3000);
-});
-
-        <script>
-// PASTE SEBELUM </body>
-document.addEventListener('DOMContentLoaded', function() {
-  // Hapus autoplay audio
-  const audio = document.getElementById('opening-audio');
-  if(audio) audio.remove();
-
-  // Force start application
-  setTimeout(() => {
-    document.querySelector('.loading-screen').style.display = 'none';
-    document.getElementById('opening-screen').classList.add('active');
-  }, 500);
-});
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sembunyikan loading screen setelah semua konten dimuat
+            setTimeout(function() {
+                document.getElementById('loading-screen').style.display = 'none';
+                document.getElementById('opening-screen').classList.add('active');
+                
+                // Coba memainkan audio dengan interaksi pengguna
+                const audio = document.getElementById('opening-audio');
+                const playAudio = function() {
+                    audio.play().catch(e => {
+                        console.log('Autoplay prevented:', e);
+                    });
+                };
+                
+                // Coba mainkan audio saat ada interaksi pertama
+                document.body.addEventListener('click', function() {
+                    playAudio();
+                    // Hapus event listener setelah pertama kali diklik
+                    document.body.removeEventListener('click', arguments.callee);
+                }, { once: true });
+                
+                // Juga coba mainkan saat halaman selesai dimuat
+                playAudio();
+            }, 1500); // Waktu loading minimal 1.5 detik
+        });
 </script>
 </body>
 </html>
