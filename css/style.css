@@ -690,56 +690,48 @@ body {
 }
 
 /* Floating Buttons */
-.floating-buttons {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    z-index: 100;
-}
+<!-- Pastikan tombol-tombol memiliki ID yang sesuai -->
+<div class="floating-buttons">
+    <button class="floating-btn" id="share-btn" title="Bagikan Website">
+        <i class="fas fa-share-alt"></i>
+    </button>
+    <button class="floating-btn" id="whatsapp-btn" title="Chat WhatsApp Admin">
+        <i class="fab fa-whatsapp"></i>
+    </button>
+    <button class="floating-btn" id="links-btn" title="Daftar Link">
+        <i class="fas fa-link"></i>
+    </button>
+    <button class="floating-btn" id="question-bank-btn" title="Bank Soal">
+        <i class="fas fa-book"></i>
+    </button>
+    <button class="floating-btn" id="admin-panel-btn" title="Panel Admin">
+        <i class="fas fa-cog"></i>
+    </button>
+    <button class="floating-btn" id="music-btn" title="Musik Latar">
+        <i class="fas fa-music"></i>
+    </button>
+</div>
 
-.floating-btn {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--gradient-2), var(--gradient-3));
-    color: white;
-    border: none;
-    font-size: 1.2rem;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    transition: var(--transition);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+<!-- Pastikan modal-modal memiliki ID yang sesuai -->
+<div class="modal" id="share-modal">
+    <!-- Konten modal share -->
+</div>
 
-.floating-btn:hover {
-    transform: translateY(-5px) scale(1.1);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-}
+<div class="modal" id="whatsapp-modal">
+    <!-- Konten modal whatsapp -->
+</div>
 
-/* Music Player */
-.music-player {
-    position: fixed;
-    bottom: 30px;
-    left: 30px;
-    background: rgba(0, 0, 0, 0.6);
-    padding: 15px;
-    border-radius: 50px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    z-index: 100;
-    backdrop-filter: blur(5px);
-    transition: var(--transition);
-}
+<div class="modal" id="links-modal">
+    <!-- Konten modal links -->
+</div>
 
-.music-player.hidden {
-    transform: translateX(-150%);
-}
+<div class="modal" id="question-bank-modal">
+    <!-- Konten modal question bank -->
+</div>
+
+<div class="modal" id="admin-panel-modal">
+    <!-- Konten modal admin panel -->
+</div>
 
 .music-controls {
     display: flex;
