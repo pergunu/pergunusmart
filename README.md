@@ -1,5 +1,5 @@
 PERGUNU Online Examination System
-PERGUNU Logo
+![PERGUNU Logo](https://raw.githubusercontent.com/pergunu/pergunusmart/main/assets/images/logo.png)
 
 A Professional, Elegant, and Feature-Rich Online Exam Platform
 
