@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sertifikat Ujian - PERGUNU Situbondo</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .certificate-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 2rem auto;
+            position: relative;
+        }
+        
+        .certificate {
+            background-image: url('assets/images/certificate.png');
+            background-size: cover;
+            background-position: center;
+            width: 100%;
+            height: 0;
+            padding-bottom: 70%; /* Aspect ratio for A4 */
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .certificate-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 5rem;
+        }
+        
+        .certificate-title {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #4e54c8;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+        }
+        
+        .certificate-awarded {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .certificate-name {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 1.5rem 0;
+            color: #333;
+            border-bottom: 2px solid #4e54c8;
+            padding-bottom: 1rem;
+            width: 80%;
+        }
+        
+        .certificate-achievement {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            width: 80%;
+        }
+        
+        .certificate-description {
+            font-size: 1rem;
+            margin: 1.5rem 0;
+            width: 80%;
+            line-height: 1.6;
+        }
+        
+        .certificate-score {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #4e54c8;
+            margin: 1rem 0;
+        }
+        
+        .certificate-motivation {
+            font-style: italic;
+            margin: 1rem 0;
+            width: 80%;
+        }
+        
+        .certificate-period {
+            margin-top: 2rem;
+            font-size: 1rem;
+        }
+        
+        .certificate-signature {
+            margin-top: 3rem;
+        }
+        
+        .certificate-signature-name {
+            font-weight: bold;
+            margin-top: 0.5rem;
+            border-top: 1px solid #333;
+            padding-top: 0.5rem;
+            display: inline-block;
+        }
+        
+        .certificate-code {
+            position: absolute;
+            bottom: 2rem;
+            right: 2rem;
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .certificate-barcode {
+            position: absolute;
+            bottom: 2rem;
+            left: 2rem;
+            width: 100px;
+            height: 50px;
+        }
+        
+        .certificate-actions {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+        
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .certificate-container, .certificate-container * {
+                visibility: visible;
+            }
+            .certificate-container {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+            }
+            .certificate-actions {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="certificate-container">
+        <div class="certificate">
+            <div class="certificate-content">
+                <div class="certificate-title">SERTIFIKAT PRESTASI</div>
+                <div class="certificate-awarded">Diberikan Kepada</div>
+                <div class="certificate-name" id="certificate-name">USWATUN HASANAH</div>
+                <div class="certificate-achievement">Atas Partisipasi & Pencapaian Luar Biasa dalam <strong>Ujian PERGUNU Situbondo</strong></div>
+                <div class="certificate-description">
+                    Sebagai penghargaan atas dedikasi dalam memahami materi ujian dan mengasah logika, sertifikat ini diberikan sebagai motivasi untuk terus berkembang.
+                </div>
+                <div class="certificate-score" id="certificate-score">NILAI: 85</div>
+                <div class="certificate-motivation" id="certificate-motivation">
+                    Bagus! Anda telah menunjukkan pemahaman yang baik. Tingkatkan lagi untuk hasil yang lebih baik.
+                </div>
+                <div class="certificate-period">
+                    Ditetapkan di: Situbondo, <span id="certificate-date">16 Mei 2025</span>
+                </div>
+                <div class="certificate-signature">
+                    <div>Ketua PERGUNU Situbondo</div>
+                    <div class="certificate-signature-name">Moh. Nuril Hudha, S.Pd., M.Si.</div>
+                </div>
+                <div class="certificate-code" id="certificate-code">
+                    USWHAS/PELAJAR/SMA/IPS/16052025/T9B3-S6M3/PERGUNU-STB
+                </div>
+                <img src="assets/images/BARCODE.png" alt="Barcode" class="certificate-barcode">
+            </div>
+        </div>
+        
+        <div class="certificate-actions">
+            <button onclick="window.print()" class="btn-primary">Cetak Sertifikat</button>
+            <button onclick="window.location.href='results.html'" class="btn-secondary">Kembali ke Hasil</button>
+        </div>
+    </div>
+
+    <script>
+        // Get exam results
+        const results = JSON.parse(localStorage.getItem('examResults'));
+        const participant = results.participant;
+        
+        // Fill certificate data
+        document.getElementById('certificate-name').textContent = participant.fullname.toUpperCase();
+        document.getElementById('certificate-score').textContent = `NILAI: ${results.score}`;
+        document.getElementById('certificate-code').textContent = results.certificateCode;
+        
+        // Set date
+        const date = new Date(results.timestamp);
+        const options = { day: 'numeric', month: 'long', year: 'numeric' };
+        document.getElementById('certificate-date').textContent = date.toLocaleDateString('id-ID', options);
+        
+        // Set motivational message based on score
+        if (results.score >= 90) {
+            document.getElementById('certificate-motivation').textContent = 'Sempurna! Anda sangat luar biasa dalam menguasai materi ini. Pertahankan prestasi ini.';
+        } else if (results.score >= 70) {
+            document.getElementById('certificate-motivation').textContent = 'Bagus! Anda telah menunjukkan pemahaman yang baik. Tingkatkan lagi untuk hasil yang lebih baik.';
+        } else if (results.score >= 50) {
+            document.getElementById('certificate-motivation').textContent = 'Cukup baik. Anda memiliki dasar pemahaman, tetapi perlu belajar lebih giat lagi.';
+        } else {
+            document.getElementById('certificate-motivation').textContent = 'Jangan menyerah! Gunakan hasil ini sebagai motivasi untuk belajar lebih giat lagi.';
+        }
+    </script>
+</body>
+</html>
