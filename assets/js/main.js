@@ -84,6 +84,31 @@ let isStudent = true;
 
 // Initialize the app
 function init() {
+    // Status initialization
+    const initStatus = {
+        particles: false,
+        audio: false,
+        questions: false
+    };
+
+    // Check particles initialization
+    if (document.getElementById('particles-js')) {
+        initStatus.particles = true;
+    }
+
+    // Check audio initialization
+    if (typeof Audio !== 'undefined') {
+        initStatus.audio = true;
+    }
+
+    // Check questions initialization
+    if (questions && questions.length > 0) {
+        initStatus.questions = true;
+    }
+
+    // Show initialization status
+    showInitStatus(initStatus);
+    
     // Set default exam code for development
     examCodeInput.value = DEFAULT_LOGIN_CODE;
     
@@ -121,6 +146,52 @@ function init() {
     
     document.querySelectorAll('.subject-btn').forEach(btn => {
         btn.addEventListener('click', selectSubject);
+    });
+    
+    // Subject buttons in participant form
+    document.querySelectorAll('#student-fields .subject-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('#student-fields .subject-btn').forEach(b => {
+                b.classList.remove('active');
+            });
+            this.classList.add('active');
+            selectedSubject = this.dataset.subject;
+        });
+    });
+
+    document.querySelectorAll('#general-fields .subject-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('#general-fields .subject-btn').forEach(b => {
+                b.classList.remove('active');
+            });
+            this.classList.add('active');
+            selectedSubject = this.dataset.subject;
+            
+            // Show CPNS license if needed
+            if (selectedSubject === 'cpns') {
+                cpnsLicense.style.display = 'block';
+            } else {
+                cpnsLicense.style.display = 'none';
+            }
+        });
+    });
+
+    // Get location functionality
+    document.getElementById('get-location')?.addEventListener('click', function() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                position => {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    document.getElementById('address').value = `Lat: ${lat}, Lng: ${lng}`;
+                },
+                error => {
+                    alert('Tidak dapat mendapatkan lokasi: ' + error.message);
+                }
+            );
+        } else {
+            alert('Browser tidak mendukung geolocation.');
+        }
     });
     
     // Floating buttons
@@ -213,7 +284,7 @@ function initAdminPanel() {
         adminSettings.appendChild(linkManagement);
 
         // Add event listener for saving links
-        document.getElementById('save-links').addEventListener('click', function() {
+        document.getElementById('save-links')?.addEventListener('click', function() {
             const links = document.getElementById('link-list').value.trim();
             if (links) {
                 alert('Daftar link berhasil disimpan!');
@@ -222,6 +293,38 @@ function initAdminPanel() {
             }
         });
     }
+}
+
+// Show initialization status
+function showInitStatus(status) {
+    const statusContainer = document.createElement('div');
+    statusContainer.className = 'init-status';
+    statusContainer.style.position = 'fixed';
+    statusContainer.style.bottom = '10px';
+    statusContainer.style.left = '10px';
+    statusContainer.style.zIndex = '1000';
+    statusContainer.style.backgroundColor = 'rgba(0,0,0,0.7)';
+    statusContainer.style.padding = '10px';
+    statusContainer.style.borderRadius = '5px';
+    statusContainer.style.color = 'white';
+    statusContainer.style.fontFamily = 'Arial, sans-serif';
+    statusContainer.style.fontSize = '12px';
+
+    let statusHTML = '<h3 style="margin:0 0 5px 0;">Status Sistem:</h3>';
+    statusHTML += `<p style="margin:3px 0;"><span class="status-icon">${status.particles ? '✔️' : '❌'}</span> Particles.js</p>`;
+    statusHTML += `<p style="margin:3px 0;"><span class="status-icon">${status.audio ? '✔️' : '❌'}</span> Sistem Audio</p>`;
+    statusHTML += `<p style="margin:3px 0;"><span class="status-icon">${status.questions ? '✔️' : '❌'}</span> Bank Soal</p>`;
+
+    statusContainer.innerHTML = statusHTML;
+    document.body.appendChild(statusContainer);
+
+    // Hide after 5 seconds
+    setTimeout(() => {
+        statusContainer.style.opacity = '0';
+        setTimeout(() => {
+            document.body.removeChild(statusContainer);
+        }, 500);
+    }, 5000);
 }
 
 // Show screen by index
@@ -903,6 +1006,63 @@ function loadSampleQuestions() {
         }
     ];
 }
+
+// Global error handling
+window.addEventListener('error', function(event) {
+    console.error('Error:', event.message, 'in', event.filename, 'line:', event.lineno);
+    
+    // Show user-friendly error notification
+    const errorNotification = document.createElement('div');
+    errorNotification.className = 'error-notification';
+    errorNotification.innerHTML = `
+        <div class="error-content">
+            <span class="close-error">&times;</span>
+            <h3>Terjadi Kesalahan</h3>
+            <p>Maaf, terjadi masalah teknis. Silakan muat ulang halaman.</p>
+            <p><small>${event.message}</small></p>
+            <button class="btn-small" onclick="window.location.reload()">Muat Ulang</button>
+        </div>
+    `;
+    
+    document.body.appendChild(errorNotification);
+    
+    // Handler for close button
+    errorNotification.querySelector('.close-error').addEventListener('click', function() {
+        document.body.removeChild(errorNotification);
+    });
+});
+
+// CSS for error notification
+const errorStyle = document.createElement('style');
+errorStyle.textContent = `
+.error-notification {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+.error-content {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 80%;
+    position: relative;
+}
+.close-error {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    cursor: pointer;
+}
+`;
+document.head.appendChild(errorStyle);
 
 // Initialize the app when DOM is loaded
 document.addEventListener('DOMContentLoaded', init);
