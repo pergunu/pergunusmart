@@ -1,55 +1,3 @@
-// Update setting-group untuk toggle ujian
-const settingGroup = document.querySelector('.toggle-group');
-settingGroup.innerHTML = `
-    <label class="toggle-label">
-        <input type="checkbox" id="toggle-agama" checked> AGAMA
-    </label>
-    <label class="toggle-label">
-        <input type="checkbox" id="toggle-ppkn" checked> PPKN
-    </label>
-    <label class="toggle-label">
-        <input type="checkbox" id="toggle-sejarah" checked> SEJARAH
-    </label>
-    <label class="toggle-label">
-        <input type="checkbox" id="toggle-ipa" checked> IPA
-    </label>
-    <label class="toggle-label">
-        <input type="checkbox" id="toggle-ips" checked> IPS
-    </label>
-    <label class="toggle-label">
-        <input type="checkbox" id="toggle-matematika" checked> MATEMATIKA
-    </label>
-    <label class="toggle-label">
-        <input type="checkbox" id="toggle-indonesia" checked> BAHASA INDONESIA
-    </label>
-    <label class="toggle-label">
-        <input type="checkbox" id="toggle-inggris" checked> BAHASA INGGRIS
-    </label>
-    <label class="toggle-label">
-        <input type="checkbox" id="toggle-extra" checked> MATERI EXTRA
-    </label>
-    <label class="toggle-label">
-        <input type="checkbox" id="toggle-khusus" checked> MATERI KHUSUS
-    </label>
-    <label class="toggle-label">
-        <input type="checkbox" id="toggle-logika" checked> UJIAN LOGIKA
-    </label>
-    <label class="toggle-label">
-        <input type="checkbox" id="toggle-cpns" checked> UJIAN CPNS/P3K
-    </label>
-`;
-
-// Update question-count options
-const questionCountSelect = document.getElementById('question-count');
-questionCountSelect.innerHTML = '';
-[5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130, 135, 140, 145, 150].forEach(num => {
-    const option = document.createElement('option');
-    option.value = num;
-    option.textContent = num;
-    if (num === 10) option.selected = true;
-    questionCountSelect.appendChild(option);
-});
-
 // Admin Panel Functionality
 document.addEventListener('DOMContentLoaded', function() {
     // Tab switching
@@ -188,43 +136,80 @@ document.addEventListener('DOMContentLoaded', function() {
         alert(`Pengacakan soal ${isRandomized ? 'diaktifkan' : 'dinonaktifkan'}.`);
         // In a real app, you would save this to a database
     });
-});
+    
+    // Update setting-group untuk toggle ujian
+    const settingGroup = document.querySelector('.toggle-group');
+    settingGroup.innerHTML = `
+        <label class="toggle-label">
+            <input type="checkbox" id="toggle-agama" checked> AGAMA
+        </label>
+        <label class="toggle-label">
+            <input type="checkbox" id="toggle-ppkn" checked> PPKN
+        </label>
+        <label class="toggle-label">
+            <input type="checkbox" id="toggle-sejarah" checked> SEJARAH
+        </label>
+        <label class="toggle-label">
+            <input type="checkbox" id="toggle-ipa" checked> IPA
+        </label>
+        <label class="toggle-label">
+            <input type="checkbox" id="toggle-ips" checked> IPS
+        </label>
+        <label class="toggle-label">
+            <input type="checkbox" id="toggle-matematika" checked> MATEMATIKA
+        </label>
+        <label class="toggle-label">
+            <input type="checkbox" id="toggle-indonesia" checked> BAHASA INDONESIA
+        </label>
+        <label class="toggle-label">
+            <input type="checkbox" id="toggle-inggris" checked> BAHASA INGGRIS
+        </label>
+        <label class="toggle-label">
+            <input type="checkbox" id="toggle-extra" checked> MATERI EXTRA
+        </label>
+        <label class="toggle-label">
+            <input type="checkbox" id="toggle-khusus" checked> MATERI KHUSUS
+        </label>
+        <label class="toggle-label">
+            <input type="checkbox" id="toggle-logika" checked> UJIAN LOGIKA
+        </label>
+        <label class="toggle-label">
+            <input type="checkbox" id="toggle-cpns" checked> UJIAN CPNS/P3K
+        </label>
+    `;
 
-// Add to admin panel initialization
-document.getElementById('current-exam-code').value = DEFAULT_CPNS_CODE;
+    // Update question-count options
+    const questionCountSelect = document.getElementById('question-count');
+    questionCountSelect.innerHTML = '';
+    [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130, 135, 140, 145, 150].forEach(num => {
+        const option = document.createElement('option');
+        option.value = num;
+        option.textContent = num;
+        if (num === 10) option.selected = true;
+        questionCountSelect.appendChild(option);
+    });
 
-// Update save-exam-code event listener
-document.getElementById('save-exam-code').addEventListener('click', function() {
-    const newCode = document.getElementById('new-exam-code').value.trim();
-    if (newCode) {
-        document.getElementById('current-exam-code').value = newCode;
-        document.getElementById('new-exam-code').value = '';
-        alert('Kode ujian CPNS berhasil diperbarui!');
-    } else {
-        alert('Masukkan kode baru terlebih dahulu.');
-    }
-});
+    // Add link management to admin panel
+    const adminSettings = document.querySelector('.admin-settings');
+    const linkManagement = document.createElement('div');
+    linkManagement.className = 'setting-group';
+    linkManagement.innerHTML = `
+        <label>Daftar Link (satu link per baris):</label>
+        <textarea id="link-list" rows="5">http://is.gd/pergunusmart</textarea>
+        <button id="save-links" class="btn-small">Simpan Link</button>
+    `;
+    adminSettings.appendChild(linkManagement);
 
-// Add link management to admin panel
-const adminSettings = document.querySelector('.admin-settings');
-const linkManagement = document.createElement('div');
-linkManagement.className = 'setting-group';
-linkManagement.innerHTML = `
-    <label>Daftar Link (satu link per baris):</label>
-    <textarea id="link-list" rows="5">http://is.gd/pergunusmart</textarea>
-    <button id="save-links" class="btn-small">Simpan Link</button>
-`;
-adminSettings.appendChild(linkManagement);
-
-// Add event listener for saving links
-document.getElementById('save-links').addEventListener('click', function() {
-    const links = document.getElementById('link-list').value.trim();
-    if (links) {
-        alert('Daftar link berhasil disimpan!');
-        // In a real app, you would save this to a database
-    } else {
-        alert('Masukkan daftar link terlebih dahulu.');
-    }
+    // Add event listener for saving links
+    document.getElementById('save-links').addEventListener('click', function() {
+        const links = document.getElementById('link-list').value.trim();
+        if (links) {
+            alert('Daftar link berhasil disimpan!');
+            // In a real app, you would save this to a database
+        } else {
+            alert('Masukkan daftar link terlebih dahulu.');
+        }
+    });
 });
 
 // Update showGoToLinks function in main.js
