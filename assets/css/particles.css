@@ -1,23 +1,231 @@
-/* Particles.js container */
-#particles-js {
+/**
+ * Particles.js Configuration - Final Version
+ * Dengan error handling dan fallback yang lebih baik
+ */
+
+// Fungsi utama untuk inisialisasi particles
+function initParticles() {
+    // Periksa apakah elemen particles-js ada sebelum diinisialisasi
+    const particlesContainer = document.getElementById('particles-js');
+    if (!particlesContainer) {
+        console.warn('Element particles-js tidak ditemukan');
+        return false;
+    }
+
+    // Pastikan particlesJS terdefinisi
+    if (typeof particlesJS === 'undefined') {
+        console.error('Particles.js library tidak terdeteksi');
+        showParticlesFallback(particlesContainer);
+        return false;
+    }
+
+    try {
+        // Konfigurasi particles
+        particlesJS('particles-js', getParticlesConfig());
+        
+        // Tambahkan event listener untuk resize
+        window.addEventListener('resize', handleParticlesResize);
+        
+        console.log('Particles.js berhasil diinisialisasi ✔️');
+        return true;
+    } catch (error) {
+        console.error('Error inisialisasi particles.js:', error);
+        showParticlesFallback(particlesContainer);
+        return false;
+    }
+}
+
+// Konfigurasi particles
+function getParticlesConfig() {
+    return {
+        "particles": {
+            "number": {
+                "value": 80,
+                "density": {
+                    "enable": true,
+                    "value_area": 800
+                }
+            },
+            "color": {
+                "value": "#ffffff"
+            },
+            "shape": {
+                "type": "circle",
+                "stroke": {
+                    "width": 0,
+                    "color": "#000000"
+                },
+                "polygon": {
+                    "nb_sides": 5
+                }
+            },
+            "opacity": {
+                "value": 0.5,
+                "random": false,
+                "anim": {
+                    "enable": false,
+                    "speed": 1,
+                    "opacity_min": 0.1,
+                    "sync": false
+                }
+            },
+            "size": {
+                "value": 3,
+                "random": true,
+                "anim": {
+                    "enable": false,
+                    "speed": 40,
+                    "size_min": 0.1,
+                    "sync": false
+                }
+            },
+            "line_linked": {
+                "enable": true,
+                "distance": 150,
+                "color": "#ffffff",
+                "opacity": 0.4,
+                "width": 1
+            },
+            "move": {
+                "enable": true,
+                "speed": 2,
+                "direction": "none",
+                "random": false,
+                "straight": false,
+                "out_mode": "out",
+                "bounce": false,
+                "attract": {
+                    "enable": false,
+                    "rotateX": 600,
+                    "rotateY": 1200
+                }
+            }
+        },
+        "interactivity": {
+            "detect_on": "canvas",
+            "events": {
+                "onhover": {
+                    "enable": true,
+                    "mode": "grab"
+                },
+                "onclick": {
+                    "enable": true,
+                    "mode": "push"
+                },
+                "resize": true
+            },
+            "modes": {
+                "grab": {
+                    "distance": 140,
+                    "line_linked": {
+                        "opacity": 1
+                    }
+                },
+                "bubble": {
+                    "distance": 400,
+                    "size": 40,
+                    "duration": 2,
+                    "opacity": 8,
+                    "speed": 3
+                },
+                "repulse": {
+                    "distance": 200,
+                    "duration": 0.4
+                },
+                "push": {
+                    "particles_nb": 4
+                },
+                "remove": {
+                    "particles_nb": 2
+                }
+            }
+        },
+        "retina_detect": true
+    };
+}
+
+// Fallback jika particles.js gagal
+function showParticlesFallback(container) {
+    console.log('Menggunakan fallback untuk particles');
+    container.style.background = 'linear-gradient(135deg, #6a11cb 0%, #2575fc 100%)';
+    container.style.position = 'fixed';
+    container.style.top = '0';
+    container.style.left = '0';
+    container.style.width = '100%';
+    container.style.height = '100%';
+    container.style.zIndex = '-1';
+}
+
+// Handle resize event
+function handleParticlesResize() {
+    if (window.pJSDom && window.pJSDom.length > 0) {
+        window.pJSDom[0].pJS.fn.vendors.destroypJS();
+        window.pJSDom[0].pJS.fn.vendors.init();
+    }
+}
+
+// Inisialisasi ketika DOM siap
+document.addEventListener('DOMContentLoaded', function() {
+    // Coba inisialisasi particles
+    const particlesInitialized = initParticles();
+    
+    // Tampilkan status di UI
+    showInitStatus({
+        particles: particlesInitialized,
+        component: 'Particles Background'
+    });
+});
+
+// Fungsi untuk menampilkan status inisialisasi
+function showInitStatus(status) {
+    const statusElement = document.createElement('div');
+    statusElement.className = `init-status ${status.particles ? 'success' : 'error'}`;
+    statusElement.innerHTML = `
+        <span class="status-icon">${status.particles ? '✔️' : '❌'}</span>
+        <span class="status-message">${status.component}: ${status.particles ? 'Berhasil' : 'Gagal'}</span>
+    `;
+    
+    document.body.appendChild(statusElement);
+    
+    // Sembunyikan setelah 3 detik
+    setTimeout(() => {
+        statusElement.style.opacity = '0';
+        setTimeout(() => {
+            document.body.removeChild(statusElement);
+        }, 500);
+    }, 3000);
+}
+
+// CSS untuk status indicator
+const styleElement = document.createElement('style');
+styleElement.textContent = `
+.init-status {
     position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    bottom: 20px;
+    left: 20px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    color: white;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    z-index: 10000;
+    opacity: 1;
+    transition: opacity 0.5s ease;
 }
-
-/* Ensure canvas fills the container */
-canvas {
-    display: block;
-    vertical-align: bottom;
+.init-status.success {
+    background-color: #4CAF50;
 }
-
-/* Particle interactions */
-.particles-js-canvas-el {
-    position: absolute;
-    top: 0;
-    left: 0;
+.init-status.error {
+    background-color: #F44336;
 }
+.status-icon {
+    margin-right: 8px;
+    font-size: 16px;
+}
+.status-message {
+    font-weight: bold;
+}
+`;
+document.head.appendChild(styleElement);
