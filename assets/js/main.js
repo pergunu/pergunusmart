@@ -1,60 +1,3 @@
-// Error handling global
-window.addEventListener('error', function(event) {
-    console.error('Error:', event.message, 'in', event.filename, 'line:', event.lineno);
-    
-    // Tampilkan notifikasi error yang lebih user-friendly
-    const errorNotification = document.createElement('div');
-    errorNotification.className = 'error-notification';
-    errorNotification.innerHTML = `
-        <div class="error-content">
-            <span class="close-error">&times;</span>
-            <h3>Terjadi Kesalahan</h3>
-            <p>Maaf, terjadi masalah teknis. Silakan muat ulang halaman.</p>
-            <p><small>${event.message}</small></p>
-            <button class="btn-small" onclick="window.location.reload()">Muat Ulang</button>
-        </div>
-    `;
-    
-    document.body.appendChild(errorNotification);
-    
-    // Handler untuk tombol close
-    errorNotification.querySelector('.close-error').addEventListener('click', function() {
-        document.body.removeChild(errorNotification);
-    });
-});
-
-// CSS untuk error notification
-const errorStyle = document.createElement('style');
-errorStyle.textContent = `
-.error-notification {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0,0,0,0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-}
-.error-content {
-    background: white;
-    padding: 20px;
-    border-radius: 5px;
-    max-width: 80%;
-    position: relative;
-}
-.close-error {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 20px;
-    cursor: pointer;
-}
-`;
-document.head.appendChild(errorStyle);
-
 // DOM Elements
 const screens = document.querySelectorAll('.screen');
 const examCodeInput = document.getElementById('exam-code');
@@ -170,114 +113,6 @@ function init() {
     shareBtn.addEventListener('click', shareWebsite);
     whatsappBtn.addEventListener('click', contactAdmin);
     goToBtn.addEventListener('click', showGoToLinks);
-
-// Tambahkan status initialization
-function init() {
-    // Status inisialisasi
-    const initStatus = {
-        particles: false,
-        audio: false,
-        questions: false
-    };
-
-    // Cek inisialisasi particles
-    if (document.getElementById('particles-js')) {
-        initStatus.particles = true;
-    }
-
-    // Cek inisialisasi audio
-    if (typeof Audio !== 'undefined') {
-        initStatus.audio = true;
-    }
-
-    // Cek inisialisasi questions
-    if (questions && questions.length > 0) {
-        initStatus.questions = true;
-    }
-
-    // Tampilkan status inisialisasi
-    showInitStatus(initStatus);
-    
-    // ... kode init lainnya ...
-}
-
-// Fungsi untuk menampilkan status inisialisasi
-function showInitStatus(status) {
-    const statusContainer = document.createElement('div');
-    statusContainer.className = 'init-status';
-    statusContainer.style.position = 'fixed';
-    statusContainer.style.bottom = '10px';
-    statusContainer.style.left = '10px';
-    statusContainer.style.zIndex = '1000';
-    statusContainer.style.backgroundColor = 'rgba(0,0,0,0.7)';
-    statusContainer.style.padding = '10px';
-    statusContainer.style.borderRadius = '5px';
-    statusContainer.style.color = 'white';
-    statusContainer.style.fontFamily = 'Arial, sans-serif';
-    statusContainer.style.fontSize = '12px';
-
-    let statusHTML = '<h3 style="margin:0 0 5px 0;">Status Sistem:</h3>';
-    statusHTML += `<p style="margin:3px 0;"><span class="status-icon">${status.particles ? '✔️' : '❌'}</span> Particles.js</p>`;
-    statusHTML += `<p style="margin:3px 0;"><span class="status-icon">${status.audio ? '✔️' : '❌'}</span> Sistem Audio</p>`;
-    statusHTML += `<p style="margin:3px 0;"><span class="status-icon">${status.questions ? '✔️' : '❌'}</span> Bank Soal</p>`;
-
-    statusContainer.innerHTML = statusHTML;
-    document.body.appendChild(statusContainer);
-
-    // Sembunyikan setelah 5 detik
-    setTimeout(() => {
-        statusContainer.style.opacity = '0';
-        setTimeout(() => {
-            document.body.removeChild(statusContainer);
-        }, 500);
-    }, 5000);
-}
-    
-    // Add event listeners for subject buttons in participant form
-document.querySelectorAll('#student-fields .subject-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-        document.querySelectorAll('#student-fields .subject-btn').forEach(b => {
-            b.classList.remove('active');
-        });
-        this.classList.add('active');
-        selectedSubject = this.dataset.subject;
-    });
-});
-
-document.querySelectorAll('#general-fields .subject-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-        document.querySelectorAll('#general-fields .subject-btn').forEach(b => {
-            b.classList.remove('active');
-        });
-        this.classList.add('active');
-        selectedSubject = this.dataset.subject;
-        
-        // Show CPNS license if needed
-        if (selectedSubject === 'cpns') {
-            cpnsLicense.style.display = 'block';
-        } else {
-            cpnsLicense.style.display = 'none';
-        }
-    });
-});
-
-// Add get location functionality
-document.getElementById('get-location').addEventListener('click', function() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            position => {
-                const lat = position.coords.latitude;
-                const lng = position.coords.longitude;
-                document.getElementById('address').value = `Lat: ${lat}, Lng: ${lng}`;
-            },
-            error => {
-                alert('Tidak dapat mendapatkan lokasi: ' + error.message);
-            }
-        );
-    } else {
-        alert('Browser tidak mendukung geolocation.');
-    }
-});
     
     // Level selection buttons
     document.querySelectorAll('.level-btn').forEach(btn => {
@@ -302,6 +137,91 @@ document.getElementById('get-location').addEventListener('click', function() {
     // Start background music
     backgroundAudio.volume = 0.3;
     backgroundAudio.play();
+
+    // Initialize admin panel
+    initAdminPanel();
+}
+
+// Admin Panel Initialization
+function initAdminPanel() {
+    // Update setting-group untuk toggle ujian
+    const settingGroup = document.querySelector('.toggle-group');
+    if (settingGroup) {
+        settingGroup.innerHTML = `
+            <label class="toggle-label">
+                <input type="checkbox" id="toggle-agama" checked> AGAMA
+            </label>
+            <label class="toggle-label">
+                <input type="checkbox" id="toggle-ppkn" checked> PPKN
+            </label>
+            <label class="toggle-label">
+                <input type="checkbox" id="toggle-sejarah" checked> SEJARAH
+            </label>
+            <label class="toggle-label">
+                <input type="checkbox" id="toggle-ipa" checked> IPA
+            </label>
+            <label class="toggle-label">
+                <input type="checkbox" id="toggle-ips" checked> IPS
+            </label>
+            <label class="toggle-label">
+                <input type="checkbox" id="toggle-matematika" checked> MATEMATIKA
+            </label>
+            <label class="toggle-label">
+                <input type="checkbox" id="toggle-indonesia" checked> BAHASA INDONESIA
+            </label>
+            <label class="toggle-label">
+                <input type="checkbox" id="toggle-inggris" checked> BAHASA INGGRIS
+            </label>
+            <label class="toggle-label">
+                <input type="checkbox" id="toggle-extra" checked> MATERI EXTRA
+            </label>
+            <label class="toggle-label">
+                <input type="checkbox" id="toggle-khusus" checked> MATERI KHUSUS
+            </label>
+            <label class="toggle-label">
+                <input type="checkbox" id="toggle-logika" checked> UJIAN LOGIKA
+            </label>
+            <label class="toggle-label">
+                <input type="checkbox" id="toggle-cpns" checked> UJIAN CPNS/P3K
+            </label>
+        `;
+    }
+
+    // Update question-count options
+    const questionCountSelect = document.getElementById('question-count');
+    if (questionCountSelect) {
+        questionCountSelect.innerHTML = '';
+        [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130, 135, 140, 145, 150].forEach(num => {
+            const option = document.createElement('option');
+            option.value = num;
+            option.textContent = num;
+            if (num === 10) option.selected = true;
+            questionCountSelect.appendChild(option);
+        });
+    }
+
+    // Add link management to admin panel
+    const adminSettings = document.querySelector('.admin-settings');
+    if (adminSettings) {
+        const linkManagement = document.createElement('div');
+        linkManagement.className = 'setting-group';
+        linkManagement.innerHTML = `
+            <label>Daftar Link (satu link per baris):</label>
+            <textarea id="link-list" rows="5">http://is.gd/pergunusmart</textarea>
+            <button id="save-links" class="btn-small">Simpan Link</button>
+        `;
+        adminSettings.appendChild(linkManagement);
+
+        // Add event listener for saving links
+        document.getElementById('save-links').addEventListener('click', function() {
+            const links = document.getElementById('link-list').value.trim();
+            if (links) {
+                alert('Daftar link berhasil disimpan!');
+            } else {
+                alert('Masukkan daftar link terlebih dahulu.');
+            }
+        });
+    }
 }
 
 // Show screen by index
@@ -359,7 +279,7 @@ function toggleParticipantFields() {
     }
 }
 
-// Update saveParticipantData function
+// Save participant data
 function saveParticipantData(e) {
     e.preventDefault();
     playButtonSound();
@@ -454,7 +374,7 @@ function selectLevel(e) {
     checkExamReady();
 }
 
-// Update selectSubject function
+// Select subject
 function selectSubject(e) {
     playButtonSound();
     selectedSubject = e.target.dataset.subject;
@@ -475,26 +395,13 @@ function selectSubject(e) {
     }
 }
 
-// Update verifyCpnsCode function
-function verifyCpnsCode() {
-    playButtonSound();
-    const code = cpnsCodeInput.value.trim();
-    const currentCode = document.getElementById('current-exam-code').value;
-    
-    if (code === currentCode) {
-        checkExamReady();
-    } else {
-        alert('Kode lisensi salah. Silakan coba lagi.');
-        cpnsCodeInput.focus();
-    }
-}
-
 // Verify CPNS code
 function verifyCpnsCode() {
     playButtonSound();
     const code = cpnsCodeInput.value.trim();
+    const currentCode = document.getElementById('current-exam-code') ? document.getElementById('current-exam-code').value : DEFAULT_CPNS_CODE;
     
-    if (code === DEFAULT_CPNS_CODE) {
+    if (code === currentCode) {
         checkExamReady();
     } else {
         alert('Kode lisensi salah. Silakan coba lagi.');
@@ -506,13 +413,12 @@ function verifyCpnsCode() {
 function checkExamReady() {
     const levelSelected = isStudent ? participantData.classLevel : true;
     const subjectSelected = selectedSubject !== '';
-    const cpnsVerified = selectedSubject === 'cpns' ? cpnsCodeInput.value.trim() === DEFAULT_CPNS_CODE : true;
+    const cpnsVerified = selectedSubject === 'cpns' ? cpnsCodeInput.value.trim() === (document.getElementById('current-exam-code') ? document.getElementById('current-exam-code').value : DEFAULT_CPNS_CODE) : true;
     
     startExamBtn.disabled = !(levelSelected && subjectSelected && cpnsVerified);
 }
 
 // Start exam
-// Update startExam function
 function startExam() {
     playButtonSound();
     
@@ -549,6 +455,7 @@ function startExam() {
     showScreen(4);
     displayQuestion();
 }
+
 // Display current question
 function displayQuestion() {
     if (currentQuestionIndex >= questions.length) {
@@ -845,7 +752,43 @@ function contactAdmin() {
 // Show Go To links
 function showGoToLinks() {
     playButtonSound();
-    alert('Daftar link akan ditampilkan di sini. Admin dapat mengedit daftar ini melalui panel admin.');
+    const links = document.getElementById('link-list') ? document.getElementById('link-list').value.trim().split('\n') : ['http://is.gd/pergunusmart'];
+    let linksHtml = '<h3>Daftar Link:</h3><ul>';
+    
+    links.forEach(link => {
+        if (link.trim()) {
+            linksHtml += `<li><a href="${link.trim()}" target="_blank">${link.trim()}</a></li>`;
+        }
+    });
+    
+    linksHtml += '</ul>';
+    alertModal('Daftar Link', linksHtml);
+}
+
+// Alert modal function
+function alertModal(title, content) {
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <h3>${title}</h3>
+            <div class="modal-body">${content}</div>
+            <button class="btn-gradient modal-close">Tutup</button>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    modal.querySelector('.modal-close').addEventListener('click', function() {
+        document.body.removeChild(modal);
+    });
+    
+    // Click outside to close
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            document.body.removeChild(modal);
+        }
+    });
 }
 
 // Play button sound
