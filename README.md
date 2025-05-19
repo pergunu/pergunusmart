@@ -2,21 +2,10 @@
 
 ![PERGUNU Logo](https://raw.githubusercontent.com/pergunu/pergunusmart/main/assets/images/logo.png)
 
-A Professional, Elegant, and Feature-Rich Online Exam Platform
-
 🌟 Overview
 The PERGUNU Online Examination System is a comprehensive digital assessment platform designed for educational institutions and organizations. This sophisticated system offers a seamless exam experience with advanced features, beautiful design, and robust functionality.
 
-graph TD
-    A[Login Screen] --> B[Terms & Conditions]
-    B --> C[Participant Registration]
-    C --> D[Exam Selection]
-    D --> E[Exam Interface]
-    E --> F[Results & Certification]
-
-
-    ✨ Key Features
-🎨 Stunning Visual Design
+  🎨 Stunning Visual Design
 Gradient backgrounds with animated particle effects
 Responsive layout for all device sizes
 Elegant UI/UX with smooth transitions
@@ -51,33 +40,10 @@ For admin features: access credentials
 Installation
 No installation required! The system runs entirely in the browser.
 
-🛠️ Technical Details
-pie
-    title Technology Stack
-    "HTML5/CSS3" : 35
-    "JavaScript" : 45
-    "Particles.js" : 15
-    "Other Libraries" : 5
-
 Frontend: Pure HTML5, CSS3, and Vanilla JavaScript
 Animations: Custom particle system with interactive elements
 Responsive Design: Works on devices from 320px to 4K displays
 Audio Feedback: Sound effects for correct/incorrect answers
-
-📊 System Architecture
-  flowchart TB
-    subgraph Client
-        A[Login] --> B[Exam Interface]
-        B --> C[Results]
-    end
-    
-    subgraph Serverless
-        D[LocalStorage] --> E[Data Persistence]
-    end
-    
-    subgraph Admin
-        F[Control Panel] --> G[Data Management]
-    end 
 
 📜 License
 This project is licensed under the MIT License - see the LICENSE.md file for details.
