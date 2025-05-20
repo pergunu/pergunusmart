@@ -682,6 +682,70 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Floating button functions
+// Add this to the existing Event Listeners section in script.js
+// Floating buttons functionality
+document.getElementById('share-btn').addEventListener('click', function() {
+    playButtonSound();
+    shareModal.classList.add('active');
+});
+
+document.getElementById('whatsapp-btn').addEventListener('click', function() {
+    playButtonSound();
+    whatsappModal.classList.add('active');
+});
+
+document.getElementById('go-to-btn').addEventListener('click', function() {
+    playButtonSound();
+    goToModal.classList.add('active');
+});
+
+document.getElementById('bank-soal-btn').addEventListener('click', function() {
+    playButtonSound();
+    codeModal.dataset.type = 'bank-soal';
+    codeModal.classList.add('active');
+});
+
+document.getElementById('admin-panel-btn').addEventListener('click', function() {
+    playButtonSound();
+    codeModal.dataset.type = 'admin-panel';
+    codeModal.classList.add('active');
+});
+
+// Modal close functionality
+document.querySelectorAll('.close-modal').forEach(btn => {
+    btn.addEventListener('click', function() {
+        playButtonSound();
+        this.closest('.modal').classList.remove('active');
+    });
+});
+
+// Submit code functionality
+document.getElementById('submit-code').addEventListener('click', function() {
+    playButtonSound();
+    const code = document.getElementById('access-code').value.trim();
+    const modalType = codeModal.dataset.type;
+    
+    if (modalType === 'bank-soal' && code === 'OPENLOCK-1926') {
+        alert('Bank soal akan dibuka di sini (simulasi)');
+        codeModal.classList.remove('active');
+    } else if (modalType === 'admin-panel' && code === '65614222') {
+        // Redirect to admin panel (make sure admin/index.html exists)
+        window.location.href = 'admin/index.html';
+    } else {
+        alert('Kode akses tidak valid!');
+        document.getElementById('access-code').value = '';
+        document.getElementById('access-code').focus();
+    }
+});
+
+// WhatsApp send functionality
+document.getElementById('send-whatsapp').addEventListener('click', function() {
+    playButtonSound();
+    const message = encodeURIComponent(document.getElementById('whatsapp-message').value.trim());
+    window.open(`https://wa.me/6285647709114?text=${message}`, '_blank');
+    whatsappModal.classList.remove('active');
+});
+    
     function showShareModal() {
         playButtonSound();
         shareModal.classList.add('active');
