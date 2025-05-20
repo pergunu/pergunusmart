@@ -1,6 +1,6 @@
 // Main application controller
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize particles.js
+    // Initialize particles.js with combined configuration
     particlesJS('particles-js', {
         particles: {
             number: { 
@@ -107,7 +107,17 @@ document.addEventListener('DOMContentLoaded', function() {
         retina_detect: true
     });
 
-    // Audio and loading functions
+    // Initialize all components
+    initAudio();
+    initLoading();
+    initExamCodeVerification();
+    initTermsAgreement();
+    initParticipantForm();
+    initLevelSelection();
+    initFloatingButtons();
+    initMusicPlayer();
+
+    // Audio initialization
     function initAudio() {
         try {
             const openingAudio = document.getElementById('opening-audio');
@@ -120,6 +130,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Loading simulation
     function initLoading() {
         const progressBar = document.querySelector('.progress');
         if (progressBar) {
@@ -129,6 +140,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 progressBar.style.width = `${progress}%`;
                 if (progress >= 100) {
                     clearInterval(loadingInterval);
+                    // Hide loading screen after progress completes
+                    const loadingScreen = document.getElementById('loading-screen');
+                    if (loadingScreen) {
+                        loadingScreen.style.display = 'none';
+                    }
                 }
             }, 200);
         }
@@ -147,6 +163,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     alert('Kode ujian salah! Silakan masukkan kode yang valid.');
                 }
             });
+
+            // Also allow Enter key to submit
+            const examCodeInput = document.getElementById('exam-code');
+            if (examCodeInput) {
+                examCodeInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        enterExamBtn.click();
+                    }
+                });
+            }
         }
     }
 
@@ -518,16 +544,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     }
-
-    // Initialize all components
-    initAudio();
-    initLoading();
-    initExamCodeVerification();
-    initTermsAgreement();
-    initParticipantForm();
-    initLevelSelection();
-    initFloatingButtons();
-    initMusicPlayer();
 });
 
 // Exam functionality
