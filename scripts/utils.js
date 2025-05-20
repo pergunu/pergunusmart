@@ -676,4 +676,38 @@ function getElementVisibility(element) {
             isAbove: isElementAboveViewport(element),
             isBelow: isElementBelowViewport(element),
             isLeft: isElementLeftOfViewport(element),
-            is
+            isRight: isElementRightOfViewport(element)
+        }
+    };
+}
+
+function addVisibilityListener(element, callback, options = {}) {
+    const { threshold = 0.1, once = false } = options;
+    let wasVisible = false;
+    
+    const checkVisibility = () => {
+        const visibility = getElementVisibility(element);
+        const isVisible = visibility.percentage >= threshold * 100;
+        
+        if (isVisible && !wasVisible) {
+            callback('visible', visibility);
+            if (once) {
+                window.removeEventListener('scroll', checkVisibility);
+                window.removeEventListener('resize', checkVisibility);
+            }
+        } else if (!isVisible && wasVisible) {
+            callback('hidden', visibility);
+        }
+        
+        wasVisible = isVisible;
+    };
+    
+    window.addEventListener('scroll', checkVisibility);
+    window.addEventListener('resize', checkVisibility);
+    checkVisibility();
+    
+    return () => {
+        window.removeEventListener('scroll', checkVisibility);
+        window.removeEventListener('resize', checkVisibility);
+    };
+}
