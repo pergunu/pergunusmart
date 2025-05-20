@@ -15,7 +15,7 @@
     <div id="particles-js"></div>
 
     <!-- Opening Screen -->
-    <div id="opening-screen" class="screen">
+    <div id="opening-screen" class="screen active">
         <div class="opening-container animate__animated animate__fadeIn">
             <img src="assets/images/logo.png" alt="PERGUNU Logo" class="logo">
             <h1 class="greeting">Selamat Datang di Ujian Online PERGUNU SITUBONDO</h1>
@@ -30,10 +30,10 @@
                 <div class="progress"></div>
             </div>
             
-            <audio id="opening-audio" src="assets/audio/opening.mp3"></audio>
+            <audio id="opening-audio" src="assets/audio/opening.mp3" autoplay></audio>
         </div>
     </div>
-    
+
     <!-- Terms and Conditions Screen -->
     <div id="terms-screen" class="screen">
         <div class="terms-container">
@@ -397,37 +397,26 @@
     </div>
 
     <!-- Floating Buttons -->
-    // Perbaikan tombol melayang
-    const floatingButtons = {
-        'share-btn': 'share-modal',
-        'whatsapp-btn': 'whatsapp-modal',
-        'links-btn': 'links-modal',
-        'question-bank-btn': 'question-bank-modal',
-        'admin-panel-btn': 'admin-panel-modal'
-    };
-
-    for (const [btnId, modalId] of Object.entries(floatingButtons)) {
-        const btn = document.getElementById(btnId);
-        if (btn) {
-            btn.addEventListener('click', function() {
-                const modal = document.getElementById(modalId);
-                if (modal) {
-                    modal.classList.add('active');
-                }
-            });
-        }
-    }
-
-    // Perbaikan untuk tombol musik
-    const musicBtn = document.getElementById('music-btn');
-    if (musicBtn) {
-        musicBtn.addEventListener('click', function() {
-            const musicPlayer = document.getElementById('music-player');
-            if (musicPlayer) {
-                musicPlayer.classList.toggle('hidden');
-            }
-        });
-    }
+    <div class="floating-buttons">
+        <button class="floating-btn" id="share-btn" title="Bagikan Website">
+            <i class="fas fa-share-alt"></i>
+        </button>
+        <button class="floating-btn" id="whatsapp-btn" title="Chat WhatsApp Admin">
+            <i class="fab fa-whatsapp"></i>
+        </button>
+        <button class="floating-btn" id="links-btn" title="Daftar Link">
+            <i class="fas fa-link"></i>
+        </button>
+        <button class="floating-btn" id="question-bank-btn" title="Bank Soal">
+            <i class="fas fa-book"></i>
+        </button>
+        <button class="floating-btn" id="admin-panel-btn" title="Panel Admin">
+            <i class="fas fa-cog"></i>
+        </button>
+        <button class="floating-btn" id="music-btn" title="Musik Latar">
+            <i class="fas fa-music"></i>
+        </button>
+    </div>
 
     <!-- Music Player -->
     <div class="music-player" id="music-player">
@@ -936,7 +925,7 @@
     </div>
 
     <!-- Loading Screen -->
-     <div class="loading-screen" id="loading-screen">
+    <div class="loading-screen" id="loading-screen">
         <div class="loading-content">
             <div class="spinner"></div>
             <p>Memuat...</p>
@@ -949,33 +938,6 @@
     <script src="js/exam-logic.js"></script>
     <script src="js/admin-panel.js"></script>
     <script src="js/certificate-generator.js"></script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Sembunyikan loading screen setelah semua konten dimuat
-            setTimeout(function() {
-                document.getElementById('loading-screen').style.display = 'none';
-                document.getElementById('opening-screen').classList.add('active');
-                
-                // Coba memainkan audio dengan interaksi pengguna
-                const audio = document.getElementById('opening-audio');
-                const playAudio = function() {
-                    audio.play().catch(e => {
-                        console.log('Autoplay prevented:', e);
-                    });
-                };
-                
-                // Coba mainkan audio saat ada interaksi pertama
-                document.body.addEventListener('click', function() {
-                    playAudio();
-                    // Hapus event listener setelah pertama kali diklik
-                    document.body.removeEventListener('click', arguments.callee);
-                }, { once: true });
-                
-                // Juga coba mainkan saat halaman selesai dimuat
-                playAudio();
-            }, 1500); // Waktu loading minimal 1.5 detik
-        });
-</script>
+    <script src="js/particles.js"></script>
 </body>
 </html>
