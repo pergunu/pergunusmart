@@ -146,18 +146,21 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Functions
     function validateExamCode() {
-        const code = examCodeInput.value.trim();
-        
-        if (code === DEFAULT_EXAM_CODE) {
-            playButtonSound();
-            showScreen('terms');
-            currentScreen = 'terms';
-        } else {
-            alert('Kode ujian tidak valid. Silakan coba lagi.');
-            examCodeInput.value = '';
-            examCodeInput.focus();
-        }
+    const code = examCodeInput.value.trim();
+    
+    if (code === '12345') {
+        playButtonSound();
+        showScreen('terms');
+        currentScreen = 'terms';
+    } else {
+        alert('Kode ujian tidak valid. Silakan coba lagi.');
+        examCodeInput.value = '';
+        examCodeInput.focus();
     }
+}
+
+// Make sure this event listener exists:
+enterBtn.addEventListener('click', validateExamCode);
     
     function toggleContinueButton() {
         continueBtn.disabled = !agreeCheckbox.checked;
