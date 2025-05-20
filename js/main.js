@@ -124,19 +124,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 200);
 
     // Check exam code
-     const enterExamBtn = document.getElementById('enter-exam');
-    if (enterExamBtn) {
-        enterExamBtn.addEventListener('click', function() {
-            const examCode = document.getElementById('exam-code').value;
-            if (examCode === '12345') { // Default exam code
-                document.getElementById('opening-screen').classList.remove('active');
-                document.getElementById('terms-screen').classList.add('active');
-            } else {
-                alert('Kode ujian salah! Silakan masukkan kode yang valid.');
-            }
-        });
-    }
-
+    const enterExamBtn = document.getElementById('enter-exam');
+    enterExamBtn.addEventListener('click', function() {
+        const examCode = document.getElementById('exam-code').value;
+        if (examCode === '12345') { // Default exam code
+            document.getElementById('opening-screen').classList.remove('active');
+            document.getElementById('terms-screen').classList.add('active');
+        } else {
+            alert('Kode ujian salah! Silakan masukkan kode yang valid.');
+        }
+    });
 
     // Terms agreement
     const agreeTerms = document.getElementById('agree-terms');
@@ -708,45 +705,3 @@ function generateRandomCode(length) {
     }
     return result;
 }
-
-// Perbaikan tombol melayang
-    const floatingButtons = {
-        'share-btn': 'share-modal',
-        'whatsapp-btn': 'whatsapp-modal',
-        'links-btn': 'links-modal',
-        'question-bank-btn': 'question-bank-modal',
-        'admin-panel-btn': 'admin-panel-modal'
-    };
-
-    for (const [btnId, modalId] of Object.entries(floatingButtons)) {
-        const btn = document.getElementById(btnId);
-        if (btn) {
-            btn.addEventListener('click', function() {
-                const modal = document.getElementById(modalId);
-                if (modal) {
-                    modal.classList.add('active');
-                }
-            });
-        }
-    }
-
-    // Perbaikan untuk tombol musik
-    const musicBtn = document.getElementById('music-btn');
-    if (musicBtn) {
-        musicBtn.addEventListener('click', function() {
-            const musicPlayer = document.getElementById('music-player');
-            if (musicPlayer) {
-                musicPlayer.classList.toggle('hidden');
-            }
-        });
-    }
-
-// Ganti ini:
-openingAudio.play().catch(e => console.log(e));
-
-// Menjadi:
-document.body.addEventListener('click', () => {
-  openingAudio.play().then(() => {
-    startApplication();
-  });
-});
