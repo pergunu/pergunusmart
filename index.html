@@ -389,50 +389,68 @@
         </button>
     </div>
     
-    <!-- Modals -->
-    <div id="code-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h3>Masukkan Kode Akses</h3>
-            <input type="password" id="access-code" placeholder="Masukkan Kode">
-            <button id="submit-code" class="btn-small">Submit</button>
+    <!-- Floating Buttons -->
+<div class="floating-buttons">
+    <button id="share-btn" class="floating-btn" title="Share Website">
+        <i class="fas fa-share-alt"></i>
+    </button>
+    <button id="whatsapp-btn" class="floating-btn" title="Chat WhatsApp Admin">
+        <i class="fab fa-whatsapp"></i>
+    </button>
+    <button id="go-to-btn" class="floating-btn" title="Go To">
+        <i class="fas fa-external-link-alt"></i>
+    </button>
+    <button id="bank-soal-btn" class="floating-btn" title="Bank Soal">
+        <i class="fas fa-book"></i>
+    </button>
+    <button id="admin-panel-btn" class="floating-btn" title="Kontrol Panel Admin">
+        <i class="fas fa-cog"></i>
+    </button>
+</div>
+
+<!-- Modals -->
+<div id="code-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h3>Masukkan Kode Akses</h3>
+        <input type="password" id="access-code" placeholder="Masukkan Kode">
+        <button id="submit-code" class="btn-small">Submit</button>
+    </div>
+</div>
+
+<div id="share-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h3>Bagikan Website</h3>
+        <p>Salin link berikut untuk dibagikan:</p>
+        <input type="text" id="share-link" value="http://is.gd/ujianonline" readonly>
+        <div class="social-share">
+            <button class="social-btn facebook"><i class="fab fa-facebook-f"></i></button>
+            <button class="social-btn twitter"><i class="fab fa-twitter"></i></button>
+            <button class="social-btn whatsapp"><i class="fab fa-whatsapp"></i></button>
         </div>
     </div>
-    
-    <div id="share-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h3>Bagikan Website</h3>
-            <p>Salin link berikut untuk dibagikan:</p>
-            <input type="text" id="share-link" value="http://is.gd/ujianonline" readonly>
-            <div class="social-share">
-                <button class="social-btn facebook"><i class="fab fa-facebook-f"></i></button>
-                <button class="social-btn twitter"><i class="fab fa-twitter"></i></button>
-                <button class="social-btn whatsapp"><i class="fab fa-whatsapp"></i></button>
-            </div>
-        </div>
+</div>
+
+<div id="whatsapp-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h3>Chat WhatsApp Admin</h3>
+        <p>Anda akan diarahkan ke WhatsApp dengan pesan berikut:</p>
+        <textarea id="whatsapp-message" rows="3">Assalamualaikum mas admin, saya mau tanya sesuatu nih...</textarea>
+        <button id="send-whatsapp" class="btn-gradient">Kirim Pesan</button>
     </div>
-    
-    <div id="whatsapp-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h3>Chat WhatsApp Admin</h3>
-            <p>Anda akan diarahkan ke WhatsApp dengan pesan berikut:</p>
-            <textarea id="whatsapp-message" rows="3">Assalamualaikum mas admin, saya mau tanya sesuatu nih...</textarea>
-            <button id="send-whatsapp" class="btn-gradient">Kirim Pesan</button>
-        </div>
+</div>
+
+<div id="go-to-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h3>Daftar Website</h3>
+        <ul class="website-list">
+            <li><a href="https://pergunu.github.io/pergunusmart/" target="_blank">PERGUNU Smart</a></li>
+        </ul>
     </div>
-    
-    <div id="go-to-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h3>Daftar Website</h3>
-            <ul class="website-list">
-                <!-- Will be populated from admin panel -->
-                <li><a href="https://pergunu.github.io/pergunusmart/" target="_blank">PERGUNU Smart</a></li>
-            </ul>
-        </div>
-    </div>
+</div>
     
     <script src="js/particles.js"></script>
     <script src="js/script.js"></script>
