@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Soal - PERGUNU SITUBONDO</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="question-bank" id="questionBankPanel">
+        <div class="bank-header">
+            <h1><i class="fas fa-book"></i> Bank Soal Ujian</h1>
+            <p>PERGUNU SITUBONDO - Sistem Ujian Online</p>
+        </div>
+        
+        <div class="bank-tabs">
+            <button class="tab-btn active" data-tab="addQuestion">Tambah Soal</button>
+            <button class="tab-btn" data-tab="manageQuestions">Kelola Soal</button>
+        </div>
+        
+        <div class="tab-content active" id="addQuestion">
+            <div class="add-question-form">
+                <h2><i class="fas fa-plus-circle"></i> Tambah Soal Baru</h2>
+                
+                <form id="addQuestionForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="subject">Mata Pelajaran/Kategori:</label>
+                            <select id="subject" required>
+                                <option value="">Pilih Subjek</option>
+                                <option value="agama">AGAMA</option>
+                                <option value="ppkn">PPKN</option>
+                                <option value="sejarah">SEJARAH</option>
+                                <option value="ipa">IPA</option>
+                                <option value="ips">IPS</option>
+                                <option value="matematika">MATEMATIKA</option>
+                                <option value="bahasa_indonesia">BAHASA INDONESIA</option>
+                                <option value="bahasa_inggris">BAHASA INGGRIS</option>
+                                <option value="materi_extra">MATERI EXTRA</option>
+                                <option value="materi_khusus">MATERI KHUSUS</option>
+                                <option value="logika">UJIAN LOGIKA</option>
+                                <option value="cpns">UJIAN CPNS/P3K</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="level">Tingkat Kesulitan:</label>
+                            <select id="level">
+                                <option value="">Umum</option>
+                                <option value="sd">SD</option>
+                                <option value="smp">SMP</option>
+                                <option value="sma">SMA/SMK</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="category">Kategori:</label>
+                            <select id="category">
+                                <option value="pelajar">Pelajar</option>
+                                <option value="umum">Umum</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="questionText">Pertanyaan:</label>
+                        <textarea id="questionText" rows="3" required placeholder="Tulis pertanyaan disini"></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group option-group">
+                            <label for="optionA">Opsi A:</label>
+                            <input type="text" id="optionA" required placeholder="Jawaban A">
+                        </div>
+                        <div class="form-group option-group">
+                            <label for="optionB">Opsi B:</label>
+                            <input type="text" id="optionB" required placeholder="Jawaban B">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group option-group">
+                            <label for="optionC">Opsi C:</label>
+                            <input type="text" id="optionC" placeholder="Jawaban C (opsional)">
+                        </div>
+                        <div class="form-group option-group">
+                            <label for="optionD">Opsi D:</label>
+                            <input type="text" id="optionD" placeholder="Jawaban D (opsional)">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="correctAnswer">Jawaban Benar:</label>
+                        <select id="correctAnswer" required>
+                            <option value="">Pilih Jawaban Benar</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="explanation">Penjelasan Jawaban:</label>
+                        <textarea id="explanation" rows="3" placeholder="Penjelasan mengapa jawaban tersebut benar"></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" id="aiGenerateBtn" class="outline-btn">
+                            <i class="fas fa-robot"></i> Generate dengan AI
+                        </button>
+                        <button type="submit" class="gradient-btn">
+                            <i class="fas fa-save"></i> Simpan Soal
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="manageQuestions">
+            <div class="manage-questions">
+                <h2><i class="fas fa-tasks"></i> Kelola Soal Ujian</h2>
+                
+                <div class="search-filter">
+                    <div class="form-group search-group">
+                        <input type="text" id="searchQuestions" placeholder="Cari pertanyaan...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="filterSubject">Filter Subjek:</label>
+                        <select id="filterSubject">
+                            <option value="all">Semua Subjek</option>
+                            <option value="agama">AGAMA</option>
+                            <option value="ppkn">PPKN</option>
+                            <option value="sejarah">SEJARAH</option>
+                            <option value="ipa">IPA</option>
+                            <option value="ips">IPS</option>
+                            <option value="matematika">MATEMATIKA</option>
+                            <option value="bahasa_indonesia">BAHASA INDONESIA</option>
+                            <option value="bahasa_inggris">BAHASA INGGRIS</option>
+                            <option value="materi_extra">MATERI EXTRA</option>
+                            <option value="materi_khusus">MATERI KHUSUS</option>
+                            <option value="logika">UJIAN LOGIKA</option>
+                            <option value="cpns">UJIAN CPNS/P3K</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="filterLevel">Filter Tingkat:</label>
+                        <select id="filterLevel">
+                            <option value="all">Semua Tingkat</option>
+                            <option value="sd">SD</option>
+                            <option value="smp">SMP</option>
+                            <option value="sma">SMA/SMK</option>
+                            <option value="">Umum</option>
+                        </select>
+                    </div>
+                    
+                    <button id="exportQuestions" class="gradient-btn">
+                        <i class="fas fa-file-export"></i> Export Soal
+                    </button>
+                </div>
+                
+                <div class="questions-table-container">
+                    <table id="questionsTable">
+                        <!-- Questions will be loaded here by JavaScript -->
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/admin.js"></script>
+</body>
+</html>
