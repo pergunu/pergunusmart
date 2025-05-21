@@ -148,10 +148,10 @@ initChatContainer() {
 
   addAdminReply() {
     const replies = [
-      "Terima kasih atas pesan Anda. Admin akan segera membalas.",
-      "Pesan Anda telah diterima. Mohon menunggu balasan dari admin.",
-      "Kami telah mencatat pertanyaan Anda. Tim kami akan segera merespon.",
-      "Jam operasional kami adalah 08:00 - 16:00 WIB. Pesan di luar jam tersebut akan dibalas keesokan harinya."
+      "Terima kasih atas pesan yang Anda kirimkan.",
+      "Saat ini admin belum dapat membalas langsung melalui form chat ini.",
+      "Kami telah mencatat pertanyaan Anda. Tim kami akan segera merespon.Namun, Anda tetap bisa menghubungi kami melalui salah satu cara berikut : ketik oke",
+      "📧 Email: pergunuhelp@gmail.com atau 💬 Chat WhatsApp: https://wa.me/message/2A672ZFTMLKBO1.  Kami akan segera merespons pesan Anda secepat mungkin, Terima kasih atas pengertian dan kesabaran Anda."
     ];
 
     const randomReply = replies[Math.floor(Math.random() * replies.length)];
