@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Persyaratan Ujian - PERGUNU</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="gradient-bg">
+    <div id="particles-js"></div>
+    <div class="container agreement-container">
+        <div class="agreement-box animate__animated animate__fadeIn">
+            <div class="agreement-header">
+                <img src="../assets/images/logo.png" alt="PERGUNU Logo" class="logo">
+                <h2>Persyaratan dan Kebijakan Ujian</h2>
+            </div>
+            <div class="agreement-content">
+                <div class="terms-text">
+                    <p>Dikembangkan oleh Cendhanu Tim Kreator PERGUNU SITUBONDO</p>
+                    <ol>
+                        <li>Peserta wajib mengisi data diri dengan benar dan valid.</li>
+                        <li>Dilarang keras melakukan kecurangan selama ujian berlangsung.</li>
+                        <li>Peserta hanya diperbolehkan mengikuti ujian satu kali.</li>
+                        <li>Waktu ujian tidak dapat diulang atau diperpanjang.</li>
+                        <li>Hasil ujian akan dicetak dalam bentuk sertifikat digital.</li>
+                        <li>Panitia berhak mendiskualifikasi peserta yang melanggar.</li>
+                        <li>Sertifikat hanya berlaku jika diverifikasi oleh panitia.</li>
+                    </ol>
+                </div>
+                <div class="agreement-checkbox">
+                    <input type="checkbox" id="agreeTerms" required>
+                    <label for="agreeTerms">Saya telah membaca dan menyetujui semua persyaratan dan kebijakan ujian online ini</label>
+                </div>
+            </div>
+            <div class="agreement-footer">
+                <button id="continueBtn" class="btn btn-primary" disabled>Lanjut Ikut Ujian</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/main.js"></script>
+    <script>
+        document.getElementById('agreeTerms').addEventListener('change', function() {
+            document.getElementById('continueBtn').disabled = !this.checked;
+        });
+        
+        document.getElementById('continueBtn').addEventListener('click', function() {
+            window.location.href = 'registration.html';
+        });
+    </script>
+</body>
+</html>
