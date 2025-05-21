@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ujian Berlangsung - PERGUNU</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="gradient-bg">
+    <div id="particles-js"></div>
+    <div class="container exam-container">
+        <div class="exam-header">
+            <div class="exam-info">
+                <h2 id="examSubject">Ujian Online</h2>
+                <div class="timer-container">
+                    <span id="timer">120:00</span>
+                </div>
+            </div>
+            <div class="exam-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <span id="progressText">Soal 1 dari 10</span>
+            </div>
+        </div>
+        
+        <div class="exam-content">
+            <div class="question-container">
+                <div class="question-number">Soal #1</div>
+                <div class="question-text" id="questionText">
+                    Contoh pertanyaan akan muncul di sini. Ini adalah contoh pertanyaan untuk menguji pengetahuan Anda tentang materi yang diujikan.
+                </div>
+            </div>
+            
+            <div class="options-container">
+                <div class="option" data-option="A">
+                    <span class="option-letter">A</span>
+                    <span class="option-text" id="optionA">Pilihan jawaban A</span>
+                </div>
+                <div class="option" data-option="B">
+                    <span class="option-letter">B</span>
+                    <span class="option-text" id="optionB">Pilihan jawaban B</span>
+                </div>
+                <div class="option" data-option="C">
+                    <span class="option-letter">C</span>
+                    <span class="option-text" id="optionC">Pilihan jawaban C</span>
+                </div>
+                <div class="option" data-option="D">
+                    <span class="option-letter">D</span>
+                    <span class="option-text" id="optionD">Pilihan jawaban D</span>
+                </div>
+                <div class="option" data-option="E">
+                    <span class="option-letter">E</span>
+                    <span class="option-text" id="optionE">Pilihan jawaban E</span>
+                </div>
+            </div>
+            
+            <div class="answer-feedback" id="answerFeedback" style="display: none;">
+                <h4>Penjelasan Jawaban:</h4>
+                <p id="explanationText">Penjelasan kunci jawaban akan muncul di sini setelah Anda memilih jawaban.</p>
+            </div>
+        </div>
+        
+        <div class="exam-footer">
+            <button id="finishExamBtn" class="btn btn-danger">Selesaikan Ujian Sekarang</button>
+            <button id="skipQuestionBtn" class="btn btn-secondary">Lewati Soal</button>
+            <button id="unansweredBtn" class="btn btn-warning">Soal Belum Dijawab</button>
+        </div>
+        
+        <!-- Low time warning -->
+        <div class="time-warning" id="timeWarning" style="display: none;">
+            <p>Perhatian! Ujian akan berakhir dalam waktu 10 menit. Mohon pastikan semua jawaban telah diselesaikan dan diperiksa sebelum waktu habis. Terima kasih atas partisipasi Anda.</p>
+        </div>
+    </div>
+
+    <audio id="correctSound" src="../assets/audio/jawabanbenar.mp3"></audio>
+    <audio id="wrongSound" src="../assets/audio/jawabansalah.mp3"></audio>
+    <audio id="buttonSound" src="../assets/audio/audiotombol.mp3"></audio>
+
+    <script src="../assets/js/main.js"></script>
+    <script>
+        // Sample questions data
+        const questions = [
+            {
+                question: "Apa ibukota Indonesia?",
+                options: {
+                    A: "Jakarta",
+                    B: "Bandung",
+                    C: "Surabaya",
+                    D: "Medan",
+                    E: "Yogyakarta"
+                },
+                correctAnswer: "A",
+                explanation: "Jakarta adalah ibukota Indonesia sejak tahun 1945."
+            },
+            {
+                question: "Siapa presiden pertama Indonesia?",
+                options: {
+                    A: "Soeharto",
+                    B: "Joko Widodo",
+                    C: "Soekarno",
+                    D: "BJ Habibie",
+                    E: "Megawati"
+                },
+                correctAnswer: "C",
+                explanation: "Soekarno adalah presiden pertama Indonesia yang menjabat dari 1945 hingga 1967."
+            }
+        ];
+        
+        let currentQuestion = 0;
+        let score = 0;
+        let timer;
+        let timeLeft = 120 * 60; // 120 minutes in seconds
+        const participantData = JSON.parse(localStorage.getItem('participantData'));
+        
+        // Initialize exam
+        function initExam() {
+            loadQuestion(currentQuestion);
+            startTimer();
+            
+            // Set exam subject based on participant data
+            document.getElementById('examSubject').textContent = participantData.purpose || 'Ujian Online';
+        }
+        
+        // Load question
+        function loadQuestion(index) {
+            if (index >= questions.length) {
+                finishExam();
+                return;
+            }
+            
+            const question = questions[index];
+            document.getElementById('questionText').textContent = question.question;
+            document.getElementById('optionA').textContent = question.options.A;
+            document.getElementById('optionB').textContent = question.options.B;
+            document.getElementById('optionC').textContent = question.options.C;
+            document.getElementById('optionD').textContent = question.options.D;
+            document.getElementById('optionE').textContent = question.options.E;
+            
+            document.getElementById('answerFeedback').style.display = 'none';
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('correct', 'wrong', 'selected');
+                opt.style.pointerEvents = 'auto';
+            });
+            
+            // Update progress
+            document.getElementById('progressText').textContent = `Soal ${index + 1} dari ${questions.length}`;
+            document.getElementById('progressFill').style.width = `${((index + 1) / questions.length) * 100}%`;
+        }
+        
+        // Start timer
+        function startTimer() {
+            timer = setInterval(function() {
+                timeLeft--;
+                
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                document.getElementById('timer').textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+                
+                // Show warning when 10 minutes left
+                if (timeLeft === 10 * 60) {
+                    document.getElementById('timeWarning').style.display = 'block';
+                }
+                
+                // Hide warning when 1 minute left
+                if (timeLeft === 60) {
+                    document.getElementById('timeWarning').style.display = 'none';
+                }
+                
+                // Make timer bigger when 10 minutes left
+                if (timeLeft <= 10 * 60) {
+                    document.getElementById('timer').classList.add('urgent');
+                }
+                
+                // Finish exam when time is up
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    finishExam();
+                }
+            }, 1000);
+        }
+        
+        // Handle option selection
+        document.querySelectorAll('.option').forEach(option => {
+            option.addEventListener('click', function() {
+                const selectedOption = this.dataset.option;
+                const question = questions[currentQuestion];
+                
+                // Play button sound
+                document.getElementById('buttonSound').play();
+                
+                // Disable all options
+                document.querySelectorAll('.option').forEach(opt => {
+                    opt.style.pointerEvents = 'none';
+                });
+                
+                // Mark selected option
+                this.classList.add('selected');
+                
+                // Check answer
+                if (selectedOption === question.correctAnswer) {
+                    this.classList.add('correct');
+                    document.getElementById('correctSound').play();
+                    score++;
+                } else {
+                    this.classList.add('wrong');
+                    document.getElementById('wrongSound').play();
+                    // Highlight correct answer
+                    document.querySelector(`.option[data-option="${question.correctAnswer}"]`).classList.add('correct');
+                }
+                
+                // Show explanation
+                document.getElementById('explanationText').textContent = question.explanation;
+                document.getElementById('answerFeedback').style.display = 'block';
+                
+                // Move to next question after delay
+                setTimeout(() => {
+                    currentQuestion++;
+                    loadQuestion(currentQuestion);
+                }, 3000);
+            });
+        });
+        
+        // Skip question
+        document.getElementById('skipQuestionBtn').addEventListener('click', function() {
+            document.getElementById('buttonSound').play();
+            currentQuestion++;
+            loadQuestion(currentQuestion);
+        });
+        
+        // Show unanswered questions
+        document.getElementById('unansweredBtn').addEventListener('click', function() {
+            document.getElementById('buttonSound').play();
+            // Implement logic to show unanswered questions
+            alert('Fitur ini akan menampilkan soal yang belum dijawab.');
+        });
+        
+        // Finish exam
+        document.getElementById('finishExamBtn').addEventListener('click', function() {
+            document.getElementById('buttonSound').play();
+            if (confirm('Apakah Anda yakin ingin menyelesaikan ujian sekarang? Soal yang belum dijawab akan dianggap salah.')) {
+                finishExam();
+            }
+        });
+        
+        // Finish exam function
+        function finishExam() {
+            clearInterval(timer);
+            
+            // Calculate score
+            const finalScore = Math.round((score / questions.length) * 100);
+            
+            // Save results
+            const examResults = {
+                participant: participantData,
+                score: finalScore,
+                correctAnswers: score,
+                totalQuestions: questions.length,
+                timestamp: new Date().toISOString(),
+                certificateCode: generateCertificateCode()
+            };
+            
+            localStorage.setItem('examResults', JSON.stringify(examResults));
+            window.location.href = 'results.html';
+        }
+        
+        // Generate certificate code
+        function generateCertificateCode() {
+            const namePart = participantData.fullName.replace(/\s+/g, '').toUpperCase().substring(0, 3);
+            const statusPart = participantData.status === 'pelajar' ? 'PELAJAR' : 'UMUM';
+            const levelPart = participantData.schoolLevel || 'UMUM';
+            const subjectPart = participantData.purpose.replace(/\s+/g, '').substring(0, 3);
+            
+            const now = new Date();
+            const datePart = `${now.getDate()}${now.getMonth() + 1}${now.getFullYear()}`;
+            
+            const randomPart = Math.random().toString(36).substring(2, 6).toUpperCase();
+            
+            return `${namePart}/${statusPart}/${levelPart}/${subjectPart}/${datePart}/${randomPart}/PERGUNU-STB`;
+        }
+        
+        // Initialize exam when page loads
+        window.addEventListener('load', initExam);
+    </script>
+</body>
+</html>
