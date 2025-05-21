@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontrol Panel Admin - PERGUNU SITUBONDO</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-header">
+            <h1><i class="fas fa-cog"></i> Kontrol Panel Admin</h1>
+            <p>PERGUNU SITUBONDO - Sistem Ujian Online</p>
+        </div>
+        
+        <div class="admin-tabs">
+            <button class="tab-btn active" data-tab="codeSettings">Pengaturan Kode</button>
+            <button class="tab-btn" data-tab="contentSettings">Konten & Teks</button>
+            <button class="tab-btn" data-tab="examSettings">Pengaturan Ujian</button>
+        </div>
+        
+        <div class="tab-content active" id="codeSettings">
+            <div class="settings-section">
+                <h2><i class="fas fa-key"></i> Kode Login</h2>
+                <div class="form-group">
+                    <label for="newLoginCode">Kode Login Baru:</label>
+                    <input type="password" id="newLoginCode" placeholder="Masukkan kode baru">
+                </div>
+                <div class="form-group">
+                    <label for="currentLoginCode">Kode Login Lama:</label>
+                    <input type="password" id="currentLoginCode" placeholder="Masukkan kode saat ini">
+                </div>
+                <button id="saveLoginCode" class="gradient-btn">Simpan Kode</button>
+            </div>
+            
+            <div class="settings-section">
+                <h2><i class="fas fa-key"></i> Kode Ujian CPNS/P3K</h2>
+                <div class="form-group">
+                    <label for="newExamCode">Kode Ujian Baru:</label>
+                    <input type="password" id="newExamCode" placeholder="Masukkan kode baru">
+                </div>
+                <div class="form-group">
+                    <label for="currentExamCode">Kode Ujian Lama:</label>
+                    <input type="password" id="currentExamCode" placeholder="Masukkan kode saat ini">
+                </div>
+                <button id="saveExamCode" class="gradient-btn">Simpan Kode</button>
+            </div>
+            
+            <div class="settings-section">
+                <h2><i class="fas fa-key"></i> Kode Bank Soal</h2>
+                <div class="form-group">
+                    <label for="newQuestionBankCode">Kode Soal Baru:</label>
+                    <input type="password" id="newQuestionBankCode" placeholder="Masukkan kode baru">
+                </div>
+                <div class="form-group">
+                    <label for="currentQuestionBankCode">Kode Soal Lama:</label>
+                    <input type="password" id="currentQuestionBankCode" placeholder="Masukkan kode saat ini">
+                </div>
+                <button id="saveQuestionBankCode" class="gradient-btn">Simpan Kode</button>
+            </div>
+            
+            <div class="settings-section">
+                <h2><i class="fas fa-key"></i> Kode Kontrol Panel Admin</h2>
+                <div class="form-group">
+                    <label for="newAdminCode">Kode Admin Baru:</label>
+                    <input type="password" id="newAdminCode" placeholder="Masukkan kode baru">
+                </div>
+                <div class="form-group">
+                    <label for="currentAdminCode">Kode Admin Lama:</label>
+                    <input type="password" id="currentAdminCode" placeholder="Masukkan kode saat ini">
+                </div>
+                <button id="saveAdminCode" class="gradient-btn">Simpan Kode Admin</button>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="contentSettings">
+            <div class="settings-section">
+                <h2><i class="fas fa-user-tie"></i> Nama Ketua</h2>
+                <div class="form-group">
+                    <label for="chairmanName">Nama Ketua PERGUNU:</label>
+                    <input type="text" id="chairmanName" placeholder="Masukkan nama ketua">
+                </div>
+                <button id="updateChairmanName" class="gradient-btn">Perbarui Nama</button>
+            </div>
+            
+            <div class="settings-section">
+                <h2><i class="fas fa-quote-left"></i> Teks Motivasi Sertifikat</h2>
+                <div class="form-group">
+                    <label for="motivation-90-100">Nilai 90-100:</label>
+                    <textarea id="motivation-90-100" rows="2" placeholder="Teks motivasi"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="motivation-80-89">Nilai 80-89:</label>
+                    <textarea id="motivation-80-89" rows="2" placeholder="Teks motivasi"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="motivation-70-79">Nilai 70-79:</label>
+                    <textarea id="motivation-70-79" rows="2" placeholder="Teks motivasi"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="motivation-60-69">Nilai 60-69:</label>
+                    <textarea id="motivation-60-69" rows="2" placeholder="Teks motivasi"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="motivation-50-59">Nilai 50-59:</label>
+                    <textarea id="motivation-50-59" rows="2" placeholder="Teks motivasi"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="motivation-0-49">Nilai 0-49:</label>
+                    <textarea id="motivation-0-49" rows="2" placeholder="Teks motivasi"></textarea>
+                </div>
+                <button id="updateMotivationText" class="gradient-btn">Perbarui Teks Motivasi</button>
+            </div>
+            
+            <div class="settings-section">
+                <h2><i class="fas fa-comment-dots"></i> Teks Sambutan</h2>
+                <div class="form-group">
+                    <label for="welcomeText">Teks Pembuka:</label>
+                    <textarea id="welcomeText" rows="3" placeholder="Teks sambutan di halaman awal"></textarea>
+                </div>
+                <button id="updateWelcomeText" class="gradient-btn">Perbarui Teks</button>
+            </div>
+            
+            <div class="settings-section">
+                <h2><i class="fas fa-info-circle"></i> Teks Informasi Berkala</h2>
+                <div class="form-group">
+                    <label for="infoText">Informasi:</label>
+                    <textarea id="infoText" rows="3" placeholder="Teks informasi di halaman pemilihan ujian"></textarea>
+                </div>
+                <button id="updateInfoText" class="gradient-btn">Perbarui Teks</button>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="examSettings">
+            <div class="settings-section">
+                <h2><i class="fas fa-star"></i> Sistem Point Nilai</h2>
+                <div class="form-group">
+                    <label for="pointValue">Nilai per Soal (1-10):</label>
+                    <input type="number" id="pointValue" min="1" max="10" placeholder="Masukkan nilai point">
+                </div>
+                <button id="updatePointSystem" class="gradient-btn">Perbarui Point</button>
+            </div>
+            
+            <div class="settings-section">
+                <h2><i class="fas fa-random"></i> Acak Urutan Soal</h2>
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="shuffleQuestions" checked>
+                    <label for="shuffleQuestions">Aktifkan pengacakan soal</label>
+                </div>
+                <button id="toggleShuffle" class="gradient-btn">Simpan Pengaturan</button>
+            </div>
+            
+            <div class="settings-section">
+                <h2><i class="fas fa-list-ol"></i> Jumlah Soal Ujian</h2>
+                <div class="form-group">
+                    <label for="questionLimit">Jumlah Soal (kelipatan 5, maks 150):</label>
+                    <input type="number" id="questionLimit" min="5" max="150" step="5" placeholder="Masukkan jumlah soal">
+                </div>
+                <button id="updateQuestionLimit" class="gradient-btn">Perbarui Jumlah Soal</button>
+            </div>
+            
+            <div class="settings-section">
+                <h2><i class="fas fa-clock"></i> Timer Ujian</h2>
+                <div class="form-group">
+                    <label for="examTimer">Durasi Ujian (menit):</label>
+                    <input type="number" id="examTimer" min="10" max="240" placeholder="Masukkan durasi dalam menit">
+                </div>
+                <button id="updateTimer" class="gradient-btn">Perbarui Timer</button>
+            </div>
+            
+            <div class="settings-section">
+                <h2><i class="fas fa-toggle-on"></i> Aktif/Nonaktif Jenis Ujian</h2>
+                <div class="toggle-grid">
+                    <div class="toggle-item">
+                        <input type="checkbox" id="toggle-agama" checked>
+                        <label for="toggle-agama">AGAMA</label>
+                    </div>
+                    <div class="toggle-item">
+                        <input type="checkbox" id="toggle-ppkn" checked>
+                        <label for="toggle-ppkn">PPKN</label>
+                    </div>
+                    <div class="toggle-item">
+                        <input type="checkbox" id="toggle-sejarah" checked>
+                        <label for="toggle-sejarah">SEJARAH</label>
+                    </div>
+                    <div class="toggle-item">
+                        <input type="checkbox" id="toggle-ipa" checked>
+                        <label for="toggle-ipa">IPA</label>
+                    </div>
+                    <div class="toggle-item">
+                        <input type="checkbox" id="toggle-ips" checked>
+                        <label for="toggle-ips">IPS</label>
+                    </div>
+                    <div class="toggle-item">
+                        <input type="checkbox" id="toggle-matematika" checked>
+                        <label for="toggle-matematika">MATEMATIKA</label>
+                    </div>
+                    <div class="toggle-item">
+                        <input type="checkbox" id="toggle-bahasa_indonesia" checked>
+                        <label for="toggle-bahasa_indonesia">BAHASA INDONESIA</label>
+                    </div>
+                    <div class="toggle-item">
+                        <input type="checkbox" id="toggle-bahasa_inggris" checked>
+                        <label for="toggle-bahasa_inggris">BAHASA INGGRIS</label>
+                    </div>
+                    <div class="toggle-item">
+                        <input type="checkbox" id="toggle-materi_extra" checked>
+                        <label for="toggle-materi_extra">MATERI EXTRA</label>
+                    </div>
+                    <div class="toggle-item">
+                        <input type="checkbox" id="toggle-materi_khusus" checked>
+                        <label for="toggle-materi_khusus">MATERI KHUSUS</label>
+                    </div>
+                    <div class="toggle-item">
+                        <input type="checkbox" id="toggle-logika" checked>
+                        <label for="toggle-logika">UJIAN LOGIKA</label>
+                    </div>
+                    <div class="toggle-item">
+                        <input type="checkbox" id="toggle-cpns" checked>
+                        <label for="toggle-cpns">UJIAN CPNS/P3K</label>
+                    </div>
+                </div>
+                <button id="toggleExamType" class="gradient-btn">Simpan Pengaturan</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/admin.js"></script>
+</body>
+</html>
