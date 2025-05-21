@@ -1,0 +1,28 @@
+{
+    "certificates": [
+        {
+            "id": "CERT001",
+            "participantId": "P001",
+            "participantName": "Uswatun Hasanah",
+            "examId": "EX001",
+            "examType": "pelajar",
+            "subject": "matematika",
+            "classLevel": "XII",
+            "score": 85,
+            "certificateCode": "USWATUN_HASANAH/PELAJAR/SMA/MATEMATIKA/16052023/T9B3-S6M3/PERGUNU-STB",
+            "issueDate": "2023-05-16",
+            "expiryDate": "2024-05-16"
+        },
+        {
+            "id": "CERT002",
+            "participantId": "P002",
+            "participantName": "Budi Santoso",
+            "examId": "EX002",
+            "examType": "cpns",
+            "score": 72,
+            "certificateCode": "BUDI_SANTOSO/UMUM/CPNS/17052023/X2Y4-Z5W6/PERGUNU-STB",
+            "issueDate": "2023-05-17",
+            "expiryDate": "2024-05-17"
+        }
+    ]
+}
