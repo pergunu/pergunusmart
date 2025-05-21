@@ -6,12 +6,234 @@
     <title>Bank Soal - PERGUNU SITUBONDO</title>
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Enhanced Bank Soal Styles */
+        .bank-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .bank-header {
+            background: linear-gradient(135deg, #8e44ad, #3498db);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .bank-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .tab-btn {
+            padding: 12px 20px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .tab-btn.active {
+            border-bottom-color: #3498db;
+            color: #3498db;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .form-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .form-group {
+            flex: 1;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .option-group {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+        
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .btn-back {
+            background: #7f8c8d;
+            color: white;
+            margin-right: 10px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .search-filter {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px 10px 35px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7f8c8d;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+        
+        tr:hover {
+            background: #f5f5f5;
+        }
+        
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 5px;
+        }
+        
+        .page-item {
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            cursor: pointer;
+        }
+        
+        .page-item.active {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+        
+        .import-export {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .file-label {
+            padding: 8px 12px;
+            background: #2ecc71;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-    <div class="question-bank" id="questionBankPanel">
+    <div class="bank-container">
         <div class="bank-header">
             <h1><i class="fas fa-book"></i> Bank Soal Ujian</h1>
             <p>PERGUNU SITUBONDO - Sistem Ujian Online</p>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="btn btn-back" onclick="window.history.back()">
+                <i class="fas fa-arrow-left"></i> Kembali
+            </button>
+            <button class="btn btn-danger" onclick="logoutAdmin()">
+                <i class="fas fa-sign-out-alt"></i> Keluar
+            </button>
         </div>
         
         <div class="bank-tabs">
@@ -20,14 +242,14 @@
         </div>
         
         <div class="tab-content active" id="addQuestion">
-            <div class="add-question-form">
+            <div class="form-container">
                 <h2><i class="fas fa-plus-circle"></i> Tambah Soal Baru</h2>
                 
                 <form id="addQuestionForm">
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="subject">Mata Pelajaran/Kategori:</label>
-                            <select id="subject" required>
+                            <label for="subject">Mata Pelajaran/Kategori</label>
+                            <select id="subject" class="form-control" required>
                                 <option value="">Pilih Subjek</option>
                                 <option value="agama">AGAMA</option>
                                 <option value="ppkn">PPKN</option>
@@ -45,54 +267,46 @@
                         </div>
                         
                         <div class="form-group">
-                            <label for="level">Tingkat Kesulitan:</label>
-                            <select id="level">
+                            <label for="level">Tingkat Kesulitan</label>
+                            <select id="level" class="form-control">
                                 <option value="">Umum</option>
                                 <option value="sd">SD</option>
                                 <option value="smp">SMP</option>
                                 <option value="sma">SMA/SMK</option>
                             </select>
                         </div>
-                        
-                        <div class="form-group">
-                            <label for="category">Kategori:</label>
-                            <select id="category">
-                                <option value="pelajar">Pelajar</option>
-                                <option value="umum">Umum</option>
-                            </select>
-                        </div>
                     </div>
                     
                     <div class="form-group">
-                        <label for="questionText">Pertanyaan:</label>
-                        <textarea id="questionText" rows="3" required placeholder="Tulis pertanyaan disini"></textarea>
+                        <label for="questionText">Pertanyaan</label>
+                        <textarea id="questionText" class="form-control" rows="3" required></textarea>
                     </div>
                     
                     <div class="form-row">
                         <div class="form-group option-group">
-                            <label for="optionA">Opsi A:</label>
-                            <input type="text" id="optionA" required placeholder="Jawaban A">
+                            <label for="optionA">Opsi A</label>
+                            <input type="text" id="optionA" class="form-control" required>
                         </div>
                         <div class="form-group option-group">
-                            <label for="optionB">Opsi B:</label>
-                            <input type="text" id="optionB" required placeholder="Jawaban B">
+                            <label for="optionB">Opsi B</label>
+                            <input type="text" id="optionB" class="form-control" required>
                         </div>
                     </div>
                     
                     <div class="form-row">
                         <div class="form-group option-group">
-                            <label for="optionC">Opsi C:</label>
-                            <input type="text" id="optionC" placeholder="Jawaban C (opsional)">
+                            <label for="optionC">Opsi C</label>
+                            <input type="text" id="optionC" class="form-control">
                         </div>
                         <div class="form-group option-group">
-                            <label for="optionD">Opsi D:</label>
-                            <input type="text" id="optionD" placeholder="Jawaban D (opsional)">
+                            <label for="optionD">Opsi D</label>
+                            <input type="text" id="optionD" class="form-control">
                         </div>
                     </div>
                     
                     <div class="form-group">
-                        <label for="correctAnswer">Jawaban Benar:</label>
-                        <select id="correctAnswer" required>
+                        <label for="correctAnswer">Jawaban Benar</label>
+                        <select id="correctAnswer" class="form-control" required>
                             <option value="">Pilih Jawaban Benar</option>
                             <option value="A">A</option>
                             <option value="B">B</option>
@@ -102,15 +316,15 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="explanation">Penjelasan Jawaban:</label>
-                        <textarea id="explanation" rows="3" placeholder="Penjelasan mengapa jawaban tersebut benar"></textarea>
+                        <label for="explanation">Penjelasan Jawaban</label>
+                        <textarea id="explanation" class="form-control" rows="3"></textarea>
                     </div>
                     
-                    <div class="form-actions">
-                        <button type="button" id="aiGenerateBtn" class="outline-btn">
+                    <div class="action-buttons">
+                        <button type="button" id="aiGenerateBtn" class="btn btn-secondary">
                             <i class="fas fa-robot"></i> Generate dengan AI
                         </button>
-                        <button type="submit" class="gradient-btn">
+                        <button type="submit" class="btn btn-primary">
                             <i class="fas fa-save"></i> Simpan Soal
                         </button>
                     </div>
@@ -119,59 +333,225 @@
         </div>
         
         <div class="tab-content" id="manageQuestions">
-            <div class="manage-questions">
+            <div class="form-container">
                 <h2><i class="fas fa-tasks"></i> Kelola Soal Ujian</h2>
                 
                 <div class="search-filter">
-                    <div class="form-group search-group">
-                        <input type="text" id="searchQuestions" placeholder="Cari pertanyaan...">
+                    <div class="search-box">
                         <i class="fas fa-search"></i>
+                        <input type="text" id="searchQuestions" placeholder="Cari pertanyaan...">
                     </div>
                     
-                    <div class="form-group">
-                        <label for="filterSubject">Filter Subjek:</label>
-                        <select id="filterSubject">
-                            <option value="all">Semua Subjek</option>
-                            <option value="agama">AGAMA</option>
-                            <option value="ppkn">PPKN</option>
-                            <option value="sejarah">SEJARAH</option>
-                            <option value="ipa">IPA</option>
-                            <option value="ips">IPS</option>
-                            <option value="matematika">MATEMATIKA</option>
-                            <option value="bahasa_indonesia">BAHASA INDONESIA</option>
-                            <option value="bahasa_inggris">BAHASA INGGRIS</option>
-                            <option value="materi_extra">MATERI EXTRA</option>
-                            <option value="materi_khusus">MATERI KHUSUS</option>
-                            <option value="logika">UJIAN LOGIKA</option>
-                            <option value="cpns">UJIAN CPNS/P3K</option>
-                        </select>
-                    </div>
+                    <select id="filterSubject" class="form-control">
+                        <option value="">Semua Subjek</option>
+                        <option value="agama">AGAMA</option>
+                        <option value="ppkn">PPKN</option>
+                        <option value="sejarah">SEJARAH</option>
+                        <option value="ipa">IPA</option>
+                        <option value="ips">IPS</option>
+                        <option value="matematika">MATEMATIKA</option>
+                        <option value="bahasa_indonesia">BAHASA INDONESIA</option>
+                        <option value="bahasa_inggris">BAHASA INGGRIS</option>
+                        <option value="materi_extra">MATERI EXTRA</option>
+                        <option value="materi_khusus">MATERI KHUSUS</option>
+                        <option value="logika">UJIAN LOGIKA</option>
+                        <option value="cpns">UJIAN CPNS/P3K</option>
+                    </select>
                     
-                    <div class="form-group">
-                        <label for="filterLevel">Filter Tingkat:</label>
-                        <select id="filterLevel">
-                            <option value="all">Semua Tingkat</option>
-                            <option value="sd">SD</option>
-                            <option value="smp">SMP</option>
-                            <option value="sma">SMA/SMK</option>
-                            <option value="">Umum</option>
-                        </select>
-                    </div>
+                    <select id="filterLevel" class="form-control">
+                        <option value="">Semua Tingkat</option>
+                        <option value="sd">SD</option>
+                        <option value="smp">SMP</option>
+                        <option value="sma">SMA/SMK</option>
+                    </select>
                     
-                    <button id="exportQuestions" class="gradient-btn">
-                        <i class="fas fa-file-export"></i> Export Soal
-                    </button>
+                    <div class="import-export">
+                        <label for="importQuestions" class="file-label">
+                            <i class="fas fa-file-import"></i> Impor
+                            <input type="file" id="importQuestions" class="file-input" accept=".json,.csv,.xlsx">
+                        </label>
+                        <button id="exportQuestions" class="btn btn-primary">
+                            <i class="fas fa-file-export"></i> Ekspor
+                        </button>
+                    </div>
                 </div>
                 
-                <div class="questions-table-container">
-                    <table id="questionsTable">
-                        <!-- Questions will be loaded here by JavaScript -->
-                    </table>
+                <table id="questionsTable">
+                    <thead>
+                        <tr>
+                            <th width="50">No</th>
+                            <th>Pertanyaan</th>
+                            <th width="120">Subjek</th>
+                            <th width="100">Tingkat</th>
+                            <th width="120">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Questions will be loaded here -->
+                    </tbody>
+                </table>
+                
+                <div class="pagination">
+                    <div class="page-item active">1</div>
+                    <div class="page-item">2</div>
+                    <div class="page-item">3</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="../assets/js/admin.js"></script>
+    <script>
+        // Tab switching
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.tab).classList.add('active');
+            });
+        });
+        
+        // Logout function
+        function logoutAdmin() {
+            if (confirm('Anda yakin ingin keluar?')) {
+                localStorage.removeItem('adminLoggedIn');
+                window.location.href = '../index.html';
+            }
+        }
+        
+        // Export functionality
+        document.getElementById('exportQuestions').addEventListener('click', () => {
+            // In a real implementation, this would export questions
+            alert('Fitur ekspor akan mengunduh file Excel/Word berisi semua pertanyaan');
+            
+            // Example implementation:
+            const questions = []; // Get questions from your data source
+            const dataStr = JSON.stringify(questions, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = 'soal-ujian.json';
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+        });
+        
+        // Import functionality
+        document.getElementById('importQuestions').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const questions = JSON.parse(e.target.result);
+                    // Process imported questions
+                    alert(`Berhasil mengimpor ${questions.length} soal`);
+                    // In real implementation, you would save these questions
+                } catch (error) {
+                    alert('Format file tidak valid');
+                }
+            };
+            reader.readAsText(file);
+        });
+        
+        // Form submission
+        document.getElementById('addQuestionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const question = {
+                text: document.getElementById('questionText').value,
+                options: [
+                    document.getElementById('optionA').value,
+                    document.getElementById('optionB').value,
+                    document.getElementById('optionC').value,
+                    document.getElementById('optionD').value
+                ].filter(opt => opt),
+                correctAnswer: document.getElementById('correctAnswer').value,
+                explanation: document.getElementById('explanation').value,
+                subject: document.getElementById('subject').value,
+                level: document.getElementById('level').value
+            };
+            
+            // Validate
+            if (!question.text || question.options.length < 2 || !question.correctAnswer) {
+                alert('Pertanyaan, minimal 2 opsi, dan jawaban benar harus diisi');
+                return;
+            }
+            
+            // In a real app, this would save to database
+            console.log('Question to save:', question);
+            alert('Soal berhasil disimpan');
+            this.reset();
+        });
+        
+        // AI Generate button
+        document.getElementById('aiGenerateBtn').addEventListener('click', function() {
+            const subject = document.getElementById('subject').value;
+            const level = document.getElementById('level').value;
+            
+            if (!subject) {
+                alert('Pilih subjek terlebih dahulu');
+                return;
+            }
+            
+            // Simulate AI generation
+            document.getElementById('questionText').value = `Contoh pertanyaan ${subject} ${level ? 'untuk ' + level : ''} yang dihasilkan AI`;
+            document.getElementById('optionA').value = 'Pilihan A';
+            document.getElementById('optionB').value = 'Pilihan B';
+            document.getElementById('optionC').value = 'Pilihan C';
+            document.getElementById('optionD').value = 'Pilihan D';
+            document.getElementById('correctAnswer').value = 'A';
+            document.getElementById('explanation').value = 'Ini adalah penjelasan yang dihasilkan AI untuk jawaban yang benar.';
+        });
+        
+        // Load sample questions for table
+        function loadQuestionsTable() {
+            const tbody = document.querySelector('#questionsTable tbody');
+            tbody.innerHTML = '';
+            
+            // Sample data - in real app would come from database
+            const sampleQuestions = [
+                { id: 1, text: 'Berapa jumlah Rukun Iman?', subject: 'agama', level: 'sd' },
+                { id: 2, text: 'Pancasila sebagai dasar negara tercantum dalam...', subject: 'ppkn', level: 'smp' },
+                { id: 3, text: 'Jika x + 5 = 10, maka nilai x adalah?', subject: 'matematika', level: 'sma' }
+            ];
+            
+            sampleQuestions.forEach((q, i) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${i+1}</td>
+                    <td>${q.text.substring(0, 50)}${q.text.length > 50 ? '...' : ''}</td>
+                    <td>${q.subject.toUpperCase()}</td>
+                    <td>${q.level ? q.level.toUpperCase() : '-'}</td>
+                    <td>
+                        <button class="btn btn-primary btn-sm" onclick="editQuestion(${q.id})">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteQuestion(${q.id})">
+                            <i class="fas fa-trash"></i> Hapus
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+        
+        // Example functions
+        window.editQuestion = function(id) {
+            alert('Edit soal ID: ' + id);
+        };
+        
+        window.deleteQuestion = function(id) {
+            if (confirm('Hapus soal ini?')) {
+                alert('Soal ID ' + id + ' dihapus');
+            }
+        };
+        
+        // Initial load
+        loadQuestionsTable();
+    </script>
 </body>
 </html>
