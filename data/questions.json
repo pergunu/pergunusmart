@@ -1,0 +1,44 @@
+{
+    "AGAMA": [
+        {
+            "question": "Apa rukun Islam yang pertama?",
+            "options": {
+                "A": "Shalat",
+                "B": "Zakat",
+                "C": "Syahadat",
+                "D": "Puasa",
+                "E": "Haji"
+            },
+            "correctAnswer": "C",
+            "explanation": "Rukun Islam yang pertama adalah mengucapkan dua kalimat syahadat."
+        }
+    ],
+    "PPKN": [
+        {
+            "question": "Apa dasar negara Indonesia?",
+            "options": {
+                "A": "UUD 1945",
+                "B": "Pancasila",
+                "C": "Bhineka Tunggal Ika",
+                "D": "NKRI",
+                "E": "Bhinneka Tunggal Ika"
+            },
+            "correctAnswer": "B",
+            "explanation": "Pancasila adalah dasar negara Indonesia yang terdiri dari lima sila."
+        }
+    ],
+    "Ujian Logika": [
+        {
+            "question": "Jika semua A adalah B dan beberapa B adalah C, maka:",
+            "options": {
+                "A": "Semua A adalah C",
+                "B": "Beberapa A adalah C",
+                "C": "Tidak ada A yang adalah C",
+                "D": "Beberapa C adalah A",
+                "E": "Tidak dapat disimpulkan"
+            },
+            "correctAnswer": "B",
+            "explanation": "Karena beberapa B adalah C dan semua A adalah B, maka beberapa A pasti adalah C."
+        }
+    ]
+}
