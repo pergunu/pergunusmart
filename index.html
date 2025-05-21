@@ -455,5 +455,14 @@
     <script src="js/particles.js"></script>
     <script src="js/script.js"></script>
     <script src="js/questions.js"></script>
+
+    <script>
+    // Check if all JS files are loaded
+    window.addEventListener('load', function() {
+        if (!window.particlesJS || !window.initializeExam || !window.initializeAdminPanel) {
+            alert('Beberapa file penting gagal dimuat. Silakan refresh halaman.');
+        }
+    });
+</script>
 </body>
 </html>
