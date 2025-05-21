@@ -1,8 +1,106 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontrol Panel Admin - PERGUNU SITUBONDO</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
     /* Improved Admin Panel Styles */
+ /* Enhanced Admin Panel Styles */
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --danger-color: #e74c3c;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .admin-header {
+            background: linear-gradient(135deg, #8e44ad, #3498db);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+        
+        .nav-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-home {
+            background-color: var(--primary-color);
+            color: white;
+            border: 2px solid var(--primary-color);
+        }
+        
+        .btn-logout {
+            background-color: white;
+            color: var(--danger-color);
+            border: 2px solid var(--danger-color);
+        }
+        
+        .btn-home:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+        }
+        
+        .btn-logout:hover {
+            background-color: var(--danger-color);
+            color: white;
+        }
+        
+        /* Make Content & Text settings functional */
+        #contentSettings .form-group {
+            margin-bottom: 20px;
+        }
+        
+        #contentSettings textarea {
+            min-height: 120px;
+            background-color: white;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        
+        /* Make Exam Settings functional */
+        #examSettings .settings-section {
+            margin-bottom: 25px;
+        }
+        
+        #examSettings input[type="number"] {
+            background-color: white;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        
     body {
         background-color: #f5f7fa;
         color: #333;
@@ -551,6 +649,58 @@
             </div>
         </div>
     </div>
+
+     <script>
+        // Make Content & Text settings functional
+        function saveContentSettings() {
+            const welcomeText = document.getElementById('welcomeText').value;
+            const infoText = document.getElementById('infoText').value;
+            
+            localStorage.setItem('welcomeText', welcomeText);
+            localStorage.setItem('infoText', infoText);
+            
+            alert('Pengaturan konten berhasil disimpan');
+        }
+        
+        // Make Exam Settings functional
+        function saveExamSettings() {
+            const examDuration = document.getElementById('examDuration').value;
+            const shuffleQuestions = document.getElementById('shuffleQuestions').checked;
+            
+            localStorage.setItem('examDuration', examDuration);
+            localStorage.setItem('shuffleQuestions', shuffleQuestions);
+            
+            alert('Pengaturan ujian berhasil disimpan');
+        }
+        
+        function logoutAdmin() {
+            if (confirm('Anda yakin ingin keluar?')) {
+                localStorage.removeItem('adminLoggedIn');
+                window.location.href = '../index.html';
+            }
+        }
+        
+        // Load saved settings
+        document.addEventListener('DOMContentLoaded', function() {
+            // Content Settings
+            if (localStorage.getItem('welcomeText')) {
+                document.getElementById('welcomeText').value = localStorage.getItem('welcomeText');
+            }
+            
+            if (localStorage.getItem('infoText')) {
+                document.getElementById('infoText').value = localStorage.getItem('infoText');
+            }
+            
+            // Exam Settings
+            if (localStorage.getItem('examDuration')) {
+                document.getElementById('examDuration').value = localStorage.getItem('examDuration');
+            }
+            
+            if (localStorage.getItem('shuffleQuestions')) {
+                document.getElementById('shuffleQuestions').checked = localStorage.getItem('shuffleQuestions') === 'true';
+            }
+        });
+    </script>
 
     <script src="../assets/js/admin.js"></script>
 </body>
