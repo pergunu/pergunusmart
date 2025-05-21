@@ -535,58 +535,165 @@ function finishExam() {
     saveParticipantResults(score);
 }
 
+// Updated generateCertificate function
 function generateCertificate(score) {
     const certificateContainer = document.getElementById('certificatePreview');
+    certificateContainer.innerHTML = '';
     
-    // Generate certificate code
-    const now = new Date();
-    const dateStr = `${now.getDate()}${now.getMonth() + 1}${now.getFullYear()}`;
-    const randomCode = generateRandomCode(8);
-    
-    const certificateCode = `${participantData.fullName.toUpperCase().replace(/ /g, '_')}/${
-        participantData.status.toUpperCase()}/${
-        participantData.schoolLevel ? participantData.schoolLevel.toUpperCase() : 'UMUM'}/${
-        examType.toUpperCase()}/${
-        dateStr}/${
-        randomCode}/PERGUNU-STB`;
-    
-    // Get motivation text based on score
-    const motivationText = getMotivationText(score);
-    
-    // Certificate HTML
-    certificateContainer.innerHTML = `
-        <div class="certificate-content">
-            <h2 class="certificate-title">SERTIFIKAT PRESTASI</h2>
-            <p class="certificate-recipient">Diberikan Kepada</p>
-            <h3>${formatName(participantData.fullName)}</h3>
-            
-            <p class="certificate-description">
-                Atas Partisipasi & Pencapaian Luar Biasa dalam <strong>Ujian Pergunu Situbondo</strong><br><br>
-                Sebagai penghargaan atas dedikasi dalam memahami materi ujian dan mengasah logika, sertifikat ini diberikan sebagai motivasi untuk terus berkembang.
+    // Create printable certificate
+    const printableCert = document.createElement('div');
+    printableCert.className = 'printable-certificate';
+    printableCert.style.backgroundImage = 'url("../assets/images/certificate.png")';
+    printableCert.style.backgroundSize = 'cover';
+    printableCert.style.backgroundPosition = 'center';
+    printableCert.style.padding = '40px';
+    printableCert.style.textAlign = 'center';
+    printableCert.style.maxWidth = '800px';
+    printableCert.style.margin = '0 auto';
+    printableCert.style.position = 'relative';
+
+    // Certificate content
+    printableCert.innerHTML = `
+        <div class="certificate-content" style="position: relative; z-index: 2;">
+            <h2 style="font-size: 36px; margin-top: 40px; margin-bottom: 20px; color: #2c3e50;">SERTIFIKAT PRESTASI</h2>
+            <p style="font-size: 18px; margin-bottom: 10px;">Diberikan Kepada</p>
+            <h3 style="font-size: 28px; margin-bottom: 30px; padding-bottom: 10px; border-bottom: 2px solid #3498db; display: inline-block;">
+                ${formatName(participantData.fullName)}
+            </h3>
+            <p style="font-size: 18px; max-width: 600px; margin: 0 auto 30px; line-height: 1.6;">
+                Atas Partisipasi & Pencapaian Luar Biasa dalam <strong>Ujian Pergunu Situbondo</strong>
             </p>
-            
-            <div class="certificate-score">${score}</div>
-            
-            <p class="certificate-motivation">${motivationText}</p>
-            
-            <div class="certificate-footer">
-                <div class="certificate-date">
-                    <p>Periode: Ditetapkan di:</p>
-                    <p>Situbondo, ${formatDate(now)}</p>
+            <div style="font-size: 72px; font-weight: bold; color: #8e44ad; margin: 30px 0;">${score}</div>
+            <p style="font-style: italic; margin-bottom: 40px;">${getMotivationText(score)}</p>
+            <div style="margin-top: 60px; display: flex; justify-content: space-between;">
+                <div style="text-align: left;">
+                    <p style="margin: 0;">Periode: Ditetapkan di:</p>
+                    <p style="margin: 0; font-weight: bold;">Situbondo, ${formatDate(new Date())}</p>
                 </div>
-                
-                <div class="certificate-signature">
-                    <p>Ketua Pergunu Situbondo</p>
-                    <p>Moh. Nuril Hudha, S.Pd., M.Si.</p>
+                <div style="text-align: right;">
+                    <p style="margin: 0 0 40px 0; font-weight: bold;">Ketua Pergunu Situbondo</p>
+                    <p style="margin: 0;">Moh. Nuril Hudha, S.Pd., M.Si.</p>
                 </div>
             </div>
-            
-            <div class="certificate-barcode">
-                <p>${certificateCode}</p>
-                <img src="assets/images/BARCODE.png" alt="Barcode">
+            <div style="margin-top: 40px;">
+                <p style="font-family: monospace; letter-spacing: 1px; margin-bottom: 10px;">${generateCertificateCode()}</p>
+                <img src="../assets/images/BARCODE.png" alt="Barcode" style="height: 60px;">
             </div>
         </div>
     `;
+
+    // Create non-printable score summary
+    const scoreSummary = document.createElement('div');
+    scoreSummary.className = 'score-summary no-print';
+    scoreSummary.style.marginTop = '30px';
+    scoreSummary.style.padding = '20px';
+    scoreSummary.style.background = '#f9f9f9';
+    scoreSummary.style.borderRadius = '8px';
+
+    scoreSummary.innerHTML = `
+        <h3 style="margin-top: 0;">Detail Nilai Ujian</h3>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+            <div>
+                <p style="margin: 0;">Total Soal</p>
+                <p style="margin: 0; font-size: 24px; font-weight: bold;">${allQuestions.length}</p>
+            </div>
+            <div>
+                <p style="margin: 0;">Jawaban Benar</p>
+                <p style="margin: 0; font-size: 24px; font-weight: bold; color: #27ae60;">${correctAnswers}</p>
+            </div>
+            <div>
+                <p style="margin: 0;">Jawaban Salah</p>
+                <p style="margin: 0; font-size: 24px; font-weight: bold; color: #e74c3c;">${wrongAnswers}</p>
+            </div>
+            <div>
+                <p style="margin: 0;">Tidak Dijawab</p>
+                <p style="margin: 0; font-size: 24px; font-weight: bold; color: #f39c12;">${allQuestions.length - correctAnswers - wrongAnswers}</p>
+            </div>
+        </div>
+        <button id="printCertBtn" class="gradient-btn" style="margin-top: 20px;">
+            <i class="fas fa-print"></i> Cetak Sertifikat
+        </button>
+    `;
+
+    certificateContainer.appendChild(printableCert);
+    certificateContainer.appendChild(scoreSummary);
+
+    // Print functionality
+    document.getElementById('printCertBtn').addEventListener('click', () => {
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Sertifikat Ujian - ${participantData.fullName}</title>
+                <style>
+                    @page {
+                        size: A4 landscape;
+                        margin: 0;
+                    }
+                    body {
+                        margin: 0;
+                        padding: 0;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        height: 100vh;
+                        background: none;
+                    }
+                    .certificate-print {
+                        width: 100%;
+                        height: 100%;
+                        background-image: url('${window.location.origin}/pergunu-smart/assets/images/certificate.png');
+                        background-size: contain;
+                        background-repeat: no-repeat;
+                        background-position: center;
+                        position: relative;
+                        text-align: center;
+                    }
+                    .certificate-content {
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        width: 80%;
+                    }
+                    h2 {
+                        font-size: 36pt;
+                        margin: 20pt 0;
+                    }
+                    h3 {
+                        font-size: 24pt;
+                        margin: 15pt 0;
+                    }
+                    p {
+                        font-size: 12pt;
+                        margin: 10pt 0;
+                    }
+                    .score {
+                        font-size: 72pt;
+                        margin: 30pt 0;
+                        font-weight: bold;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="certificate-print">
+                    <div class="certificate-content">
+                        ${printableCert.innerHTML}
+                    </div>
+                </div>
+                <script>
+                    window.onload = function() {
+                        setTimeout(function() {
+                            window.print();
+                            window.close();
+                        }, 500);
+                    };
+                </script>
+            </body>
+            </html>
+        `);
+    });
 }
 
 function formatName(name) {
@@ -607,6 +714,19 @@ function generateRandomCode(length) {
         result += chars.charAt(Math.floor(Math.random() * chars.length));
     }
     return result;
+}
+
+function generateCertificateCode() {
+    const now = new Date();
+    const dateStr = `${now.getDate()}${now.getMonth() + 1}${now.getFullYear()}`;
+    const randomCode = generateRandomCode(8);
+    
+    return `${participantData.fullName.toUpperCase().replace(/ /g, '_')}/${
+        participantData.status.toUpperCase()}/${
+        participantData.schoolLevel ? participantData.schoolLevel.toUpperCase() : 'UMUM'}/${
+        examType.toUpperCase()}/${
+        dateStr}/${
+        randomCode}/PERGUNU-STB`;
 }
 
 function getMotivationText(score) {
