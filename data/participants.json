@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "fullName": "Uswatun Hasanah",
+        "status": "pelajar",
+        "schoolName": "SMA Negeri 1 Situbondo",
+        "studentId": "123456",
+        "purpose": "Tugas Sekolah",
+        "schoolLevel": "SMA/SMK",
+        "examType": "IPS",
+        "score": 85,
+        "timestamp": "2024-05-16T10:30:00Z"
+    },
+    {
+        "id": 2,
+        "fullName": "Budi Santoso",
+        "status": "umum",
+        "address": "Jl. Merdeka No. 123, Situbondo",
+        "whatsapp": "628123456789",
+        "email": "budi.santoso@example.com",
+        "purpose": "Ujian CPNS/P3K",
+        "examType": "CPNS/P3K",
+        "score": 72,
+        "timestamp": "2024-05-15T14:45:00Z"
+    }
+]
