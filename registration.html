@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pendaftaran Peserta - PERGUNU</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="gradient-bg">
+    <div id="particles-js"></div>
+    <div class="container registration-container">
+        <div class="registration-box animate__animated animate__fadeIn">
+            <div class="registration-header">
+                <img src="../assets/images/logo.png" alt="PERGUNU Logo" class="logo">
+                <h2>Formulir Data Peserta</h2>
+                <p>Silakan isi data diri Anda dengan benar</p>
+            </div>
+            <form id="registrationForm" class="registration-form">
+                <div class="form-group">
+                    <label for="fullName">Nama Lengkap</label>
+                    <input type="text" id="fullName" placeholder="Masukkan nama lengkap" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Status</label>
+                    <div class="radio-group">
+                        <input type="radio" id="student" name="status" value="pelajar" checked>
+                        <label for="student">Pelajar</label>
+                        <input type="radio" id="general" name="status" value="umum">
+                        <label for="general">Umum</label>
+                    </div>
+                </div>
+                
+                <!-- Student Fields -->
+                <div id="studentFields">
+                    <div class="form-group">
+                        <label for="schoolName">Nama Sekolah</label>
+                        <input type="text" id="schoolName" placeholder="Masukkan nama sekolah" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentId">NIS (Nomor Induk Siswa)</label>
+                        <input type="number" id="studentId" placeholder="Masukkan NIS" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Tujuan Ikut Ujian</label>
+                        <select id="studentPurpose" required>
+                            <option value="">Pilih tujuan</option>
+                            <option value="Tugas Sekolah">Tugas Sekolah</option>
+                            <option value="Tugas Ulangan">Tugas Ulangan</option>
+                            <option value="Tes dan Belajar">Tes dan Belajar</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Tingkat Sekolah</label>
+                        <select id="schoolLevel" required>
+                            <option value="">Pilih tingkat</option>
+                            <option value="SD">SD</option>
+                            <option value="SMP">SMP</option>
+                            <option value="SMA/SMK">SMA/SMK</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- General Public Fields -->
+                <div id="generalFields" style="display: none;">
+                    <div class="form-group">
+                        <label for="address">Alamat</label>
+                        <input type="text" id="address" placeholder="Masukkan alamat">
+                        <button type="button" id="getLocation" class="btn btn-small">Dapatkan Lokasi Otomatis</button>
+                        <small id="locationStatus"></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="whatsapp">Nomor WhatsApp Aktif</label>
+                        <input type="tel" id="whatsapp" placeholder="Contoh: 628123456789" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Alamat Email</label>
+                        <input type="email" id="email" placeholder="Masukkan email valid" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Tujuan Ikut Ujian</label>
+                        <select id="generalPurpose" required>
+                            <option value="">Pilih tujuan</option>
+                            <option value="Tes IQ">Tes IQ</option>
+                            <option value="Ujian CPNS/P3K">Ujian CPNS/P3K</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Simpan & Ikut Ujian</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../assets/js/main.js"></script>
+    <script>
+        // Toggle between student and general public fields
+        document.querySelectorAll('input[name="status"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value === 'pelajar') {
+                    document.getElementById('studentFields').style.display = 'block';
+                    document.getElementById('generalFields').style.display = 'none';
+                } else {
+                    document.getElementById('studentFields').style.display = 'none';
+                    document.getElementById('generalFields').style.display = 'block';
+                }
+            });
+        });
+
+        // Get GPS location
+        document.getElementById('getLocation').addEventListener('click', function() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const latitude = position.coords.latitude;
+                        const longitude = position.coords.longitude;
+                        document.getElementById('address').value = `Lat: ${latitude}, Long: ${longitude}`;
+                        document.getElementById('locationStatus').textContent = 'Lokasi berhasil diperoleh';
+                        document.getElementById('locationStatus').style.color = 'green';
+                    },
+                    function(error) {
+                        document.getElementById('locationStatus').textContent = 'Gagal mendapatkan lokasi: ' + error.message;
+                        document.getElementById('locationStatus').style.color = 'red';
+                    }
+                );
+            } else {
+                document.getElementById('locationStatus').textContent = 'Geolocation tidak didukung oleh browser Anda';
+                document.getElementById('locationStatus').style.color = 'red';
+            }
+        });
+
+        // Form submission
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Save participant data to localStorage
+            const participantData = {
+                fullName: document.getElementById('fullName').value,
+                status: document.querySelector('input[name="status"]:checked').value,
+                timestamp: new Date().toISOString()
+            };
+            
+            if (participantData.status === 'pelajar') {
+                participantData.schoolName = document.getElementById('schoolName').value;
+                participantData.studentId = document.getElementById('studentId').value;
+                participantData.purpose = document.getElementById('studentPurpose').value;
+                participantData.schoolLevel = document.getElementById('schoolLevel').value;
+            } else {
+                participantData.address = document.getElementById('address').value;
+                participantData.whatsapp = document.getElementById('whatsapp').value;
+                participantData.email = document.getElementById('email').value;
+                participantData.purpose = document.getElementById('generalPurpose').value;
+            }
+            
+            localStorage.setItem('participantData', JSON.stringify(participantData));
+            
+            // Redirect to exam selection
+            window.location.href = 'exam-selection.html';
+        });
+    </script>
+</body>
+</html>
