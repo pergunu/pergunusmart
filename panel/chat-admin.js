@@ -150,10 +150,10 @@ initChatContainer() {
 
   addAdminReply() {
     const replies = [
-      "Terima kasih atas pesan yang Anda kirimkan.",
-      "Saat ini admin belum dapat membalas langsung melalui form chat ini.",
+      "Terima kasih atas pesan yang Anda kirimkan, Saat ini admin belum dapat membalas langsung melalui form chat ini.",
       "Namun, Anda tetap bisa menghubungi kami melalui salah satu cara berikut : ketik oke",
-      "Kirim Email: pergunuhelp@gmail.com atau Chat WhatsApp: https://wa.me/message/2A672ZFTMLKBO1.  Kami akan segera merespons pesan Anda secepat mungkin, Terima kasih atas pengertian dan kesabaran Anda."
+      "Kirim Email: pergunusitubondop@gmail.com atau Chat WhatsApp: 085647709114",
+      "Kami akan segera merespons pesan Anda secepat mungkin, Terima kasih atas pengertian dan kesabaran Anda."
     ];
 
     const randomReply = replies[Math.floor(Math.random() * replies.length)];
