@@ -983,3 +983,68 @@ body {
         font-size: 36px;
     }
 }
+
+/* Certificate Print Styles */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    
+    .certificate-content, .certificate-content * {
+        visibility: visible;
+    }
+    
+    .certificate-content {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        background: white;
+        box-shadow: none;
+    }
+    
+    .certificate-title {
+        font-size: 42pt !important;
+        margin-top: 40pt !important;
+    }
+    
+    .certificate-recipient {
+        font-size: 16pt !important;
+    }
+    
+    .certificate-content h3 {
+        font-size: 24pt !important;
+        margin-bottom: 60pt !important;
+    }
+    
+    .certificate-description {
+        font-size: 14pt !important;
+        margin-bottom: 40pt !important;
+    }
+    
+    .certificate-score {
+        font-size: 72pt !important;
+        margin: 60pt 0 !important;
+    }
+    
+    .certificate-motivation {
+        font-size: 14pt !important;
+        margin-bottom: 60pt !important;
+    }
+    
+    .certificate-footer {
+        font-size: 12pt !important;
+    }
+    
+    .no-print, .score-summary, .result-actions {
+        display: none !important;
+    }
+    
+    @page {
+        size: A4 landscape;
+        margin: 0;
+    }
+}
