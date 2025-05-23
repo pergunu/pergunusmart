@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kontrol Panel Admin - PERGUNU SITUBONDO</title>
     <link rel="stylesheet" href="../assets/css/style.css">
+     <link rel="stylesheet" href="../assets/css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
     /* Improved Admin Panel Styles */
@@ -497,6 +498,19 @@
                 <button id="saveAdminCode" class="gradient-btn">Simpan Kode Admin</button>
             </div>
         </div>
+
+        <div class="admin-container">
+        <div class="admin-header">
+            <h1><i class="fas fa-cog"></i> Kontrol Panel Admin</h1>
+            <p>PERGUNU SITUBONDO - Sistem Ujian Online</p>
+        </div>
+        
+        <div class="admin-nav">
+            <button class="nav-btn active" data-tab="codeSettings"><i class="fas fa-key"></i> Pengaturan Kode</button>
+            <button class="nav-btn" data-tab="contentSettings"><i class="fas fa-file-alt"></i> Konten & Teks</button>
+            <button class="nav-btn" data-tab="examSettings"><i class="fas fa-clipboard-list"></i> Pengaturan Ujian</button>
+            <button class="nav-btn" data-tab="shareSettings"><i class="fas fa-share-alt"></i> Pengaturan Share</button>
+        </div>
         
         <div class="tab-content" id="contentSettings">
             <div class="settings-section">
@@ -556,15 +570,45 @@
             </div>
         </div>
         
-        <div class="tab-content" id="examSettings">
+        <div class="tab-content" id="shareSettings">
             <div class="settings-section">
-                <h2><i class="fas fa-star"></i> Sistem Point Nilai</h2>
+                <h2><i class="fas fa-share-alt"></i> Daftar Link Share</h2>
                 <div class="form-group">
-                    <label for="pointValue">Nilai per Soal (1-10):</label>
-                    <input type="number" id="pointValue" min="1" max="10" placeholder="Masukkan nilai point">
+                    <label for="sharePlatform">Platform:</label>
+                    <select id="sharePlatform" class="form-control">
+                        <option value="whatsapp">WhatsApp</option>
+                        <option value="facebook">Facebook</option>
+                        <option value="twitter">Twitter</option>
+                        <option value="telegram">Telegram</option>
+                        <option value="email">Email</option>
+                        <option value="other">Lainnya</option>
+                    </select>
                 </div>
-                <button id="updatePointSystem" class="gradient-btn">Perbarui Point</button>
-            </div>
+                <div class="form-group">
+                    <label for="shareLabel">Label:</label>
+                    <input type="text" id="shareLabel" class="form-control" placeholder="Contoh: Bagikan via WhatsApp">
+                </div>
+                <div class="form-group">
+                    <label for="shareUrl">URL:</label>
+                    <input type="text" id="shareUrl" class="form-control" placeholder="https://...">
+                </div>
+                <div class="form-group">
+                    <label for="shareIcon">Icon (Font Awesome):</label>
+                    <input type="text" id="shareIcon" class="form-control" placeholder="fab fa-whatsapp">
+                </div>
+                <button id="addShareLink" class="gradient-btn"><i class="fas fa-plus"></i> Tambah Link</button>
+                
+                <div class="share-links-list">
+                    <h3>Daftar Link Saat Ini</h3>
+                    <table id="shareLinksTable">
+                        <thead>
+                            <tr>
+                                <th>Platform</th>
+                                <th>Label</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
             
             <div class="settings-section">
                 <h2><i class="fas fa-random"></i> Acak Urutan Soal</h2>
@@ -649,6 +693,23 @@
             </div>
         </div>
     </div>
+
+            </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div class="admin-footer">
+            <button class="btn btn-home" onclick="window.location.href='../index.html'">
+                <i class="fas fa-home"></i> Kembali ke Home
+            </button>
+            <button class="btn btn-logout" onclick="logoutAdmin()">
+                <i class="fas fa-sign-out-alt"></i> Keluar
+            </button>
+        </div>
+    </div>
+
 
      <script>
         // Make Content & Text settings functional
