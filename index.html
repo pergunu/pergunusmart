@@ -4,17 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ujian Online - PERGUNU SITUBONDO</title>
-    
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/animate.css">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; 
-          script-src 'self' https://cdnjs.cloudflare.com; 
-          style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; 
-          font-src 'self' https://fonts.gstatic.com;">
 </head>
 <body>
     <!-- Particle Background -->
@@ -306,39 +299,5 @@
     <script src="panel/chat-admin.js"></script>
     <script src="auth/login.js"></script>
     <script src="auth/admin-auth.js"></script>
-
-     <script>
-        // Inisialisasi aplikasi setelah DOM siap
-        document.addEventListener('DOMContentLoaded', async () => {
-            try {
-                // Memuat pertanyaan
-                const response = await fetch('assets/data/questions.json');
-                const questions = await response.json();
-                
-                // Simpan ke state aplikasi
-                window.appState = { questions };
-                
-                // Render aplikasi
-                document.getElementById('app').innerHTML = `
-                    <div class="opening-screen">
-                        <!-- Konten halaman awal -->
-                    </div>
-                `;
-                
-                // Inisialisasi particles.js
-                if (window.particlesJS) {
-                    particlesJS('particles-js', { /* config */ });
-                }
-            } catch (error) {
-                console.error("Error initializing app:", error);
-                document.getElementById('app').innerHTML = `
-                    <div class="error-message">
-                        <h2>Terjadi Kesalahan</h2>
-                        <p>Silakan refresh halaman atau coba lagi nanti.</p>
-                    </div>
-                `;
-            }
-        });
-    </script>
 </body>
 </html>
