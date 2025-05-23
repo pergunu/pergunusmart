@@ -13,20 +13,44 @@ document.addEventListener('DOMContentLoaded', function() {
     chatContainer.style.zIndex = '1000';
     chatContainer.style.display = 'none';
     chatContainer.style.overflow = 'hidden';
-    
-    chatContainer.innerHTML = `
-        <div class="chat-header" style="background: linear-gradient(45deg, #25D366, #128C7E); color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center;">
-            <h3 style="margin: 0;">Chat Admin</h3>
-            <button id="closeChat" style="background: none; border: none; color: white; font-size: 20px; cursor: pointer;">×</button>
-        </div>
-        <div id="chatMessages" style="height: 300px; overflow-y: auto; padding: 15px; background: #f5f5f5;"></div>
-        <div class="chat-input" style="padding: 15px; background: white; border-top: 1px solid #eee;">
-            <textarea id="chatMessageInput" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; resize: none;" placeholder="Ketik pesan Anda..."></textarea>
-            <button id="sendChatMessage" style="background: #25D366; color: white; border: none; padding: 8px 15px; border-radius: 5px; margin-top: 10px; cursor: pointer;">Kirim</button>
-        </div>
+
+    initChatContainer() {
+    if (document.getElementById('chatAdminContainer')) return;
+
+    const chatContainer = document.createElement('div');
+    chatContainer.id = 'chatAdminContainer';
+    chatContainer.style.cssText = `
+        position: fixed;
+        bottom: 100px;
+        right: 30px;
+        width: 350px;
+        max-height: 500px;
+        background: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        z-index: 1000;
+        display: none;
+        overflow: hidden;
+        font-family: 'Poppins', sans-serif;
+        color: #333333;  /* Dark text for readability */
     `;
     
+     chatContainer.innerHTML = `
+        <div class="chat-header" style="background: linear-gradient(45deg, #25D366, #128C7E); color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center;">
+            <h3 style="margin: 0; font-size: 16px; color: white;">Chat Admin</h3>
+            <button id="closeChat" style="background: none; border: none; color: white; font-size: 20px; cursor: pointer;">×</button>
+        </div>
+        <div id="chatMessages" style="height: 300px; overflow-y: auto; padding: 15px; background: #f5f5f5; color: #333333;">
+            <!-- Messages will appear here -->
+        </div>
+        <div class="chat-input" style="padding: 15px; background: white; border-top: 1px solid #eee;">
+            <textarea id="chatMessageInput" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; resize: none; font-family: inherit; color: #333333;" placeholder="Ketik pesan Anda..."></textarea>
+            <button id="sendChatMessage" style="background: #25D366; color: white; border: none; padding: 8px 15px; border-radius: 5px; margin-top: 10px; cursor: pointer; font-family: inherit;">Kirim</button>
+        </div>
+    `;
+
     document.body.appendChild(chatContainer);
+}
     
     // Toggle chat visibility
     document.getElementById('whatsappBtn').addEventListener('click', function() {
