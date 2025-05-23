@@ -746,19 +746,78 @@ function retakeExam() {
 // Floating Button Functions
 function shareWebsite() {
     buttonAudio.play();
-    const url = 'http://is.gd/ujianonline';
-    if (navigator.share) {
-        navigator.share({
-            title: 'Ujian Online PERGUNU SITUBONDO',
-            text: 'Ikuti ujian online profesional dari PERGUNU SITUBONDO',
-            url: url
-        }).catch(err => {
-            console.log('Error sharing:', err);
+    
+    const shareLinks = JSON.parse(localStorage.getItem('shareLinks') || '[]');
+    
+    if (shareLinks.length === 0) {
+        // Default share options
+        const url = 'http://is.gd/ujianonline';
+        if (navigator.share) {
+            navigator.share({
+                title: 'Ujian Online PERGUNU SITUBONDO',
+                text: 'Ikuti ujian online profesional dari PERGUNU SITUBONDO',
+                url: url
+            }).catch(err => {
+                console.log('Error sharing:', err);
+                fallbackShare(url);
+            });
+        } else {
             fallbackShare(url);
-        });
+        }
     } else {
-        fallbackShare(url);
+        showShareMenu(shareLinks);
     }
+}
+
+function showShareMenu(links) {
+    const shareMenu = document.createElement('div');
+    shareMenu.id = 'shareMenu';
+    shareMenu.style.cssText = `
+        position: fixed;
+        bottom: 180px;
+        right: 30px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        z-index: 1000;
+        padding: 15px;
+        color: #333;
+        min-width: 200px;
+        animation: fadeIn 0.3s ease;
+    `;
+    
+    shareMenu.innerHTML = `
+        <h3 style="margin: 0 0 10px; font-size: 16px; color: #2c3e50;">Bagikan Melalui</h3>
+        <div class="share-options">
+            ${links.map(link => `
+                <a href="${link.url}" target="_blank" class="share-option" style="
+                    display: flex;
+                    align-items: center;
+                    padding: 10px;
+                    border-radius: 5px;
+                    margin-bottom: 5px;
+                    text-decoration: none;
+                    color: #333;
+                    transition: background 0.3s;
+                ">
+                    <i class="${link.icon}" style="margin-right: 10px; width: 20px; text-align: center;"></i>
+                    ${link.label}
+                </a>
+            `).join('')}
+        </div>
+    `;
+    
+    document.body.appendChild(shareMenu);
+    
+    // Close menu when clicking outside
+    setTimeout(() => {
+        document.addEventListener('click', function closeMenu(e) {
+            if (!shareMenu.contains(e.target) {
+                shareMenu.remove();
+                document.removeEventListener('click', closeMenu);
+            }
+        });
+    }, 100);
 }
 
 function fallbackShare(url) {
