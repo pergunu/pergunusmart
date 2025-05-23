@@ -1,35 +1,60 @@
-[
-  {
-    "id": 1,
-    "subject": "agama",
-    "level": "sd",
-    "category": "pelajar",
-    "text": "Berapa jumlah Rukun Iman?",
-    "options": ["4", "5", "6", "7"],
-    "correctAnswer": "C",
-    "explanation": "Rukun Iman ada 6 yaitu: 1. Iman kepada Allah, 2. Iman kepada Malaikat, 3. Iman kepada Kitab-kitab, 4. Iman kepada Rasul, 5. Iman kepada Hari Kiamat, 6. Iman kepada Qada dan Qadar."
-  },
-  {
-    "id": 2,
-    "subject": "agama",
-    "level": "smp",
-    "category": "pelajar",
-    "text": "Siapakah nama malaikat yang bertugas menyampaikan wahyu?",
-    "options": ["Mikail", "Israfil", "Jibril", "Izrail"],
-    "correctAnswer": "C",
-    "explanation": "Malaikat Jibril bertugas menyampaikan wahyu dari Allah kepada para Nabi dan Rasul."
-  },
-  {
-    "id": 3,
-    "category": "logika",
-    "text": "Jika semua manusia adalah makhluk hidup, dan Budi adalah manusia, maka:",
-    "options": [
-      "Budi adalah makhluk hidup",
-      "Budi bukan makhluk hidup",
-      "Beberapa manusia bukan makhluk hidup",
-      "Tidak dapat disimpulkan"
-    ],
-    "correctAnswer": "A",
-    "explanation": "Dari premis \"semua manusia adalah makhluk hidup\" dan \"Budi adalah manusia\", maka dapat disimpulkan bahwa \"Budi adalah makhluk hidup\"."
-  }
-]
+{
+    "questions": [
+        {
+            "id": "Q001",
+            "subject": "agama",
+            "level": "sd",
+            "category": "pelajar",
+            "text": "Berapa jumlah Rukun Iman?",
+            "options": ["4", "5", "6", "7"],
+            "correctAnswer": "C",
+            "explanation": "Rukun Iman ada 6 yaitu: 1. Iman kepada Allah, 2. Iman kepada Malaikat, 3. Iman kepada Kitab-kitab, 4. Iman kepada Rasul, 5. Iman kepada Hari Kiamat, 6. Iman kepada Qada dan Qadar.",
+            "difficulty": "easy"
+        },
+        {
+            "id": "Q002",
+            "subject": "ppkn",
+            "level": "smp",
+            "category": "pelajar",
+            "text": "Pancasila sebagai dasar negara tercantum dalam Pembukaan UUD 1945 alinea keberapa?",
+            "options": ["1", "2", "3", "4"],
+            "correctAnswer": "D",
+            "explanation": "Pancasila sebagai dasar negara tercantum dalam alinea keempat Pembukaan UUD 1945.",
+            "difficulty": "medium"
+        },
+        {
+            "id": "Q003",
+            "subject": "matematika",
+            "level": "sma",
+            "category": "pelajar",
+            "text": "Jika x + 5 = 10, maka nilai x adalah?",
+            "options": ["2", "5", "10", "15"],
+            "correctAnswer": "B",
+            "explanation": "x + 5 = 10 → x = 10 - 5 → x = 5",
+            "difficulty": "easy"
+        },
+        {
+            "id": "Q004",
+            "category": "logika",
+            "text": "Jika semua manusia adalah makhluk hidup, dan Budi adalah manusia, maka:",
+            "options": [
+                "Budi adalah makhluk hidup",
+                "Budi bukan makhluk hidup",
+                "Beberapa manusia bukan makhluk hidup",
+                "Tidak dapat disimpulkan"
+            ],
+            "correctAnswer": "A",
+            "explanation": "Dari premis 'semua manusia adalah makhluk hidup' dan 'Budi adalah manusia', maka dapat disimpulkan bahwa 'Budi adalah makhluk hidup'.",
+            "difficulty": "medium"
+        },
+        {
+            "id": "Q005",
+            "category": "cpns",
+            "text": "Negara Kesatuan Republik Indonesia adalah negara yang berdasarkan Pancasila yang tercantum dalam Pembukaan UUD 1945 alinea ke:",
+            "options": ["1", "2", "3", "4"],
+            "correctAnswer": "D",
+            "explanation": "Pancasila sebagai dasar negara tercantum dalam alinea keempat Pembukaan UUD 1945.",
+            "difficulty": "hard"
+        }
+    ]
+}
