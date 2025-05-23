@@ -1,27 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bank Soal - PERGUNU SITUBONDO</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-    /* Improved Bank Soal Styles */
-    body {
-        background-color: #f5f7fa;
-        color: #333; /* Default text color */
-        font-family: 'Poppins', sans-serif;
-    }
-    
-    .bank-container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: white;
-        border-radius: 10px;<!DOCTYPE html>
-<html lang="id">
-<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bank Soal - PERGUNU SITUBONDO</title>
@@ -133,8 +112,8 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
-
-        /* Enhanced Question Bank Styles */
+        
+               /* Enhanced Question Bank Styles */
         .bank-header {
             background: linear-gradient(135deg, #8e44ad, #3498db);
             color: white;
@@ -654,6 +633,23 @@
 
     <script>
         // Make Kelola Soal tab functional
+        function loadQuestions() {
+            // Implementation to load questions from your data source
+            console.log("Loading questions...");
+            // This would be replaced with actual data loading logic
+        }
+        
+        // Initialize when tab is shown
+        document.querySelector('[data-tab="manageQuestions"]').addEventListener('click', loadQuestions);
+        
+        function logoutAdmin() {
+            if (confirm('Anda yakin ingin keluar?')) {
+                localStorage.removeItem('adminLoggedIn');
+                window.location.href = '../index.html';
+            }
+        }
+
+           // Make Kelola Soal tab functional
         function loadQuestions() {
             // Implementation to load questions from your data source
             console.log("Loading questions...");
