@@ -1,0 +1,42 @@
+{
+    "participants": [
+        {
+            "id": "P001",
+            "fullName": "Uswatun Hasanah",
+            "status": "pelajar",
+            "schoolName": "SMA Negeri 1 Situbondo",
+            "studentId": "123456",
+            "purpose": "tes_belajar",
+            "schoolLevel": "sma",
+            "timestamp": "2023-05-16T10:30:00Z",
+            "examsTaken": [
+                {
+                    "examId": "EX001",
+                    "examType": "pelajar",
+                    "subject": "matematika",
+                    "classLevel": "XII",
+                    "score": 85,
+                    "date": "2023-05-16"
+                }
+            ]
+        },
+        {
+            "id": "P002",
+            "fullName": "Budi Santoso",
+            "status": "umum",
+            "address": "Jl. Merdeka No. 123, Situbondo",
+            "whatsapp": "628123456789",
+            "email": "budi.santoso@example.com",
+            "purpose": "ujian_cpns",
+            "timestamp": "2023-05-17T14:45:00Z",
+            "examsTaken": [
+                {
+                    "examId": "EX002",
+                    "examType": "cpns",
+                    "score": 72,
+                    "date": "2023-05-17"
+                }
+            ]
+        }
+    ]
+}
