@@ -879,6 +879,30 @@
             background-color: #f9f9f9;
         }
 
+        /* Checkbox styles for participant selection */
+        .select-checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .select-all-checkbox {
+            margin-right: 10px;
+        }
+
+        /* Bulk action controls */
+        .bulk-actions {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+
+        .selected-count {
+            font-size: 14px;
+            color: #666;
+        }
+
         /* Edit Question Modal */
         .edit-question-modal {
             display: none;
@@ -939,6 +963,76 @@
             background: rgba(255, 255, 255, 0.1);
             border-radius: 8px;
             font-size: 14px;
+        }
+
+        /* View Question Modal */
+        .view-question-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .view-question-content {
+            background: white;
+            color: #333;
+            border-radius: 15px;
+            padding: 30px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .view-question-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        /* Edit Participant Modal */
+        .edit-participant-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .edit-participant-content {
+            background: white;
+            color: #333;
+            border-radius: 15px;
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .edit-participant-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
         }
     </style>
 </head>
@@ -1324,16 +1418,25 @@
                     
                     <div class="admin-section">
                         <h5>Manajemen Peserta</h5>
+                        <div class="bulk-actions">
+                            <input type="checkbox" id="select-all-participants" class="select-all-checkbox">
+                            <span class="selected-count" id="selected-count">0 dipilih</span>
+                            <button id="edit-selected-btn" class="btn btn-info" disabled><i class="fas fa-edit"></i> Edit</button>
+                            <button id="delete-selected-btn" class="btn btn-danger" disabled><i class="fas fa-trash"></i> Hapus</button>
+                            <button id="export-selected-excel-btn" class="btn btn-success" disabled><i class="fas fa-file-excel"></i> Export Excel</button>
+                        </div>
                         <div class="participant-list">
                             <table class="data-table">
                                 <thead>
                                     <tr>
+                                        <th><input type="checkbox" id="select-all-header" class="select-checkbox"></th>
                                         <th>Tanggal</th>
                                         <th>Nama</th>
                                         <th>WhatsApp</th>
                                         <th>Email</th>
                                         <th>Tujuan Ujian</th>
                                         <th>Nilai</th>
+                                        <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody id="participants-table-body">
@@ -1434,6 +1537,86 @@
         </div>
     </div>
     
+    <!-- View Question Modal -->
+    <div class="view-question-modal" id="view-question-modal">
+        <div class="view-question-content">
+            <span class="view-question-close" id="close-view-question-modal">&times;</span>
+            <h3>Detail Soal</h3>
+            
+            <div class="form-group">
+                <label class="form-label">Kategori Ujian</label>
+                <p id="view-question-category" style="padding: 10px; background: #f5f5f5; border-radius: 5px;"></p>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Pertanyaan</label>
+                <p id="view-question-text" style="padding: 10px; background: #f5f5f5; border-radius: 5px;"></p>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Opsi Jawaban</label>
+                <div id="view-options-container" style="padding: 10px; background: #f5f5f5; border-radius: 5px;"></div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Jawaban Benar</label>
+                <p id="view-correct-answer" style="padding: 10px; background: #f5f5f5; border-radius: 5px;"></p>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Penjelasan</label>
+                <p id="view-explanation" style="padding: 10px; background: #f5f5f5; border-radius: 5px;"></p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Edit Participant Modal -->
+    <div class="edit-participant-modal" id="edit-participant-modal">
+        <div class="edit-participant-content">
+            <span class="edit-participant-close" id="close-edit-participant-modal">&times;</span>
+            <h3>Edit Data Peserta</h3>
+            
+            <input type="hidden" id="edit-participant-index">
+            
+            <div class="form-group">
+                <label for="edit-fullname" class="form-label">Nama Lengkap</label>
+                <input type="text" id="edit-fullname" class="form-control" style="color: #333;">
+            </div>
+            
+            <div class="form-group">
+                <label for="edit-address" class="form-label">Alamat</label>
+                <input type="text" id="edit-address" class="form-control" style="color: #333;">
+            </div>
+            
+            <div class="form-group">
+                <label for="edit-phone" class="form-label">Nomor WhatsApp</label>
+                <input type="tel" id="edit-phone" class="form-control" style="color: #333;">
+            </div>
+            
+            <div class="form-group">
+                <label for="edit-email" class="form-label">Email</label>
+                <input type="email" id="edit-email" class="form-control" style="color: #333;">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Tujuan Ujian</label>
+                <div class="radio-group">
+                    <input type="radio" id="edit-purpose-iq" name="edit-purpose" value="Tes IQ" class="radio-option">
+                    <label for="edit-purpose-iq" class="radio-label">Tes IQ</label>
+                    
+                    <input type="radio" id="edit-purpose-cpns" name="edit-purpose" value="Ujian CPNS/P3K" class="radio-option">
+                    <label for="edit-purpose-cpns" class="radio-label">Ujian CPNS/P3K</label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="edit-score" class="form-label">Nilai (%)</label>
+                <input type="number" id="edit-score" class="form-control" min="0" max="100" style="color: #333;">
+            </div>
+            
+            <div class="form-group" style="display: flex; justify-content: space-between;">
+                <button id="save-edit-participant-btn" class="btn btn-success">Simpan Perubahan</button>
+                <button id="cancel-edit-participant-btn" class="btn btn-danger">Batal</button>
+            </div>
+        </div>
+    </div>
+    
     <!-- Notification -->
     <div class="notification" id="time-warning" style="display: none;">
         Perhatian! Ujian akan berakhir dalam waktu 10 menit. Mohon pastikan semua jawaban telah diselesaikan dan diperiksa sebelum waktu habis. Terima kasih atas partisipasi Anda.
@@ -1450,10 +1633,13 @@
         let answeredQuestions = {};
         let examTimer;
         let examTimeLeft = 120 * 60; // 120 minutes in seconds
+        
+        // Audio elements
         let audioOpening = new Audio('https://voca.ro/1a8eWbggFzfB');
+        let audioButtonClick = new Audio('https://voca.ro/16oVT0NTCKF0');
         let audioCorrect = new Audio('https://voca.ro/1emZhDVU89XS');
         let audioWrong = new Audio('https://voca.ro/17HW0ShxqM9B');
-        let audioApplause = new Audio('https://github.com/pergunu/pergunusmart/tree/main/assets/audio/applause.mp3');
+        let audioApplause = new Audio('https://voca.ro/13NRsLENyQRIs');
         
         // Default codes (should be changed in production)
         const DEFAULT_LOGIN_CODE = '12345';
@@ -1685,7 +1871,14 @@
                 sessionStorage.setItem('audioPlayed', 'true');
             }
             
-            // Event listeners
+            // Event listeners for all buttons to play click sound
+            document.querySelectorAll('button').forEach(button => {
+                button.addEventListener('click', function() {
+                    audioButtonClick.play().catch(e => console.log("Button click sound prevented:", e));
+                });
+            });
+            
+            // Main event listeners
             document.getElementById('login-btn').addEventListener('click', handleLogin);
             document.getElementById('agree-terms').addEventListener('change', toggleContinueButton);
             document.getElementById('continue-btn').addEventListener('click', showParticipantForm);
@@ -1714,6 +1907,8 @@
             document.getElementById('close-question-bank-modal').addEventListener('click', hideQuestionBankModal);
             document.getElementById('close-admin-panel-modal').addEventListener('click', hideAdminPanelModal);
             document.getElementById('close-edit-question-modal').addEventListener('click', hideEditQuestionModal);
+            document.getElementById('close-view-question-modal').addEventListener('click', hideViewQuestionModal);
+            document.getElementById('close-edit-participant-modal').addEventListener('click', hideEditParticipantModal);
             
             // Modal submit buttons
             document.getElementById('submit-question-bank-code').addEventListener('click', submitQuestionBankCode);
@@ -1749,6 +1944,17 @@
             document.getElementById('export-excel-btn').addEventListener('click', exportToExcel);
             document.getElementById('export-pdf-btn').addEventListener('click', exportToPDF);
             
+            // Participant selection and bulk actions
+            document.getElementById('select-all-participants').addEventListener('change', toggleSelectAllParticipants);
+            document.getElementById('select-all-header').addEventListener('change', toggleSelectAllParticipantsHeader);
+            document.getElementById('edit-selected-btn').addEventListener('click', editSelectedParticipants);
+            document.getElementById('delete-selected-btn').addEventListener('click', deleteSelectedParticipants);
+            document.getElementById('export-selected-excel-btn').addEventListener('click', exportSelectedToExcel);
+            
+            // Edit participant modal buttons
+            document.getElementById('save-edit-participant-btn').addEventListener('click', saveEditedParticipant);
+            document.getElementById('cancel-edit-participant-btn').addEventListener('click', hideEditParticipantModal);
+            
             // Load participants data for admin panel
             loadParticipantsData();
         });
@@ -1758,6 +1964,9 @@
             const loginCode = document.getElementById('login-code').value;
             
             if (loginCode === DEFAULT_LOGIN_CODE) {
+                // Play opening audio
+                audioOpening.play().catch(e => console.log("Audio play prevented:", e));
+                
                 // Hide welcome screen with slide out animation
                 document.getElementById('welcome-screen').classList.add('slide-out');
                 
@@ -2052,9 +2261,11 @@
             
             if (answerIndex === question.correctAnswer) {
                 examData.correct++;
+                // Play correct answer sound
                 audioCorrect.play().catch(e => console.log("Audio play prevented:", e));
             } else {
                 examData.wrong++;
+                // Play wrong answer sound
                 audioWrong.play().catch(e => console.log("Audio play prevented:", e));
             }
             
@@ -2120,7 +2331,12 @@
                 // Show celebration particles
                 showCelebration();
                 
-                // Play applause sound
+                // Play applause sound (mute other sounds)
+                audioOpening.pause();
+                audioCorrect.pause();
+                audioWrong.pause();
+                audioButtonClick.pause();
+                
                 audioApplause.play().catch(e => console.log("Audio play prevented:", e));
             }, 500);
         }
@@ -2403,7 +2619,9 @@
                             
                             questionItem.innerHTML = `
                                 <p><strong>Soal ${i + 1}:</strong> ${q.question}</p>
-                                <p>${q.options.join('<br>')}</p>
+                                <div class="options-container">
+                                    ${q.options.map(opt => `<p>${opt}</p>`).join('')}
+                                </div>
                                 <p><strong>Jawaban:</strong> ${q.options[q.correctAnswer]}</p>
                                 <p><strong>Penjelasan:</strong> ${q.explanation}</p>
                                 <div class="question-actions">
@@ -2412,6 +2630,9 @@
                                     </button>
                                     <button class="question-action-btn delete-btn" data-category="${cat}" data-index="${i}">
                                         <i class="fas fa-trash"></i> Hapus
+                                    </button>
+                                    <button class="question-action-btn view-btn" data-category="${cat}" data-index="${i}">
+                                        <i class="fas fa-eye"></i> View
                                     </button>
                                 </div>
                             `;
@@ -2431,7 +2652,9 @@
                     
                     questionItem.innerHTML = `
                         <p><strong>Soal ${i + 1}:</strong> ${q.question}</p>
-                        <p>${q.options.join('<br>')}</p>
+                        <div class="options-container">
+                            ${q.options.map(opt => `<p>${opt}</p>`).join('')}
+                        </div>
                         <p><strong>Jawaban:</strong> ${q.options[q.correctAnswer]}</p>
                         <p><strong>Penjelasan:</strong> ${q.explanation}</p>
                         <div class="question-actions">
@@ -2440,6 +2663,9 @@
                             </button>
                             <button class="question-action-btn delete-btn" data-category="${category}" data-index="${i}">
                                 <i class="fas fa-trash"></i> Hapus
+                            </button>
+                            <button class="question-action-btn view-btn" data-category="${category}" data-index="${i}">
+                                <i class="fas fa-eye"></i> View
                             </button>
                         </div>
                     `;
@@ -2450,7 +2676,7 @@
                 questionsList.innerHTML = '<p id="no-questions-message">Belum ada soal yang tersedia untuk kategori ini.</p>';
             }
             
-            // Add event listeners to edit and delete buttons
+            // Add event listeners to edit, delete and view buttons
             document.querySelectorAll('.edit-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const category = this.getAttribute('data-category');
@@ -2467,6 +2693,14 @@
                     if (confirm('Apakah Anda yakin ingin menghapus soal ini?')) {
                         deleteQuestion(category, index);
                     }
+                });
+            });
+            
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const category = this.getAttribute('data-category');
+                    const index = parseInt(this.getAttribute('data-index'));
+                    viewQuestion(category, index);
                 });
             });
         }
@@ -2498,6 +2732,34 @@
         
         function hideEditQuestionModal() {
             document.getElementById('edit-question-modal').style.display = 'none';
+        }
+        
+        function viewQuestion(category, index) {
+            const question = SAMPLE_QUESTIONS[category][index];
+            
+            // Fill the view form
+            document.getElementById('view-question-category').textContent = category.replace('_', ' ');
+            document.getElementById('view-question-text').textContent = question.question;
+            
+            // Display options
+            const optionsContainer = document.getElementById('view-options-container');
+            optionsContainer.innerHTML = '';
+            question.options.forEach(opt => {
+                const p = document.createElement('p');
+                p.textContent = opt;
+                optionsContainer.appendChild(p);
+            });
+            
+            // Display correct answer and explanation
+            document.getElementById('view-correct-answer').textContent = question.options[question.correctAnswer];
+            document.getElementById('view-explanation').textContent = question.explanation;
+            
+            // Show the modal
+            document.getElementById('view-question-modal').style.display = 'flex';
+        }
+        
+        function hideViewQuestionModal() {
+            document.getElementById('view-question-modal').style.display = 'none';
         }
         
         function saveEditedQuestion() {
@@ -2588,7 +2850,7 @@
             tableBody.innerHTML = '';
             
             if (participantsData.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="6" style="text-align: center;">Belum ada data peserta</td></tr>';
+                tableBody.innerHTML = '<tr><td colspan="8" style="text-align: center;">Belum ada data peserta</td></tr>';
                 return;
             }
             
@@ -2596,7 +2858,7 @@
             const sortedData = [...participantsData].sort((a, b) => 
                 new Date(b.examDate) - new Date(a.examDate));
             
-            sortedData.forEach(participant => {
+            sortedData.forEach((participant, i) => {
                 const date = new Date(participant.examDate);
                 const dateStr = date.toLocaleDateString('id-ID', {
                     day: '2-digit',
@@ -2608,16 +2870,208 @@
                 
                 const row = document.createElement('tr');
                 row.innerHTML = `
+                    <td><input type="checkbox" class="select-checkbox participant-checkbox" data-index="${i}"></td>
                     <td>${dateStr}</td>
                     <td>${participant.fullname}</td>
                     <td>${participant.phone}</td>
                     <td>${participant.email}</td>
                     <td>${participant.purpose}</td>
                     <td>${participant.score}%</td>
+                    <td>
+                        <button class="question-action-btn edit-btn edit-participant-btn" data-index="${i}">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="question-action-btn delete-btn delete-participant-btn" data-index="${i}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
                 `;
                 
                 tableBody.appendChild(row);
             });
+            
+            // Add event listeners to participant checkboxes
+            document.querySelectorAll('.participant-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', updateSelectedCount);
+            });
+            
+            // Add event listeners to edit and delete buttons for individual participants
+            document.querySelectorAll('.edit-participant-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const index = parseInt(this.getAttribute('data-index'));
+                    editParticipant(index);
+                });
+            });
+            
+            document.querySelectorAll('.delete-participant-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const index = parseInt(this.getAttribute('data-index'));
+                    
+                    if (confirm('Apakah Anda yakin ingin menghapus peserta ini?')) {
+                        deleteParticipant(index);
+                    }
+                });
+            });
+        }
+        
+        function updateSelectedCount() {
+            const selectedCount = document.querySelectorAll('.participant-checkbox:checked').length;
+            document.getElementById('selected-count').textContent = `${selectedCount} dipilih`;
+            
+            // Enable/disable bulk action buttons
+            document.getElementById('edit-selected-btn').disabled = selectedCount === 0;
+            document.getElementById('delete-selected-btn').disabled = selectedCount === 0;
+            document.getElementById('export-selected-excel-btn').disabled = selectedCount === 0;
+        }
+        
+        function toggleSelectAllParticipants() {
+            const selectAll = document.getElementById('select-all-participants').checked;
+            document.querySelectorAll('.participant-checkbox').forEach(checkbox => {
+                checkbox.checked = selectAll;
+            });
+            
+            updateSelectedCount();
+        }
+        
+        function toggleSelectAllParticipantsHeader() {
+            const selectAll = document.getElementById('select-all-header').checked;
+            document.getElementById('select-all-participants').checked = selectAll;
+            document.querySelectorAll('.participant-checkbox').forEach(checkbox => {
+                checkbox.checked = selectAll;
+            });
+            
+            updateSelectedCount();
+        }
+        
+        function editSelectedParticipants() {
+            const selectedCheckboxes = document.querySelectorAll('.participant-checkbox:checked');
+            
+            if (selectedCheckboxes.length === 0) {
+                alert('Tidak ada peserta yang dipilih');
+                return;
+            }
+            
+            if (selectedCheckboxes.length > 1) {
+                alert('Hanya bisa mengedit satu peserta sekaligus');
+                return;
+            }
+            
+            const index = parseInt(selectedCheckboxes[0].getAttribute('data-index'));
+            editParticipant(index);
+        }
+        
+        function editParticipant(index) {
+            const participant = participantsData[index];
+            
+            // Fill the edit form
+            document.getElementById('edit-fullname').value = participant.fullname;
+            document.getElementById('edit-address').value = participant.address;
+            document.getElementById('edit-phone').value = participant.phone;
+            document.getElementById('edit-email').value = participant.email;
+            document.getElementById('edit-score').value = participant.score;
+            
+            // Set purpose radio button
+            if (participant.purpose === 'Ujian CPNS/P3K') {
+                document.getElementById('edit-purpose-cpns').checked = true;
+            } else {
+                document.getElementById('edit-purpose-iq').checked = true;
+            }
+            
+            // Store participant index
+            document.getElementById('edit-participant-index').value = index;
+            
+            // Show the modal
+            document.getElementById('edit-participant-modal').style.display = 'flex';
+        }
+        
+        function hideEditParticipantModal() {
+            document.getElementById('edit-participant-modal').style.display = 'none';
+        }
+        
+        function saveEditedParticipant() {
+            const index = parseInt(document.getElementById('edit-participant-index').value);
+            const participant = participantsData[index];
+            
+            // Update participant data
+            participant.fullname = document.getElementById('edit-fullname').value.trim();
+            participant.address = document.getElementById('edit-address').value.trim();
+            participant.phone = document.getElementById('edit-phone').value.trim();
+            participant.email = document.getElementById('edit-email').value.trim();
+            participant.score = parseInt(document.getElementById('edit-score').value);
+            participant.purpose = document.querySelector('input[name="edit-purpose"]:checked').value;
+            
+            // Save to localStorage
+            localStorage.setItem('participantsData', JSON.stringify(participantsData));
+            
+            // Refresh participants list
+            loadParticipantsData();
+            
+            // Hide modal
+            hideEditParticipantModal();
+            
+            alert('Perubahan data peserta berhasil disimpan!');
+        }
+        
+        function deleteSelectedParticipants() {
+            const selectedCheckboxes = document.querySelectorAll('.participant-checkbox:checked');
+            
+            if (selectedCheckboxes.length === 0) {
+                alert('Tidak ada peserta yang dipilih');
+                return;
+            }
+            
+            if (!confirm(`Apakah Anda yakin ingin menghapus ${selectedCheckboxes.length} peserta terpilih?`)) {
+                return;
+            }
+            
+            // Get indices of selected participants (sorted in descending order to avoid index shifting)
+            const indices = Array.from(selectedCheckboxes)
+                .map(checkbox => parseInt(checkbox.getAttribute('data-index')))
+                .sort((a, b) => b - a);
+            
+            // Remove participants from array
+            indices.forEach(index => {
+                participantsData.splice(index, 1);
+            });
+            
+            // Save to localStorage
+            localStorage.setItem('participantsData', JSON.stringify(participantsData));
+            
+            // Refresh participants list
+            loadParticipantsData();
+            
+            alert(`${indices.length} peserta berhasil dihapus!`);
+        }
+        
+        function deleteParticipant(index) {
+            participantsData.splice(index, 1);
+            
+            // Save to localStorage
+            localStorage.setItem('participantsData', JSON.stringify(participantsData));
+            
+            // Refresh participants list
+            loadParticipantsData();
+            
+            alert('Peserta berhasil dihapus!');
+        }
+        
+        function exportSelectedToExcel() {
+            const selectedCheckboxes = document.querySelectorAll('.participant-checkbox:checked');
+            
+            if (selectedCheckboxes.length === 0) {
+                alert('Tidak ada peserta yang dipilih');
+                return;
+            }
+            
+            // Get indices of selected participants
+            const indices = Array.from(selectedCheckboxes).map(checkbox => 
+                parseInt(checkbox.getAttribute('data-index')));
+            
+            // Get selected participants data
+            const selectedParticipants = indices.map(index => participantsData[index]);
+            
+            // In a real implementation, this would generate an Excel file with selected data
+            alert(`Fitur export ke Excel akan mengunduh file dengan ${selectedParticipants.length} peserta terpilih.`);
         }
         
         function saveCodes() {
