@@ -1657,6 +1657,23 @@
         // Store participants data
         let participantsData = JSON.parse(localStorage.getItem('participantsData')) || [];
         
+        // Store admin settings
+        let adminSettings = JSON.parse(localStorage.getItem('adminSettings')) || {
+            loginCode: DEFAULT_LOGIN_CODE,
+            questionBankCode: DEFAULT_QUESTION_BANK_CODE,
+            cpnsLicenseCode: DEFAULT_CPNS_LICENSE_CODE,
+            adminPanelCode: DEFAULT_ADMIN_PANEL_CODE,
+            examDuration: 120,
+            questionCount: 30,
+            randomizeQuestions: true,
+            iqEnabled: true,
+            cpnsEnabled: true,
+            greetingMessage: "Selamat datang di sistem ujian online PERGUNUSMART. Silakan masukkan kode login untuk melanjutkan.",
+            adminMessage: "Tidak ada informasi terbaru saat ini.",
+            chairmanName: "Moh. Nuril Hudha, S.Pd., M.Si.",
+            motivationMessage: ""
+        };
+        
         // Sample questions for demonstration
         let SAMPLE_QUESTIONS = JSON.parse(localStorage.getItem('questionBank')) || {
             'TES_IQ': [
@@ -1872,6 +1889,9 @@
                 "retina_detect": true
             });
             
+            // Load admin settings
+            loadAdminSettings();
+            
             // Play opening audio only once
             if (!sessionStorage.getItem('audioPlayed')) {
                 audioOpening.play().catch(e => console.log("Autoplay prevented:", e));
@@ -1982,11 +2002,44 @@
             loadParticipantsData();
         });
         
+        // Load admin settings into the form
+        function loadAdminSettings() {
+            document.getElementById('greeting-text').textContent = adminSettings.greetingMessage;
+            document.getElementById('admin-message').textContent = adminSettings.adminMessage;
+            
+            // Set admin panel form values
+            document.getElementById('new-login-code').value = adminSettings.loginCode;
+            document.getElementById('new-question-bank-code').value = adminSettings.questionBankCode;
+            document.getElementById('new-cpns-code').value = adminSettings.cpnsLicenseCode;
+            document.getElementById('new-admin-code').value = adminSettings.adminPanelCode;
+            
+            document.getElementById('exam-duration').value = adminSettings.examDuration;
+            document.getElementById('question-count').value = adminSettings.questionCount;
+            document.getElementById('randomize-questions').checked = adminSettings.randomizeQuestions;
+            document.getElementById('randomize-status').textContent = adminSettings.randomizeQuestions ? 'Aktif' : 'Nonaktif';
+            
+            document.getElementById('greeting-message-input').value = adminSettings.greetingMessage;
+            document.getElementById('admin-message-input').value = adminSettings.adminMessage;
+            document.getElementById('chairman-name').value = adminSettings.chairmanName;
+            document.getElementById('motivation-message-input').value = adminSettings.motivationMessage;
+            
+            document.getElementById('toggle-iq').checked = adminSettings.iqEnabled;
+            document.getElementById('iq-status').textContent = adminSettings.iqEnabled ? 'Aktif' : 'Nonaktif';
+            
+            document.getElementById('toggle-cpns').checked = adminSettings.cpnsEnabled;
+            document.getElementById('cpns-status').textContent = adminSettings.cpnsEnabled ? 'Aktif' : 'Nonaktif';
+        }
+        
+        // Save admin settings to localStorage
+        function saveAdminSettings() {
+            localStorage.setItem('adminSettings', JSON.stringify(adminSettings));
+        }
+        
         // Functions
         function handleLogin() {
             const loginCode = document.getElementById('login-code').value;
             
-            if (loginCode === DEFAULT_LOGIN_CODE) {
+            if (loginCode === adminSettings.loginCode) {
                 // Play opening audio
                 audioOpening.currentTime = 0;
                 audioOpening.muted = false;
@@ -2107,7 +2160,7 @@
             const purpose = document.querySelector('input[name="purpose"]:checked').value;
             if (purpose === 'Ujian CPNS/P3K') {
                 const cpnsLicense = document.getElementById('cpns-license').value;
-                if (cpnsLicense !== DEFAULT_CPNS_LICENSE_CODE) {
+                if (cpnsLicense !== adminSettings.cpnsLicenseCode) {
                     isValid = false;
                 }
             }
@@ -2134,6 +2187,15 @@
                 questions = SAMPLE_QUESTIONS['TES_IQ'];
             }
             
+            // Randomize questions if enabled
+            if (adminSettings.randomizeQuestions) {
+                questions = shuffleArray(questions);
+            }
+            
+            // Limit number of questions based on admin setting
+            const questionCount = Math.min(adminSettings.questionCount, questions.length);
+            questions = questions.slice(0, questionCount);
+            
             // Initialize exam data
             examData = {
                 startTime: new Date(),
@@ -2143,6 +2205,9 @@
                 unanswered: questions.length,
                 answers: Array(questions.length).fill(null)
             };
+            
+            // Set exam time based on admin settings
+            examTimeLeft = adminSettings.examDuration * 60;
             
             // Hide participant form with slide out animation
             document.getElementById('participant-form').classList.add('slide-out');
@@ -2160,6 +2225,16 @@
                 // Load first question
                 loadQuestion(0);
             }, 500);
+        }
+        
+        // Helper function to shuffle array
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
         }
         
         function startTimer() {
@@ -2416,6 +2491,11 @@
                 }
             }
             
+            // Use custom motivation message if available
+            if (adminSettings.motivationMessage) {
+                motivation = adminSettings.motivationMessage;
+            }
+            
             // Create certificate HTML
             const certificate = document.createElement('div');
             certificate.className = 'certificate';
@@ -2440,7 +2520,7 @@
                         <p>Ditetapkan di: Situbondo, ${now.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
                         <div class="certificate-signature">
                             <p>Ketua PERGUNUSMART</p>
-                            <p><strong>Moh. Nuril Hudha, S.Pd., M.Si.</strong></p>
+                            <p><strong>${adminSettings.chairmanName}</strong></p>
                         </div>
                         <img src="https://raw.githubusercontent.com/pergunu/pergunusmart/main/assets/images/BARCODE.png" alt="Barcode" class="certificate-barcode">
                     </div>
@@ -2515,7 +2595,7 @@
                 currentScreen = 'participant';
                 
                 // Reset timer
-                examTimeLeft = 120 * 60;
+                examTimeLeft = adminSettings.examDuration * 60;
             }, 500);
         }
         
@@ -2543,7 +2623,7 @@
         function submitQuestionBankCode() {
             const code = document.getElementById('question-bank-code').value;
             
-            if (code === DEFAULT_QUESTION_BANK_CODE) {
+            if (code === adminSettings.questionBankCode) {
                 // Show question bank content
                 document.getElementById('question-bank-content').style.display = 'block';
                 filterQuestions();
@@ -2563,7 +2643,7 @@
         function submitAdminPanelCode() {
             const code = document.getElementById('admin-panel-code').value;
             
-            if (code === DEFAULT_ADMIN_PANEL_CODE) {
+            if (code === adminSettings.adminPanelCode) {
                 // Show admin panel content
                 document.getElementById('admin-panel-content').style.display = 'block';
             } else {
@@ -3112,13 +3192,22 @@
             const newAdminCode = document.getElementById('new-admin-code').value;
             
             if (newLoginCode || newQuestionBankCode || newCpnsCode || newAdminCode) {
-                alert('Kode berhasil diubah! (Catatan: Dalam versi demo ini, perubahan kode tidak akan disimpan secara permanen)');
+                // Update admin settings
+                if (newLoginCode) adminSettings.loginCode = newLoginCode;
+                if (newQuestionBankCode) adminSettings.questionBankCode = newQuestionBankCode;
+                if (newCpnsCode) adminSettings.cpnsLicenseCode = newCpnsCode;
+                if (newAdminCode) adminSettings.adminPanelCode = newAdminCode;
+                
+                // Save to localStorage
+                saveAdminSettings();
                 
                 // Clear the fields
                 document.getElementById('new-login-code').value = '';
                 document.getElementById('new-question-bank-code').value = '';
                 document.getElementById('new-cpns-code').value = '';
                 document.getElementById('new-admin-code').value = '';
+                
+                alert('Kode berhasil diubah!');
             } else {
                 alert('Silakan masukkan setidaknya satu kode baru');
             }
@@ -3130,6 +3219,16 @@
             const chairmanName = document.getElementById('chairman-name').value;
             const motivationMessage = document.getElementById('motivation-message-input').value;
             
+            // Update admin settings
+            adminSettings.greetingMessage = greetingMessage;
+            adminSettings.adminMessage = adminMessage;
+            adminSettings.chairmanName = chairmanName;
+            adminSettings.motivationMessage = motivationMessage;
+            
+            // Save to localStorage
+            saveAdminSettings();
+            
+            // Update UI
             document.getElementById('greeting-text').textContent = greetingMessage;
             document.getElementById('admin-message').textContent = adminMessage;
             
@@ -3137,11 +3236,21 @@
         }
         
         function saveSettings() {
-            const examDuration = document.getElementById('exam-duration').value;
-            const questionCount = document.getElementById('question-count').value;
+            const examDuration = parseInt(document.getElementById('exam-duration').value);
+            const questionCount = parseInt(document.getElementById('question-count').value);
             const randomizeQuestions = document.getElementById('randomize-questions').checked;
+            const iqEnabled = document.getElementById('toggle-iq').checked;
+            const cpnsEnabled = document.getElementById('toggle-cpns').checked;
             
-            examTimeLeft = examDuration * 60;
+            // Update admin settings
+            adminSettings.examDuration = examDuration;
+            adminSettings.questionCount = questionCount;
+            adminSettings.randomizeQuestions = randomizeQuestions;
+            adminSettings.iqEnabled = iqEnabled;
+            adminSettings.cpnsEnabled = cpnsEnabled;
+            
+            // Save to localStorage
+            saveAdminSettings();
             
             alert('Pengaturan ujian berhasil disimpan!');
         }
