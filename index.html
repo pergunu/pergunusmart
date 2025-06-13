@@ -1622,6 +1622,13 @@
         Perhatian! Ujian akan berakhir dalam waktu 10 menit. Mohon pastikan semua jawaban telah diselesaikan dan diperiksa sebelum waktu habis. Terima kasih atas partisipasi Anda.
     </div>
 
+    <!-- Audio Elements -->
+    <audio id="audio-opening" src="https://voca.ro/1a8eWbggFzfB" preload="auto"></audio>
+    <audio id="audio-button-click" src="https://voca.ro/16oVT0NTCKF0" preload="auto"></audio>
+    <audio id="audio-correct" src="https://voca.ro/1emZhDVU89XS" preload="auto"></audio>
+    <audio id="audio-wrong" src="https://voca.ro/17HW0ShxqM9B" preload="auto"></audio>
+    <audio id="audio-applause" src="https://voca.ro/13NRsLENyQRIs" preload="auto"></audio>
+
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
         // Global variables
@@ -1635,11 +1642,11 @@
         let examTimeLeft = 120 * 60; // 120 minutes in seconds
         
         // Audio elements
-        let audioOpening = new Audio('https://voca.ro/1a8eWbggFzfB');
-        let audioButtonClick = new Audio('https://voca.ro/16oVT0NTCKF0');
-        let audioCorrect = new Audio('https://voca.ro/1emZhDVU89XS');
-        let audioWrong = new Audio('https://voca.ro/17HW0ShxqM9B');
-        let audioApplause = new Audio('https://voca.ro/13NRsLENyQRIs');
+        const audioOpening = document.getElementById('audio-opening');
+        const audioButtonClick = document.getElementById('audio-button-click');
+        const audioCorrect = document.getElementById('audio-correct');
+        const audioWrong = document.getElementById('audio-wrong');
+        const audioApplause = document.getElementById('audio-applause');
         
         // Default codes (should be changed in production)
         const DEFAULT_LOGIN_CODE = '12345';
@@ -1874,7 +1881,23 @@
             // Event listeners for all buttons to play click sound
             document.querySelectorAll('button').forEach(button => {
                 button.addEventListener('click', function() {
+                    // Mute other sounds when playing button click
+                    audioOpening.muted = true;
+                    audioCorrect.muted = true;
+                    audioWrong.muted = true;
+                    audioApplause.muted = true;
+                    
+                    audioButtonClick.currentTime = 0;
+                    audioButtonClick.muted = false;
                     audioButtonClick.play().catch(e => console.log("Button click sound prevented:", e));
+                    
+                    // Unmute other sounds after button click plays
+                    setTimeout(() => {
+                        audioOpening.muted = false;
+                        audioCorrect.muted = false;
+                        audioWrong.muted = false;
+                        audioApplause.muted = false;
+                    }, 500);
                 });
             });
             
@@ -1965,6 +1988,8 @@
             
             if (loginCode === DEFAULT_LOGIN_CODE) {
                 // Play opening audio
+                audioOpening.currentTime = 0;
+                audioOpening.muted = false;
                 audioOpening.play().catch(e => console.log("Audio play prevented:", e));
                 
                 // Hide welcome screen with slide out animation
@@ -2262,10 +2287,14 @@
             if (answerIndex === question.correctAnswer) {
                 examData.correct++;
                 // Play correct answer sound
+                audioCorrect.currentTime = 0;
+                audioCorrect.muted = false;
                 audioCorrect.play().catch(e => console.log("Audio play prevented:", e));
             } else {
                 examData.wrong++;
                 // Play wrong answer sound
+                audioWrong.currentTime = 0;
+                audioWrong.muted = false;
                 audioWrong.play().catch(e => console.log("Audio play prevented:", e));
             }
             
@@ -2332,11 +2361,13 @@
                 showCelebration();
                 
                 // Play applause sound (mute other sounds)
-                audioOpening.pause();
-                audioCorrect.pause();
-                audioWrong.pause();
-                audioButtonClick.pause();
+                audioOpening.muted = true;
+                audioCorrect.muted = true;
+                audioWrong.muted = true;
+                audioButtonClick.muted = true;
                 
+                audioApplause.currentTime = 0;
+                audioApplause.muted = false;
                 audioApplause.play().catch(e => console.log("Audio play prevented:", e));
             }, 500);
         }
