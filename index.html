@@ -2558,19 +2558,53 @@
             const month = (now.getMonth() + 1).toString().padStart(2, '0');
             const year = now.getFullYear().toString().slice(-2);
             
-            // Generate name code (first 3 letters of each word in uppercase)
-            const nameCode = fullname.split(' ')
-                .map(word => word.substring(0, 3).toUpperCase())
-                .join('');
+            // Generate name code (first 3 letters of first name and last name)
+            const nameParts = fullname.split(' ');
+            let nameCode = '';
+            
+            if (nameParts.length === 1) {
+                // If only one name, use first 6 characters
+                nameCode = nameParts[0].substring(0, 6).toUpperCase();
+            } else {
+                // Use first 3 letters of first name and first 3 letters of last name
+                const firstName = nameParts[0];
+                const lastName = nameParts[nameParts.length - 1];
+                nameCode = (firstName.substring(0, 3) + lastName.substring(0, 3)).toUpperCase();
+            }
             
             // Get purpose code
             const purposeCode = purpose === 'Ujian CPNS/P3K' ? 'CPNS' : 'IQ';
             
-            // Generate random 4-digit number
-            const randomNum = Math.floor(1000 + Math.random() * 9000);
+            // Generate unique 8-digit alphanumeric code based on name and timestamp
+            const timestamp = now.getTime().toString().slice(-6);
+            const uniqueCode = generateUniqueCode(fullname + timestamp);
             
             // Combine all components
-            return `${nameCode}/${purposeCode}/${day}${month}${year}/${randomNum}`;
+            return `${nameCode}/${purposeCode}/${day}${month}${year}/${uniqueCode}`;
+        }
+        
+        function generateUniqueCode(input) {
+            // Create a hash from the input string
+            let hash = 0;
+            for (let i = 0; i < input.length; i++) {
+                const char = input.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash; // Convert to 32bit integer
+            }
+            
+            // Convert hash to alphanumeric string
+            const chars = '0123456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+            let result = '';
+            let remaining = Math.abs(hash);
+            
+            for (let i = 0; i < 8; i++) {
+                const index = remaining % chars.length;
+                result += chars.charAt(index);
+                remaining = Math.floor(remaining / chars.length);
+            }
+            
+            // Format as XXXX-XXXX
+            return result.substring(0, 4) + '-' + result.substring(4, 8);
         }
         
         function displayResults() {
