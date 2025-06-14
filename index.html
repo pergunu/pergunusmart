@@ -2558,26 +2558,25 @@
             const month = (now.getMonth() + 1).toString().padStart(2, '0');
             const year = now.getFullYear().toString().slice(-2);
             
-            // Generate name code (first 3 letters of first name and last name)
-            const nameParts = fullname.split(' ');
-            let nameCode = '';
+            // Clean and format the name
+            const cleanedName = fullname.replace(/[^a-zA-Z\s]/g, '').toUpperCase();
+            const nameParts = cleanedName.split(' ');
             
+            // Create name code - use first 3 letters of first name and last name
+            let nameCode = '';
             if (nameParts.length === 1) {
-                // If only one name, use first 6 characters
-                nameCode = nameParts[0].substring(0, 6).toUpperCase();
+                nameCode = nameParts[0].substring(0, 6).padEnd(6, 'X');
             } else {
-                // Use first 3 letters of first name and first 3 letters of last name
                 const firstName = nameParts[0];
                 const lastName = nameParts[nameParts.length - 1];
-                nameCode = (firstName.substring(0, 3) + lastName.substring(0, 3)).toUpperCase();
+                nameCode = (firstName.substring(0, 3) + lastName.substring(0, 3)).padEnd(6, 'X');
             }
             
             // Get purpose code
-            const purposeCode = purpose === 'Ujian CPNS/P3K' ? 'CPNS' : 'IQ';
+            const purposeCode = purpose === 'Ujian CPNS/P3K' ? 'CPNS' : 'TESIQ';
             
-            // Generate unique 8-digit alphanumeric code based on name and timestamp
-            const timestamp = now.getTime().toString().slice(-6);
-            const uniqueCode = generateUniqueCode(fullname + timestamp);
+            // Generate unique 8-digit alphanumeric code
+            const uniqueCode = generateUniqueCode(fullname + now.getTime());
             
             // Combine all components
             return `${nameCode}/${purposeCode}/${day}${month}${year}/${uniqueCode}`;
@@ -2592,8 +2591,8 @@
                 hash = hash & hash; // Convert to 32bit integer
             }
             
-            // Convert hash to alphanumeric string
-            const chars = '0123456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+            // Convert hash to alphanumeric string (excluding similar characters like 0/O, 1/I)
+            const chars = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
             let result = '';
             let remaining = Math.abs(hash);
             
@@ -2680,7 +2679,6 @@
                             <p><strong>${adminSettings.chairmanName}</strong></p>
                         </div>
                         <img src="https://raw.githubusercontent.com/pergunu/pergunusmart/main/assets/images/BARCODE.png" alt="Barcode" class="certificate-barcode">
-                        <p>Kode Validasi: ${certificateCode}</p>
                     </div>
                 </div>
             `;
