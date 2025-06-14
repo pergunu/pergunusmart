@@ -1147,7 +1147,7 @@
             
             <div class="form-group">
                 <label for="fullname" class="form-label">Nama Lengkap</label>
-                <input type="text" id="fullname" class="form-control" placeholder="Masukkan nama lengkap">
+                <input type="text" id="fullname" class="form-control" placeholder="Masukkan nama lengkap" oninput="validateNameInput(this)">
             </div>
             
             <div class="form-group">
@@ -1161,7 +1161,7 @@
             
             <div class="form-group">
                 <label for="phone" class="form-label">Nomor WhatsApp Aktif</label>
-                <input type="tel" id="phone" class="form-control" placeholder="Masukkan nomor WhatsApp" pattern="[0-9]{10,13}">
+                <input type="tel" id="phone" class="form-control" placeholder="Masukkan nomor WhatsApp" pattern="[0-9]{10,13}" oninput="validatePhoneInput(this)">
                 <small class="text-muted">Contoh: 6281234567890 (10-13 digit)</small>
             </div>
             
@@ -2086,6 +2086,27 @@
             // Load participants data for admin panel
             loadParticipantsData();
         });
+
+        // Function to validate name input (letters only)
+        function validateNameInput(input) {
+            // Remove any numbers or special characters
+            input.value = input.value.replace(/[^a-zA-Z\s]/g, '');
+            
+            // Convert to uppercase
+            input.value = input.value.toUpperCase();
+            
+            // Update form validity
+            checkParticipantFormValidity();
+        }
+
+        // Function to validate phone input (numbers only)
+        function validatePhoneInput(input) {
+            // Remove any non-numeric characters
+            input.value = input.value.replace(/\D/g, '');
+            
+            // Update form validity
+            checkParticipantFormValidity();
+        }
         
         // Load admin settings into the form
         function loadAdminSettings() {
@@ -2629,6 +2650,7 @@
                             <p><strong>${adminSettings.chairmanName}</strong></p>
                         </div>
                         <img src="https://raw.githubusercontent.com/pergunu/pergunusmart/main/assets/images/BARCODE.png" alt="Barcode" class="certificate-barcode">
+                        <p>Kode Validasi: ${certificateCode}</p>
                     </div>
                 </div>
             `;
