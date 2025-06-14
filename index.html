@@ -1702,7 +1702,7 @@
     </div>
 
     <!-- Audio Elements -->
-    <audio id="audio-opening" src="https://voca.ro/1a8eWbggFzfB" preload="auto"></audio>
+    <audio id="audio-opening" src="https://github.com/pergunu/pergunusmart/blob/main/assets/audio/opening.mp3?raw=true" preload="auto"></audio>
     <audio id="audio-button-click" src="https://voca.ro/16oVT0NTCKF0" preload="auto"></audio>
     <audio id="audio-correct" src="https://voca.ro/1emZhDVU89XS" preload="auto"></audio>
     <audio id="audio-wrong" src="https://voca.ro/17HW0ShxqM9B" preload="auto"></audio>
@@ -1970,12 +1970,6 @@
             
             // Load admin settings
             loadAdminSettings();
-            
-            // Play opening audio only once
-            if (!sessionStorage.getItem('audioPlayed')) {
-                audioOpening.play().catch(e => console.log("Autoplay prevented:", e));
-                sessionStorage.setItem('audioPlayed', 'true');
-            }
             
             // Event listeners for all buttons to play click sound
             document.querySelectorAll('button').forEach(button => {
@@ -2564,8 +2558,10 @@
             const month = (now.getMonth() + 1).toString().padStart(2, '0');
             const year = now.getFullYear().toString().slice(-2);
             
-            // Get initials from fullname
-            const initials = fullname.split(' ').map(n => n[0]).join('').toUpperCase();
+            // Generate name code (first 3 letters of each word in uppercase)
+            const nameCode = fullname.split(' ')
+                .map(word => word.substring(0, 3).toUpperCase())
+                .join('');
             
             // Get purpose code
             const purposeCode = purpose === 'Ujian CPNS/P3K' ? 'CPNS' : 'IQ';
@@ -2574,7 +2570,7 @@
             const randomNum = Math.floor(1000 + Math.random() * 9000);
             
             // Combine all components
-            return `${initials}/${purposeCode}/${day}${month}${year}/${randomNum}`;
+            return `${nameCode}/${purposeCode}/${day}${month}${year}/${randomNum}`;
         }
         
         function displayResults() {
