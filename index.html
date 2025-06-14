@@ -10,20 +10,21 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
-            --color-primary: #3a0ca3;
-            --color-primary-light: #4cc9f0;
-            --color-secondary: #7209b7;
-            --color-tertiary: #4361ee;
-            --color-accent: #f72585;
-            --color-success: #4cc9f0;
-            --color-error: #ef233c;
-            --color-warning: #f77f00;
-            --color-info: #4895ef;
+            --color-primary: #FF6B35;
+            --color-secondary: #FFA630;
+            --color-tertiary: #EF8A17;
+            --color-primary-dark: #D45B00;
+            --color-primary-light: #FF9E4F;
+            --color-success: #4CAF50;
+            --color-error: #f44336;
+            --color-warning: #ff9800;
+            --color-info: #2196F3;
             --color-dark: #1a1a2e;
-            --color-darker: #0b0b15;
             --color-light: #f8f9fa;
-            --color-gradient-start: #3a0ca3;
-            --color-gradient-end: #4361ee;
+            --color-card-bg: rgba(255, 255, 255, 0.08);
+            --color-card-border: rgba(255, 255, 255, 0.15);
+            --color-text-light: #FFFFFF;
+            --color-text-dark: #333333;
         }
 
         * {
@@ -34,8 +35,8 @@
         }
 
         body {
-            background: linear-gradient(135deg, var(--color-gradient-start), var(--color-gradient-end));
-            color: white;
+            background: linear-gradient(135deg, var(--color-primary-dark), var(--color-primary), var(--color-secondary));
+            color: var(--color-text-light);
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
@@ -49,7 +50,6 @@
             top: 0;
             left: 0;
             z-index: 0;
-            opacity: 0.3;
         }
 
         #celebration-particles {
@@ -81,24 +81,24 @@
         .logo {
             height: 80px;
             margin-bottom: 15px;
-            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+            filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
         }
 
         /* Card Styles */
         .card {
-            background: rgba(26, 26, 46, 0.8);
+            background: var(--color-card-bg);
             backdrop-filter: blur(10px);
             border-radius: 15px;
             padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             margin-bottom: 30px;
             transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--color-card-border);
         }
 
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
             border-color: rgba(255, 255, 255, 0.3);
         }
 
@@ -107,38 +107,22 @@
             display: inline-block;
             padding: 12px 25px;
             border-radius: 50px;
-            background: linear-gradient(to right, var(--color-secondary), var(--color-primary));
+            background: linear-gradient(to right, var(--color-secondary), var(--color-tertiary));
             color: white;
             text-decoration: none;
             font-weight: 500;
             border: none;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(114, 9, 183, 0.3);
+            box-shadow: 0 4px 15px rgba(255, 166, 48, 0.3);
             margin: 5px;
             text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: 0.5s;
-        }
-
-        .btn:hover::before {
-            left: 100%;
         }
 
         .btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(114, 9, 183, 0.4);
+            box-shadow: 0 8px 20px rgba(255, 166, 48, 0.4);
+            background: linear-gradient(to right, var(--color-tertiary), var(--color-secondary));
         }
 
         .btn:active {
@@ -147,22 +131,22 @@
 
         .btn-success {
             background: linear-gradient(to right, var(--color-success), #2ecc71);
-            box-shadow: 0 4px 15px rgba(76, 201, 240, 0.3);
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
         }
 
         .btn-danger {
             background: linear-gradient(to right, var(--color-error), #e74c3c);
-            box-shadow: 0 4px 15px rgba(239, 35, 60, 0.3);
+            box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
         }
 
         .btn-warning {
             background: linear-gradient(to right, var(--color-warning), #f39c12);
-            box-shadow: 0 4px 15px rgba(247, 127, 0, 0.3);
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
         }
 
         .btn-info {
             background: linear-gradient(to right, var(--color-info), #3498db);
-            box-shadow: 0 4px 15px rgba(72, 149, 239, 0.3);
+            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
         }
 
         /* Form Styles */
@@ -174,25 +158,25 @@
             width: 100%;
             padding: 12px 15px;
             border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.05);
-            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--color-text-light);
             font-size: 16px;
             transition: all 0.3s ease;
         }
 
         .form-control:focus {
             outline: none;
-            border-color: var(--color-primary-light);
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 0 3px rgba(76, 201, 240, 0.2);
+            border-color: var(--color-secondary);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 0 3px rgba(255, 166, 48, 0.2);
         }
 
         .form-label {
             display: block;
             margin-bottom: 8px;
             font-weight: 500;
-            color: var(--color-primary-light);
+            color: var(--color-text-light);
         }
 
         /* Radio and Checkbox Styles */
@@ -210,17 +194,15 @@
         .radio-label, .checkbox-label {
             padding: 10px 20px;
             border-radius: 50px;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.1);
             cursor: pointer;
             transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .radio-option:checked + .radio-label,
         .checkbox-option:checked + .checkbox-label {
-            background: linear-gradient(to right, var(--color-secondary), var(--color-primary));
-            box-shadow: 0 4px 15px rgba(114, 9, 183, 0.3);
-            border-color: transparent;
+            background: linear-gradient(to right, var(--color-secondary), var(--color-tertiary));
+            box-shadow: 0 4px 15px rgba(255, 166, 48, 0.3);
         }
 
         /* Animation Classes */
@@ -266,29 +248,24 @@
             font-weight: 700;
             text-align: center;
             margin: 20px 0;
-            color: white;
+            color: var(--color-text-light);
             transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .timer-warning {
             color: var(--color-warning);
             font-size: 28px;
-            animation: pulse 1s infinite alternate;
         }
 
         .timer-danger {
             color: var(--color-error);
             font-size: 32px;
-            animation: pulse 0.5s infinite;
+            animation: pulse 1s infinite;
         }
 
         @keyframes pulse {
             0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            50% { transform: scale(1.1); }
             100% { transform: scale(1); }
         }
 
@@ -298,7 +275,7 @@
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(26, 26, 46, 0.9);
+            background: rgba(0, 0, 0, 0.7);
             color: white;
             padding: 15px 25px;
             border-radius: 8px;
@@ -306,8 +283,6 @@
             animation: slideUp 0.5s forwards;
             max-width: 90%;
             text-align: center;
-            border: 1px solid var(--color-warning);
-            box-shadow: 0 5px 15px rgba(247, 127, 0, 0.3);
         }
 
         @keyframes slideUp {
@@ -324,7 +299,6 @@
             font-size: 18px;
             margin-bottom: 20px;
             line-height: 1.6;
-            color: var(--color-primary-light);
         }
 
         .options {
@@ -336,26 +310,22 @@
         .option {
             padding: 15px;
             border-radius: 8px;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.1);
             cursor: pointer;
             transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .option:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .option.correct {
             background: var(--color-success);
-            border-color: transparent;
             animation: correctAnswer 0.5s;
         }
 
         .option.incorrect {
             background: var(--color-error);
-            border-color: transparent;
             animation: incorrectAnswer 0.5s;
         }
 
@@ -380,13 +350,12 @@
             background: rgba(0, 0, 0, 0.2);
             border-radius: 8px;
             display: none;
-            border-left: 4px solid var(--color-primary-light);
         }
 
         /* Certificate Styles - REVISED FOR PRINTING */
         .certificate {
             background: white;
-            color: #333;
+            color: var(--color-text-dark);
             padding: 0;
             border-radius: 0;
             box-shadow: none;
@@ -424,7 +393,7 @@
             font-size: 28px;
             font-weight: 700;
             margin-bottom: 10px;
-            color: var(--color-primary);
+            color: var(--color-primary-dark);
             text-transform: uppercase;
         }
 
@@ -439,7 +408,7 @@
             font-size: 48px;
             margin: 20px 0;
             font-weight: 600;
-            color: #333;
+            color: var(--color-text-dark);
             font-family: 'Dancing Script', cursive;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
         }
@@ -448,13 +417,13 @@
             font-size: 16px;
             line-height: 1.6;
             margin: 10px 0;
-            color: #333;
+            color: var(--color-text-dark);
         }
 
         .certificate-score {
             font-size: 28px;
             font-weight: 700;
-            color: var(--color-primary);
+            color: var(--color-primary-dark);
             margin: 20px 0;
         }
 
@@ -497,7 +466,7 @@
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            background: linear-gradient(to right, var(--color-secondary), var(--color-primary));
+            background: linear-gradient(to right, var(--color-secondary), var(--color-tertiary));
             color: white;
             display: flex;
             align-items: center;
@@ -507,23 +476,6 @@
             cursor: pointer;
             transition: all 0.3s ease;
             border: none;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .floating-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: 0.5s;
-        }
-
-        .floating-btn:hover::before {
-            left: 100%;
         }
 
         .floating-btn:hover {
@@ -534,7 +486,7 @@
         .floating-btn .tooltip {
             position: absolute;
             right: 60px;
-            background: rgba(26, 26, 46, 0.9);
+            background: rgba(0, 0, 0, 0.7);
             color: white;
             padding: 5px 10px;
             border-radius: 5px;
@@ -543,7 +495,6 @@
             pointer-events: none;
             transition: all 0.3s ease;
             white-space: nowrap;
-            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .floating-btn:hover .tooltip {
@@ -567,7 +518,7 @@
 
         .modal-content {
             background: white;
-            color: #333;
+            color: var(--color-text-dark);
             border-radius: 15px;
             padding: 30px;
             width: 90%;
@@ -576,7 +527,6 @@
             overflow-y: auto;
             position: relative;
             animation: modalFadeIn 0.3s;
-            border: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         @keyframes modalFadeIn {
@@ -594,7 +544,7 @@
         .modal-title {
             font-size: 24px;
             font-weight: 600;
-            color: var(--color-primary);
+            color: var(--color-primary-dark);
         }
 
         .modal-close {
@@ -603,12 +553,6 @@
             font-size: 24px;
             cursor: pointer;
             color: #666;
-            transition: all 0.3s ease;
-        }
-
-        .modal-close:hover {
-            color: var(--color-error);
-            transform: rotate(90deg);
         }
 
         /* Roman numeral styles */
@@ -752,7 +696,7 @@
         }
 
         .admin-section h5 {
-            color: var(--color-primary);
+            color: var(--color-primary-dark);
             margin-bottom: 15px;
             font-size: 18px;
         }
@@ -772,6 +716,7 @@
             margin-bottom: 5px;
             font-weight: 500;
             font-size: 14px;
+            color: var(--color-text-dark);
         }
 
         .admin-control-input {
@@ -780,6 +725,7 @@
             border-radius: 6px;
             border: 1px solid #ddd;
             font-size: 14px;
+            color: var(--color-text-dark);
         }
 
         .admin-toggle {
@@ -911,7 +857,7 @@
             height: 20px;
             border: 3px solid rgba(0,0,0,.3);
             border-radius: 50%;
-            border-top-color: var(--color-primary);
+            border-top-color: var(--color-primary-dark);
             animation: spin 1s ease-in-out infinite;
         }
 
@@ -982,7 +928,7 @@
 
         .edit-question-content {
             background: white;
-            color: #333;
+            color: var(--color-text-dark);
             border-radius: 15px;
             padding: 30px;
             width: 90%;
@@ -1007,23 +953,17 @@
             align-items: center;
             justify-content: center;
             padding: 10px 15px;
-            background: linear-gradient(to right, var(--color-success), #2ecc71);
+            background: linear-gradient(to right, #4CAF50, #2ecc71);
             color: white;
             border: none;
             border-radius: 8px;
             cursor: pointer;
             margin-top: 5px;
             font-size: 14px;
-            transition: all 0.3s ease;
         }
         
         .gps-btn i {
             margin-right: 5px;
-        }
-        
-        .gps-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3);
         }
         
         .gps-result {
@@ -1032,7 +972,6 @@
             background: rgba(255, 255, 255, 0.1);
             border-radius: 8px;
             font-size: 14px;
-            border-left: 3px solid var(--color-success);
         }
 
         /* View Question Modal */
@@ -1051,7 +990,7 @@
 
         .view-question-content {
             background: white;
-            color: #333;
+            color: var(--color-text-dark);
             border-radius: 15px;
             padding: 30px;
             width: 90%;
@@ -1086,7 +1025,7 @@
 
         .edit-participant-content {
             background: white;
-            color: #333;
+            color: var(--color-text-dark);
             border-radius: 15px;
             padding: 30px;
             width: 90%;
@@ -1117,6 +1056,7 @@
             border-radius: 8px;
             border: 1px solid #ddd;
             font-size: 14px;
+            color: var(--color-text-dark);
         }
 
         .search-box i {
@@ -1352,7 +1292,7 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label for="question-bank-code" class="form-label">Kode Bank Soal</label>
-                    <input type="password" id="question-bank-code" class="form-control" placeholder="Masukkan kode bank soal" style="color: #333;">
+                    <input type="password" id="question-bank-code" class="form-control" placeholder="Masukkan kode bank soal" style="color: var(--color-text-dark);">
                     <button id="submit-question-bank-code" class="btn">Masuk</button>
                 </div>
                 
@@ -1362,28 +1302,28 @@
                         <h5>Tambah Soal Baru</h5>
                         <div class="form-group">
                             <label class="form-label">Kategori Ujian</label>
-                            <select id="question-category" class="form-control" style="color: #333;">
+                            <select id="question-category" class="form-control" style="color: var(--color-text-dark);">
                                 <option value="TES_IQ">Tes IQ</option>
                                 <option value="CPNS_P3K">Ujian CPNS/P3K</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Pertanyaan</label>
-                            <textarea id="question-text-input" class="form-control" rows="3" style="color: #333;"></textarea>
+                            <textarea id="question-text-input" class="form-control" rows="3" style="color: var(--color-text-dark);"></textarea>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Opsi Jawaban</label>
                             <div class="options-container">
-                                <input type="text" id="option-a" class="form-control" placeholder="Opsi A" style="color: #333; margin-bottom: 5px;">
-                                <input type="text" id="option-b" class="form-control" placeholder="Opsi B" style="color: #333; margin-bottom: 5px;">
-                                <input type="text" id="option-c" class="form-control" placeholder="Opsi C" style="color: #333; margin-bottom: 5px;">
-                                <input type="text" id="option-d" class="form-control" placeholder="Opsi D" style="color: #333; margin-bottom: 5px;">
-                                <input type="text" id="option-e" class="form-control" placeholder="Opsi E" style="color: #333;">
+                                <input type="text" id="option-a" class="form-control" placeholder="Opsi A" style="color: var(--color-text-dark); margin-bottom: 5px;">
+                                <input type="text" id="option-b" class="form-control" placeholder="Opsi B" style="color: var(--color-text-dark); margin-bottom: 5px;">
+                                <input type="text" id="option-c" class="form-control" placeholder="Opsi C" style="color: var(--color-text-dark); margin-bottom: 5px;">
+                                <input type="text" id="option-d" class="form-control" placeholder="Opsi D" style="color: var(--color-text-dark); margin-bottom: 5px;">
+                                <input type="text" id="option-e" class="form-control" placeholder="Opsi E" style="color: var(--color-text-dark);">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Jawaban Benar</label>
-                            <select id="correct-answer" class="form-control" style="color: #333;">
+                            <select id="correct-answer" class="form-control" style="color: var(--color-text-dark);">
                                 <option value="0">A</option>
                                 <option value="1">B</option>
                                 <option value="2">C</option>
@@ -1393,7 +1333,7 @@
                         </div>
                         <div class="form-group">
                             <label class="form-label">Penjelasan</label>
-                            <textarea id="explanation-input" class="form-control" rows="3" style="color: #333;"></textarea>
+                            <textarea id="explanation-input" class="form-control" rows="3" style="color: var(--color-text-dark);"></textarea>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Upload Gambar (Opsional)</label>
@@ -1406,7 +1346,7 @@
                         <h5>Daftar Soal</h5>
                         <div class="form-group">
                             <label class="form-label">Filter Kategori</label>
-                            <select id="filter-category" class="form-control" style="color: #333;">
+                            <select id="filter-category" class="form-control" style="color: var(--color-text-dark);">
                                 <option value="all">Semua Kategori</option>
                                 <option value="TES_IQ">Tes IQ</option>
                                 <option value="CPNS_P3K">Ujian CPNS/P3K</option>
@@ -1432,7 +1372,7 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label for="admin-panel-code" class="form-label">Kode Admin</label>
-                    <input type="password" id="admin-panel-code" class="form-control" placeholder="Masukkan kode admin" style="color: #333;">
+                    <input type="password" id="admin-panel-code" class="form-control" placeholder="Masukkan kode admin" style="color: var(--color-text-dark);">
                     <button id="submit-admin-panel-code" class="btn">Masuk</button>
                 </div>
                 
@@ -1441,22 +1381,22 @@
                         <h5>Pengaturan Kode</h5>
                         <div class="form-group">
                             <label class="form-label">Kode Login Baru</label>
-                            <input type="password" id="new-login-code" class="form-control" placeholder="Masukkan kode login baru" style="color: #333;">
+                            <input type="password" id="new-login-code" class="form-control" placeholder="Masukkan kode login baru" style="color: var(--color-text-dark);">
                         </div>
                         
                         <div class="form-group">
                             <label class="form-label">Kode Bank Soal Baru</label>
-                            <input type="password" id="new-question-bank-code" class="form-control" placeholder="Masukkan kode bank soal baru" style="color: #333;">
+                            <input type="password" id="new-question-bank-code" class="form-control" placeholder="Masukkan kode bank soal baru" style="color: var(--color-text-dark);">
                         </div>
                         
                         <div class="form-group">
                             <label class="form-label">Kode Ujian CPNS Baru</label>
-                            <input type="password" id="new-cpns-code" class="form-control" placeholder="Masukkan kode ujian CPNS baru" style="color: #333;">
+                            <input type="password" id="new-cpns-code" class="form-control" placeholder="Masukkan kode ujian CPNS baru" style="color: var(--color-text-dark);">
                         </div>
                         
                         <div class="form-group">
                             <label class="form-label">Kode Admin Baru</label>
-                            <input type="password" id="new-admin-code" class="form-control" placeholder="Masukkan kode admin baru" style="color: #333;">
+                            <input type="password" id="new-admin-code" class="form-control" placeholder="Masukkan kode admin baru" style="color: var(--color-text-dark);">
                         </div>
                         
                         <button id="save-codes-btn" class="btn btn-success">Simpan Kode</button>
@@ -1500,19 +1440,19 @@
                         <h5>Pengaturan Konten</h5>
                         <div class="form-group">
                             <label class="form-label">Pesan Pembuka</label>
-                            <textarea id="greeting-message-input" class="form-control" rows="3" style="color: #333;">Selamat datang di sistem ujian online PERGUNUSMART. Silakan masukkan kode login untuk melanjutkan.</textarea>
+                            <textarea id="greeting-message-input" class="form-control" rows="3" style="color: var(--color-text-dark);">Selamat datang di sistem ujian online PERGUNUSMART. Silakan masukkan kode login untuk melanjutkan.</textarea>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Pesan Informasi Berkala</label>
-                            <textarea id="admin-message-input" class="form-control" rows="3" style="color: #333;">Tidak ada informasi terbaru saat ini.</textarea>
+                            <textarea id="admin-message-input" class="form-control" rows="3" style="color: var(--color-text-dark);">Tidak ada informasi terbaru saat ini.</textarea>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Nama Ketua PERGUNU</label>
-                            <input type="text" id="chairman-name" class="form-control" value="Moh. Nuril Hudha, S.Pd., M.Si." style="color: #333;">
+                            <input type="text" id="chairman-name" class="form-control" value="Moh. Nuril Hudha, S.Pd., M.Si." style="color: var(--color-text-dark);">
                         </div>
                         <div class="form-group">
                             <label class="form-label">Pesan Motivasi Sertifikat</label>
-                            <textarea id="motivation-message-input" class="form-control" rows="3" style="color: #333;"></textarea>
+                            <textarea id="motivation-message-input" class="form-control" rows="3" style="color: var(--color-text-dark);"></textarea>
                         </div>
                         <button id="save-content-btn" class="btn btn-success">Simpan Perubahan</button>
                     </div>
@@ -1521,7 +1461,7 @@
                         <h5>Manajemen Peserta</h5>
                         <div class="search-box">
                             <i class="fas fa-search"></i>
-                            <input type="text" id="participant-search" class="form-control" placeholder="Cari peserta..." style="color: #333;">
+                            <input type="text" id="participant-search" class="form-control" placeholder="Cari peserta..." style="color: var(--color-text-dark);">
                         </div>
                         <div class="bulk-actions">
                             <input type="checkbox" id="select-all-participants" class="select-all-checkbox">
@@ -1556,7 +1496,7 @@
                         <div class="certificate-validation">
                             <div class="form-group">
                                 <label class="form-label">Masukkan Kode Sertifikat</label>
-                                <input type="text" id="certificate-code-input" class="form-control" placeholder="Masukkan kode sertifikat" style="color: #333;">
+                                <input type="text" id="certificate-code-input" class="form-control" placeholder="Masukkan kode sertifikat" style="color: var(--color-text-dark);">
                                 <button id="validate-certificate-btn" class="btn btn-info">Validasi</button>
                             </div>
                             <div id="validation-result" class="validation-result" style="display: none;"></div>
@@ -1603,28 +1543,28 @@
             
             <div class="form-group">
                 <label class="form-label">Kategori Ujian</label>
-                <select id="edit-question-category" class="form-control" style="color: #333;">
+                <select id="edit-question-category" class="form-control" style="color: var(--color-text-dark);">
                     <option value="TES_IQ">Tes IQ</option>
                     <option value="CPNS_P3K">Ujian CPNS/P3K</option>
                 </select>
             </div>
             <div class="form-group">
                 <label class="form-label">Pertanyaan</label>
-                <textarea id="edit-question-text" class="form-control" rows="3" style="color: #333;"></textarea>
+                <textarea id="edit-question-text" class="form-control" rows="3" style="color: var(--color-text-dark);"></textarea>
             </div>
             <div class="form-group">
                 <label class="form-label">Opsi Jawaban</label>
                 <div class="options-container">
-                    <input type="text" id="edit-option-a" class="form-control" placeholder="Opsi A" style="color: #333; margin-bottom: 5px;">
-                    <input type="text" id="edit-option-b" class="form-control" placeholder="Opsi B" style="color: #333; margin-bottom: 5px;">
-                    <input type="text" id="edit-option-c" class="form-control" placeholder="Opsi C" style="color: #333; margin-bottom: 5px;">
-                    <input type="text" id="edit-option-d" class="form-control" placeholder="Opsi D" style="color: #333; margin-bottom: 5px;">
-                    <input type="text" id="edit-option-e" class="form-control" placeholder="Opsi E" style="color: #333;">
+                    <input type="text" id="edit-option-a" class="form-control" placeholder="Opsi A" style="color: var(--color-text-dark); margin-bottom: 5px;">
+                    <input type="text" id="edit-option-b" class="form-control" placeholder="Opsi B" style="color: var(--color-text-dark); margin-bottom: 5px;">
+                    <input type="text" id="edit-option-c" class="form-control" placeholder="Opsi C" style="color: var(--color-text-dark); margin-bottom: 5px;">
+                    <input type="text" id="edit-option-d" class="form-control" placeholder="Opsi D" style="color: var(--color-text-dark); margin-bottom: 5px;">
+                    <input type="text" id="edit-option-e" class="form-control" placeholder="Opsi E" style="color: var(--color-text-dark);">
                 </div>
             </div>
             <div class="form-group">
                 <label class="form-label">Jawaban Benar</label>
-                <select id="edit-correct-answer" class="form-control" style="color: #333;">
+                <select id="edit-correct-answer" class="form-control" style="color: var(--color-text-dark);">
                     <option value="0">A</option>
                     <option value="1">B</option>
                     <option value="2">C</option>
@@ -1634,7 +1574,7 @@
             </div>
             <div class="form-group">
                 <label class="form-label">Penjelasan</label>
-                <textarea id="edit-explanation" class="form-control" rows="3" style="color: #333;"></textarea>
+                <textarea id="edit-explanation" class="form-control" rows="3" style="color: var(--color-text-dark);"></textarea>
             </div>
             <div class="form-group">
                 <label class="form-label">Upload Gambar (Opsional)</label>
@@ -1690,22 +1630,22 @@
             
             <div class="form-group">
                 <label for="edit-fullname" class="form-label">Nama Lengkap</label>
-                <input type="text" id="edit-fullname" class="form-control" style="color: #333;">
+                <input type="text" id="edit-fullname" class="form-control" style="color: var(--color-text-dark);">
             </div>
             
             <div class="form-group">
                 <label for="edit-address" class="form-label">Alamat</label>
-                <input type="text" id="edit-address" class="form-control" style="color: #333;">
+                <input type="text" id="edit-address" class="form-control" style="color: var(--color-text-dark);">
             </div>
             
             <div class="form-group">
                 <label for="edit-phone" class="form-label">Nomor WhatsApp</label>
-                <input type="tel" id="edit-phone" class="form-control" style="color: #333;">
+                <input type="tel" id="edit-phone" class="form-control" style="color: var(--color-text-dark);">
             </div>
             
             <div class="form-group">
                 <label for="edit-email" class="form-label">Email</label>
-                <input type="email" id="edit-email" class="form-control" style="color: #333;">
+                <input type="email" id="edit-email" class="form-control" style="color: var(--color-text-dark);">
             </div>
             
             <div class="form-group">
@@ -1721,12 +1661,12 @@
             
             <div class="form-group">
                 <label for="edit-score" class="form-label">Nilai (%)</label>
-                <input type="number" id="edit-score" class="form-control" min="0" max="100" style="color: #333;">
+                <input type="number" id="edit-score" class="form-control" min="0" max="100" style="color: var(--color-text-dark);">
             </div>
             
             <div class="form-group">
                 <label for="edit-certificate-code" class="form-label">Kode Sertifikat</label>
-                <input type="text" id="edit-certificate-code" class="form-control" style="color: #333;" readonly>
+                <input type="text" id="edit-certificate-code" class="form-control" style="color: var(--color-text-dark);" readonly>
             </div>
             
             <div class="form-group" style="display: flex; justify-content: space-between;">
@@ -1943,7 +1883,7 @@
                         }
                     },
                     "color": {
-                        "value": ["#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF"]
+                        "value": ["#FF6B35", "#FFA630", "#EF8A17", "#FF9E4F", "#D45B00", "#FF8C42"]
                     },
                     "shape": {
                         "type": ["circle", "triangle", "star"],
