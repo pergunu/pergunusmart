@@ -784,13 +784,6 @@
             border-bottom: none;
         }
 
-        .export-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-            flex-wrap: wrap;
-        }
-
         /* Question Bank Styles */
         .questions-list {
             max-height: 300px;
@@ -1255,11 +1248,6 @@
     
     <!-- Floating Buttons -->
     <div class="floating-buttons">
-        <button class="floating-btn" id="share-btn">
-            <i class="fas fa-share-alt"></i>
-            <span class="tooltip">Bagikan</span>
-        </button>
-        
         <button class="floating-btn" id="whatsapp-btn">
             <i class="fab fa-whatsapp"></i>
             <span class="tooltip">Chat Admin</span>
@@ -1277,26 +1265,6 @@
     </div>
     
     <!-- Modals -->
-    <!-- Share Modal -->
-    <div class="modal" id="share-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Bagikan Ujian Online</h3>
-                <button class="modal-close" id="close-share-modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p>Bagikan link ujian online ini melalui:</p>
-                <div class="share-options">
-                    <button class="btn" id="share-facebook"><i class="fab fa-facebook-f"></i> Facebook</button>
-                    <button class="btn" id="share-twitter"><i class="fab fa-twitter"></i> Twitter</button>
-                    <button class="btn" id="share-whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</button>
-                    <button class="btn" id="share-telegram"><i class="fab fa-telegram-plane"></i> Telegram</button>
-                    <button class="btn" id="copy-link"><i class="fas fa-copy"></i> Salin Link</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
     <!-- Question Bank Modal -->
     <div class="modal" id="question-bank-modal">
         <div class="modal-content">
@@ -1483,7 +1451,6 @@
                             <span class="selected-count" id="selected-count">0 dipilih</span>
                             <button id="edit-selected-btn" class="btn btn-info" disabled><i class="fas fa-edit"></i> Edit</button>
                             <button id="delete-selected-btn" class="btn btn-danger" disabled><i class="fas fa-trash"></i> Hapus</button>
-                            <button id="export-selected-excel-btn" class="btn btn-success" disabled><i class="fas fa-file-excel"></i> Export Excel</button>
                         </div>
                         <div class="participant-list">
                             <table class="data-table">
@@ -1504,10 +1471,6 @@
                                     <!-- Participant data will be loaded here -->
                                 </tbody>
                             </table>
-                        </div>
-                        <div class="export-buttons">
-                            <button id="export-excel-btn" class="btn btn-info"><i class="fas fa-file-excel"></i> Export Excel</button>
-                            <button id="export-pdf-btn" class="btn btn-danger"><i class="fas fa-file-pdf"></i> Export PDF</button>
                         </div>
                     </div>
                     
@@ -1974,23 +1937,7 @@
             // Event listeners for all buttons to play click sound
             document.querySelectorAll('button').forEach(button => {
                 button.addEventListener('click', function() {
-                    // Mute other sounds when playing button click
-                    audioOpening.muted = true;
-                    audioCorrect.muted = true;
-                    audioWrong.muted = true;
-                    audioApplause.muted = true;
-                    
-                    audioButtonClick.currentTime = 0;
-                    audioButtonClick.muted = false;
-                    audioButtonClick.play().catch(e => console.log("Button click sound prevented:", e));
-                    
-                    // Unmute other sounds after button click plays
-                    setTimeout(() => {
-                        audioOpening.muted = false;
-                        audioCorrect.muted = false;
-                        audioWrong.muted = false;
-                        audioApplause.muted = false;
-                    }, 500);
+                    playButtonClickSound();
                 });
             });
             
@@ -2013,13 +1960,11 @@
             document.getElementById('retake-exam-btn').addEventListener('click', retakeExam);
             
             // Floating buttons
-            document.getElementById('share-btn').addEventListener('click', showShareModal);
             document.getElementById('whatsapp-btn').addEventListener('click', contactAdmin);
             document.getElementById('question-bank-btn').addEventListener('click', showQuestionBankModal);
             document.getElementById('admin-panel-btn').addEventListener('click', showAdminPanelModal);
             
             // Modal close buttons
-            document.getElementById('close-share-modal').addEventListener('click', hideShareModal);
             document.getElementById('close-question-bank-modal').addEventListener('click', hideQuestionBankModal);
             document.getElementById('close-admin-panel-modal').addEventListener('click', hideAdminPanelModal);
             document.getElementById('close-edit-question-modal').addEventListener('click', hideEditQuestionModal);
@@ -2057,15 +2002,12 @@
             document.getElementById('save-codes-btn').addEventListener('click', saveCodes);
             document.getElementById('save-content-btn').addEventListener('click', saveContent);
             document.getElementById('save-settings-btn').addEventListener('click', saveSettings);
-            document.getElementById('export-excel-btn').addEventListener('click', exportToExcel);
-            document.getElementById('export-pdf-btn').addEventListener('click', exportToPDF);
             
             // Participant selection and bulk actions
             document.getElementById('select-all-participants').addEventListener('change', toggleSelectAllParticipants);
             document.getElementById('select-all-header').addEventListener('change', toggleSelectAllParticipantsHeader);
             document.getElementById('edit-selected-btn').addEventListener('click', editSelectedParticipants);
             document.getElementById('delete-selected-btn').addEventListener('click', deleteSelectedParticipants);
-            document.getElementById('export-selected-excel-btn').addEventListener('click', exportSelectedToExcel);
             
             // Edit participant modal buttons
             document.getElementById('save-edit-participant-btn').addEventListener('click', saveEditedParticipant);
@@ -2080,6 +2022,27 @@
             // Load participants data for admin panel
             loadParticipantsData();
         });
+
+        // Function to play button click sound
+        function playButtonClickSound() {
+            // Mute other sounds when playing button click
+            audioOpening.muted = true;
+            audioCorrect.muted = true;
+            audioWrong.muted = true;
+            audioApplause.muted = true;
+            
+            audioButtonClick.currentTime = 0;
+            audioButtonClick.muted = false;
+            audioButtonClick.play().catch(e => console.log("Button click sound prevented:", e));
+            
+            // Unmute other sounds after button click plays
+            setTimeout(() => {
+                audioOpening.muted = false;
+                audioCorrect.muted = false;
+                audioWrong.muted = false;
+                audioApplause.muted = false;
+            }, 500);
+        }
 
         // Function to validate name input (letters only)
         function validateNameInput(input) {
@@ -2738,14 +2701,6 @@
             }, 500);
         }
         
-        function showShareModal() {
-            document.getElementById('share-modal').style.display = 'flex';
-        }
-        
-        function hideShareModal() {
-            document.getElementById('share-modal').style.display = 'none';
-        }
-        
         function contactAdmin() {
             const message = encodeURIComponent("Assalamualaikum mas admin, saya mau tanya tentang soal ujian umum nih....");
             window.open(`https://wa.me/6285647709114?text=${message}`, '_blank');
@@ -3192,7 +3147,6 @@
             // Enable/disable bulk action buttons
             document.getElementById('edit-selected-btn').disabled = selectedCount === 0;
             document.getElementById('delete-selected-btn').disabled = selectedCount === 0;
-            document.getElementById('export-selected-excel-btn').disabled = selectedCount === 0;
         }
         
         function toggleSelectAllParticipants() {
@@ -3327,25 +3281,6 @@
             alert('Peserta berhasil dihapus!');
         }
         
-        function exportSelectedToExcel() {
-            const selectedCheckboxes = document.querySelectorAll('.participant-checkbox:checked');
-            
-            if (selectedCheckboxes.length === 0) {
-                alert('Tidak ada peserta yang dipilih');
-                return;
-            }
-            
-            // Get indices of selected participants
-            const indices = Array.from(selectedCheckboxes).map(checkbox => 
-                parseInt(checkbox.getAttribute('data-index')));
-            
-            // Get selected participants data
-            const selectedParticipants = indices.map(index => participantsData[index]);
-            
-            // In a real implementation, this would generate an Excel file with selected data
-            alert(`Fitur export ke Excel akan mengunduh file dengan ${selectedParticipants.length} peserta terpilih.`);
-        }
-        
         function validateCertificate() {
             const certificateCode = document.getElementById('certificate-code-input').value.trim();
             const validationResult = document.getElementById('validation-result');
@@ -3448,16 +3383,6 @@
             saveAdminSettings();
             
             alert('Pengaturan ujian berhasil disimpan!');
-        }
-        
-        function exportToExcel() {
-            // In a real implementation, this would generate an Excel file
-            alert('Fitur export ke Excel akan mengunduh file Excel dengan data peserta.');
-        }
-        
-        function exportToPDF() {
-            // In a real implementation, this would generate a PDF file
-            alert('Fitur export ke PDF akan mengunduh file PDF dengan data peserta.');
         }
     </script>
 </body>
