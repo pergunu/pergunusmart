@@ -10,21 +10,27 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
-            --color-primary: #FF6B35;
-            --color-secondary: #FFA630;
-            --color-tertiary: #EF8A17;
-            --color-primary-dark: #D45B00;
-            --color-primary-light: #FF9E4F;
-            --color-success: #4CAF50;
-            --color-error: #f44336;
-            --color-warning: #ff9800;
-            --color-info: #2196F3;
+            --color-primary: #2C3E50;
+            --color-secondary: #3498DB;
+            --color-tertiary: #2980B9;
+            --color-primary-dark: #1A252F;
+            --color-primary-light: #34495E;
+            --color-success: #27AE60;
+            --color-error: #E74C3C;
+            --color-warning: #F39C12;
+            --color-info: #3498DB;
             --color-dark: #1a1a2e;
             --color-light: #f8f9fa;
-            --color-card-bg: rgba(255, 255, 255, 0.08);
-            --color-card-border: rgba(255, 255, 255, 0.15);
+            --color-card-bg: rgba(255, 255, 255, 0.1);
+            --color-card-border: rgba(255, 255, 255, 0.2);
             --color-text-light: #FFFFFF;
-            --color-text-dark: #333333;
+            --color-text-dark: #2C3E50;
+            --color-text-muted: #7F8C8D;
+            --color-admin-bg: #FFFFFF;
+            --color-admin-card: #F8F9FA;
+            --color-admin-text: #2C3E50;
+            --color-admin-border: #DFE6E9;
+            --color-admin-highlight: #3498DB;
         }
 
         * {
@@ -35,7 +41,7 @@
         }
 
         body {
-            background: linear-gradient(135deg, var(--color-primary-dark), var(--color-primary), var(--color-secondary));
+            background: linear-gradient(135deg, var(--color-primary-dark), var(--color-primary), var(--color-primary-light));
             color: var(--color-text-light);
             min-height: 100vh;
             overflow-x: hidden;
@@ -114,14 +120,14 @@
             border: none;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 166, 48, 0.3);
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
             margin: 5px;
             text-align: center;
         }
 
         .btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(255, 166, 48, 0.4);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
             background: linear-gradient(to right, var(--color-tertiary), var(--color-secondary));
         }
 
@@ -131,22 +137,22 @@
 
         .btn-success {
             background: linear-gradient(to right, var(--color-success), #2ecc71);
-            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
         }
 
         .btn-danger {
             background: linear-gradient(to right, var(--color-error), #e74c3c);
-            box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
         }
 
         .btn-warning {
             background: linear-gradient(to right, var(--color-warning), #f39c12);
-            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
         }
 
         .btn-info {
             background: linear-gradient(to right, var(--color-info), #3498db);
-            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
         }
 
         /* Form Styles */
@@ -169,7 +175,7 @@
             outline: none;
             border-color: var(--color-secondary);
             background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 0 0 3px rgba(255, 166, 48, 0.2);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
         }
 
         .form-label {
@@ -202,7 +208,7 @@
         .radio-option:checked + .radio-label,
         .checkbox-option:checked + .checkbox-label {
             background: linear-gradient(to right, var(--color-secondary), var(--color-tertiary));
-            box-shadow: 0 4px 15px rgba(255, 166, 48, 0.3);
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
         }
 
         /* Animation Classes */
@@ -517,8 +523,8 @@
         }
 
         .modal-content {
-            background: white;
-            color: var(--color-text-dark);
+            background: var(--color-admin-bg);
+            color: var(--color-admin-text);
             border-radius: 15px;
             padding: 30px;
             width: 90%;
@@ -527,6 +533,7 @@
             overflow-y: auto;
             position: relative;
             animation: modalFadeIn 0.3s;
+            border: 1px solid var(--color-admin-border);
         }
 
         @keyframes modalFadeIn {
@@ -539,6 +546,8 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
+            border-bottom: 1px solid var(--color-admin-border);
+            padding-bottom: 15px;
         }
 
         .modal-title {
@@ -552,7 +561,11 @@
             border: none;
             font-size: 24px;
             cursor: pointer;
-            color: #666;
+            color: var(--color-text-muted);
+        }
+
+        .modal-close:hover {
+            color: var(--color-admin-text);
         }
 
         /* Roman numeral styles */
@@ -690,21 +703,27 @@
 
         /* Admin Panel Specific Styles */
         .admin-section {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             padding-bottom: 20px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--color-admin-border);
         }
 
         .admin-section h5 {
             color: var(--color-primary-dark);
             margin-bottom: 15px;
             font-size: 18px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--color-admin-highlight);
         }
 
         .admin-controls {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 15px;
+            background: var(--color-admin-card);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
         }
 
         .admin-control-group {
@@ -716,16 +735,24 @@
             margin-bottom: 5px;
             font-weight: 500;
             font-size: 14px;
-            color: var(--color-text-dark);
+            color: var(--color-admin-text);
         }
 
         .admin-control-input {
             width: 100%;
             padding: 10px 12px;
             border-radius: 6px;
-            border: 1px solid #ddd;
+            border: 1px solid var(--color-admin-border);
+            background: var(--color-admin-bg);
+            color: var(--color-admin-text);
             font-size: 14px;
-            color: var(--color-text-dark);
+            transition: all 0.2s ease;
+        }
+
+        .admin-control-input:focus {
+            outline: none;
+            border-color: var(--color-admin-highlight);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
         }
 
         .admin-toggle {
@@ -783,17 +810,19 @@
             max-height: 300px;
             overflow-y: auto;
             margin-top: 15px;
-            border: 1px solid #eee;
+            border: 1px solid var(--color-admin-border);
             border-radius: 8px;
             padding: 10px;
+            background: var(--color-admin-card);
         }
 
         .participant-item {
             padding: 10px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--color-admin-border);
             display: flex;
             justify-content: space-between;
             font-size: 14px;
+            background: var(--color-admin-bg);
         }
 
         .participant-item:last-child {
@@ -804,16 +833,20 @@
         .questions-list {
             max-height: 300px;
             overflow-y: auto;
-            border: 1px solid #eee;
+            border: 1px solid var(--color-admin-border);
             border-radius: 8px;
             padding: 10px;
+            background: var(--color-admin-card);
         }
 
         .question-item {
             padding: 10px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--color-admin-border);
             font-size: 14px;
             position: relative;
+            background: var(--color-admin-bg);
+            margin-bottom: 10px;
+            border-radius: 6px;
         }
 
         .question-item:last-child {
@@ -835,6 +868,11 @@
             font-size: 14px;
             padding: 2px 5px;
             border-radius: 3px;
+            transition: all 0.2s ease;
+        }
+
+        .question-action-btn:hover {
+            background: rgba(0, 0, 0, 0.05);
         }
 
         .edit-btn {
@@ -848,6 +886,7 @@
         .options-container {
             display: grid;
             gap: 5px;
+            margin: 8px 0;
         }
 
         /* Loading Indicator */
@@ -876,16 +915,17 @@
         .data-table th, .data-table td {
             padding: 10px;
             text-align: left;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--color-admin-border);
         }
 
         .data-table th {
-            background-color: #f5f5f5;
+            background-color: var(--color-admin-highlight);
+            color: white;
             font-weight: 600;
         }
 
         .data-table tr:hover {
-            background-color: #f9f9f9;
+            background-color: rgba(52, 152, 219, 0.05);
         }
 
         /* Checkbox styles for participant selection */
@@ -893,6 +933,7 @@
             width: 20px;
             height: 20px;
             cursor: pointer;
+            accent-color: var(--color-admin-highlight);
         }
 
         .select-all-checkbox {
@@ -905,11 +946,14 @@
             gap: 10px;
             margin-bottom: 15px;
             align-items: center;
+            background: var(--color-admin-card);
+            padding: 10px;
+            border-radius: 8px;
         }
 
         .selected-count {
             font-size: 14px;
-            color: #666;
+            color: var(--color-text-muted);
         }
 
         /* Edit Question Modal */
@@ -927,8 +971,8 @@
         }
 
         .edit-question-content {
-            background: white;
-            color: var(--color-text-dark);
+            background: var(--color-admin-bg);
+            color: var(--color-admin-text);
             border-radius: 15px;
             padding: 30px;
             width: 90%;
@@ -936,6 +980,7 @@
             max-height: 90vh;
             overflow-y: auto;
             position: relative;
+            border: 1px solid var(--color-admin-border);
         }
 
         .edit-question-close {
@@ -944,7 +989,11 @@
             right: 15px;
             font-size: 24px;
             cursor: pointer;
-            color: #666;
+            color: var(--color-text-muted);
+        }
+        
+        .edit-question-close:hover {
+            color: var(--color-admin-text);
         }
         
         /* GPS Button Styles */
@@ -989,8 +1038,8 @@
         }
 
         .view-question-content {
-            background: white;
-            color: var(--color-text-dark);
+            background: var(--color-admin-bg);
+            color: var(--color-admin-text);
             border-radius: 15px;
             padding: 30px;
             width: 90%;
@@ -998,6 +1047,7 @@
             max-height: 90vh;
             overflow-y: auto;
             position: relative;
+            border: 1px solid var(--color-admin-border);
         }
 
         .view-question-close {
@@ -1006,7 +1056,11 @@
             right: 15px;
             font-size: 24px;
             cursor: pointer;
-            color: #666;
+            color: var(--color-text-muted);
+        }
+
+        .view-question-close:hover {
+            color: var(--color-admin-text);
         }
 
         /* Edit Participant Modal */
@@ -1024,8 +1078,8 @@
         }
 
         .edit-participant-content {
-            background: white;
-            color: var(--color-text-dark);
+            background: var(--color-admin-bg);
+            color: var(--color-admin-text);
             border-radius: 15px;
             padding: 30px;
             width: 90%;
@@ -1033,6 +1087,7 @@
             max-height: 90vh;
             overflow-y: auto;
             position: relative;
+            border: 1px solid var(--color-admin-border);
         }
 
         .edit-participant-close {
@@ -1041,7 +1096,11 @@
             right: 15px;
             font-size: 24px;
             cursor: pointer;
-            color: #666;
+            color: var(--color-text-muted);
+        }
+
+        .edit-participant-close:hover {
+            color: var(--color-admin-text);
         }
 
         /* Search Box Styles */
@@ -1054,9 +1113,10 @@
             width: 100%;
             padding: 10px 15px 10px 35px;
             border-radius: 8px;
-            border: 1px solid #ddd;
+            border: 1px solid var(--color-admin-border);
             font-size: 14px;
-            color: var(--color-text-dark);
+            color: var(--color-admin-text);
+            background: var(--color-admin-card);
         }
 
         .search-box i {
@@ -1064,14 +1124,14 @@
             left: 10px;
             top: 50%;
             transform: translateY(-50%);
-            color: #999;
+            color: var(--color-text-muted);
         }
 
         /* Certificate Validation Styles */
         .certificate-validation {
             margin-top: 20px;
             padding: 15px;
-            background: #f5f5f5;
+            background: var(--color-admin-card);
             border-radius: 8px;
         }
 
@@ -1292,7 +1352,7 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label for="question-bank-code" class="form-label">Kode Bank Soal</label>
-                    <input type="password" id="question-bank-code" class="form-control" placeholder="Masukkan kode bank soal" style="color: var(--color-text-dark);">
+                    <input type="password" id="question-bank-code" class="form-control" placeholder="Masukkan kode bank soal">
                     <button id="submit-question-bank-code" class="btn">Masuk</button>
                 </div>
                 
@@ -1302,28 +1362,28 @@
                         <h5>Tambah Soal Baru</h5>
                         <div class="form-group">
                             <label class="form-label">Kategori Ujian</label>
-                            <select id="question-category" class="form-control" style="color: var(--color-text-dark);">
+                            <select id="question-category" class="form-control">
                                 <option value="TES_IQ">Tes IQ</option>
                                 <option value="CPNS_P3K">Ujian CPNS/P3K</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Pertanyaan</label>
-                            <textarea id="question-text-input" class="form-control" rows="3" style="color: var(--color-text-dark);"></textarea>
+                            <textarea id="question-text-input" class="form-control" rows="3"></textarea>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Opsi Jawaban</label>
                             <div class="options-container">
-                                <input type="text" id="option-a" class="form-control" placeholder="Opsi A" style="color: var(--color-text-dark); margin-bottom: 5px;">
-                                <input type="text" id="option-b" class="form-control" placeholder="Opsi B" style="color: var(--color-text-dark); margin-bottom: 5px;">
-                                <input type="text" id="option-c" class="form-control" placeholder="Opsi C" style="color: var(--color-text-dark); margin-bottom: 5px;">
-                                <input type="text" id="option-d" class="form-control" placeholder="Opsi D" style="color: var(--color-text-dark); margin-bottom: 5px;">
-                                <input type="text" id="option-e" class="form-control" placeholder="Opsi E" style="color: var(--color-text-dark);">
+                                <input type="text" id="option-a" class="form-control" placeholder="Opsi A" style="margin-bottom: 5px;">
+                                <input type="text" id="option-b" class="form-control" placeholder="Opsi B" style="margin-bottom: 5px;">
+                                <input type="text" id="option-c" class="form-control" placeholder="Opsi C" style="margin-bottom: 5px;">
+                                <input type="text" id="option-d" class="form-control" placeholder="Opsi D" style="margin-bottom: 5px;">
+                                <input type="text" id="option-e" class="form-control" placeholder="Opsi E">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Jawaban Benar</label>
-                            <select id="correct-answer" class="form-control" style="color: var(--color-text-dark);">
+                            <select id="correct-answer" class="form-control">
                                 <option value="0">A</option>
                                 <option value="1">B</option>
                                 <option value="2">C</option>
@@ -1333,7 +1393,7 @@
                         </div>
                         <div class="form-group">
                             <label class="form-label">Penjelasan</label>
-                            <textarea id="explanation-input" class="form-control" rows="3" style="color: var(--color-text-dark);"></textarea>
+                            <textarea id="explanation-input" class="form-control" rows="3"></textarea>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Upload Gambar (Opsional)</label>
@@ -1346,7 +1406,7 @@
                         <h5>Daftar Soal</h5>
                         <div class="form-group">
                             <label class="form-label">Filter Kategori</label>
-                            <select id="filter-category" class="form-control" style="color: var(--color-text-dark);">
+                            <select id="filter-category" class="form-control">
                                 <option value="all">Semua Kategori</option>
                                 <option value="TES_IQ">Tes IQ</option>
                                 <option value="CPNS_P3K">Ujian CPNS/P3K</option>
@@ -1372,7 +1432,7 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label for="admin-panel-code" class="form-label">Kode Admin</label>
-                    <input type="password" id="admin-panel-code" class="form-control" placeholder="Masukkan kode admin" style="color: var(--color-text-dark);">
+                    <input type="password" id="admin-panel-code" class="form-control" placeholder="Masukkan kode admin">
                     <button id="submit-admin-panel-code" class="btn">Masuk</button>
                 </div>
                 
@@ -1381,22 +1441,22 @@
                         <h5>Pengaturan Kode</h5>
                         <div class="form-group">
                             <label class="form-label">Kode Login Baru</label>
-                            <input type="password" id="new-login-code" class="form-control" placeholder="Masukkan kode login baru" style="color: var(--color-text-dark);">
+                            <input type="password" id="new-login-code" class="form-control" placeholder="Masukkan kode login baru">
                         </div>
                         
                         <div class="form-group">
                             <label class="form-label">Kode Bank Soal Baru</label>
-                            <input type="password" id="new-question-bank-code" class="form-control" placeholder="Masukkan kode bank soal baru" style="color: var(--color-text-dark);">
+                            <input type="password" id="new-question-bank-code" class="form-control" placeholder="Masukkan kode bank soal baru">
                         </div>
                         
                         <div class="form-group">
                             <label class="form-label">Kode Ujian CPNS Baru</label>
-                            <input type="password" id="new-cpns-code" class="form-control" placeholder="Masukkan kode ujian CPNS baru" style="color: var(--color-text-dark);">
+                            <input type="password" id="new-cpns-code" class="form-control" placeholder="Masukkan kode ujian CPNS baru">
                         </div>
                         
                         <div class="form-group">
                             <label class="form-label">Kode Admin Baru</label>
-                            <input type="password" id="new-admin-code" class="form-control" placeholder="Masukkan kode admin baru" style="color: var(--color-text-dark);">
+                            <input type="password" id="new-admin-code" class="form-control" placeholder="Masukkan kode admin baru">
                         </div>
                         
                         <button id="save-codes-btn" class="btn btn-success">Simpan Kode</button>
@@ -1440,19 +1500,19 @@
                         <h5>Pengaturan Konten</h5>
                         <div class="form-group">
                             <label class="form-label">Pesan Pembuka</label>
-                            <textarea id="greeting-message-input" class="form-control" rows="3" style="color: var(--color-text-dark);">Selamat datang di sistem ujian online PERGUNUSMART. Silakan masukkan kode login untuk melanjutkan.</textarea>
+                            <textarea id="greeting-message-input" class="form-control" rows="3">Selamat datang di sistem ujian online PERGUNUSMART. Silakan masukkan kode login untuk melanjutkan.</textarea>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Pesan Informasi Berkala</label>
-                            <textarea id="admin-message-input" class="form-control" rows="3" style="color: var(--color-text-dark);">Tidak ada informasi terbaru saat ini.</textarea>
+                            <textarea id="admin-message-input" class="form-control" rows="3">Tidak ada informasi terbaru saat ini.</textarea>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Nama Ketua PERGUNU</label>
-                            <input type="text" id="chairman-name" class="form-control" value="Moh. Nuril Hudha, S.Pd., M.Si." style="color: var(--color-text-dark);">
+                            <input type="text" id="chairman-name" class="form-control" value="Moh. Nuril Hudha, S.Pd., M.Si.">
                         </div>
                         <div class="form-group">
                             <label class="form-label">Pesan Motivasi Sertifikat</label>
-                            <textarea id="motivation-message-input" class="form-control" rows="3" style="color: var(--color-text-dark);"></textarea>
+                            <textarea id="motivation-message-input" class="form-control" rows="3"></textarea>
                         </div>
                         <button id="save-content-btn" class="btn btn-success">Simpan Perubahan</button>
                     </div>
@@ -1461,7 +1521,7 @@
                         <h5>Manajemen Peserta</h5>
                         <div class="search-box">
                             <i class="fas fa-search"></i>
-                            <input type="text" id="participant-search" class="form-control" placeholder="Cari peserta..." style="color: var(--color-text-dark);">
+                            <input type="text" id="participant-search" class="form-control" placeholder="Cari peserta...">
                         </div>
                         <div class="bulk-actions">
                             <input type="checkbox" id="select-all-participants" class="select-all-checkbox">
@@ -1496,7 +1556,7 @@
                         <div class="certificate-validation">
                             <div class="form-group">
                                 <label class="form-label">Masukkan Kode Sertifikat</label>
-                                <input type="text" id="certificate-code-input" class="form-control" placeholder="Masukkan kode sertifikat" style="color: var(--color-text-dark);">
+                                <input type="text" id="certificate-code-input" class="form-control" placeholder="Masukkan kode sertifikat">
                                 <button id="validate-certificate-btn" class="btn btn-info">Validasi</button>
                             </div>
                             <div id="validation-result" class="validation-result" style="display: none;"></div>
@@ -1543,28 +1603,28 @@
             
             <div class="form-group">
                 <label class="form-label">Kategori Ujian</label>
-                <select id="edit-question-category" class="form-control" style="color: var(--color-text-dark);">
+                <select id="edit-question-category" class="form-control">
                     <option value="TES_IQ">Tes IQ</option>
                     <option value="CPNS_P3K">Ujian CPNS/P3K</option>
                 </select>
             </div>
             <div class="form-group">
                 <label class="form-label">Pertanyaan</label>
-                <textarea id="edit-question-text" class="form-control" rows="3" style="color: var(--color-text-dark);"></textarea>
+                <textarea id="edit-question-text" class="form-control" rows="3"></textarea>
             </div>
             <div class="form-group">
                 <label class="form-label">Opsi Jawaban</label>
                 <div class="options-container">
-                    <input type="text" id="edit-option-a" class="form-control" placeholder="Opsi A" style="color: var(--color-text-dark); margin-bottom: 5px;">
-                    <input type="text" id="edit-option-b" class="form-control" placeholder="Opsi B" style="color: var(--color-text-dark); margin-bottom: 5px;">
-                    <input type="text" id="edit-option-c" class="form-control" placeholder="Opsi C" style="color: var(--color-text-dark); margin-bottom: 5px;">
-                    <input type="text" id="edit-option-d" class="form-control" placeholder="Opsi D" style="color: var(--color-text-dark); margin-bottom: 5px;">
-                    <input type="text" id="edit-option-e" class="form-control" placeholder="Opsi E" style="color: var(--color-text-dark);">
+                    <input type="text" id="edit-option-a" class="form-control" placeholder="Opsi A" style="margin-bottom: 5px;">
+                    <input type="text" id="edit-option-b" class="form-control" placeholder="Opsi B" style="margin-bottom: 5px;">
+                    <input type="text" id="edit-option-c" class="form-control" placeholder="Opsi C" style="margin-bottom: 5px;">
+                    <input type="text" id="edit-option-d" class="form-control" placeholder="Opsi D" style="margin-bottom: 5px;">
+                    <input type="text" id="edit-option-e" class="form-control" placeholder="Opsi E">
                 </div>
             </div>
             <div class="form-group">
                 <label class="form-label">Jawaban Benar</label>
-                <select id="edit-correct-answer" class="form-control" style="color: var(--color-text-dark);">
+                <select id="edit-correct-answer" class="form-control">
                     <option value="0">A</option>
                     <option value="1">B</option>
                     <option value="2">C</option>
@@ -1574,7 +1634,7 @@
             </div>
             <div class="form-group">
                 <label class="form-label">Penjelasan</label>
-                <textarea id="edit-explanation" class="form-control" rows="3" style="color: var(--color-text-dark);"></textarea>
+                <textarea id="edit-explanation" class="form-control" rows="3"></textarea>
             </div>
             <div class="form-group">
                 <label class="form-label">Upload Gambar (Opsional)</label>
@@ -1630,22 +1690,22 @@
             
             <div class="form-group">
                 <label for="edit-fullname" class="form-label">Nama Lengkap</label>
-                <input type="text" id="edit-fullname" class="form-control" style="color: var(--color-text-dark);">
+                <input type="text" id="edit-fullname" class="form-control">
             </div>
             
             <div class="form-group">
                 <label for="edit-address" class="form-label">Alamat</label>
-                <input type="text" id="edit-address" class="form-control" style="color: var(--color-text-dark);">
+                <input type="text" id="edit-address" class="form-control">
             </div>
             
             <div class="form-group">
                 <label for="edit-phone" class="form-label">Nomor WhatsApp</label>
-                <input type="tel" id="edit-phone" class="form-control" style="color: var(--color-text-dark);">
+                <input type="tel" id="edit-phone" class="form-control">
             </div>
             
             <div class="form-group">
                 <label for="edit-email" class="form-label">Email</label>
-                <input type="email" id="edit-email" class="form-control" style="color: var(--color-text-dark);">
+                <input type="email" id="edit-email" class="form-control">
             </div>
             
             <div class="form-group">
@@ -1661,12 +1721,12 @@
             
             <div class="form-group">
                 <label for="edit-score" class="form-label">Nilai (%)</label>
-                <input type="number" id="edit-score" class="form-control" min="0" max="100" style="color: var(--color-text-dark);">
+                <input type="number" id="edit-score" class="form-control" min="0" max="100">
             </div>
             
             <div class="form-group">
                 <label for="edit-certificate-code" class="form-label">Kode Sertifikat</label>
-                <input type="text" id="edit-certificate-code" class="form-control" style="color: var(--color-text-dark);" readonly>
+                <input type="text" id="edit-certificate-code" class="form-control" readonly>
             </div>
             
             <div class="form-group" style="display: flex; justify-content: space-between;">
@@ -1883,7 +1943,7 @@
                         }
                     },
                     "color": {
-                        "value": ["#FF6B35", "#FFA630", "#EF8A17", "#FF9E4F", "#D45B00", "#FF8C42"]
+                        "value": ["#2C3E50", "#3498DB", "#2980B9", "#1A252F", "#34495E", "#27AE60"]
                     },
                     "shape": {
                         "type": ["circle", "triangle", "star"],
@@ -2833,7 +2893,7 @@
                 for (const cat in SAMPLE_QUESTIONS) {
                     if (SAMPLE_QUESTIONS[cat].length > 0) {
                         hasQuestions = true;
-                        questionsList.innerHTML += `<h6>${cat.replace('_', ' ')}</h6>`;
+                        questionsList.innerHTML += `<h6 style="color: var(--color-admin-text); margin: 10px 0 5px 0;">${cat.replace('_', ' ')}</h6>`;
                         
                         SAMPLE_QUESTIONS[cat].forEach((q, i) => {
                             const questionItem = document.createElement('div');
