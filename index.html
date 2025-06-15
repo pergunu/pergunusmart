@@ -1733,25 +1733,52 @@
             motivationMessage: ""
         };
         
-        // Sample questions for demonstration with enhanced storage mechanism
-        let SAMPLE_QUESTIONS = JSON.parse(localStorage.getItem('pergunusmart_question_bank')) || {
-            'TES_IQ': [
-                {
-                    question: "Apa angka berikutnya dalam deret ini: 2, 4, 8, 16, ...?",
-                    options: ["A. 24", "B. 32", "C. 64", "D. 128", "E. 256"],
-                    correctAnswer: 1, // Index of correct answer (0-based)
-                    explanation: "Deret ini adalah kelipatan 2 (2^n), sehingga angka berikutnya adalah 32."
+        // Initialize question bank if not exists
+        function initializeQuestionBank() {
+            if (!localStorage.getItem('pergunusmart_question_bank')) {
+                const initialQuestions = {
+                    'TES_IQ': [
+                        {
+                            question: "Apa angka berikutnya dalam deret ini: 2, 4, 8, 16, ...?",
+                            options: ["A. 24", "B. 32", "C. 64", "D. 128", "E. 256"],
+                            correctAnswer: 1, // Index of correct answer (0-based)
+                            explanation: "Deret ini adalah kelipatan 2 (2^n), sehingga angka berikutnya adalah 32."
+                        }
+                    ],
+                    'CPNS_P3K': [
+                        {
+                            question: "Apa dasar negara Indonesia?",
+                            options: ["A. UUD 1945", "B. Pancasila", "C. Bhinneka Tunggal Ika", "D. NKRI", "E. Garuda Pancasila"],
+                            correctAnswer: 1,
+                            explanation: "Pancasila adalah dasar negara Indonesia yang tercantum dalam Pembukaan UUD 1945."
+                        }
+                    ]
+                };
+                
+                try {
+                    localStorage.setItem('pergunusmart_question_bank', JSON.stringify(initialQuestions));
+                } catch (e) {
+                    console.error('Error initializing question bank:', e);
                 }
-            ],
-            'CPNS_P3K': [
-                {
-                    question: "Apa dasar negara Indonesia?",
-                    options: ["A. UUD 1945", "B. Pancasila", "C. Bhinneka Tunggal Ika", "D. NKRI", "E. Garuda Pancasila"],
-                    correctAnswer: 1,
-                    explanation: "Pancasila adalah dasar negara Indonesia yang tercantum dalam Pembukaan UUD 1945."
-                }
-            ]
-        };
+            }
+        }
+        
+        // Get questions from localStorage
+        function getQuestionsFromStorage() {
+            try {
+                const storedQuestions = JSON.parse(localStorage.getItem('pergunusmart_question_bank'));
+                return storedQuestions || {
+                    'TES_IQ': [],
+                    'CPNS_P3K': []
+                };
+            } catch (e) {
+                console.error('Error loading questions from storage:', e);
+                return {
+                    'TES_IQ': [],
+                    'CPNS_P3K': []
+                };
+            }
+        }
         
         // Motivational messages based on score
         const MOTIVATIONAL_MESSAGES = {
@@ -1765,6 +1792,9 @@
         
         // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize question bank if not exists
+            initializeQuestionBank();
+            
             // Initialize particles.js for background
             particlesJS('particles-js', {
                 "particles": {
@@ -2273,12 +2303,21 @@
                 examDate: new Date().toISOString()
             };
             
+            // Get questions from storage
+            const questionBank = getQuestionsFromStorage();
+            
             // Load questions based on purpose
-            if (participantData.purpose === 'Ujian CPNS/P3K' && SAMPLE_QUESTIONS['CPNS_P3K']) {
-                questions = SAMPLE_QUESTIONS['CPNS_P3K'];
+            if (participantData.purpose === 'Ujian CPNS/P3K' && questionBank['CPNS_P3K']) {
+                questions = questionBank['CPNS_P3K'];
             } else {
                 // Default to IQ test
-                questions = SAMPLE_QUESTIONS['TES_IQ'];
+                questions = questionBank['TES_IQ'];
+            }
+            
+            // Check if there are enough questions
+            if (questions.length === 0) {
+                alert('Maaf, belum ada soal yang tersedia untuk ujian ini. Silakan hubungi admin.');
+                return;
             }
             
             // Randomize questions if enabled
@@ -2842,12 +2881,15 @@
                 return;
             }
             
-            // Add question to sample questions
-            if (!SAMPLE_QUESTIONS[category]) {
-                SAMPLE_QUESTIONS[category] = [];
+            // Get current questions from storage
+            const questionBank = getQuestionsFromStorage();
+            
+            // Add question to the category
+            if (!questionBank[category]) {
+                questionBank[category] = [];
             }
             
-            SAMPLE_QUESTIONS[category].push({
+            questionBank[category].push({
                 question: questionText,
                 options: options.map((opt, i) => `${String.fromCharCode(65 + i)}. ${opt}`),
                 correctAnswer: correctAnswer,
@@ -2856,7 +2898,7 @@
             
             // Save to localStorage with enhanced storage mechanism
             try {
-                localStorage.setItem('pergunusmart_question_bank', JSON.stringify(SAMPLE_QUESTIONS));
+                localStorage.setItem('pergunusmart_question_bank', JSON.stringify(questionBank));
                 console.log('Question added to bank');
             } catch (e) {
                 console.error('Error saving question bank:', e);
@@ -2885,15 +2927,18 @@
             
             questionsList.innerHTML = '';
             
+            // Get questions from storage
+            const questionBank = getQuestionsFromStorage();
+            
             if (category === 'all') {
                 let hasQuestions = false;
                 
-                for (const cat in SAMPLE_QUESTIONS) {
-                    if (SAMPLE_QUESTIONS[cat].length > 0) {
+                for (const cat in questionBank) {
+                    if (questionBank[cat].length > 0) {
                         hasQuestions = true;
                         questionsList.innerHTML += `<h6>${cat.replace('_', ' ')}</h6>`;
                         
-                        SAMPLE_QUESTIONS[cat].forEach((q, i) => {
+                        questionBank[cat].forEach((q, i) => {
                             const questionItem = document.createElement('div');
                             questionItem.className = 'question-item';
                             
@@ -2925,8 +2970,8 @@
                 if (!hasQuestions) {
                     questionsList.innerHTML = '<p id="no-questions-message">Belum ada soal yang tersedia.</p>';
                 }
-            } else if (SAMPLE_QUESTIONS[category] && SAMPLE_QUESTIONS[category].length > 0) {
-                SAMPLE_QUESTIONS[category].forEach((q, i) => {
+            } else if (questionBank[category] && questionBank[category].length > 0) {
+                questionBank[category].forEach((q, i) => {
                     const questionItem = document.createElement('div');
                     questionItem.className = 'question-item';
                     
@@ -2986,7 +3031,8 @@
         }
         
         function editQuestion(category, index) {
-            const question = SAMPLE_QUESTIONS[category][index];
+            const questionBank = getQuestionsFromStorage();
+            const question = questionBank[category][index];
             
             // Fill the edit form
             document.getElementById('edit-question-category').value = category;
@@ -3015,7 +3061,8 @@
         }
         
         function viewQuestion(category, index) {
-            const question = SAMPLE_QUESTIONS[category][index];
+            const questionBank = getQuestionsFromStorage();
+            const question = questionBank[category][index];
             
             // Fill the view form
             document.getElementById('view-question-category').textContent = category.replace('_', ' ');
@@ -3073,6 +3120,9 @@
                 return;
             }
             
+            // Get current questions from storage
+            const questionBank = getQuestionsFromStorage();
+            
             // Create updated question
             const updatedQuestion = {
                 question: questionText,
@@ -3083,21 +3133,21 @@
             
             // If category changed, remove from old and add to new
             if (originalCategory !== newCategory) {
-                SAMPLE_QUESTIONS[originalCategory].splice(index, 1);
+                questionBank[originalCategory].splice(index, 1);
                 
-                if (!SAMPLE_QUESTIONS[newCategory]) {
-                    SAMPLE_QUESTIONS[newCategory] = [];
+                if (!questionBank[newCategory]) {
+                    questionBank[newCategory] = [];
                 }
                 
-                SAMPLE_QUESTIONS[newCategory].push(updatedQuestion);
+                questionBank[newCategory].push(updatedQuestion);
             } else {
                 // Just update the question
-                SAMPLE_QUESTIONS[originalCategory][index] = updatedQuestion;
+                questionBank[originalCategory][index] = updatedQuestion;
             }
             
             // Save to localStorage with enhanced storage mechanism
             try {
-                localStorage.setItem('pergunusmart_question_bank', JSON.stringify(SAMPLE_QUESTIONS));
+                localStorage.setItem('pergunusmart_question_bank', JSON.stringify(questionBank));
                 console.log('Question updated successfully');
             } catch (e) {
                 console.error('Error saving question bank:', e);
@@ -3115,17 +3165,20 @@
         }
         
         function deleteQuestion(category, index) {
+            // Get current questions from storage
+            const questionBank = getQuestionsFromStorage();
+            
             // Remove question from the array
-            SAMPLE_QUESTIONS[category].splice(index, 1);
+            questionBank[category].splice(index, 1);
             
             // If category is empty, remove it
-            if (SAMPLE_QUESTIONS[category].length === 0) {
-                delete SAMPLE_QUESTIONS[category];
+            if (questionBank[category].length === 0) {
+                delete questionBank[category];
             }
             
             // Save to localStorage with enhanced storage mechanism
             try {
-                localStorage.setItem('pergunusmart_question_bank', JSON.stringify(SAMPLE_QUESTIONS));
+                localStorage.setItem('pergunusmart_question_bank', JSON.stringify(questionBank));
                 console.log('Question deleted successfully');
             } catch (e) {
                 console.error('Error saving question bank:', e);
