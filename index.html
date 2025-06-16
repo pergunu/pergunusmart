@@ -1881,10 +1881,10 @@
         const DEFAULT_ADMIN_PANEL_CODE = '65614222';
         
         // Store participants data with enhanced storage mechanism
-        let participantsData = JSON.parse(localStorage.getItem('pergunusmart_participants')) || [];
+        let participantsData = [];
         
         // Store admin settings with enhanced storage mechanism
-        let adminSettings = JSON.parse(localStorage.getItem('pergunusmart_admin_settings')) || {
+        let adminSettings = {
             loginCode: DEFAULT_LOGIN_CODE,
             questionBankCode: DEFAULT_QUESTION_BANK_CODE,
             cpnsLicenseCode: DEFAULT_CPNS_LICENSE_CODE,
@@ -1902,7 +1902,11 @@
         
         // Initialize question bank if not exists - DIPERBAHARUI DENGAN SOAL LEBIH LENGKAP
         function initializeQuestionBank() {
-            if (!localStorage.getItem('pergunusmart_question_bank')) {
+            // Load from localStorage first
+            const storedQuestions = loadQuestionsFromStorage();
+            
+            // If no questions in storage, initialize with default questions
+            if (!storedQuestions || !storedQuestions['TES_IQ'] || storedQuestions['TES_IQ'].length === 0) {
                 const initialQuestions = {
                     'TES_IQ': [
                         {
@@ -1970,29 +1974,111 @@
                     ]
                 };
                 
+                saveQuestionsToStorage(initialQuestions);
+            }
+        }
+        
+        // Enhanced storage functions
+        function loadQuestionsFromStorage() {
+            try {
+                const storedQuestions = localStorage.getItem('pergunusmart_question_bank');
+                if (storedQuestions) {
+                    return JSON.parse(storedQuestions);
+                }
+            } catch (e) {
+                console.error('Error loading questions from storage:', e);
+            }
+            return null;
+        }
+        
+        function saveQuestionsToStorage(questions) {
+            try {
+                localStorage.setItem('pergunusmart_question_bank', JSON.stringify(questions));
+                return true;
+            } catch (e) {
+                console.error('Error saving questions to storage:', e);
+                // Try to clear some space and try again
                 try {
-                    localStorage.setItem('pergunusmart_question_bank', JSON.stringify(initialQuestions));
-                } catch (e) {
-                    console.error('Error initializing question bank:', e);
+                    localStorage.clear();
+                    localStorage.setItem('pergunusmart_question_bank', JSON.stringify(questions));
+                    return true;
+                } catch (e2) {
+                    console.error('Failed to save questions after clearing storage:', e2);
+                    alert('Gagal menyimpan soal. Penyimpanan lokal penuh. Silakan hubungi admin.');
+                    return false;
+                }
+            }
+        }
+        
+        function loadParticipantsFromStorage() {
+            try {
+                const storedParticipants = localStorage.getItem('pergunusmart_participants');
+                if (storedParticipants) {
+                    return JSON.parse(storedParticipants);
+                }
+            } catch (e) {
+                console.error('Error loading participants from storage:', e);
+            }
+            return [];
+        }
+        
+        function saveParticipantsToStorage(participants) {
+            try {
+                localStorage.setItem('pergunusmart_participants', JSON.stringify(participants));
+                return true;
+            } catch (e) {
+                console.error('Error saving participants to storage:', e);
+                // Try to clear some space and try again
+                try {
+                    localStorage.clear();
+                    localStorage.setItem('pergunusmart_participants', JSON.stringify(participants));
+                    return true;
+                } catch (e2) {
+                    console.error('Failed to save participants after clearing storage:', e2);
+                    alert('Gagal menyimpan data peserta. Penyimpanan lokal penuh. Silakan hubungi admin.');
+                    return false;
+                }
+            }
+        }
+        
+        function loadAdminSettingsFromStorage() {
+            try {
+                const storedSettings = localStorage.getItem('pergunusmart_admin_settings');
+                if (storedSettings) {
+                    return JSON.parse(storedSettings);
+                }
+            } catch (e) {
+                console.error('Error loading admin settings from storage:', e);
+            }
+            return null;
+        }
+        
+        function saveAdminSettingsToStorage(settings) {
+            try {
+                localStorage.setItem('pergunusmart_admin_settings', JSON.stringify(settings));
+                return true;
+            } catch (e) {
+                console.error('Error saving admin settings to storage:', e);
+                // Try to clear some space and try again
+                try {
+                    localStorage.clear();
+                    localStorage.setItem('pergunusmart_admin_settings', JSON.stringify(settings));
+                    return true;
+                } catch (e2) {
+                    console.error('Failed to save settings after clearing storage:', e2);
+                    alert('Gagal menyimpan pengaturan. Penyimpanan lokal penuh. Silakan hubungi admin.');
+                    return false;
                 }
             }
         }
         
         // Get questions from localStorage
         function getQuestionsFromStorage() {
-            try {
-                const storedQuestions = JSON.parse(localStorage.getItem('pergunusmart_question_bank'));
-                return storedQuestions || {
-                    'TES_IQ': [],
-                    'CPNS_P3K': []
-                };
-            } catch (e) {
-                console.error('Error loading questions from storage:', e);
-                return {
-                    'TES_IQ': [],
-                    'CPNS_P3K': []
-                };
-            }
+            const storedQuestions = loadQuestionsFromStorage();
+            return storedQuestions || {
+                'TES_IQ': [],
+                'CPNS_P3K': []
+            };
         }
         
         // Motivational messages based on score
@@ -2007,6 +2093,14 @@
         
         // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {
+            // Load data from storage
+            const loadedAdminSettings = loadAdminSettingsFromStorage();
+            if (loadedAdminSettings) {
+                adminSettings = loadedAdminSettings;
+            }
+            
+            participantsData = loadParticipantsFromStorage();
+            
             // Initialize question bank if not exists
             initializeQuestionBank();
             
@@ -2357,20 +2451,8 @@
         
         // Save admin settings to localStorage with enhanced storage mechanism
         function saveAdminSettings() {
-            try {
-                localStorage.setItem('pergunusmart_admin_settings', JSON.stringify(adminSettings));
+            if (saveAdminSettingsToStorage(adminSettings)) {
                 console.log('Admin settings saved successfully');
-            } catch (e) {
-                console.error('Error saving admin settings:', e);
-                // Try to clear some space and try again
-                try {
-                    localStorage.clear();
-                    localStorage.setItem('pergunusmart_admin_settings', JSON.stringify(adminSettings));
-                    console.log('Admin settings saved after clearing storage');
-                } catch (e2) {
-                    console.error('Failed to save admin settings after clearing storage:', e2);
-                    alert('Gagal menyimpan pengaturan. Penyimpanan lokal penuh. Silakan coba lagi atau hubungi admin.');
-                }
             }
         }
         
@@ -2781,30 +2863,12 @@
                 }
             };
             
-            try {
-                // Load existing participants
-                const existingParticipants = JSON.parse(localStorage.getItem('pergunusmart_participants')) || [];
-                
-                // Add new participant
-                existingParticipants.push(participantRecord);
-                
-                // Save back to localStorage
-                localStorage.setItem('pergunusmart_participants', JSON.stringify(existingParticipants));
-                participantsData = existingParticipants;
-                
+            // Add to participants array
+            participantsData.push(participantRecord);
+            
+            // Save to storage
+            if (saveParticipantsToStorage(participantsData)) {
                 console.log('Participant data saved successfully:', participantRecord);
-            } catch (e) {
-                console.error('Error saving participant data:', e);
-                // Try to clear some space and try again
-                try {
-                    localStorage.clear();
-                    localStorage.setItem('pergunusmart_participants', JSON.stringify([participantRecord]));
-                    participantsData = [participantRecord];
-                    console.log('Participant data saved after clearing storage');
-                } catch (e2) {
-                    console.error('Failed to save participant data after clearing storage:', e2);
-                    alert('Gagal menyimpan data peserta. Penyimpanan lokal penuh. Silakan hubungi admin.');
-                }
             }
             
             // Hide exam screen with slide out animation
@@ -3119,29 +3183,22 @@
                 explanation: explanation
             });
             
-            // Save to localStorage with enhanced storage mechanism
-            try {
-                localStorage.setItem('pergunusmart_question_bank', JSON.stringify(questionBank));
-                console.log('Question added to bank');
-            } catch (e) {
-                console.error('Error saving question bank:', e);
-                alert('Gagal menyimpan soal. Penyimpanan lokal penuh. Silakan hubungi admin.');
-                return;
+            // Save to localStorage
+            if (saveQuestionsToStorage(questionBank)) {
+                // Clear form
+                document.getElementById('question-text-input').value = '';
+                document.getElementById('option-a').value = '';
+                document.getElementById('option-b').value = '';
+                document.getElementById('option-c').value = '';
+                document.getElementById('option-d').value = '';
+                document.getElementById('option-e').value = '';
+                document.getElementById('explanation-input').value = '';
+                
+                // Refresh questions list
+                filterQuestions();
+                
+                alert('Soal berhasil ditambahkan ke bank soal!');
             }
-            
-            // Clear form
-            document.getElementById('question-text-input').value = '';
-            document.getElementById('option-a').value = '';
-            document.getElementById('option-b').value = '';
-            document.getElementById('option-c').value = '';
-            document.getElementById('option-d').value = '';
-            document.getElementById('option-e').value = '';
-            document.getElementById('explanation-input').value = '';
-            
-            // Refresh questions list
-            filterQuestions();
-            
-            alert('Soal berhasil ditambahkan ke bank soal!');
         }
 
         function filterQuestions() {
@@ -3368,23 +3425,16 @@
                 questionBank[originalCategory][index] = updatedQuestion;
             }
             
-            // Save to localStorage with enhanced storage mechanism
-            try {
-                localStorage.setItem('pergunusmart_question_bank', JSON.stringify(questionBank));
-                console.log('Question updated successfully');
-            } catch (e) {
-                console.error('Error saving question bank:', e);
-                alert('Gagal menyimpan perubahan soal. Penyimpanan lokal penuh. Silakan hubungi admin.');
-                return;
+            // Save to localStorage
+            if (saveQuestionsToStorage(questionBank)) {
+                // Refresh questions list
+                filterQuestions();
+                
+                // Hide modal
+                hideEditQuestionModal();
+                
+                alert('Perubahan soal berhasil disimpan!');
             }
-            
-            // Refresh questions list
-            filterQuestions();
-            
-            // Hide modal
-            hideEditQuestionModal();
-            
-            alert('Perubahan soal berhasil disimpan!');
         }
         
         function deleteQuestion(category, index) {
@@ -3399,20 +3449,13 @@
                 delete questionBank[category];
             }
             
-            // Save to localStorage with enhanced storage mechanism
-            try {
-                localStorage.setItem('pergunusmart_question_bank', JSON.stringify(questionBank));
-                console.log('Question deleted successfully');
-            } catch (e) {
-                console.error('Error saving question bank:', e);
-                alert('Gagal menghapus soal. Penyimpanan lokal penuh. Silakan hubungi admin.');
-                return;
+            // Save to localStorage
+            if (saveQuestionsToStorage(questionBank)) {
+                // Refresh questions list
+                filterQuestions();
+                
+                alert('Soal berhasil dihapus!');
             }
-            
-            // Refresh questions list
-            filterQuestions();
-            
-            alert('Soal berhasil dihapus!');
         }
         
         function loadParticipantsData() {
@@ -3420,8 +3463,8 @@
             tableBody.innerHTML = '';
             
             try {
-                // Load participants with enhanced storage mechanism
-                participantsData = JSON.parse(localStorage.getItem('pergunusmart_participants')) || [];
+                // Load participants
+                participantsData = loadParticipantsFromStorage();
                 
                 if (participantsData.length === 0) {
                     tableBody.innerHTML = '<tr><td colspan="9" style="text-align: center;">Belum ada data peserta</td></tr>';
@@ -3601,23 +3644,16 @@
             participant.score = parseInt(document.getElementById('edit-score').value);
             participant.purpose = document.querySelector('input[name="edit-purpose"]:checked').value;
             
-            // Save to localStorage with enhanced storage mechanism
-            try {
-                localStorage.setItem('pergunusmart_participants', JSON.stringify(participantsData));
-                console.log('Participant data updated successfully');
-            } catch (e) {
-                console.error('Error saving participant data:', e);
-                alert('Gagal menyimpan perubahan data peserta. Penyimpanan lokal penuh. Silakan hubungi admin.');
-                return;
+            // Save to localStorage
+            if (saveParticipantsToStorage(participantsData)) {
+                // Refresh participants list
+                loadParticipantsData();
+                
+                // Hide modal
+                hideEditParticipantModal();
+                
+                alert('Perubahan data peserta berhasil disimpan!');
             }
-            
-            // Refresh participants list
-            loadParticipantsData();
-            
-            // Hide modal
-            hideEditParticipantModal();
-            
-            alert('Perubahan data peserta berhasil disimpan!');
         }
         
         function deleteSelectedParticipants() {
@@ -3642,39 +3678,25 @@
                 participantsData.splice(index, 1);
             });
             
-            // Save to localStorage with enhanced storage mechanism
-            try {
-                localStorage.setItem('pergunusmart_participants', JSON.stringify(participantsData));
-                console.log('Participants deleted successfully');
-            } catch (e) {
-                console.error('Error saving participant data:', e);
-                alert('Gagal menghapus peserta. Penyimpanan lokal penuh. Silakan hubungi admin.');
-                return;
+            // Save to localStorage
+            if (saveParticipantsToStorage(participantsData)) {
+                // Refresh participants list
+                loadParticipantsData();
+                
+                alert(`${indices.length} peserta berhasil dihapus!`);
             }
-            
-            // Refresh participants list
-            loadParticipantsData();
-            
-            alert(`${indices.length} peserta berhasil dihapus!`);
         }
         
         function deleteParticipant(index) {
             participantsData.splice(index, 1);
             
-            // Save to localStorage with enhanced storage mechanism
-            try {
-                localStorage.setItem('pergunusmart_participants', JSON.stringify(participantsData));
-                console.log('Participant deleted successfully');
-            } catch (e) {
-                console.error('Error saving participant data:', e);
-                alert('Gagal menghapus peserta. Penyimpanan lokal penuh. Silakan hubungi admin.');
-                return;
+            // Save to localStorage
+            if (saveParticipantsToStorage(participantsData)) {
+                // Refresh participants list
+                loadParticipantsData();
+                
+                alert('Peserta berhasil dihapus!');
             }
-            
-            // Refresh participants list
-            loadParticipantsData();
-            
-            alert('Peserta berhasil dihapus!');
         }
         
         function validateCertificate() {
