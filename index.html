@@ -1984,7 +1984,7 @@
             }
         }
         
-        // Enhanced storage functions
+        // Enhanced storage functions with fallback to sessionStorage if localStorage fails
         function loadQuestionsFromStorage() {
             try {
                 const storedQuestions = localStorage.getItem('pergunusmart_question_bank');
@@ -1992,7 +1992,16 @@
                     return JSON.parse(storedQuestions);
                 }
             } catch (e) {
-                console.error('Error loading questions from storage:', e);
+                console.error('Error loading questions from localStorage:', e);
+                // Try sessionStorage as fallback
+                try {
+                    const storedQuestions = sessionStorage.getItem('pergunusmart_question_bank');
+                    if (storedQuestions) {
+                        return JSON.parse(storedQuestions);
+                    }
+                } catch (e2) {
+                    console.error('Error loading questions from sessionStorage:', e2);
+                }
             }
             return null;
         }
@@ -2000,16 +2009,17 @@
         function saveQuestionsToStorage(questions) {
             try {
                 localStorage.setItem('pergunusmart_question_bank', JSON.stringify(questions));
+                // Also save to sessionStorage as backup
+                sessionStorage.setItem('pergunusmart_question_bank', JSON.stringify(questions));
                 return true;
             } catch (e) {
-                console.error('Error saving questions to storage:', e);
-                // Try to clear some space and try again
+                console.error('Error saving questions to localStorage:', e);
+                // Try sessionStorage as fallback
                 try {
-                    localStorage.clear();
-                    localStorage.setItem('pergunusmart_question_bank', JSON.stringify(questions));
+                    sessionStorage.setItem('pergunusmart_question_bank', JSON.stringify(questions));
                     return true;
                 } catch (e2) {
-                    console.error('Failed to save questions after clearing storage:', e2);
+                    console.error('Failed to save questions to sessionStorage:', e2);
                     alert('Gagal menyimpan soal. Penyimpanan lokal penuh. Silakan hubungi admin.');
                     return false;
                 }
@@ -2023,7 +2033,16 @@
                     return JSON.parse(storedParticipants);
                 }
             } catch (e) {
-                console.error('Error loading participants from storage:', e);
+                console.error('Error loading participants from localStorage:', e);
+                // Try sessionStorage as fallback
+                try {
+                    const storedParticipants = sessionStorage.getItem('pergunusmart_participants');
+                    if (storedParticipants) {
+                        return JSON.parse(storedParticipants);
+                    }
+                } catch (e2) {
+                    console.error('Error loading participants from sessionStorage:', e2);
+                }
             }
             return [];
         }
@@ -2031,16 +2050,17 @@
         function saveParticipantsToStorage(participants) {
             try {
                 localStorage.setItem('pergunusmart_participants', JSON.stringify(participants));
+                // Also save to sessionStorage as backup
+                sessionStorage.setItem('pergunusmart_participants', JSON.stringify(participants));
                 return true;
             } catch (e) {
-                console.error('Error saving participants to storage:', e);
-                // Try to clear some space and try again
+                console.error('Error saving participants to localStorage:', e);
+                // Try sessionStorage as fallback
                 try {
-                    localStorage.clear();
-                    localStorage.setItem('pergunusmart_participants', JSON.stringify(participants));
+                    sessionStorage.setItem('pergunusmart_participants', JSON.stringify(participants));
                     return true;
                 } catch (e2) {
-                    console.error('Failed to save participants after clearing storage:', e2);
+                    console.error('Failed to save participants to sessionStorage:', e2);
                     alert('Gagal menyimpan data peserta. Penyimpanan lokal penuh. Silakan hubungi admin.');
                     return false;
                 }
@@ -2054,7 +2074,16 @@
                     return JSON.parse(storedSettings);
                 }
             } catch (e) {
-                console.error('Error loading admin settings from storage:', e);
+                console.error('Error loading admin settings from localStorage:', e);
+                // Try sessionStorage as fallback
+                try {
+                    const storedSettings = sessionStorage.getItem('pergunusmart_admin_settings');
+                    if (storedSettings) {
+                        return JSON.parse(storedSettings);
+                    }
+                } catch (e2) {
+                    console.error('Error loading admin settings from sessionStorage:', e2);
+                }
             }
             return null;
         }
@@ -2062,23 +2091,24 @@
         function saveAdminSettingsToStorage(settings) {
             try {
                 localStorage.setItem('pergunusmart_admin_settings', JSON.stringify(settings));
+                // Also save to sessionStorage as backup
+                sessionStorage.setItem('pergunusmart_admin_settings', JSON.stringify(settings));
                 return true;
             } catch (e) {
-                console.error('Error saving admin settings to storage:', e);
-                // Try to clear some space and try again
+                console.error('Error saving admin settings to localStorage:', e);
+                // Try sessionStorage as fallback
                 try {
-                    localStorage.clear();
-                    localStorage.setItem('pergunusmart_admin_settings', JSON.stringify(settings));
+                    sessionStorage.setItem('pergunusmart_admin_settings', JSON.stringify(settings));
                     return true;
                 } catch (e2) {
-                    console.error('Failed to save settings after clearing storage:', e2);
+                    console.error('Failed to save settings to sessionStorage:', e2);
                     alert('Gagal menyimpan pengaturan. Penyimpanan lokal penuh. Silakan hubungi admin.');
                     return false;
                 }
             }
         }
         
-        // Get questions from localStorage
+        // Get questions from storage
         function getQuestionsFromStorage() {
             const storedQuestions = loadQuestionsFromStorage();
             return storedQuestions || {
@@ -2455,7 +2485,7 @@
             document.getElementById('cpns-status').textContent = adminSettings.cpnsEnabled ? 'Aktif' : 'Nonaktif';
         }
         
-        // Save admin settings to localStorage with enhanced storage mechanism
+        // Save admin settings to storage with enhanced storage mechanism
         function saveAdminSettings() {
             if (saveAdminSettingsToStorage(adminSettings)) {
                 console.log('Admin settings saved successfully');
@@ -3189,7 +3219,7 @@
                 explanation: explanation
             });
             
-            // Save to localStorage
+            // Save to storage
             if (saveQuestionsToStorage(questionBank)) {
                 // Clear form
                 document.getElementById('question-text-input').value = '';
@@ -3431,7 +3461,7 @@
                 questionBank[originalCategory][index] = updatedQuestion;
             }
             
-            // Save to localStorage
+            // Save to storage
             if (saveQuestionsToStorage(questionBank)) {
                 // Refresh questions list
                 filterQuestions();
@@ -3455,7 +3485,7 @@
                 delete questionBank[category];
             }
             
-            // Save to localStorage
+            // Save to storage
             if (saveQuestionsToStorage(questionBank)) {
                 // Refresh questions list
                 filterQuestions();
@@ -3650,7 +3680,7 @@
             participant.score = parseInt(document.getElementById('edit-score').value);
             participant.purpose = document.querySelector('input[name="edit-purpose"]:checked').value;
             
-            // Save to localStorage
+            // Save to storage
             if (saveParticipantsToStorage(participantsData)) {
                 // Refresh participants list
                 loadParticipantsData();
@@ -3684,7 +3714,7 @@
                 participantsData.splice(index, 1);
             });
             
-            // Save to localStorage
+            // Save to storage
             if (saveParticipantsToStorage(participantsData)) {
                 // Refresh participants list
                 loadParticipantsData();
@@ -3696,7 +3726,7 @@
         function deleteParticipant(index) {
             participantsData.splice(index, 1);
             
-            // Save to localStorage
+            // Save to storage
             if (saveParticipantsToStorage(participantsData)) {
                 // Refresh participants list
                 loadParticipantsData();
@@ -3752,7 +3782,7 @@
                 if (newCpnsCode) adminSettings.cpnsLicenseCode = newCpnsCode;
                 if (newAdminCode) adminSettings.adminPanelCode = newAdminCode;
                 
-                // Save to localStorage
+                // Save to storage
                 saveAdminSettings();
                 
                 // Clear the fields
@@ -3779,7 +3809,7 @@
             adminSettings.chairmanName = chairmanName;
             adminSettings.motivationMessage = motivationMessage;
             
-            // Save to localStorage
+            // Save to storage
             saveAdminSettings();
             
             // Update UI
@@ -3803,7 +3833,7 @@
             adminSettings.iqEnabled = iqEnabled;
             adminSettings.cpnsEnabled = cpnsEnabled;
             
-            // Save to localStorage
+            // Save to storage
             saveAdminSettings();
             
             alert('Pengaturan ujian berhasil disimpan!');
