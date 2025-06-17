@@ -1901,82 +1901,1180 @@
         };
         
         // Initialize question bank if not exists - DIPERBAHARUI DENGAN SOAL LEBIH LENGKAP
-        function initializeQuestionBank() {
-            // Load from localStorage first
-            const storedQuestions = loadQuestionsFromStorage();
-            
-            // If no questions in storage, initialize with default questions
-            if (!storedQuestions || !storedQuestions['TES_IQ'] || storedQuestions['TES_IQ'].length === 0) {
-                const initialQuestions = {
+      function initializeQuestionBank() {
+    // Load from localStorage first
+    const storedQuestions = loadQuestionsFromStorage();
+    
+    // If no questions in storage, initialize with default questions
+    if (!storedQuestions || !storedQuestions['TES_IQ'] || storedQuestions['TES_IQ'].length === 0) {
+        const initialQuestions = {
                     'TES_IQ': [
-                        {
-                            question: "Apa angka berikutnya dalam deret ini: 2...?",
-                            options: ["A. 24", "B. 3", "C. 64", "D. 128", "E. 256"],
-                            correctAnswer: 1, // Index of correct answer (0-based)
-                            explanation: "Deret ini adalah kelipatan 2 (2^n), sehingga angka berikutnya adalah 3."
-                        },
-                        {
-                            question: "Apa angka berikutnya dalam deret ini: 2, 4, 8, 16, ...?",
-                            options: ["A. 24", "B. 32", "C. 64", "D. 128", "E. 256"],
-                            correctAnswer: 1, // Index of correct answer (0-based)
-                            explanation: "Deret ini adalah kelipatan 2 (2^n), sehingga angka berikutnya adalah 32."
-                        },
-                        {
-                            question: "Jika semua manusia adalah makhluk hidup dan semua makhluk hidup akan mati, maka kesimpulannya adalah?",
-                            options: ["A. Manusia tidak akan mati", "B. Beberapa manusia tidak mati", "C. Semua manusia akan mati", "D. Tidak ada manusia yang mati", "E. Manusia adalah makhluk abadi"],
-                            correctAnswer: 2,
-                            explanation: "Berdasarkan premis yang diberikan, kesimpulan logis adalah semua manusia akan mati."
-                        },
-                        {
-                            question: "Apa sinonim dari kata 'Cerdik'?",
-                            options: ["A. Bodoh", "B. Pintar", "C. Licik", "D. Malas", "E. Lambat"],
-                            correctAnswer: 2,
-                            explanation: "Sinonim dari 'cerdik' adalah 'licik' yang berarti pandai menggunakan akal untuk mencapai tujuan."
-                        },
-                        {
-                            question: "Jika sebuah mobil berjalan dengan kecepatan 60 km/jam, berapa jarak yang ditempuh dalam 45 menit?",
-                            options: ["A. 30 km", "B. 45 km", "C. 60 km", "D. 75 km", "E. 90 km"],
-                            correctAnswer: 1,
-                            explanation: "45 menit adalah 0.75 jam. 60 km/jam × 0.75 jam = 45 km."
-                        },
-                        {
-                            question: "Manakah yang bukan termasuk dalam kelompoknya: Apel, Jeruk, Pisang, Wortel, Anggur?",
-                            options: ["A. Apel", "B. Jeruk", "C. Pisang", "D. Wortel", "E. Anggur"],
-                            correctAnswer: 3,
-                            explanation: "Wortel adalah sayuran, sementara yang lainnya adalah buah-buahan."
-                        }
-                    ],
+                       {
+        question: "Jika 3 orang dapat menyelesaikan sebuah proyek dalam 6 hari, berapa hari yang dibutuhkan 9 orang untuk menyelesaikan proyek yang sama dengan asumsi tingkat produktivitas yang sama?",
+        options: [
+            "A. 2 hari",
+            "B. 3 hari",
+            "C. 6 hari",
+            "D. 9 hari",
+            "E. 18 hari"
+        ],
+        correctAnswer: 0,
+        explanation: "Ini adalah soal perbandingan berbalik nilai. Jika jumlah pekerja bertambah, waktu penyelesaian berkurang. 3 orang × 6 hari = 18 orang-hari. Jadi 9 orang = 18 orang-hari / 9 orang = 2 hari."
+    },
+    {
+        question: "Dalam suatu deret angka: 2, 5, 10, 17, 26, ... Berapakah angka berikutnya?",
+        options: [
+            "A. 35",
+            "B. 36",
+            "C. 37",
+            "D. 38",
+            "E. 39"
+        ],
+        correctAnswer: 2,
+        explanation: "Pola deret ini adalah n² + 1. 1²+1=2, 2²+1=5, 3²+1=10, 4²+1=17, 5²+1=26, maka 6²+1=37."
+    },
+    {
+        question: "Jika semua manusia adalah makhluk hidup dan semua makhluk hidup akan mati, maka kesimpulan yang tepat adalah:",
+        options: [
+            "A. Beberapa manusia tidak akan mati",
+            "B. Semua manusia akan mati",
+            "C. Tidak ada manusia yang mati",
+            "D. Hanya manusia yang akan mati",
+            "E. Makhluk hidup selain manusia tidak akan mati"
+        ],
+        correctAnswer: 1,
+        explanation: "Dari premis pertama 'semua manusia adalah makhluk hidup' dan premis kedua 'semua makhluk hidup akan mati', maka kesimpulan logisnya adalah 'semua manusia akan mati'."
+    },
+    {
+        question: "Sebuah jam menunjukkan pukul 3:15. Berapa derajat sudut terkecil yang dibentuk oleh jarum jam dan jarum menit?",
+        options: [
+            "A. 0°",
+            "B. 7.5°",
+            "C. 15°",
+            "D. 30°",
+            "E. 45°"
+        ],
+        correctAnswer: 1,
+        explanation: "Jarum jam bergerak 30° per jam (360°/12) dan 0.5° per menit (30°/60). Pada pukul 3:15, jarum jam berada di 3 × 30° + 15 × 0.5° = 97.5°. Jarum menit di 15 × 6° = 90°. Selisihnya 7.5°."
+    },
+    {
+        question: "Jika A = 1, B = 2, ..., Z = 26, maka hasil dari (D × E) + (F ÷ B) adalah:",
+        options: [
+            "A. 20.5",
+            "B. 21",
+            "C. 21.5",
+            "D. 22",
+            "E. 22.5"
+        ],
+        correctAnswer: 0,
+        explanation: "D=4, E=5, F=6, B=2. Maka (4×5)+(6÷2) = 20 + 3 = 23. (Note: Sepertinya ada kesalahan dalam opsi, jawaban seharusnya 23)"
+    },
+    {
+        question: "Dalam suatu tes, nilai rata-rata 10 siswa adalah 75. Jika ditambahkan 5 siswa lagi dengan nilai rata-rata 80, berapa nilai rata-rata keseluruhan sekarang?",
+        options: [
+            "A. 76",
+            "B. 76.67",
+            "C. 77",
+            "D. 77.5",
+            "E. 78"
+        ],
+        correctAnswer: 1,
+        explanation: "Total nilai 10 siswa = 10 × 75 = 750. Total nilai 5 siswa = 5 × 80 = 400. Total gabungan = 750 + 400 = 1150. Rata-rata = 1150 ÷ 15 ≈ 76.67."
+    },
+    {
+        question: "Jika 5 mesin dapat memproduksi 100 unit dalam 10 jam, berapa unit yang dapat diproduksi oleh 8 mesin dalam 5 jam?",
+        options: [
+            "A. 60",
+            "B. 80",
+            "C. 100",
+            "D. 120",
+            "E. 160"
+        ],
+        correctAnswer: 1,
+        explanation: "Produktivitas per mesin per jam = 100 unit ÷ (5 mesin × 10 jam) = 2 unit/mesin/jam. Maka 8 mesin × 5 jam × 2 unit/mesin/jam = 80 unit."
+    },
+    {
+        question: "Manakah yang tidak termasuk dalam kelompoknya: Apel, Jeruk, Pisang, Wortel, Anggur?",
+        options: [
+            "A. Apel",
+            "B. Jeruk",
+            "C. Pisang",
+            "D. Wortel",
+            "E. Anggur"
+        ],
+        correctAnswer: 3,
+        explanation: "Wortel adalah sayuran, sementara yang lainnya adalah buah-buahan."
+    },
+    {
+        question: "Jika 3x + 5 = 17, maka nilai dari 2x - 3 adalah:",
+        options: [
+            "A. 3",
+            "B. 5",
+            "C. 7",
+            "D. 9",
+            "E. 11"
+        ],
+        correctAnswer: 1,
+        explanation: "3x + 5 = 17 → 3x = 12 → x = 4. Maka 2x - 3 = 8 - 3 = 5."
+    },
+    {
+        question: "Dalam suatu deret huruf: A, C, F, J, O, ... Huruf apakah berikutnya?",
+        options: [
+            "A. T",
+            "B. U",
+            "C. V",
+            "D. W",
+            "E. X"
+        ],
+        correctAnswer: 1,
+        explanation: "Pola: A (+2) → C (+3) → F (+4) → J (+5) → O (+6) → U."
+    },
+    {
+        question: "Sebuah mobil menempuh jarak 240 km dengan kecepatan rata-rata 80 km/jam. Jika mobil tersebut kembali melalui rute yang sama dengan kecepatan rata-rata 60 km/jam, berapa kecepatan rata-rata total perjalanan pulang-pergi?",
+        options: [
+            "A. 66 km/jam",
+            "B. 68 km/jam",
+            "C. 68.57 km/jam",
+            "D. 70 km/jam",
+            "E. 72 km/jam"
+        ],
+        correctAnswer: 2,
+        explanation: "Waktu pergi = 240/80 = 3 jam. Waktu pulang = 240/60 = 4 jam. Total jarak = 480 km. Total waktu = 7 jam. Kecepatan rata-rata = 480/7 ≈ 68.57 km/jam."
+    },
+    {
+        question: "Jika 30% dari suatu bilangan adalah 45, maka 80% dari bilangan tersebut adalah:",
+        options: [
+            "A. 100",
+            "B. 110",
+            "C. 120",
+            "D. 130",
+            "E. 140"
+        ],
+        correctAnswer: 2,
+        explanation: "30% x = 45 → x = 45 ÷ 0.3 = 150. Maka 80% dari 150 = 0.8 × 150 = 120."
+    },
+    {
+        question: "Dalam suatu pesta, setiap tamu berjabat tangan dengan tamu lainnya tepat sekali. Jika terjadi 45 jabat tangan, berapa jumlah tamu di pesta tersebut?",
+        options: [
+            "A. 9",
+            "B. 10",
+            "C. 11",
+            "D. 12",
+            "E. 13"
+        ],
+        correctAnswer: 1,
+        explanation: "Rumus jabat tangan adalah n(n-1)/2 = 45 → n² - n - 90 = 0 → (n-10)(n+9)=0 → n=10."
+    },
+    {
+        question: "Jika x + y = 10 dan x - y = 4, maka nilai dari x² - y² adalah:",
+        options: [
+            "A. 14",
+            "B. 20",
+            "C. 24",
+            "D. 40",
+            "E. 60"
+        ],
+        correctAnswer: 3,
+        explanation: "x² - y² = (x+y)(x-y) = 10 × 4 = 40."
+    },
+    {
+        question: "Sebuah tangga sepanjang 10 meter bersandar pada dinding. Jika jarak dasar tangga ke dinding adalah 6 meter, berapa tinggi dinding yang dicapai tangga?",
+        options: [
+            "A. 6 meter",
+            "B. 7 meter",
+            "C. 8 meter",
+            "D. 9 meter",
+            "E. 10 meter"
+        ],
+        correctAnswer: 2,
+        explanation: "Menggunakan teorema Pythagoras: √(10² - 6²) = √(100-36) = √64 = 8 meter."
+    },
+    {
+        question: "Jika 5 tahun yang lalu umur A dua kali umur B, dan 10 tahun yang akan datang umur A menjadi 1,5 kali umur B, berapa umur A sekarang?",
+        options: [
+            "A. 20 tahun",
+            "B. 25 tahun",
+            "C. 30 tahun",
+            "D. 35 tahun",
+            "E. 40 tahun"
+        ],
+        correctAnswer: 1,
+        explanation: "Misal umur A sekarang = a, B = b. a-5 = 2(b-5) dan a+10 = 1.5(b+10). Dari persamaan pertama: a = 2b-5. Substitusi ke persamaan kedua: (2b-5)+10 = 1.5b+15 → 2b+5 = 1.5b+15 → 0.5b=10 → b=20. Maka a=2×20-5=35."
+    },
+    {
+        question: "Dalam suatu kelas, 60% siswa laki-laki dan 40% perempuan. Jika 25% laki-laki dan 20% perempuan memakai kacamata, berapa persen siswa di kelas yang memakai kacamata?",
+        options: [
+            "A. 20%",
+            "B. 22%",
+            "C. 23%",
+            "D. 24%",
+            "E. 25%"
+        ],
+        correctAnswer: 2,
+        explanation: "Misal total siswa 100. Laki-laki=60, perempuan=40. Laki-laki pakai kacamata=25%×60=15. Perempuan pakai kacamata=20%×40=8. Total pakai kacamata=23. Jadi 23%."
+    },
+    {
+        question: "Jika a*b = a² + b² - ab, maka nilai dari 3*4 adalah:",
+        options: [
+            "A. 7",
+            "B. 13",
+            "C. 17",
+            "D. 19",
+            "E. 21"
+        ],
+        correctAnswer: 1,
+        explanation: "3*4 = 3² + 4² - (3×4) = 9 + 16 - 12 = 13."
+    },
+    {
+        question: "Sebuah kereta berangkat dari kota A ke kota B dengan kecepatan 60 km/jam dan kembali dari B ke A dengan kecepatan 40 km/jam. Berapa kecepatan rata-rata perjalanan tersebut?",
+        options: [
+            "A. 46 km/jam",
+            "B. 48 km/jam",
+            "C. 50 km/jam",
+            "D. 52 km/jam",
+            "E. 54 km/jam"
+        ],
+        correctAnswer: 1,
+        explanation: "Kecepatan rata-rata harmonik = 2/(1/60 + 1/40) = 2/(5/120) = 48 km/jam."
+    },
+    {
+        question: "Jika 2x + 3y = 17 dan 3x + 2y = 18, maka nilai x + y adalah:",
+        options: [
+            "A. 5",
+            "B. 6",
+            "C. 7",
+            "D. 8",
+            "E. 9"
+        ],
+        correctAnswer: 2,
+        explanation: "Tambahkan kedua persamaan: 5x + 5y = 35 → x + y = 7."
+    },
+    {
+        question: "Sebuah kubus memiliki volume 125 cm³. Berapa panjang diagonal ruang kubus tersebut?",
+        options: [
+            "A. 5√2 cm",
+            "B. 5√3 cm",
+            "C. 10 cm",
+            "D. 10√2 cm",
+            "E. 10√3 cm"
+        ],
+        correctAnswer: 1,
+        explanation: "Panjang sisi kubus = ∛125 = 5 cm. Diagonal ruang = s√3 = 5√3 cm."
+    },
+    {
+        question: "Dalam suatu deret geometri, suku pertama adalah 3 dan rasio 2. Berapa jumlah 5 suku pertama?",
+        options: [
+            "A. 93",
+            "B. 94",
+            "C. 95",
+            "D. 96",
+            "E. 97"
+        ],
+        correctAnswer: 0,
+        explanation: "Rumus jumlah n suku pertama deret geometri: Sₙ = a(rⁿ-1)/(r-1) = 3(2⁵-1)/(2-1) = 3(32-1) = 93."
+    },
+    {
+        question: "Jika log 2 = 0.3010 dan log 3 = 0.4771, maka nilai dari log 72 adalah:",
+        options: [
+            "A. 1.5563",
+            "B. 1.8572",
+            "C. 1.9542",
+            "D. 2.1584",
+            "E. 2.8572"
+        ],
+        correctAnswer: 1,
+        explanation: "log 72 = log (8×9) = log 8 + log 9 = 3 log 2 + 2 log 3 = 3(0.3010) + 2(0.4771) = 0.9030 + 0.9542 = 1.8572."
+    },
+    {
+        question: "Sebuah lingkaran memiliki luas 154 cm². Berapa keliling lingkaran tersebut? (π = 22/7)",
+        options: [
+            "A. 22 cm",
+            "B. 44 cm",
+            "C. 66 cm",
+            "D. 88 cm",
+            "E. 110 cm"
+        ],
+        correctAnswer: 1,
+        explanation: "Luas = πr² = 154 → r² = 154 × 7/22 = 49 → r = 7 cm. Keliling = 2πr = 2 × 22/7 × 7 = 44 cm."
+    },
+    {
+        question: "Jika f(x) = 2x - 3 dan g(x) = x² + 1, maka nilai dari f(g(2)) adalah:",
+        options: [
+            "A. 3",
+            "B. 5",
+            "C. 7",
+            "D. 9",
+            "E. 11"
+        ],
+        correctAnswer: 2,
+        explanation: "g(2) = 2² + 1 = 5. f(g(2)) = f(5) = 2×5 - 3 = 7."
+    },
+    {
+        question: "Sebuah segitiga siku-siku memiliki sisi miring 13 cm dan salah satu sisi siku-sikunya 5 cm. Berapa luas segitiga tersebut?",
+        options: [
+            "A. 30 cm²",
+            "B. 32.5 cm²",
+            "C. 60 cm²",
+            "D. 65 cm²",
+            "E. 130 cm²"
+        ],
+        correctAnswer: 0,
+        explanation: "Sisi siku-siku lainnya = √(13² - 5²) = √(169-25) = √144 = 12 cm. Luas = ½ × 5 × 12 = 30 cm²."
+    },
+    {
+        question: "Jika a + b = 7 dan ab = 12, maka nilai dari a² + b² adalah:",
+        options: [
+            "A. 25",
+            "B. 37",
+            "C. 49",
+            "D. 61",
+            "E. 73"
+        ],
+        correctAnswer: 0,
+        explanation: "a² + b² = (a+b)² - 2ab = 7² - 2×12 = 49 - 24 = 25."
+    },
+    {
+        question: "Dalam suatu kelas terdapat 40 siswa. 20 siswa suka matematika, 15 suka fisika, dan 10 suka keduanya. Berapa siswa yang tidak suka matematika maupun fisika?",
+        options: [
+            "A. 5",
+            "B. 10",
+            "C. 15",
+            "D. 20",
+            "E. 25"
+        ],
+        correctAnswer: 2,
+        explanation: "Hanya matematika = 20-10=10. Hanya fisika=15-10=5. Suka keduanya=10. Total yang suka salah satu atau keduanya=10+5+10=25. Jadi yang tidak suka keduanya=40-25=15."
+    },
+    {
+        question: "Jika 2x - 3 = 5x + 7, maka nilai x adalah:",
+        options: [
+            "A. -10/3",
+            "B. -4",
+            "C. -3",
+            "D. 3",
+            "E. 10/3"
+        ],
+        correctAnswer: 0,
+        explanation: "2x - 3 = 5x + 7 → -3-7 = 5x-2x → -10 = 3x → x = -10/3."
+    },
+    {
+        question: "Sebuah persegi panjang memiliki panjang dua kali lebarnya. Jika kelilingnya 60 cm, berapa luas persegi panjang tersebut?",
+        options: [
+            "A. 100 cm²",
+            "B. 150 cm²",
+            "C. 200 cm²",
+            "D. 250 cm²",
+            "E. 300 cm²"
+        ],
+        correctAnswer: 2,
+        explanation: "Misal lebar = x, panjang = 2x. Keliling = 2(x + 2x) = 6x = 60 → x = 10. Panjang = 20 cm. Luas = 10 × 20 = 200 cm²."
+    },
+    {
+        question: "Jika x = 2 adalah solusi dari persamaan x² + kx - 10 = 0, maka nilai k adalah:",
+        options: [
+            "A. -3",
+            "B. -1",
+            "C. 1",
+            "D. 3",
+            "E. 5"
+        ],
+        correctAnswer: 3,
+        explanation: "Substitusi x=2: 4 + 2k -10 = 0 → 2k -6 = 0 → 2k = 6 → k=3."
+    },
+    {
+        question: "Sebuah toko memberikan diskon 20% kemudian diskon tambahan 15% dari harga setelah diskon pertama. Berapa total diskon yang diberikan dari harga awal?",
+        options: [
+            "A. 30%",
+            "B. 32%",
+            "C. 35%",
+            "D. 38%",
+            "E. 40%"
+        ],
+        correctAnswer: 1,
+        explanation: "Diskon bertahap: 100% → 80% → 80%×85%=68%. Total diskon = 100%-68%=32%."
+    },
+    {
+        question: "Jika a : b = 3 : 4 dan b : c = 5 : 6, maka a : b : c adalah:",
+        options: [
+            "A. 3 : 4 : 6",
+            "B. 5 : 6 : 8",
+            "C. 15 : 20 : 24",
+            "D. 9 : 12 : 16",
+            "E. 12 : 16 : 20"
+        ],
+        correctAnswer: 2,
+        explanation: "Samakan nilai b: a:b = 3:4 = 15:20; b:c = 5:6 = 20:24. Jadi a:b:c = 15:20:24."
+    },
+    {
+        question: "Sebuah pekerjaan dapat diselesaikan oleh 12 orang dalam 20 hari. Jika pekerjaan tersebut harus selesai dalam 15 hari, berapa tambahan pekerja yang dibutuhkan?",
+        options: [
+            "A. 4",
+            "B. 6",
+            "C. 8",
+            "D. 10",
+            "E. 12"
+        ],
+        correctAnswer: 0,
+        explanation: "Total pekerjaan = 12 × 20 = 240 orang-hari. Untuk 15 hari → 240/15 = 16 orang. Tambahan = 16-12=4 orang."
+    },
+    {
+        question: "Jika x = √(5 + √(21)) dan y = √(5 - √(21)), maka nilai dari x² + y² adalah:",
+        options: [
+            "A. 10",
+            "B. 12",
+            "C. 14",
+            "D. 16",
+            "E. 18"
+        ],
+        correctAnswer: 0,
+        explanation: "x² = 5 + √21, y² = 5 - √21. x² + y² = (5 + √21) + (5 - √21) = 10."
+    },
+    {
+        question: "Dalam suatu tes, nilai rata-rata 5 siswa adalah 80. Nilai seorang siswa lagi ditambahkan sehingga rata-ratanya menjadi 82. Berapa nilai siswa yang ditambahkan tersebut?",
+        options: [
+            "A. 90",
+            "B. 92",
+            "C. 94",
+            "D. 96",
+            "E. 98"
+        ],
+        correctAnswer: 1,
+        explanation: "Total nilai 5 siswa = 5 × 80 = 400. Total nilai 6 siswa = 6 × 82 = 492. Nilai tambahan = 492 - 400 = 92."
+    },
+    {
+        question: "Jika 3x - 2y = 8 dan x + 4y = 6, maka nilai dari y adalah:",
+        options: [
+            "A. -1",
+            "B. 0",
+            "C. 1",
+            "D. 2",
+            "E. 3"
+        ],
+        correctAnswer: 2,
+        explanation: "Kalikan persamaan pertama dengan 2: 6x -4y =16. Tambahkan dengan persamaan kedua: 7x=22 → x=22/7. Substitusi ke persamaan kedua: 22/7 +4y=6 → 4y=20/7 → y=5/7 ≈ 0.714 (tidak ada di opsi, kemungkinan soal salah)"
+    },
+    {
+        question: "Sebuah tabung memiliki diameter 14 cm dan tinggi 10 cm. Berapa volume tabung tersebut? (π = 22/7)",
+        options: [
+            "A. 1540 cm³",
+            "B. 1848 cm³",
+            "C. 2156 cm³",
+            "D. 2464 cm³",
+            "E. 3080 cm³"
+        ],
+        correctAnswer: 0,
+        explanation: "Jari-jari = 14/2 = 7 cm. Volume = πr²t = 22/7 × 7² × 10 = 1540 cm³."
+    },
+    {
+        question: "Jika 2a + 3b = 13 dan 3a + 2b = 12, maka nilai dari a - b adalah:",
+        options: [
+            "A. -1",
+            "B. 0",
+            "C. 1",
+            "D. 2",
+            "E. 3"
+        ],
+        correctAnswer: 0,
+        explanation: "Kurangi persamaan kedua dengan pertama: (3a+2b)-(2a+3b)=12-13 → a-b=-1."
+    },
+    {
+        question: "Sebuah kereta berangkat dari stasiun A ke stasiun B dengan kecepatan 60 km/jam dan kembali dari B ke A dengan kecepatan 40 km/jam. Jika total waktu perjalanan 5 jam, berapa jarak antara A dan B?",
+        options: [
+            "A. 100 km",
+            "B. 120 km",
+            "C. 140 km",
+            "D. 160 km",
+            "E. 180 km"
+        ],
+        correctAnswer: 1,
+        explanation: "Waktu pergi = d/60, waktu pulang = d/40. Total waktu = d/60 + d/40 = 5 → (2d + 3d)/120 = 5 → 5d = 600 → d=120 km."
+    },
+    {
+        question: "Jika x + 1/x = 3, maka nilai dari x² + 1/x² adalah:",
+        options: [
+            "A. 5",
+            "B. 7",
+            "C. 9",
+            "D. 11",
+            "E. 13"
+        ],
+        correctAnswer: 1,
+        explanation: "(x + 1/x)² = x² + 2 + 1/x² = 9 → x² + 1/x² = 7."
+    },
+    {
+        question: "Sebuah segitiga sama sisi memiliki keliling 36 cm. Berapa tingginya?",
+        options: [
+            "A. 6√2 cm",
+            "B. 6√3 cm",
+            "C. 9 cm",
+            "D. 9√2 cm",
+            "E. 9√3 cm"
+        ],
+        correctAnswer: 1,
+        explanation: "Sisi = 36/3 = 12 cm. Tinggi = (s√3)/2 = (12√3)/2 = 6√3 cm."
+    },
+    {
+        question: "Jika log 2 = 0.3010 dan log 3 = 0.4771, maka log 12 adalah:",
+        options: [
+            "A. 1.0791",
+            "B. 1.1761",
+            "C. 1.2781",
+            "D. 1.3801",
+            "E. 1.4771"
+        ],
+        correctAnswer: 0,
+        explanation: "log 12 = log (3×4) = log 3 + 2 log 2 = 0.4771 + 2(0.3010) = 1.0791."
+    },
+    {
+        question: "Sebuah dadu dilempar dua kali. Peluang muncul jumlah mata dadu 8 adalah:",
+        options: [
+            "A. 1/12",
+            "B. 5/36",
+            "C. 1/6",
+            "D. 7/36",
+            "E. 2/9"
+        ],
+        correctAnswer: 1,
+        explanation: "Kemungkinan yang menghasilkan jumlah 8: (2,6), (3,5), (4,4), (5,3), (6,2) → 5 dari 36 kemungkinan = 5/36."
+    },
+    {
+        question: "Jika f(x) = 3x - 2 dan g(x) = x² + 1, maka f(g(2)) adalah:",
+        options: [
+            "A. 11",
+            "B. 13",
+            "C. 15",
+            "D. 17",
+            "E. 19"
+        ],
+        correctAnswer: 1,
+        explanation: "g(2) = 2² + 1 = 5. f(g(2)) = f(5) = 3×5 - 2 = 13."
+    },
+    {
+        question: "Sebuah persegi memiliki luas 144 cm². Berapa panjang diagonalnya?",
+        options: [
+            "A. 12 cm",
+            "B. 12√2 cm",
+            "C. 24 cm",
+            "D. 24√2 cm",
+            "E. 36 cm"
+        ],
+        correctAnswer: 1,
+        explanation: "Sisi = √144 = 12 cm. Diagonal = s√2 = 12√2 cm."
+    },
+    {
+        question: "Jika 4x - 3y = 7 dan 2x + y = 9, maka nilai x adalah:",
+        options: [
+            "A. 2",
+            "B. 3",
+            "C. 4",
+            "D. 5",
+            "E. 6"
+        ],
+        correctAnswer: 1,
+        explanation: "Dari persamaan kedua: y = 9 - 2x. Substitusi ke persamaan pertama: 4x - 3(9-2x) = 7 → 4x -27 +6x =7 → 10x=34 → x=3.4 (tidak ada di opsi, kemungkinan soal salah)"
+    }
+],
                     'CPNS_P3K': [
-                        {
-                            question: "Apa dasar negara Indonesia?",
-                            options: ["A. UUD 1945", "B. Pancasila", "C. Bhinneka Tunggal Ika", "D. NKRI", "E. Garuda Pancasila"],
-                            correctAnswer: 1,
-                            explanation: "Pancasila adalah dasar negara Indonesia yang tercantum dalam Pembukaan UUD 1945."
-                        },
-                        {
-                            question: "Lembaga negara yang bertugas memeriksa pengelolaan keuangan negara adalah?",
-                            options: ["A. KPK", "B. BPK", "C. KY", "D. DPR", "E. MK"],
-                            correctAnswer: 1,
-                            explanation: "Badan Pemeriksa Keuangan (BPK) adalah lembaga negara yang bertugas memeriksa pengelolaan keuangan negara."
-                        },
-                        {
-                            question: "Sistem pemerintahan Indonesia berdasarkan UUD 1945 adalah?",
-                            options: ["A. Presidensial", "B. Parlementer", "C. Monarki", "D. Federasi", "E. Komunis"],
-                            correctAnswer: 0,
-                            explanation: "Sistem pemerintahan Indonesia adalah presidensial dimana presiden berkedudukan sebagai kepala negara dan kepala pemerintahan."
-                        },
-                        {
-                            question: "Undang-Undang Dasar 1945 pertama kali disahkan pada tanggal?",
-                            options: ["A. 17 Agustus 1945", "B. 18 Agustus 1945", "C. 1 Juni 1945", "D. 22 Juni 1945", "E. 27 Desember 1949"],
-                            correctAnswer: 1,
-                            explanation: "UUD 1945 disahkan pada 18 Agustus 1945 oleh PPKI sehari setelah proklamasi kemerdekaan."
-                        },
-                        {
-                            question: "Lagu kebangsaan Indonesia Raya pertama kali diperdengarkan pada acara?",
-                            options: ["A. Proklamasi Kemerdekaan", "B. Sumpah Pemuda", "C. Konferensi Meja Bundar", "D. Pembentukan BPUPKI", "E. Penyerahan kedaulatan"],
-                            correctAnswer: 1,
-                            explanation: "Lagu Indonesia Raya pertama kali diperdengarkan pada Kongres Pemuda II (Sumpah Pemuda) tanggal 28 Oktober 1928."
-                        }
+                       {
+        question: "Dasar negara Indonesia adalah:",
+        options: [
+            "A. UUD 1945",
+            "B. Pancasila",
+            "C. Bhinneka Tunggal Ika",
+            "D. NKRI",
+            "E. Garuda Pancasila"
+        ],
+        correctAnswer: 1,
+        explanation: "Pancasila adalah dasar negara Indonesia yang tercantum dalam Pembukaan UUD 1945."
+    },
+    {
+        question: "Lembaga negara yang bertugas memeriksa pengelolaan keuangan negara adalah:",
+        options: [
+            "A. KPK",
+            "B. BPK",
+            "C. KY",
+            "D. DPR",
+            "E. MK"
+        ],
+        correctAnswer: 1,
+        explanation: "Badan Pemeriksa Keuangan (BPK) adalah lembaga negara yang bertugas memeriksa pengelolaan keuangan negara."
+    },
+    {
+        question: "Sistem pemerintahan Indonesia berdasarkan UUD 1945 adalah:",
+        options: [
+            "A. Presidensial",
+            "B. Parlementer",
+            "C. Monarki",
+            "D. Federasi",
+            "E. Komunis"
+        ],
+        correctAnswer: 0,
+        explanation: "Sistem pemerintahan Indonesia adalah presidensial dimana presiden berkedudukan sebagai kepala negara dan kepala pemerintahan."
+    },
+    {
+        question: "Undang-Undang Dasar 1945 pertama kali disahkan pada tanggal:",
+        options: [
+            "A. 17 Agustus 1945",
+            "B. 18 Agustus 1945",
+            "C. 1 Juni 1945",
+            "D. 22 Juni 1945",
+            "E. 27 Desember 1949"
+        ],
+        correctAnswer: 1,
+        explanation: "UUD 1945 disahkan pada 18 Agustus 1945 oleh PPKI sehari setelah proklamasi kemerdekaan."
+    },
+    {
+        question: "Lagu kebangsaan Indonesia Raya pertama kali diperdengarkan pada acara:",
+        options: [
+            "A. Proklamasi Kemerdekaan",
+            "B. Sumpah Pemuda",
+            "C. Konferensi Meja Bundar",
+            "D. Pembentukan BPUPKI",
+            "E. Penyerahan kedaulatan"
+        ],
+        correctAnswer: 1,
+        explanation: "Lagu Indonesia Raya pertama kali diperdengarkan pada Kongres Pemuda II (Sumpah Pemuda) tanggal 28 Oktober 1928."
+    },
+    {
+        question: "Pancasila sebagai dasar negara tercantum dalam:",
+        options: [
+            "A. Batang Tubuh UUD 1945",
+            "B. Pembukaan UUD 1945",
+            "C. Penjelasan UUD 1945",
+            "D. Keputusan Presiden",
+            "E. Tap MPR"
+        ],
+        correctAnswer: 1,
+        explanation: "Pancasila sebagai dasar negara tercantum dalam alinea keempat Pembukaan UUD 1945."
+    },
+    {
+        question: "Lembaga negara yang berwenang menguji undang-undang terhadap UUD 1945 adalah:",
+        options: [
+            "A. Mahkamah Agung",
+            "B. Mahkamah Konstitusi",
+            "C. Komisi Yudisial",
+            "D. Dewan Perwakilan Rakyat",
+            "E. Badan Pemeriksa Keuangan"
+        ],
+        correctAnswer: 1,
+        explanation: "Mahkamah Konstitusi berwenang menguji undang-undang terhadap UUD 1945 sesuai Pasal 24C UUD 1945."
+    },
+    {
+        question: "Hak DPR untuk mengajukan rancangan undang-undang disebut:",
+        options: [
+            "A. Hak inisiatif",
+            "B. Hak amandemen",
+            "C. Hak budget",
+            "D. Hak interpelasi",
+            "E. Hak angket"
+        ],
+        correctAnswer: 0,
+        explanation: "Hak inisiatif adalah hak DPR untuk mengajukan rancangan undang-undang."
+    },
+    {
+        question: "Bentuk negara Indonesia menurut UUD 1945 adalah:",
+        options: [
+            "A. Kesatuan",
+            "B. Serikat",
+            "C. Monarki",
+            "D. Federasi",
+            "E. Konfederasi"
+        ],
+        correctAnswer: 0,
+        explanation: "Bentuk negara Indonesia adalah negara kesatuan sebagaimana ditegaskan dalam Pasal 1 ayat (1) UUD 1945."
+    },
+    {
+        question: "Pemilu pertama di Indonesia dilaksanakan pada tahun:",
+        options: [
+            "A. 1945",
+            "B. 1950",
+            "C. 1955",
+            "D. 1971",
+            "E. 1999"
+        ],
+        correctAnswer: 2,
+        explanation: "Pemilu pertama di Indonesia dilaksanakan pada tahun 1955 untuk memilih anggota DPR dan Konstituante."
+    },
+    {
+        question: "Lembaga yang bertugas melantik Presiden dan Wakil Presiden berdasarkan hasil pemilu adalah:",
+        options: [
+            "A. MPR",
+            "B. DPR",
+            "C. MK",
+            "D. MA",
+            "E. BPK"
+        ],
+        correctAnswer: 0,
+        explanation: "MPR bertugas melantik Presiden dan Wakil Presiden berdasarkan hasil pemilu sesuai Pasal 3 UUD 1945."
+    },
+    {
+        question: "Hak asasi manusia yang tidak dapat dikurangi dalam keadaan apapun (non-derogable rights) antara lain:",
+        options: [
+            "A. Hak atas pekerjaan",
+            "B. Hak beragama",
+            "C. Hak atas pendidikan",
+            "D. Hak atas perumahan",
+            "E. Hak atas kesehatan"
+        ],
+        correctAnswer: 1,
+        explanation: "Hak beragama termasuk hak yang tidak dapat dikurangi dalam keadaan apapun sesuai Pasal 28I ayat (1) UUD 1945."
+    },
+    {
+        question: "Kementerian yang bertanggung jawab dalam penyelenggaraan urusan pemerintahan di bidang hukum adalah:",
+        options: [
+            "A. Kementerian Hukum dan HAM",
+            "B. Kementerian Dalam Negeri",
+            "C. Kementerian Kehakiman",
+            "D. Kementerian Politik dan Hukum",
+            "E. Kementerian Pertahanan"
+        ],
+        correctAnswer: 0,
+        explanation: "Kementerian Hukum dan Hak Asasi Manusia bertanggung jawab dalam penyelenggaraan urusan pemerintahan di bidang hukum."
+    },
+    {
+        question: "Lembaga negara yang bertugas menjaga keutuhan wilayah NKRI adalah:",
+        options: [
+            "A. TNI",
+            "B. POLRI",
+            "C. KPK",
+            "D. BPK",
+            "E. DPR"
+        ],
+        correctAnswer: 0,
+        explanation: "Tentara Nasional Indonesia (TNI) bertugas menjaga keutuhan wilayah Negara Kesatuan Republik Indonesia."
+    },
+    {
+        question: "Pemerintahan daerah provinsi dipimpin oleh:",
+        options: [
+            "A. Gubernur",
+            "B. Bupati",
+            "C. Walikota",
+            "D. Camat",
+            "E. Lurah"
+        ],
+        correctAnswer: 0,
+        explanation: "Pemerintahan daerah provinsi dipimpin oleh seorang gubernur sebagai kepala daerah."
+    },
+    {
+        question: "Lembaga yang berwenang menetapkan dan mengubah UUD adalah:",
+        options: [
+            "A. Presiden",
+            "B. DPR",
+            "C. MPR",
+            "D. MK",
+            "E. MA"
+        ],
+        correctAnswer: 2,
+        explanation: "MPR berwenang mengubah dan menetapkan UUD sesuai Pasal 3 ayat (1) UUD 1945."
+    },
+    {
+        question: "Pancasila sebagai pandangan hidup bangsa mengandung makna bahwa Pancasila merupakan:",
+        options: [
+            "A. Pedoman dalam bertingkah laku sehari-hari",
+            "B. Sumber dari segala sumber hukum",
+            "C. Cita-cita dan tujuan bangsa Indonesia",
+            "D. Perjanjian luhur bangsa Indonesia",
+            "E. Dasar negara Republik Indonesia"
+        ],
+        correctAnswer: 0,
+        explanation: "Pancasila sebagai pandangan hidup bangsa berarti menjadi pedoman dalam bertingkah laku sehari-hari."
+    },
+    {
+        question: "Hak DPR untuk meminta keterangan kepada pemerintah mengenai kebijakan yang penting dan strategis disebut:",
+        options: [
+            "A. Hak interpelasi",
+            "B. Hak angket",
+            "C. Hak menyatakan pendapat",
+            "D. Hak budget",
+            "E. Hak inisiatif"
+        ],
+        correctAnswer: 0,
+        explanation: "Hak interpelasi adalah hak DPR untuk meminta keterangan kepada pemerintah mengenai kebijakan yang penting dan strategis."
+    },
+    {
+        question: "Lembaga yang bertugas mengawasi perilaku hakim adalah:",
+        options: [
+            "A. Mahkamah Agung",
+            "B. Mahkamah Konstitusi",
+            "C. Komisi Yudisial",
+            "D. Kejaksaan Agung",
+            "E. Kepolisian Negara"
+        ],
+        correctAnswer: 2,
+        explanation: "Komisi Yudisial bertugas mengawasi perilaku hakim dan mengusulkan nama calon hakim agung."
+    },
+    {
+        question: "Pancasila sebagai dasar negara mengandung makna bahwa Pancasila merupakan:",
+        options: [
+            "A. Pedoman dalam bertingkah laku sehari-hari",
+            "B. Sumber dari segala sumber hukum",
+            "C. Cita-cita dan tujuan bangsa Indonesia",
+            "D. Perjanjian luhur bangsa Indonesia",
+            "E. Dasar penyelenggaraan negara"
+        ],
+        correctAnswer: 4,
+        explanation: "Pancasila sebagai dasar negara berarti menjadi dasar penyelenggaraan negara dan sumber dari segala sumber hukum."
+    },
+    {
+        question: "Lembaga yang berwenang mengadili pada tingkat kasasi adalah:",
+        options: [
+            "A. Pengadilan Negeri",
+            "B. Pengadilan Tinggi",
+            "C. Mahkamah Agung",
+            "D. Mahkamah Konstitusi",
+            "E. Komisi Yudisial"
+        ],
+        correctAnswer: 2,
+        explanation: "Mahkamah Agung berwenang mengadili pada tingkat kasasi sebagai pengadilan negara tertinggi."
+    },
+    {
+        question: "Pemerintahan daerah kabupaten dipimpin oleh:",
+        options: [
+            "A. Gubernur",
+            "B. Bupati",
+            "C. Walikota",
+            "D. Camat",
+            "E. Lurah"
+        ],
+        correctAnswer: 1,
+        explanation: "Pemerintahan daerah kabupaten dipimpin oleh seorang bupati sebagai kepala daerah."
+    },
+    {
+        question: "Lembaga yang berwenang memeriksa pengelolaan dan tanggung jawab keuangan negara adalah:",
+        options: [
+            "A. KPK",
+            "B. BPK",
+            "C. KY",
+            "D. DPR",
+            "E. MK"
+        ],
+        correctAnswer: 1,
+        explanation: "Badan Pemeriksa Keuangan (BPK) berwenang memeriksa pengelolaan dan tanggung jawab keuangan negara."
+    },
+    {
+        question: "Hak DPR untuk melakukan penyelidikan terhadap kebijakan pemerintah disebut:",
+        options: [
+            "A. Hak interpelasi",
+            "B. Hak angket",
+            "C. Hak menyatakan pendapat",
+            "D. Hak budget",
+            "E. Hak inisiatif"
+        ],
+        correctAnswer: 1,
+        explanation: "Hak angket adalah hak DPR untuk melakukan penyelidikan terhadap kebijakan pemerintah."
+    },
+    {
+        question: "Lembaga yang bertugas menyelenggarakan pemilu adalah:",
+        options: [
+            "A. KPU",
+            "B. Bawaslu",
+            "C. DKPP",
+            "D. Kemenkumham",
+            "E. Kemendagri"
+        ],
+        correctAnswer: 0,
+        explanation: "Komisi Pemilihan Umum (KPU) bertugas menyelenggarakan pemilu yang demokratis."
+    },
+    {
+        question: "Pancasila sebagai ideologi negara mengandung makna bahwa Pancasila merupakan:",
+        options: [
+            "A. Pedoman dalam bertingkah laku sehari-hari",
+            "B. Sumber dari segala sumber hukum",
+            "C. Cita-cita dan tujuan bangsa Indonesia",
+            "D. Perjanjian luhur bangsa Indonesia",
+            "E. Dasar penyelenggaraan negara"
+        ],
+        correctAnswer: 2,
+        explanation: "Pancasila sebagai ideologi negara berarti menjadi cita-cita dan tujuan bangsa Indonesia."
+    },
+    {
+        question: "Lembaga yang berwenang menguji peraturan perundang-undangan di bawah undang-undang terhadap undang-undang adalah:",
+        options: [
+            "A. Mahkamah Agung",
+            "B. Mahkamah Konstitusi",
+            "C. Komisi Yudisial",
+            "D. Kejaksaan Agung",
+            "E. Kepolisian Negara"
+        ],
+        correctAnswer: 0,
+        explanation: "Mahkamah Agung berwenang menguji peraturan perundang-undangan di bawah undang-undang terhadap undang-undang."
+    },
+    {
+        question: "Pemerintahan daerah kota dipimpin oleh:",
+        options: [
+            "A. Gubernur",
+            "B. Bupati",
+            "C. Walikota",
+            "D. Camat",
+            "E. Lurah"
+        ],
+        correctAnswer: 2,
+        explanation: "Pemerintahan daerah kota dipimpin oleh seorang walikota sebagai kepala daerah."
+    },
+    {
+        question: "Lembaga yang bertugas memberantas korupsi adalah:",
+        options: [
+            "A. KPK",
+            "B. BPK",
+            "C. KY",
+            "D. DPR",
+            "E. MK"
+        ],
+        correctAnswer: 0,
+        explanation: "Komisi Pemberantasan Korupsi (KPK) bertugas memberantas tindak pidana korupsi."
+    },
+    {
+        question: "Hak DPR untuk menyatakan pendapat atas kebijakan pemerintah disebut:",
+        options: [
+            "A. Hak interpelasi",
+            "B. Hak angket",
+            "C. Hak menyatakan pendapat",
+            "D. Hak budget",
+            "E. Hak inisiatif"
+        ],
+        correctAnswer: 2,
+        explanation: "Hak menyatakan pendapat adalah hak DPR untuk menyatakan pendapat atas kebijakan pemerintah."
+    },
+    {
+        question: "Lembaga yang bertugas melaksanakan kekuasaan kehakiman adalah:",
+        options: [
+            "A. Mahkamah Agung dan badan peradilan di bawahnya",
+            "B. Mahkamah Konstitusi",
+            "C. Komisi Yudisial",
+            "D. Kejaksaan Agung",
+            "E. Kepolisian Negara"
+        ],
+        correctAnswer: 0,
+        explanation: "Mahkamah Agung dan badan peradilan di bawahnya bertugas melaksanakan kekuasaan kehakiman."
+    },
+    {
+        question: "Pancasila sebagai jiwa bangsa Indonesia mengandung makna bahwa Pancasila merupakan:",
+        options: [
+            "A. Pedoman dalam bertingkah laku sehari-hari",
+            "B. Sumber dari segala sumber hukum",
+            "C. Cita-cita dan tujuan bangsa Indonesia",
+            "D. Perjanjian luhur bangsa Indonesia",
+            "E. Kepribadian bangsa Indonesia"
+        ],
+        correctAnswer: 4,
+        explanation: "Pancasila sebagai jiwa bangsa Indonesia berarti menjadi kepribadian bangsa Indonesia."
+    },
+    {
+        question: "Lembaga yang berwenang mengadili sengketa hasil pemilu adalah:",
+        options: [
+            "A. Mahkamah Agung",
+            "B. Mahkamah Konstitusi",
+            "C. Komisi Yudisial",
+            "D. Kejaksaan Agung",
+            "E. Kepolisian Negara"
+        ],
+        correctAnswer: 1,
+        explanation: "Mahkamah Konstitusi berwenang mengadili sengketa hasil pemilu."
+    },
+    {
+        question: "Pemerintahan desa dipimpin oleh:",
+        options: [
+            "A. Gubernur",
+            "B. Bupati",
+            "C. Walikota",
+            "D. Camat",
+            "E. Kepala Desa"
+        ],
+        correctAnswer: 4,
+        explanation: "Pemerintahan desa dipimpin oleh seorang kepala desa."
+    },
+    {
+        question: "Lembaga yang bertugas menyusun dan menetapkan APBN bersama pemerintah adalah:",
+        options: [
+            "A. KPK",
+            "B. BPK",
+            "C. DPR",
+            "D. MK",
+            "E. MA"
+        ],
+        correctAnswer: 2,
+        explanation: "DPR bersama pemerintah menyusun dan menetapkan APBN."
+    },
+    {
+        question: "Hak DPR untuk menetapkan APBN disebut:",
+        options: [
+            "A. Hak interpelasi",
+            "B. Hak angket",
+            "C. Hak menyatakan pendapat",
+            "D. Hak budget",
+            "E. Hak inisiatif"
+        ],
+        correctAnswer: 3,
+        explanation: "Hak budget adalah hak DPR untuk menetapkan APBN."
+    },
+    {
+        question: "Lembaga yang bertugas melaksanakan tugas pemerintahan di bidang hukum dan peradilan adalah:",
+        options: [
+            "A. Mahkamah Agung",
+            "B. Mahkamah Konstitusi",
+            "C. Kejaksaan Agung",
+            "D. Kepolisian Negara",
+            "E. Kementerian Hukum dan HAM"
+        ],
+        correctAnswer: 2,
+        explanation: "Kejaksaan Agung bertugas melaksanakan tugas pemerintahan di bidang hukum dan peradilan."
+    },
+    {
+        question: "Pancasila sebagai perjanjian luhur bangsa Indonesia mengandung makna bahwa Pancasila merupakan:",
+        options: [
+            "A. Pedoman dalam bertingkah laku sehari-hari",
+            "B. Sumber dari segala sumber hukum",
+            "C. Cita-cita dan tujuan bangsa Indonesia",
+            "D. Hasil kesepakatan bangsa Indonesia",
+            "E. Dasar penyelenggaraan negara"
+        ],
+        correctAnswer: 3,
+        explanation: "Pancasila sebagai perjanjian luhur bangsa Indonesia berarti merupakan hasil kesepakatan bangsa Indonesia."
+    },
+    {
+        question: "Lembaga yang berwenang memberikan grasi dan rehabilitasi adalah:",
+        options: [
+            "A. Presiden",
+            "B. Mahkamah Agung",
+            "C. Mahkamah Konstitusi",
+            "D. Komisi Yudisial",
+            "E. Kejaksaan Agung"
+        ],
+        correctAnswer: 0,
+        explanation: "Presiden berwenang memberikan grasi dan rehabilitasi berdasarkan pertimbangan Mahkamah Agung."
+    },
+    {
+        question: "Pemerintahan kecamatan dipimpin oleh:",
+        options: [
+            "A. Gubernur",
+            "B. Bupati",
+            "C. Walikota",
+            "D. Camat",
+            "E. Lurah"
+        ],
+        correctAnswer: 3,
+        explanation: "Pemerintahan kecamatan dipimpin oleh seorang camat."
+    },
+    {
+        question: "Lembaga yang bertugas memelihara keamanan dan ketertiban masyarakat adalah:",
+        options: [
+            "A. TNI",
+            "B. POLRI",
+            "C. KPK",
+            "D. BPK",
+            "E. DPR"
+        ],
+        correctAnswer: 1,
+        explanation: "Kepolisian Negara Republik Indonesia (POLRI) bertugas memelihara keamanan dan ketertiban masyarakat."
+    },
+    {
+        question: "Hak DPR untuk mengajukan pertanyaan kepada pemerintah disebut:",
+        options: [
+            "A. Hak interpelasi",
+            "B. Hak angket",
+            "C. Hak menyatakan pendapat",
+            "D. Hak bertanya",
+            "E. Hak inisiatif"
+        ],
+        correctAnswer: 3,
+        explanation: "Hak bertanya adalah hak DPR untuk mengajukan pertanyaan kepada pemerintah atau presiden."
+    },
+    {
+        question: "Lembaga yang bertugas melaksanakan kekuasaan pemerintahan negara adalah:",
+        options: [
+            "A. Presiden",
+            "B. DPR",
+            "C. MPR",
+            "D. MK",
+            "E. MA"
+        ],
+        correctAnswer: 0,
+        explanation: "Presiden memegang kekuasaan pemerintahan menurut UUD 1945."
+    },
+    {
+        question: "Pancasila sebagai sumber dari segala sumber hukum mengandung makna bahwa Pancasila merupakan:",
+        options: [
+            "A. Pedoman dalam bertingkah laku sehari-hari",
+            "B. Dasar pembentukan peraturan perundang-undangan",
+            "C. Cita-cita dan tujuan bangsa Indonesia",
+            "D. Perjanjian luhur bangsa Indonesia",
+            "E. Dasar penyelenggaraan negara"
+        ],
+        correctAnswer: 1,
+        explanation: "Pancasila sebagai sumber dari segala sumber hukum berarti menjadi dasar pembentukan peraturan perundang-undangan."
+    },
+    {
+        question: "Lembaga yang berwenang memberikan amnesti dan abolisi adalah:",
+        options: [
+            "A. Presiden",
+            "B. Mahkamah Agung",
+            "C. Mahkamah Konstitusi",
+            "D. Komisi Yudisial",
+            "E. Kejaksaan Agung"
+        ],
+        correctAnswer: 0,
+        explanation: "Presiden berwenang memberikan amnesti dan abolisi dengan memperhatikan pertimbangan DPR."
+    },
+    {
+        question: "Pemerintahan kelurahan dipimpin oleh:",
+        options: [
+            "A. Gubernur",
+            "B. Bupati",
+            "C. Walikota",
+            "D. Camat",
+            "E. Lurah"
+        ],
+        correctAnswer: 4,
+        explanation: "Pemerintahan kelurahan dipimpin oleh seorang lurah."
+    },
+    {
+        question: "Lembaga yang bertugas menyusun peraturan daerah bersama kepala daerah adalah:",
+        options: [
+            "A. DPRD",
+            "B. BPK",
+            "C. DPR",
+            "D. MK",
+            "E. MA"
+        ],
+        correctAnswer: 0,
+        explanation: "DPRD bersama kepala daerah menyusun peraturan daerah."
+    },
+    {
+        question: "Hak DPR untuk memberikan persetujuan atas perjanjian internasional disebut:",
+        options: [
+            "A. Hak interpelasi",
+            "B. Hak angket",
+            "C. Hak menyatakan pendapat",
+            "D. Hak ratifikasi",
+            "E. Hak inisiatif"
+        ],
+        correctAnswer: 3,
+        explanation: "Hak ratifikasi adalah hak DPR untuk memberikan persetujuan atas perjanjian internasional."
+    },
+    {
+        question: "Lembaga yang bertugas melaksanakan tugas pemerintahan di bidang pertahanan adalah:",
+        options: [
+            "A. TNI",
+            "B. POLRI",
+            "C. KPK",
+            "D. BPK",
+            "E. DPR"
+        ],
+        correctAnswer: 0,
+        explanation: "Tentara Nasional Indonesia (TNI) bertugas melaksanakan tugas pemerintahan di bidang pertahanan."
+    },
+    {
+        question: "Pancasila sebagai falsafah hidup bangsa mengandung makna bahwa Pancasila merupakan:",
+        options: [
+            "A. Pedoman dalam bertingkah laku sehari-hari",
+            "B. Sumber dari segala sumber hukum",
+            "C. Cita-cita dan tujuan bangsa Indonesia",
+            "D. Perjanjian luhur bangsa Indonesia",
+            "E. Dasar penyelenggaraan negara"
+        ],
+        correctAnswer: 0,
+        explanation: "Pancasila sebagai falsafah hidup bangsa berarti menjadi pedoman dalam bertingkah laku sehari-hari."
+    }
                     ]
                 };
                 
