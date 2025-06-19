@@ -1909,74 +1909,1178 @@
             if (!storedQuestions || !storedQuestions['TES_IQ'] || storedQuestions['TES_IQ'].length === 0) {
                 const initialQuestions = {
                     'TES_IQ': [
-                        {
-                            question: "Apa angka berikutnya dalam deret ini: 2...?",
-                            options: ["A. 24", "B. 3", "C. 64", "D. 128", "E. 256"],
-                            correctAnswer: 1, // Index of correct answer (0-based)
-                            explanation: "Deret ini adalah kelipatan 2 (2^n), sehingga angka berikutnya adalah 3."
-                        },
-                        {
-                            question: "Apa angka berikutnya dalam deret ini: 2, 4, 8, 16, ...?",
-                            options: ["A. 24", "B. 32", "C. 64", "D. 128", "E. 256"],
-                            correctAnswer: 1, // Index of correct answer (0-based)
-                            explanation: "Deret ini adalah kelipatan 2 (2^n), sehingga angka berikutnya adalah 32."
-                        },
-                        {
-                            question: "Jika semua manusia adalah makhluk hidup dan semua makhluk hidup akan mati, maka kesimpulannya adalah?",
-                            options: ["A. Manusia tidak akan mati", "B. Beberapa manusia tidak mati", "C. Semua manusia akan mati", "D. Tidak ada manusia yang mati", "E. Manusia adalah makhluk abadi"],
-                            correctAnswer: 2,
-                            explanation: "Berdasarkan premis yang diberikan, kesimpulan logis adalah semua manusia akan mati."
-                        },
-                        {
-                            question: "Apa sinonim dari kata 'Cerdik'?",
-                            options: ["A. Bodoh", "B. Pintar", "C. Licik", "D. Malas", "E. Lambat"],
-                            correctAnswer: 2,
-                            explanation: "Sinonim dari 'cerdik' adalah 'licik' yang berarti pandai menggunakan akal untuk mencapai tujuan."
-                        },
-                        {
-                            question: "Jika sebuah mobil berjalan dengan kecepatan 60 km/jam, berapa jarak yang ditempuh dalam 45 menit?",
-                            options: ["A. 30 km", "B. 45 km", "C. 60 km", "D. 75 km", "E. 90 km"],
-                            correctAnswer: 1,
-                            explanation: "45 menit adalah 0.75 jam. 60 km/jam × 0.75 jam = 45 km."
-                        },
-                        {
-                            question: "Manakah yang bukan termasuk dalam kelompoknya: Apel, Jeruk, Pisang, Wortel, Anggur?",
-                            options: ["A. Apel", "B. Jeruk", "C. Pisang", "D. Wortel", "E. Anggur"],
-                            correctAnswer: 3,
-                            explanation: "Wortel adalah sayuran, sementara yang lainnya adalah buah-buahan."
-                        }
+                       {
+                question: "Dalam konteks Good Governance, prinsip akuntabilitas terutama berkaitan dengan...",
+                options: [
+                    "A. Keterbukaan informasi publik tanpa batas",
+                    "B. Pertanggungjawaban kinerja institusi kepada publik",
+                    "C. Pelibatan masyarakat dalam setiap pengambilan keputusan",
+                    "D. Desentralisasi wewenang kepada pemerintah daerah",
+                    "E. Efisiensi anggaran dalam pelayanan publik"
+                ],
+                correctAnswer: 1,
+                explanation: "Akuntabilitas dalam Good Governance menekankan pertanggungjawaban kinerja institusi kepada publik (B). Pilihan lain seperti keterbukaan (A) dan partisipasi (C) adalah prinsip lain yang berbeda."
+            },
+            {
+                question: "Menurut UU No. 5 Tahun 2014 tentang Aparatur Sipil Negara, yang termasuk nilai dasar ASN adalah...",
+                options: [
+                    "A. Profesionalisme, integritas, netralitas",
+                    "B. Ketaatan, kesetiaan, kepatuhan",
+                    "C. Akuntabilitas, transparansi, partisipasi",
+                    "D. Efisiensi, efektivitas, ekonomis",
+                    "E. Inovasi, kreativitas, adaptabilitas"
+                ],
+                correctAnswer: 0,
+                explanation: "Nilai dasar ASN menurut UU No. 5/2014 adalah profesionalisme, integritas, dan netralitas (A). Pilihan lain menggabungkan nilai governance (C) atau prinsip manajemen (D)."
+            },
+            {
+                question: "Dalam sistem pemerintahan Indonesia, fungsi utama Kementerian Pendayagunaan Aparatur Negara dan Reformasi Birokrasi adalah...",
+                options: [
+                    "A. Menyusun kebijakan fiskal negara",
+                    "B. Melakukan pengawasan terhadap lembaga legislatif",
+                    "C. Merancang reformasi birokrasi dan tata kelola ASN",
+                    "D. Mengkoordinasikan kebijakan luar negeri",
+                    "E. Menangani masalah kesejahteraan sosial"
+                ],
+                correctAnswer: 2,
+                explanation: "KemenPAN-RB bertugas merancang reformasi birokrasi dan tata kelola ASN (C). Pilihan lain adalah tugas kementerian lain seperti Keuangan (A) atau Luar Negeri (D)."
+            },
+            {
+                question: "Menurut Peraturan Pemerintah No. 11 Tahun 2017, jenis jabatan ASN terdiri dari...",
+                options: [
+                    "A. Jabatan administrasi dan jabatan fungsional",
+                    "B. Jabatan struktural dan jabatan politik",
+                    "C. Jabatan struktural dan jabatan fungsional",
+                    "D. Jabatan eksekutif dan jabatan yudikatif",
+                    "E. Jabatan teknis dan jabatan manajerial"
+                ],
+                correctAnswer: 2,
+                explanation: "PP No. 11/2017 menyatakan ASN terdiri dari jabatan struktural dan fungsional (C). Pilihan lain seperti jabatan politik (B) tidak termasuk klasifikasi ASN."
+            },
+            {
+                question: "Prinsip 'The Right Man on The Right Place' dalam manajemen ASN terutama berkaitan dengan...",
+                options: [
+                    "A. Sistem promosi berbasis senioritas",
+                    "B. Penempatan pegawai sesuai kompetensi",
+                    "C. Rotasi pegawai secara berkala",
+                    "D. Rekrutmen massal pegawai",
+                    "E. Pemberian tunjangan kinerja"
+                ],
+                correctAnswer: 1,
+                explanation: "Prinsip ini menekankan penempatan pegawai sesuai kompetensi (B). Pilihan lain seperti senioritas (A) atau rotasi (C) adalah kebijakan berbeda."
+            },
+            {
+                question: "Dalam konteks pelayanan publik, 'one-stop service' bertujuan untuk...",
+                options: [
+                    "A. Memusatkan semua layanan di ibukota",
+                    "B. Menyederhanakan prosedur administratif",
+                    "C. Mengurangi jumlah pegawai negeri",
+                    "D. Memprivatisasi layanan publik",
+                    "E. Membentuk lembaga baru"
+                ],
+                correctAnswer: 1,
+                explanation: "One-stop service bertujuan menyederhanakan prosedur (B). Pilihan lain seperti pemusatan (A) atau privatisasi (D) bukan tujuan utama konsep ini."
+            },
+            {
+                question: "Menurut UU No. 25 Tahun 2009, pelayanan publik harus memenuhi standar...",
+                options: [
+                    "A. Kualitas, aksesibilitas, dan kesetaraan",
+                    "B. Kecepatan, kemurahan, dan kesederhanaan",
+                    "C. Akuntabilitas, transparansi, dan kondisional",
+                    "D. Teknologi, inovasi, dan modernisasi",
+                    "E. Kepatuhan, kedisiplinan, dan hierarki"
+                ],
+                correctAnswer: 0,
+                explanation: "UU No. 25/2009 menyebut standar pelayanan mencakup kualitas, aksesibilitas, dan kesetaraan (A). Pilihan lain hanya sebagian benar atau tidak relevan."
+            },
+            {
+                question: "Dalam sistem merit ASN, penilaian kinerja terutama didasarkan pada...",
+                options: [
+                    "A. Lama pengabdian dan senioritas",
+                    "B. Prestasi kerja dan kompetensi",
+                    "C. Loyalitas kepada atasan langsung",
+                    "D. Partisipasi dalam kegiatan sosial",
+                    "E. Latar belakang pendidikan"
+                ],
+                correctAnswer: 1,
+                explanation: "Sistem merit menekankan prestasi kerja dan kompetensi (B). Pilihan lain seperti senioritas (A) bertentangan dengan prinsip meritokrasi."
+            },
+            {
+                question: "Menurut UU No. 14 Tahun 2008 tentang Keterbukaan Informasi Publik, badan publik wajib membuka informasi kecuali...",
+                options: [
+                    "A. Informasi yang membahayakan negara",
+                    "B. Informasi tentang anggaran lembaga",
+                    "C. Informasi prosedur pelayanan publik",
+                    "D. Informasi profil pejabat publik",
+                    "E. Informasi statistik kependudukan"
+                ],
+                correctAnswer: 0,
+                explanation: "Informasi yang dikecualikan adalah yang membahayakan negara (A). Pilihan lain adalah informasi yang wajib dibuka menurut UU tersebut."
+            },
+            {
+                question: "Dalam konteks reformasi birokrasi, 'lean government' bertujuan untuk...",
+                options: [
+                    "A. Memperbanyak jumlah pegawai",
+                    "B. Memperluas struktur organisasi",
+                    "C. Menyederhanakan proses kerja",
+                    "D. Membentuk unit-unit baru",
+                    "E. Meningkatkan anggaran belanja"
+                ],
+                correctAnswer: 2,
+                explanation: "Lean government fokus pada penyederhanaan proses (C). Pilihan lain seperti memperbanyak pegawai (A) bertentangan dengan konsep ini."
+            },
+            {
+                question: "Menurut Perpres No. 54 Tahun 2018, tahapan pembangunan Zona Integritas menuju WBK/WBBM dimulai dengan...",
+                options: [
+                    "A. Evaluasi mandiri dan penyusunan rencana aksi",
+                    "B. Pelatihan massal seluruh pegawai",
+                    "C. Pembentukan tim khusus dari pusat",
+                    "D. Pengadaan sarana prasarana baru",
+                    "E. Penyusunan peraturan daerah"
+                ],
+                correctAnswer: 0,
+                explanation: "Tahap awal adalah evaluasi mandiri dan rencana aksi (A). Pilihan lain seperti pelatihan massal (B) bukan tahap pertama dalam Perpres tersebut."
+            },
+            {
+                question: "Dalam konteks pengawasan ASN, fungsi utama Inspektorat Jenderal adalah...",
+                options: [
+                    "A. Melakukan pengawasan intern pemerintah",
+                    "B. Menyelesaikan sengketa administrasi",
+                    "C. Mengevaluasi kinerja pejabat politik",
+                    "D. Mengawasi pelaksanaan pemilu",
+                    "E. Memeriksa laporan keuangan partai politik"
+                ],
+                correctAnswer: 0,
+                explanation: "Itjen bertugas pengawasan intern pemerintah (A). Pilihan lain seperti sengketa administrasi (B) adalah tugas badan lain seperti PTUN."
+            },
+            {
+                question: "Menurut Permenpan RB No. 38 Tahun 2017, kompetensi teknis ASN meliputi...",
+                options: [
+                    "A. Pengetahuan, keterampilan, dan sikap perilaku khusus",
+                    "B. Kemampuan berbahasa asing dan teknologi",
+                    "C. Pengalaman kerja di berbagai instansi",
+                    "D. Kualifikasi pendidikan formal",
+                    "E. Jaringan profesional di luar instansi"
+                ],
+                correctAnswer: 0,
+                explanation: "Kompetensi teknis mencakup pengetahuan, keterampilan, dan sikap khusus (A). Pilihan lain seperti bahasa asing (B) hanya bagian kecil dari kompetensi."
+            },
+            {
+                question: "Dalam sistem pengadaan barang/jasa pemerintah, prinsip 'efisien' berarti...",
+                options: [
+                    "A. Menggunakan anggaran seminimal mungkin",
+                    "B. Memilih harga terendah tanpa pertimbangan kualitas",
+                    "C. Mempercepat proses pengadaan tanpa prosedur",
+                    "D. Melibatkan banyak penyedia barang/jasa",
+                    "E. Mengutamakan produk dalam negeri"
+                ],
+                correctAnswer: 0,
+                explanation: "Efisien berarti penggunaan anggaran optimal (A). Pilihan lain seperti harga terendah (B) bisa bertentangan dengan prinsip nilai uang."
+            },
+            {
+                question: "Menurut UU No. 30 Tahun 2014, penyelenggara pemerintahan wajib menerapkan asas...",
+                options: [
+                    "A. Kepastian hukum, manfaat, dan keadilan",
+                    "B. Kecepatan, ketepatan, dan kemurahan",
+                    "C. Kesetaraan, keseragaman, dan kesederhanaan",
+                    "D. Teknologi, modernisasi, dan inovasi",
+                    "E. Hierarki, sentralisasi, dan otoritas"
+                ],
+                correctAnswer: 0,
+                explanation: "UU No. 30/2014 menyebut asas kepastian hukum, manfaat, dan keadilan (A). Pilihan lain tidak sesuai dengan ketentuan UU tersebut."
+            },
+            {
+                question: "Dalam konteks tata kelola pemerintahan, 'whole of government' bertujuan untuk...",
+                options: [
+                    "A. Menciptakan sinergi antar lembaga pemerintah",
+                    "B. Memusatkan semua kewenangan di pemerintah pusat",
+                    "C. Membentuk struktur organisasi yang besar",
+                    "D. Mengurangi peran pemerintah daerah",
+                    "E. Menyeragamkan kebijakan di semua sektor"
+                ],
+                correctAnswer: 0,
+                explanation: "Konsep ini menekankan sinergi antar lembaga (A). Pilihan lain seperti pemusatan kewenangan (B) bertentangan dengan prinsip otonomi daerah."
+            },
+            {
+                question: "Menurut Peraturan Pemerintah No. 17 Tahun 2020, perubahan Nomenklatur Kementerian harus memperhatikan...",
+                options: [
+                    "A. Efektivitas organisasi dan beban anggaran",
+                    "B. Jumlah pegawai dan luas gedung perkantoran",
+                    "C. Popularitas menteri yang menjabat",
+                    "D. Ketersediaan sumber daya alam",
+                    "E. Kebijakan partai politik"
+                ],
+                correctAnswer: 0,
+                explanation: "PP No. 17/2020 menyebut perubahan nomenklatur harus pertimbangkan efektivitas dan anggaran (A). Pilihan lain tidak relevan dengan ketentuan tersebut."
+            },
+            {
+                question: "Dalam sistem perencanaan pembangunan nasional, dokumen RPJMN disusun untuk periode...",
+                options: [
+                    "A. 1 tahun",
+                    "B. 3 tahun",
+                    "C. 5 tahun",
+                    "D. 10 tahun",
+                    "E. 20 tahun"
+                ],
+                correctAnswer: 2,
+                explanation: "RPJMN (Rencana Pembangunan Jangka Menengah Nasional) disusun untuk 5 tahun (C). Pilihan lain merujuk pada dokumen perencanaan lain seperti RPJP (20 tahun)."
+            },
+            {
+                question: "Menurut UU No. 23 Tahun 2014 tentang Pemerintahan Daerah, urusan pemerintahan absolut meliputi...",
+                options: [
+                    "A. Pendidikan dan kesehatan",
+                    "B. Pertahanan dan keamanan",
+                    "C. Pertanian dan perikanan",
+                    "D. Perdagangan dan industri",
+                    "E. Pariwisata dan kebudayaan"
+                ],
+                correctAnswer: 1,
+                explanation: "Urusan absolut menurut UU No. 23/2014 adalah pertahanan, keamanan, agama, moneter, dan yustisi (B). Pilihan lain adalah urusan konkuren atau umum."
+            },
+            {
+                question: "Dalam konteks pengelolaan keuangan daerah, 'silpa' (sisa lebih perhitungan anggaran) dapat digunakan untuk...",
+                options: [
+                    "A. Pembiayaan defisit anggaran tahun berikutnya",
+                    "B. Bonus bagi pejabat daerah",
+                    "C. Pembangunan rumah dinas pejabat",
+                    "D. Bantuan sosial langsung",
+                    "E. Pembiayaan partai politik"
+                ],
+                correctAnswer: 0,
+                explanation: "Silpa dapat digunakan untuk pembiayaan defisit anggaran berikutnya (A). Pilihan lain seperti bonus (B) dilarang menurut peraturan keuangan daerah."
+            },
+            {
+                question: "Menurut Permendagri No. 86 Tahun 2017, dokumen perencanaan pembangunan daerah yang memuat program prioritas adalah...",
+                options: [
+                    "A. RKPD",
+                    "B. APBD",
+                    "C. Perda",
+                    "D. LKPJ",
+                    "E. KUA-PPAS"
+                ],
+                correctAnswer: 0,
+                explanation: "RKPD (Rencana Kerja Pemerintah Daerah) memuat program prioritas (A). Pilihan lain seperti APBD (B) adalah dokumen anggaran, bukan perencanaan."
+            },
+            {
+                question: "Dalam sistem pemerintahan Indonesia, fungsi utama Ombudsman adalah...",
+                options: [
+                    "A. Mengawasi pelaksanaan pemilu",
+                    "B. Menyelesaikan sengketa perdata",
+                    "C. Menangani pengaduan maladministrasi",
+                    "D. Memeriksa laporan keuangan negara",
+                    "E. Mengevaluasi kinerja menteri"
+                ],
+                correctAnswer: 2,
+                explanation: "Ombudsman berfungsi menangani maladministrasi (C). Pilihan lain adalah tugas lembaga lain seperti BPK (D) atau Bawaslu (A)."
+            },
+            {
+                question: "Menurut UU No. 9 Tahun 2016 tentang Pencegahan dan Penanganan Krisis Sistem Keuangan, lembaga yang bertugas menetapkan status krisis adalah...",
+                options: [
+                    "A. Presiden setelah berkonsultasi dengan DPR",
+                    "B. Menteri Keuangan bersama Gubernur BI",
+                    "C. Komite Stabilitas Sistem Keuangan",
+                    "D. Otoritas Jasa Keuangan",
+                    "E. Mahkamah Agung"
+                ],
+                correctAnswer: 0,
+                explanation: "Presiden yang menetapkan status krisis setelah konsultasi dengan DPR (A). Pilihan lain seperti KSSK (C) hanya memberikan rekomendasi."
+            },
+            {
+                question: "Dalam konteks pelayanan publik, 'service recovery' bertujuan untuk...",
+                options: [
+                    "A. Mencegah terjadinya kegagalan layanan",
+                    "B. Memperbaiki citra instansi setelah kegagalan layanan",
+                    "C. Mengganti rugi pengguna layanan",
+                    "D. Menghukum petugas yang lalai",
+                    "E. Mengevaluasi standar pelayanan"
+                ],
+                correctAnswer: 1,
+                explanation: "Service recovery fokus pada perbaikan citra setelah kegagalan (B). Pilihan lain seperti pencegahan (A) adalah tindakan berbeda."
+            },
+            {
+                question: "Menurut UU No. 19 Tahun 2019 tentang KPK, tugas utama KPK adalah...",
+                options: [
+                    "A. Mengawasi seluruh pegawai negeri",
+                    "B. Mencegah dan memberantas korupsi",
+                    "C. Menyelidiki semua tindak pidana",
+                    "D. Mengevaluasi kebijakan pemerintah",
+                    "E. Memeriksa keuangan partai politik"
+                ],
+                correctAnswer: 1,
+                explanation: "Tugas utama KPK adalah pencegahan dan pemberantasan korupsi (B). Pilihan lain seperti mengawasi semua pegawai (A) melampaui kewenangan KPK."
+            },
+            {
+                question: "Dalam sistem pengawasan keuangan negara, pemeriksaan kinerja oleh BPK bertujuan menilai...",
+                options: [
+                    "A. Kesesuaian dengan peraturan perundangan",
+                    "B. Ekonomi, efisiensi, dan efektivitas",
+                    "C. Kepatuhan terhadap standar akuntansi",
+                    "D. Akurasi laporan keuangan",
+                    "E. Kecukupan bukti transaksi"
+                ],
+                correctAnswer: 1,
+                explanation: "Pemeriksaan kinerja menilai 3E: ekonomi, efisiensi, efektivitas (B). Pilihan lain seperti kesesuaian peraturan (A) lebih relevan untuk pemeriksaan keuangan."
+            },
+            {
+                question: "Menurut UU No. 12 Tahun 2011 tentang Pembentukan Peraturan Perundang-undangan, hierarki peraturan perundangan di bawah UUD 1945 adalah...",
+                options: [
+                    "A. UU/Perppu - PP - Perpres - Perda",
+                    "B. Tap MPR - UU - Perda - Kepres",
+                    "C. UU - PP - Permen - Keputusan Dirjen",
+                    "D. Perppu - Perda Provinsi - Perda Kabupaten",
+                    "E. Perpres - Permen - Peraturan Daerah"
+                ],
+                correctAnswer: 0,
+                explanation: "Hierarki menurut UU No. 12/2011 adalah UU/Perppu - PP - Perpres - Perda (A). Pilihan lain tidak sesuai dengan ketentuan hierarki dalam UU tersebut."
+            },
+            {
+                question: "Dalam konteks reformasi birokrasi, 'business process reengineering' bertujuan untuk...",
+                options: [
+                    "A. Memperbaiki proses kerja secara radikal",
+                    "B. Menambah jumlah pegawai",
+                    "C. Membentuk unit-unit baru",
+                    "D. Meningkatkan anggaran operasional",
+                    "E. Memperpanjang rantai birokrasi"
+                ],
+                correctAnswer: 0,
+                explanation: "BPR fokus pada perbaikan radikal proses kerja (A). Pilihan lain seperti menambah pegawai (B) bertentangan dengan prinsip BPR."
+            },
+            {
+                question: "Menurut UU No. 15 Tahun 2006 tentang BPK, laporan keuangan pemerintah yang diaudit harus memenuhi kriteria...",
+                options: [
+                    "A. Relevan, andal, dan dapat dibandingkan",
+                    "B. Lengkap, akurat, dan tepat waktu",
+                    "C. Rinci, transparan, dan mudah diakses",
+                    "D. Sederhana, jelas, dan informatif",
+                    "E. Komprehensif, detail, dan mutakhir"
+                ],
+                correctAnswer: 0,
+                explanation: "Menurut UU BPK, laporan keuangan harus relevan, andal, dan dapat dibandingkan (A). Pilihan lain menggambarkan karakteristik yang lebih umum."
+            },
+            {
+                question: "Dalam sistem pemerintahan daerah, 'asas tugas pembantuan' berarti...",
+                options: [
+                    "A. Penyerahan urusan pemerintah pusat ke daerah",
+                    "B. Pelimpahan wewenang dari daerah ke desa",
+                    "C. Pemerintah pusat menugaskan daerah untuk melaksanakan urusan pusat",
+                    "D. Kerjasama antar daerah dalam penyelenggaraan urusan",
+                    "E. Pembagian urusan antara provinsi dan kabupaten/kota"
+                ],
+                correctAnswer: 2,
+                explanation: "Tugas pembantuan adalah penugasan dari pusat ke daerah untuk urusan pusat (C). Pilihan lain merujuk pada asas desentralisasi atau dekonsentrasi."
+            },
+            {
+                question: "Menurut Perpres No. 16 Tahun 2018 tentang Pengadaan Barang/Jasa Pemerintah, nilai pengadaan yang mewajibkan pelelangan adalah...",
+                options: [
+                    "A. Di atas Rp200 juta",
+                    "B. Di atas Rp2,5 miliar",
+                    "C. Di atas Rp5 miliar",
+                    "D. Di atas Rp10 miliar",
+                    "E. Di atas Rp50 miliar"
+                ],
+                correctAnswer: 1,
+                explanation: "Menurut Perpres No. 16/2018 (yang telah diubah), pelelangan wajib untuk pengadaan di atas Rp2,5 miliar (B). Pilihan lain tidak sesuai dengan ketentuan terbaru."
+            },
+            {
+                question: "Dalam konteks kebijakan publik, 'stakeholder analysis' penting untuk...",
+                options: [
+                    "A. Mengidentifikasi pihak yang terkena dampak kebijakan",
+                    "B. Menghitung anggaran yang dibutuhkan",
+                    "C. Menentukan sasaran fisik program",
+                    "D. Mengevaluasi kinerja pelaksana kebijakan",
+                    "E. Membandingkan dengan kebijakan negara lain"
+                ],
+                correctAnswer: 0,
+                explanation: "Analisis stakeholder mengidentifikasi pihak yang terdampak (A). Pilihan lain seperti anggaran (B) adalah aspek berbeda dari analisis kebijakan."
+            },
+            {
+                question: "Menurut UU No. 2 Tahun 2018 tentang Perubahan atas UU MD3, hak angket DPR dilaksanakan untuk...",
+                options: [
+                    "A. Mengawasi pelaksanaan undang-undang",
+                    "B. Menyelidiki kasus tertentu yang strategis",
+                    "C. Mengevaluasi kinerja menteri",
+                    "D. Memeriksa laporan keuangan pemerintah",
+                    "E. Menilai kebijakan moneter"
+                ],
+                correctAnswer: 1,
+                explanation: "Hak angket untuk menyelidiki kasus strategis (B). Pilihan lain seperti pengawasan UU (A) lebih terkait dengan hak pengawasan umum DPR."
+            },
+            {
+                question: "Dalam sistem kepegawaian, 'job analysis' terutama digunakan untuk...",
+                options: [
+                    "A. Menentukan kebutuhan rekrutmen pegawai",
+                    "B. Mengevaluasi kinerja individu pegawai",
+                    "C. Menyusun struktur organisasi",
+                    "D. Merancang sistem penggajian",
+                    "E. Membuat pelatihan pegawai"
+                ],
+                correctAnswer: 0,
+                explanation: "Analisis jabatan terutama untuk menentukan kebutuhan rekrutmen (A). Pilihan lain seperti evaluasi kinerja (B) menggunakan tools yang berbeda."
+            },
+            {
+                question: "Menurut UU No. 31 Tahun 1999 jo UU No. 20 Tahun 2001 tentang Pemberantasan Tindak Pidana Korupsi, yang termasuk unsur tindak pidana korupsi adalah...",
+                options: [
+                    "A. Melawan hukum, memperkaya diri sendiri, merugikan keuangan negara",
+                    "B. Melanggar peraturan, menyalahgunakan wewenang, tidak transparan",
+                    "C. Tidak akuntabel, nepotisme, kolusi",
+                    "D. Pelanggaran kode etik, konflik kepentingan, gratifikasi",
+                    "E. Penyalahgunaan jabatan, mark up proyek, suap"
+                ],
+                correctAnswer: 0,
+                explanation: "Unsur korupsi menurut UU adalah melawan hukum, memperkaya diri, merugikan keuangan negara (A). Pilihan lain menggambarkan bentuk atau modus korupsi."
+            },
+            {
+                question: "Dalam konteks manajemen risiko pemerintahan, 'risk appetite' merujuk pada...",
+                options: [
+                    "A. Jumlah risiko yang dapat diterima organisasi",
+                    "B. Daftar risiko potensial yang dihadapi",
+                    "C. Strategi untuk menghindari semua risiko",
+                    "D. Prosedur penanganan risiko",
+                    "E. Dokumentasi kejadian risiko"
+                ],
+                correctAnswer: 0,
+                explanation: "Risk appetite adalah tingkat risiko yang bisa diterima (A). Pilihan lain merujuk pada komponen lain dari manajemen risiko seperti identifikasi (B) atau mitigasi (D)."
+            },
+            {
+                question: "Menurut Peraturan Pemerintah No. 53 Tahun 2010 tentang Disiplin PNS, hukuman disiplin tingkat sedang adalah...",
+                options: [
+                    "A. Teguran lisan",
+                    "B. Teguran tertulis",
+                    "C. Penundaan kenaikan gaji",
+                    "D. Penurunan pangkat",
+                    "E. Pemecatan"
+                ],
+                correctAnswer: 2,
+                explanation: "Penundaan kenaikan gaji termasuk hukuman tingkat sedang (C). Pilihan A-B ringan, D-E berat menurut PP No. 53/2010."
+            },
+            {
+                question: "Dalam sistem perencanaan nasional, 'cascading planning' berarti...",
+                options: [
+                    "A. Perencanaan dari tingkat pusat ke daerah",
+                    "B. Penyusunan rencana oleh tim khusus",
+                    "C. Perencanaan berbasis proyek",
+                    "D. Penyusunan anggaran bottom-up",
+                    "E. Perencanaan sektoral"
+                ],
+                correctAnswer: 0,
+                explanation: "Cascading planning adalah perencanaan berjenjang dari pusat ke daerah (A). Pilihan lain seperti bottom-up (D) adalah pendekatan berbeda."
+            },
+            {
+                question: "Menurut UU No. 14 Tahun 2008 tentang Keterbukaan Informasi Publik, batas waktu maksimal pemberian informasi oleh badan publik adalah...",
+                options: [
+                    "A. 7 hari kerja",
+                    "B. 10 hari kerja",
+                    "C. 14 hari kerja",
+                    "D. 20 hari kerja",
+                    "E. 30 hari kerja"
+                ],
+                correctAnswer: 1,
+                explanation: "Batas waktu maksimal adalah 10 hari kerja (B) sesuai UU KIP. Pilihan lain tidak sesuai dengan ketentuan UU tersebut."
+            },
+            {
+                question: "Dalam konteks e-government, 'interoperabilitas' terutama bertujuan untuk...",
+                options: [
+                    "A. Meningkatkan keamanan sistem",
+                    "B. Memungkinkan integrasi sistem yang berbeda",
+                    "C. Mempercepat pembangunan infrastruktur TI",
+                    "D. Mengurangi biaya pengadaan software",
+                    "E. Menstandarisasi perangkat keras"
+                ],
+                correctAnswer: 1,
+                explanation: "Interoperabilitas memungkinkan integrasi sistem berbeda (B). Pilihan lain seperti keamanan (A) adalah aspek berbeda dari e-government."
+            },
+            {
+                question: "Menurut Permendagri No. 90 Tahun 2019 tentang Klasifikasi, Kodefikasi, dan Nomenklatur Perencanaan Pembangunan, kode 1.01.01 merujuk pada...",
+                options: [
+                    "A. Urusan pemerintahan",
+                    "B. Program pembangunan",
+                    "C. Kegiatan pemerintah",
+                    "D. Sub kegiatan",
+                    "E. Output program"
+                ],
+                correctAnswer: 0,
+                explanation: "Kode 1.01.01 merujuk pada urusan pemerintahan (A). Pilihan lain memiliki format kode yang berbeda dalam Permendagri tersebut."
+            },
+            {
+                question: "Dalam sistem pengelolaan keuangan daerah, 'belanja tidak tersangka' adalah...",
+                options: [
+                    "A. Belanja yang tidak dianggarkan tetapi harus dibayar",
+                    "B. Belanja untuk kegiatan mendadak",
+                    "C. Belanja yang dianggarkan tetapi tidak digunakan",
+                    "D. Belanja untuk bencana alam",
+                    "E. Belanja tidak langsung"
+                ],
+                correctAnswer: 0,
+                explanation: "Belanja tidak tersangka adalah belanja tak terduga yang tidak dianggarkan tetapi wajib dibayar (A). Pilihan lain tidak sesuai definisi peraturan keuangan daerah."
+            },
+            {
+                question: "Menurut Peraturan Pemerintah No. 12 Tahun 2017 tentang Pembinaan dan Pengawasan Penyelenggaraan Pemerintahan Daerah, fungsi pembinaan mencakup...",
+                options: [
+                    "A. Pemberian pedoman, bimbingan, dan supervisi",
+                    "B. Pemeriksaan, pengawasan, dan evaluasi",
+                    "C. Penilaian, pengendalian, dan koreksi",
+                    "D. Pelaporan, pemantauan, dan verifikasi",
+                    "E. Sosialisasi, pelatihan, dan asistensi"
+                ],
+                correctAnswer: 0,
+                explanation: "Fungsi pembinaan mencakup pedoman, bimbingan, dan supervisi (A). Pilihan lain lebih menggambarkan fungsi pengawasan."
+            },
+            {
+                question: "Dalam konteks kebijakan publik, 'policy dilemma' terjadi ketika...",
+                options: [
+                    "A. Terjadi konflik antara tujuan kebijakan yang berbeda",
+                    "B. Tidak ada data yang mendukung kebijakan",
+                    "C. Anggaran tidak mencukupi untuk implementasi",
+                    "D. Tidak ada kesepakatan politik tentang kebijakan",
+                    "E. Implementasi kebijakan menemui resistensi"
+                ],
+                correctAnswer: 0,
+                explanation: "Dilema kebijakan terjadi saat konflik antara tujuan berbeda (A). Pilihan lain menggambarkan masalah kebijakan lain seperti keterbatasan data (B) atau anggaran (C)."
+            },
+            {
+                question: "Menurut UU No. 17 Tahun 2003 tentang Keuangan Negara, tahun anggaran berlangsung dari...",
+                options: [
+                    "A. 1 Januari sampai 31 Desember",
+                    "B. 1 April sampai 31 Maret tahun berikutnya",
+                    "C. 1 Juli sampai 30 Juni tahun berikutnya",
+                    "D. 1 September sampai 31 Agustus tahun berikutnya",
+                    "E. Sesuai ketetapan pemerintah setiap tahun"
+                ],
+                correctAnswer: 0,
+                explanation: "Tahun anggaran adalah tahun kalender (1 Jan-31 Des) menurut UU No. 17/2003 (A). Pilihan lain adalah sistem anggaran negara lain."
+            },
+            {
+                question: "Dalam sistem pengadaan barang/jasa pemerintah, 'swakelola' dapat dilakukan apabila...",
+                options: [
+                    "A. Pemerintah memiliki kompetensi dan sumber daya",
+                    "B. Nilai pengadaan sangat besar",
+                    "C. Barang/jasa sangat kompleks",
+                    "D. Waktu pelaksanaan sangat singkat",
+                    "E. Tidak ada penyedia yang berminat"
+                ],
+                correctAnswer: 0,
+                explanation: "Swakelola dilakukan jika pemerintah memiliki kompetensi dan sumber daya (A). Pilihan lain seperti nilai besar (B) justru biasanya tidak cocok untuk swakelola."
+            },
+            {
+                question: "Menurut Peraturan Pemerintah No. 45 Tahun 2013 tentang Tata Cara Pelaksanaan Anggaran Pendapatan dan Belanja Negara, DIPA (Daftar Isian Pelaksanaan Anggaran) disusun oleh...",
+                options: [
+                    "A. Kementerian Keuangan",
+                    "B. Kementerian PPN/Bappenas",
+                    "C. Kementerian/Lembaga pengguna anggaran",
+                    "D. Sekretariat Kabinet",
+                    "E. Badan Pemeriksa Keuangan"
+                ],
+                correctAnswer: 2,
+                explanation: "DIPA disusun oleh K/L pengguna anggaran (C). Pilihan lain seperti Kemenkeu (A) bertugas menetapkan dan mengawasi DIPA."
+            },
+            {
+                question: "Dalam konteks manajemen ASN, 'talent management' terutama bertujuan untuk...",
+                options: [
+                    "A. Mengidentifikasi dan mengembangkan pegawai potensial",
+                    "B. Merotasi semua pegawai secara berkala",
+                    "C. Menyeragamkan kompetensi pegawai",
+                    "D. Mengevaluasi kinerja seluruh pegawai",
+                    "E. Memenuhi kebutuhan pegawai jangka pendek"
+                ],
+                correctAnswer: 0,
+                explanation: "Talent management fokus pada identifikasi dan pengembangan pegawai potensial (A). Pilihan lain seperti rotasi (B) adalah kegiatan berbeda dalam MSDM."
+            },
+            {
+                question: "Menurut UU No. 25 Tahun 2009 tentang Pelayanan Publik, jenis pelayanan publik mencakup...",
+                options: [
+                    "A. Pelayanan administratif, barang, dan jasa",
+                    "B. Pelayanan dasar, menengah, dan lanjutan",
+                    "C. Pelayanan preventif, kuratif, dan rehabilitatif",
+                    "D. Pelayanan primer, sekunder, dan tersier",
+                    "E. Pelayanan umum, khusus, dan strategis"
+                ],
+                correctAnswer: 0,
+                explanation: "Jenis pelayanan menurut UU No. 25/2009 adalah administratif, barang, dan jasa (A). Pilihan lain adalah klasifikasi berbeda yang tidak sesuai UU tersebut."
+            }
                     ],
                     'CPNS_P3K': [
                         {
-                            question: "Apa dasar negara Indonesia?",
-                            options: ["A. UUD 1945", "B. Pancasila", "C. Bhinneka Tunggal Ika", "D. NKRI", "E. Garuda Pancasila"],
-                            correctAnswer: 1,
-                            explanation: "Pancasila adalah dasar negara Indonesia yang tercantum dalam Pembukaan UUD 1945."
-                        },
-                        {
-                            question: "Lembaga negara yang bertugas memeriksa pengelolaan keuangan negara adalah?",
-                            options: ["A. KPK", "B. BPK", "C. KY", "D. DPR", "E. MK"],
-                            correctAnswer: 1,
-                            explanation: "Badan Pemeriksa Keuangan (BPK) adalah lembaga negara yang bertugas memeriksa pengelolaan keuangan negara."
-                        },
-                        {
-                            question: "Sistem pemerintahan Indonesia berdasarkan UUD 1945 adalah?",
-                            options: ["A. Presidensial", "B. Parlementer", "C. Monarki", "D. Federasi", "E. Komunis"],
-                            correctAnswer: 0,
-                            explanation: "Sistem pemerintahan Indonesia adalah presidensial dimana presiden berkedudukan sebagai kepala negara dan kepala pemerintahan."
-                        },
-                        {
-                            question: "Undang-Undang Dasar 1945 pertama kali disahkan pada tanggal?",
-                            options: ["A. 17 Agustus 1945", "B. 18 Agustus 1945", "C. 1 Juni 1945", "D. 22 Juni 1945", "E. 27 Desember 1949"],
-                            correctAnswer: 1,
-                            explanation: "UUD 1945 disahkan pada 18 Agustus 1945 oleh PPKI sehari setelah proklamasi kemerdekaan."
-                        },
-                        {
-                            question: "Lagu kebangsaan Indonesia Raya pertama kali diperdengarkan pada acara?",
-                            options: ["A. Proklamasi Kemerdekaan", "B. Sumpah Pemuda", "C. Konferensi Meja Bundar", "D. Pembentukan BPUPKI", "E. Penyerahan kedaulatan"],
-                            correctAnswer: 1,
-                            explanation: "Lagu Indonesia Raya pertama kali diperdengarkan pada Kongres Pemuda II (Sumpah Pemuda) tanggal 28 Oktober 1928."
-                        }
+                question: "Menurut UU No. 30 Tahun 2014 tentang Administrasi Pemerintahan, keputusan administrasi yang mengandung cacat hukum dapat dibatalkan melalui...",
+                options: [
+                    "A. Mekanisme banding administratif",
+                    "B. Gugatan di Pengadilan Tata Usaha Negara",
+                    "C. Mediasi oleh Ombudsman",
+                    "D. Evaluasi oleh Inspektorat Jenderal",
+                    "E. Rekomendasi Komisi Aparatur Sipil Negara"
+                ],
+                correctAnswer: 1,
+                explanation: "Keputusan bermasalah dibatalkan melalui PTUN (B). Mekanisme lain seperti banding (A) hanya untuk keputusan yang belum final."
+            },
+            {
+                question: "Dalam doktrin hukum administrasi, 'freies Ermessen' berarti pemerintah memiliki...",
+                options: [
+                    "A. Kewenangan mutlak tanpa kontrol",
+                    "B. Kebebasan bertindak dalam keadaan mendesak",
+                    "C. Hak prerogatif di bidang politik",
+                    "D. Kekebalan hukum dalam pelayanan publik",
+                    "E. Wewenang menafsirkan undang-undang"
+                ],
+                correctAnswer: 1,
+                explanation: "Freies Ermessen adalah kebebasan bertindak dalam keadaan mendesak (B), bukan kewenangan mutlak (A) atau prerogatif (C)."
+            },
+            {
+                question: "Menurut UU No. 12 Tahun 2011 tentang Pembentukan Peraturan Perundang-undangan, naskah akademik diperlukan dalam penyusunan...",
+                options: [
+                    "A. Peraturan Presiden dan Peraturan Daerah",
+                    "B. Undang-Undang dan Peraturan Pemerintah",
+                    "C. Peraturan Menteri dan Peraturan Gubernur",
+                    "D. Semua jenis peraturan kecuali Perda",
+                    "E. Hanya untuk Rancangan Undang-Undang"
+                ],
+                correctAnswer: 1,
+                explanation: "Naskah akademik wajib untuk UU dan PP (B). Untuk Perpres/Perda tidak selalu wajib sesuai Pasal 22 UU tersebut."
+            },
+            {
+                question: "Dalam asas umum pemerintahan yang baik (AUPB), 'asas kecermatan' berarti...",
+                options: [
+                    "A. Pemerintah harus bekerja secara hati-hati dan teliti",
+                    "B. Keputusan harus berdasarkan bukti yang cukup",
+                    "C. Prosedur administrasi harus sederhana",
+                    "D. Pelayanan harus diberikan secara cepat",
+                    "E. Kebijakan harus mempertimbangkan semua pihak"
+                ],
+                correctAnswer: 0,
+                explanation: "Asas kecermatan menekankan kehati-hatian dan ketelitian (A), berbeda dengan asas kepastian (B) atau kesederhanaan (C)."
+            },
+            {
+                question: "Menurut UU No. 19 Tahun 2019 tentang KPK, penyidikan oleh KPK terhadap pejabat negara tertentu memerlukan...",
+                options: [
+                    "A. Persetujuan Presiden setelah rekomendasi DPR",
+                    "B. Izin dari atasan langsung pejabat tersebut",
+                    "C. Rekomendasi Dewan Pengawas KPK",
+                    "D. Laporan awal dari Inspektorat Jenderal",
+                    "E. Permintaan resmi dari Kejaksaan Agung"
+                ],
+                correctAnswer: 2,
+                explanation: "Penyidikan pejabat tertentu perlu rekomendasi Dewan Pengawas KPK (C) sesuai Pasal 12A UU KPK."
+            },
+            {
+                question: "Dalam hukum administrasi, 'detournement de pouvoir' terjadi ketika...",
+                options: [
+                    "A. Pejabat menggunakan wewenang untuk tujuan lain dari maksud UU",
+                    "B. Prosedur administrasi tidak diikuti dengan benar",
+                    "C. Keputusan dibuat tanpa pertimbangan fakta",
+                    "D. Ada konflik kepentingan dalam pengambilan keputusan",
+                    "E. Kewenangan didelegasikan tanpa dasar hukum"
+                ],
+                correctAnswer: 0,
+                explanation: "Detournement de pouvoir adalah penyimpangan tujuan wewenang (A), berbeda dengan pelanggaran prosedur (B) atau konflik kepentingan (D)."
+            },
+            {
+                question: "Menurut UU No. 14 Tahun 2008 tentang Keterbukaan Informasi Publik, informasi yang dikecualikan harus memenuhi kriteria...",
+                options: [
+                    "A. Membahayakan negara dan/atau kepentingan publik",
+                    "B. Bersifat rahasia menurut instansi yang bersangkutan",
+                    "C. Tidak tersedia dalam sistem dokumentasi resmi",
+                    "D. Memerlukan persetujuan atasan untuk dibuka",
+                    "E. Termasuk dalam rahasia jabatan"
+                ],
+                correctAnswer: 0,
+                explanation: "Informasi dikecualikan hanya jika membahayakan negara/kepentingan publik (A). Pilihan lain tidak sesuai Pasal 17 UU KIP."
+            },
+            {
+                question: "Dalam sistem peradilan administrasi, 'verweer' adalah...",
+                options: [
+                    "A. Hak tergugat untuk membela diri",
+                    "B. Kewajiban penggugat membuktikan dalil",
+                    "C. Upaya hukum banding terhadap putusan",
+                    "D. Mediasi sebelum persidangan",
+                    "E. Pemeriksaan pendahuluan oleh hakim"
+                ],
+                correctAnswer: 0,
+                explanation: "Verweer adalah hak membela diri bagi tergugat (A), berbeda dengan pembuktian (B) atau upaya hukum (C)."
+            },
+            {
+                question: "Menurut UU No. 23 Tahun 2014 tentang Pemerintahan Daerah, pembatalan Perda oleh pemerintah pusat harus didasarkan pada...",
+                options: [
+                    "A. Bertentangan dengan kepentingan umum",
+                    "B. Tidak sesuai dengan Rencana Pembangunan Nasional",
+                    "C. Bertentangan dengan peraturan yang lebih tinggi",
+                    "D. Menimbulkan kerugian keuangan daerah",
+                    "E. Tidak melalui konsultasi publik yang memadai"
+                ],
+                correctAnswer: 2,
+                explanation: "Pembatalan Perda hanya jika bertentangan dengan peraturan lebih tinggi (C) sesuai Pasal 251 UU Pemda."
+            },
+            {
+                question: "Dalam doktrin 'droit de suite', pemerintah dapat...",
+                options: [
+                    "A. Melakukan penyitaan tanpa putusan pengadilan",
+                    "B. Menarik kembali keputusan yang cacat hukum",
+                    "C. Mengawasi pelaksanaan putusan PTUN",
+                    "D. Menerbitkan peraturan retroaktif",
+                    "E. Membatalkan izin yang telah diberikan"
+                ],
+                correctAnswer: 1,
+                explanation: "Droit de suite adalah hak menarik kembali keputusan cacat (B), bukan penyitaan (A) atau pengawasan (C)."
+
+            },
+            // Soal 61-70 (Kebijakan Fiskal dan APBN)
+            {
+                question: "Menurut UU No. 17 Tahun 2003 tentang Keuangan Negara, defisit APBN tidak boleh melebihi...",
+                options: [
+                    "A. 1% dari PDB",
+                    "B. 2% dari PDB",
+                    "C. 3% dari PDB",
+                    "D. 4% dari PDB",
+                    "E. 5% dari PDB"
+                ],
+                correctAnswer: 2,
+                explanation: "Batas defisit APBN adalah 3% PDB (C) sesuai Pasal 12(3) UU tersebut, kecuali dalam keadaan darurat."
+            },
+            {
+                question: "Dalam klasifikasi belanja negara, 'belanja tidak langsung' mencakup...",
+                options: [
+                    "A. Gaji pegawai dan tunjangan",
+                    "B. Pembangunan infrastruktur",
+                    "C. Bantuan sosial tunai",
+                    "D. Subsidi bahan bakar minyak",
+                    "E. Hibah kepada pemerintah daerah"
+                ],
+                correctAnswer: 0,
+                explanation: "Belanja tidak langsung termasuk gaji dan tunjangan (A). Pilihan lain seperti infrastruktur (B) adalah belanja langsung."
+            },
+            {
+                question: "Menurut PMK No. 190/PMK.05/2012, pagu indikatif dalam penyusunan RKA-K/L ditetapkan oleh...",
+                options: [
+                    "A. Kementerian PPN/Bappenas",
+                    "B. Kementerian Keuangan",
+                    "C. Kementerian PAN-RB",
+                    "D. Sekretariat Kabinet",
+                    "E. Kementerian/Lembaga bersangkutan"
+                ],
+                correctAnswer: 1,
+                explanation: "Pagu indikatif ditetapkan Kemenkeu (B) sebagai dasar penyusunan RKA-K/L sebelum pembahasan dengan Bappenas."
+            },
+            {
+                question: "Dalam sistem penganggaran berbasis kinerja, 'outcome' adalah...",
+                options: [
+                    "A. Barang/jasa yang dihasilkan program",
+                    "B. Dampak program terhadap masyarakat",
+                    "C. Proses pelaksanaan kegiatan",
+                    "D. Penggunaan anggaran secara efisien",
+                    "E. Capaian output fisik proyek"
+                ],
+                correctAnswer: 1,
+                explanation: "Outcome mengacu pada dampak program (B), berbeda dengan output (A) atau proses (C)."
+            },
+            {
+                question: "Menurut UU No. 1 Tahun 2004 tentang Perbendaharaan Negara, bendahara umum negara adalah...",
+                options: [
+                    "A. Menteri Keuangan",
+                    "B. Dirjen Perbendaharaan",
+                    "C. Gubernur Bank Indonesia",
+                    "D. Kepala BKF Kemenkeu",
+                    "E. Ketua BPK"
+                ],
+                correctAnswer: 0,
+                explanation: "Menteri Keuangan sebagai bendahara umum negara (A) sesuai Pasal 6 UU tersebut."
+            },
+            {
+                question: "Dalam konteks transfer ke daerah, 'dana insentif daerah' bertujuan untuk...",
+                options: [
+                    "A. Meningkatkan kinerja fiskal daerah",
+                    "B. Menutup defisit APBD",
+                    "C. Membiayai proyek strategis nasional",
+                    "D. Mengganti pendapatan asli daerah",
+                    "E. Membantu daerah tertinggal"
+                ],
+                correctAnswer: 0,
+                explanation: "Dana insentif untuk peningkatan kinerja fiskal (A), bukan menutup defisit (B) atau membantu daerah tertinggal (E)."
+            },
+            {
+                question: "Menurut Perpres No. 54 Tahun 2020 tentang Hibah, hibah kepada pemerintah asing harus mendapat persetujuan...",
+                options: [
+                    "A. DPR dan BPK",
+                    "B. Menteri Keuangan dan Menteri Luar Negeri",
+                    "C. Presiden setelah rekomendasi DPR",
+                    "D. Dewan Moneter",
+                    "E. Kementerian Koordinator Perekonomian"
+                ],
+                correctAnswer: 2,
+                explanation: "Hibah ke pemerintah asing perlu persetujuan Presiden setelah rekomendasi DPR (C) sesuai Pasal 13 Perpres tersebut."
+            },
+            {
+                question: "Dalam sistem akuntansi pemerintah, 'basis akrual' berarti transaksi dicatat saat...",
+                options: [
+                    "A. Dana dikeluarkan dari kas negara",
+                    "B. Kewajiban pembayaran timbul",
+                    "C. Dokumen pendukung lengkap",
+                    "D. Barang/jasa diterima",
+                    "E. Laporan triwulanan disusun"
+                ],
+                correctAnswer: 1,
+                explanation: "Basis akrual mencatat transaksi saat kewajiban timbul (B), bukan saat kas keluar (A) atau barang diterima (D)."
+            },
+            {
+                question: "Menurut UU No. 9 Tahun 2016 tentang Pencegahan Krisis Sistem Keuangan, KSSK terdiri dari...",
+                options: [
+                    "A. Menteri Keuangan, Gubernur BI, Ketua OJK, dan Ketua LPS",
+                    "B. Presiden, Menko Perekonomian, dan Gubernur BI",
+                    "C. Menteri Keuangan, Gubernur BI, dan Ketua BPK",
+                    "D. Pimpinan DPR, Menkeu, dan Ketua KPK",
+                    "E. Menko Polhukam, Menkeu, dan Kapolri"
+                ],
+                correctAnswer: 0,
+                explanation: "KSSG terdiri dari Menkeu, Gubernur BI, Ketua OJK, dan Ketua LPS (A) sesuai Pasal 6 UU No. 9/2016."
+            },
+            {
+                question: "Dalam konteks pinjaman daerah, 'capacity to pay' berarti...",
+                options: [
+                    "A. Kemampuan daerah membayar tanpa membebani APBD",
+                    "B. Ketersediaan anggaran untuk pembayaran utang",
+                    "C. Rasio utang terhadap PDRB yang aman",
+                    "D. Kemampuan meningkatkan PAD untuk bayar utang",
+                    "E. Kepatuhan terhadap batasan maksimal pinjaman"
+                ],
+                correctAnswer: 0,
+                explanation: "Capacity to pay adalah kemampuan bayar tanpa membebani APBD (A), berbeda dengan rasio utang (C) atau ketersediaan anggaran (B)."
+
+            },
+            // Soal 71-80 (Etika Pemerintahan dan Reformasi Birokrasi)
+            {
+                question: "Menurut Permenpan RB No. 38 Tahun 2017, kompetensi sosial kultural ASN mencakup...",
+                options: [
+                    "A. Pelayanan publik dan kerja sama",
+                    "B. Penguasaan teknologi informasi",
+                    "C. Kemampuan analisis kebijakan",
+                    "D. Pengawasan internal",
+                    "E. Penyusunan peraturan"
+                ],
+                correctAnswer: 0,
+                explanation: "Kompetensi sosial kultural meliputi pelayanan publik dan kerja sama (A), berbeda dengan teknis (B) atau manajerial (C)."
+            },
+            {
+                question: "Dalam konteks pencegahan gratifikasi, 'nilai wajar' hadiah yang boleh diterima ASN adalah...",
+                options: [
+                    "A. Maksimal Rp1 juta",
+                    "B. Tidak melebihi Rp2 juta",
+                    "C. Tidak ada batasan asal dilaporkan",
+                    "D. Sesuai dengan ketentuan instansi",
+                    "E. Tidak ada nilai yang diperbolehkan"
+                ],
+                correctAnswer: 0,
+                explanation: "Nilai wajar maksimal Rp1 juta (A) sesuai Peraturan KPK No. 2 Tahun 2019, asalkan tidak terkait jabatan."
+            },
+            {
+                question: "Menurut PP No. 42 Tahun 2004 tentang Pembinaan Jiwa Korps PNS, 'esprit de corps' berarti...",
+                options: [
+                    "A. Kesetiaan pada atasan langsung",
+                    "B. Kebanggaan sebagai bagian dari korps ASN",
+                    "C. Kepatuhan mutlak pada hierarki",
+                    "D. Solidaritas dengan rekan sejawat",
+                    "E. Komitmen pada organisasi profesi"
+                ],
+                correctAnswer: 1,
+                explanation: "Esprit de corps menekankan kebanggaan sebagai bagian korps ASN (B), bukan hanya solidaritas (D) atau kesetiaan (A)."
+            },
+            {
+                question: "Dalam sistem merit, 'assessment center' digunakan untuk...",
+                options: [
+                    "A. Mengevaluasi kompetensi calon pejabat",
+                    "B. Menilai kinerja tahunan pegawai",
+                    "C. Mengukur produktivitas unit kerja",
+                    "D. Memverifikasi dokumen administrasi",
+                    "E. Menyelaraskan visi-misi organisasi"
+                ],
+                correctAnswer: 0,
+                explanation: "Assessment center untuk evaluasi kompetensi calon pejabat (A), bukan penilaian kinerja (B) atau verifikasi dokumen (D)."
+            },
+            {
+                question: "Menurut Permenpan RB No. 15 Tahun 2019 tentang Pedoman Penyusunan SOP, analisis risiko dalam penyusunan SOP bertujuan untuk...",
+                options: [
+                    "A. Mengidentifikasi kemungkinan kegagalan proses",
+                    "B. Menghitung biaya pelaksanaan kegiatan",
+                    "C. Menentukan sanksi bagi pelanggar",
+                    "D. Mengevaluasi kompetensi pelaksana",
+                    "E. Memetakan kebutuhan sumber daya"
+                ],
+                correctAnswer: 0,
+                explanation: "Analisis risiko untuk identifikasi kemungkinan kegagalan (A), bukan perhitungan biaya (B) atau evaluasi kompetensi (D)."
+            },
+            {
+                question: "Dalam konteks reformasi birokrasi, 'big fast results' merupakan pendekatan untuk...",
+                options: [
+                    "A. Mencapai perubahan signifikan dalam waktu singkat",
+                    "B. Melakukan transformasi digital pemerintah",
+                    "C. Memperluas cakupan pelayanan publik",
+                    "D. Menyederhanakan struktur organisasi",
+                    "E. Mengoptimalkan penggunaan anggaran"
+                ],
+                correctAnswer: 0,
+                explanation: "Big fast results fokus pada perubahan signifikan cepat (A), berbeda dengan transformasi digital (B) atau penyederhanaan (D)."
+            },
+            {
+                question: "Menurut Permendagri No. 100 Tahun 2022 tentang Pengelolaan Komplain Pelayanan Publik, waktu maksimal penanganan komplain adalah...",
+                options: [
+                    "A. 5 hari kerja",
+                    "B. 10 hari kerja",
+                    "C. 14 hari kerja",
+                    "D. 20 hari kerja",
+                    "E. 30 hari kerja"
+                ],
+                correctAnswer: 1,
+                explanation: "Waktu maksimal penanganan komplain adalah 10 hari kerja (B) sesuai ketentuan Permendagri tersebut."
+            },
+            {
+                question: "Dalam model perubahan birokrasi Lewin, tahap 'refreezing' berarti...",
+                options: [
+                    "A. Membekukan perubahan yang telah dilakukan",
+                    "B. Menstabilkan pola perilaku baru",
+                    "C. Mengevaluasi dampak perubahan",
+                    "D. Menghentikan sementara proses reformasi",
+                    "E. Memperkuat struktur organisasi lama"
+                ],
+                correctAnswer: 1,
+                explanation: "Refreezing adalah stabilisasi perilaku baru (B), bukan pembekuan perubahan (A) atau evaluasi (C)."
+            },
+            {
+                question: "Menurut Permenpan RB No. 11 Tahun 2015 tentang Roadmap Reformasi Birokrasi, tahapan RB meliputi...",
+                options: [
+                    "A. Persiapan, pelaksanaan, evaluasi",
+                    "B. Perencanaan, implementasi, pemantapan",
+                    "C. Inisiasi, akselerasi, konsolidasi",
+                    "D. Penataan, penguatan, pemantapan",
+                    "E. Pembenahan, transformasi, inovasi"
+                ],
+                correctAnswer: 1,
+                explanation: "Tahapan RB adalah perencanaan, implementasi, pemantapan (B) sesuai ketentuan Permenpan RB tersebut."
+            },
+            {
+                question: "Dalam konteks inovasi pelayanan publik, 'co-creation' berarti...",
+                options: [
+                    "A. Pelibatan masyarakat dalam merancang layanan",
+                    "B. Kerjasama antar instansi pemerintah",
+                    "C. Pembuatan aplikasi berbasis teknologi",
+                    "D. Penyederhanaan prosedur administratif",
+                    "E. Peningkatan kualitas sumber daya manusia"
+                ],
+                correctAnswer: 0,
+                explanation: "Co-creation adalah pelibatan masyarakat dalam perancangan layanan (A), bukan sekadar kerjasama instansi (B) atau penyederhanaan (D)."
+
+            },
+            // Soal 81-100 (Studi Kasus Kompleks)
+            {
+                question: "Seorang pejabat menerima tiket pesawat dari mitra kerja untuk menghadiri seminar. Tindakan paling sesuai dengan Permenpan RB No. 25 Tahun 2021 adalah...",
+                options: [
+                    "A. Menerima setelah melaporkan ke atasan",
+                    "B. Menolak karena termasuk gratifikasi",
+                    "C. Menerima jika nilai di bawah Rp1 juta",
+                    "D. Meminta diganti dengan honorarium",
+                    "E. Menerima lalu menyumbangkannya"
+                ],
+                correctAnswer: 1,
+                explanation: "Tiket dari mitra kerja termasuk gratifikasi yang harus ditolak (B), terlepas dari nilainya, karena berpotensi mempengaruhi objektivitas."
+            },
+            {
+                question: "Jika suatu Perda Kabupaten bertentangan dengan Peraturan Menteri, tindakan Gubernur seharusnya...",
+                options: [
+                    "A. Membatalkan karena Perda lebih rendah dari Permen",
+                    "B. Mengajukan judicial review ke MA",
+                    "C. Meminta pembatalan kepada Presiden",
+                    "D. Menyuruh Bupati merevisi Perda",
+                    "E. Tidak melakukan apa-apa karena setara"
+                ],
+                correctAnswer: 2,
+                explanation: "Gubernur harus meminta pembatalan ke Presiden (C) sesuai Pasal 251 UU No. 23/2014, karena Permen lebih tinggi dari Perda."
+            },
+            {
+                question: "Ketika terjadi kebocoran data penduduk di instansi Anda, langkah pertama sesuai UU PDP adalah...",
+                options: [
+                    "A. Melaporkan ke BSSN dalam 3x24 jam",
+                    "B. Memperbaiki sistem keamanan TI",
+                    "C. Memberitahu publik melalui media",
+                    "D. Menyiapkan tim investigasi internal",
+                    "E. Melaporkan ke Komisi Informasi"
+                ],
+                correctAnswer: 0,
+                explanation: "Langkah pertama adalah lapor ke BSSN dalam 3x24 jam (A) sesuai Pasal 46 UU No. 27 Tahun 2022 tentang PDP."
+            },
+            {
+                question: "Jika pegawai melakukan pelanggaran disiplin sedang tetapi memiliki prestasi luar biasa, sanksi yang tepat adalah...",
+                options: [
+                    "A. Tetap diberikan sanksi sesuai aturan",
+                    "B. Sanksi diperberat karena melanggar integritas",
+                    "C. Sanksi diperingan karena prestasi",
+                    "D. Diberikan pembinaan tanpa sanksi",
+                    "E. Ditunda sanksinya selama 1 tahun"
+                ],
+                correctAnswer: 0,
+                explanation: "Sanksi harus tetap diberikan (A) sesuai asas kepastian hukum dalam PP No. 53/2010, prestasi tidak menghapus pelanggaran."
+            },
+            {
+                question: "Ketika terjadi konflik antara Permen dengan Perpres di bidang yang sama, yang berlaku adalah...",
+                options: [
+                    "A. Perpres karena lebih tinggi hierarkinya",
+                    "B. Permen karena lebih teknis",
+                    "C. Peraturan yang lebih baru",
+                    "D. Harus ada harmonisasi oleh Menkumham",
+                    "E. Ditentukan oleh Mahkamah Agung"
+                ],
+                correctAnswer: 0,
+                explanation: "Perpres lebih tinggi dari Permen menurut hierarki UU No. 12/2011 (A), terlepas dari aspek teknis atau waktu penerbitan."
+            },
+            {
+                question: "Jika ditemukan indikasi korupsi dalam proyek DAK, langkah pertama Inspektorat adalah...",
+                options: [
+                    "A. Melaporkan ke penegak hukum",
+                    "B. Melakukan audit investigatif",
+                    "C. Memeriksa dokumen pengadaan",
+                    "D. Memanggil pihak terkait klarifikasi",
+                    "E. Membentuk tim khusus dengan KPK"
+                ],
+                correctAnswer: 2,
+                explanation: "Langkah pertama adalah pemeriksaan dokumen (C) untuk mengumpulkan bukti awal sebelum audit atau pelaporan."
+            },
+            {
+                question: "Ketika pemerintah daerah tidak melaksanakan urusan wajib yang menjadi kewenangannya, sanksi dari pusat adalah...",
+                options: [
+                    "A. Pembatalan Perda terkait",
+                    "B. Penundaan transfer dana DAU",
+                    "C. Pemberhentian sementara kepala daerah",
+                    "D. Pengalihan urusan ke pemerintah pusat",
+                    "E. Pemberian teguran tertulis"
+                ],
+                correctAnswer: 1,
+                explanation: "Sanksi berupa penundaan DAU (B) sesuai Pasal 288 UU No. 23/2014, sebelum sanksi lebih berat seperti pembatalan (A)."
+            },
+            {
+                question: "Jika pejabat menandatangani kontrak pengadaan sebelum DIPA disahkan, konsekuensi hukumnya adalah...",
+                options: [
+                    "A. Kontrak tetap sah dengan persetujuan Kemenkeu",
+                    "B. Kontrak batal demi hukum",
+                    "C. Pejabat dapat dikenai sanksi administratif",
+                    "D. Kontrak sah jika telah ada pagu indikatif",
+                    "E. Perlu ratifikasi oleh DPRD"
+                ],
+                correctAnswer: 1,
+                explanation: "Kontrak sebelum DIPA disahkan batal demi hukum (B) sesuai Pasal 35 UU No. 1/2004 tentang Perbendaharaan Negara."
+            },
+            {
+                question: "Dalam penyusunan PERPPU menjadi UU, DPR harus...",
+                options: [
+                    "A. Mengesahkan dalam 30 hari sejak diajukan",
+                    "B. Membahas dalam masa sidang berikutnya",
+                    "C. Membentuk panitia khusus dalam 7 hari",
+                    "D. Mengadakan rapat paripurna khusus",
+                    "E. Meminta pendapat Mahkamah Konstitusi"
+                ],
+                correctAnswer: 1,
+                explanation: "DPR wajib bahas PERPPU pada masa sidang berikutnya (B) sesuai Pasal 22 ayat (2) UUD 1945, tanpa batasan waktu spesifik."
+            },
+            {
+                question: "Jika pegawai menolak mutasi dengan alasan tidak sesuai kompetensi, instansi seharusnya...",
+                options: [
+                    "A. Memaksakan mutasi sebagai perintah atasan",
+                    "B. Mengevaluasi kesesuaian kompetensi",
+                    "C. Memberikan sanksi pelanggaran disiplin",
+                    "D. Meminta pegawai mengajukan pensiun",
+                    "E. Membentuk tim mediasi konflik"
+                ],
+                correctAnswer: 1,
+                explanation: "Instansi harus evaluasi kesesuaian kompetensi (B) sesuai prinsip 'the right man on the right place' dalam manajemen ASN."
+            },
+            {
+                question: "Ketika terjadi bencana alam, APBD dapat diubah melalui...",
+                options: [
+                    "A. Pergub penetapan perubahan APBD",
+                    "B. Perda perubahan APBD yang disederhanakan",
+                    "C. Surat edaran gubernur/bupati",
+                    "D. Keputusan DPRD dalam rapat khusus",
+                    "E. Peraturan bersama DPRD dan kepala daerah"
+                ],
+                correctAnswer: 1,
+                explanation: "Perubahan APBD melalui Perda yang disederhanakan (B) sesuai Pasal 279 UU No. 23/2014 tentang Pemerintahan Daerah."
+            },
+            {
+                question: "Jika pejabat mengeluarkan kebijakan tanpa dasar hukum yang jelas, upaya hukum yang tersedia adalah...",
+                options: [
+                    "A. Gugatan di PTUN oleh pihak yang dirugikan",
+                    "B. Laporan ke Ombudsman atas maladministrasi",
+                    "C. Permohonan judicial review ke MA",
+                    "D. Pelaporan ke KPK sebagai penyalahgunaan wewenang",
+                    "E. Pengaduan ke Komisi Aparatur Sipil Negara"
+                ],
+                correctAnswer: 0,
+                explanation: "Kebijakan tanpa dasar hukum dapat digugat di PTUN (A) oleh pihak yang dirugikan, sebagai upaya hukum yang tepat."
+            },
+            {
+                question: "Dalam hal terjadi kekosongan jabatan pimpinan K/L, pelaksana tugas ditetapkan oleh...",
+                options: [
+                    "A. Presiden atas usul menteri terkait",
+                    "B. Menteri PAN-RB setelah seleksi terbuka",
+                    "C. Pejabat tinggi madya di lingkungan instansi",
+                    "D. Sekretaris Jenderal sebagai otomatis plt",
+                    "E. Tim seleksi independen yang dibentuk presiden"
+                ],
+                correctAnswer: 0,
+                explanation: "Plt ditetapkan Presiden atas usul menteri (A) sesuai Perpres No. 82 Tahun 2020 tentang Kementerian Negara."
+            },
+            {
+                question: "Jika Perda Provinsi dan Perda Kabupaten saling bertentangan, penyelesaiannya melalui...",
+                options: [
+                    "A. Harmonisasi oleh Kementerian Dalam Negeri",
+                    "B. Pembatalan oleh Mahkamah Agung",
+                    "C. Mediasi oleh Gubernur sebagai wakil pusat",
+                    "D. Revisi oleh DPRD masing-masing",
+                    "E. Keputusan bersama kepala daerah terkait"
+                ],
+                correctAnswer: 2,
+                explanation: "Gubernur sebagai wakil pusat melakukan mediasi (C) sesuai Pasal 251 ayat (3) UU No. 23/2014 sebelum pembatalan."
+            },
+            {
+                question: "Ketika terjadi pemutusan hubungan kerja sepihak oleh instansi pemerintah, pegawai dapat mengajukan...",
+                options: [
+                    "A. Gugatan ke Pengadilan Hubungan Industrial",
+                    "B. Banding ke Komisi Kepegawaian Negara",
+                    "C. Keberatan ke Badan Pertimbangan Kepegawaian",
+                    "D. Laporan ke Ombudsman Republik Indonesia",
+                    "E. Permohonan mediasi ke Kementerian PAN-RB"
+                ],
+                correctAnswer: 2,
+                explanation: "Pegawai dapat ajukan keberatan ke BPK (C) sesuai Pasal 36 PP No. 11/2017 tentang Manajemen PNS sebelum upaya hukum lain."
+            },
+            {
+                question: "Dalam hal pembentukan UU inisiatif DPR, tahapan pertama adalah...",
+                options: [
+                    "A. Penyusunan naskah akademik",
+                    "B. Pengajuan rancangan undang-undang",
+                    "C. Pembahasan dalam rapat komisi",
+                    "D. Pengambilan keputusan dalam rapat paripurna",
+                    "E. Sosialisasi ke masyarakat"
+                ],
+                correctAnswer: 1,
+                explanation: "Tahap pertama adalah pengajuan RUU (B) ke DPR sesuai Pasal 21 UUD 1945, naskah akademik bisa menyusul."
+            },
+            {
+                question: "Jika ditemukan potensi kerugian negara dalam laporan BPK, langkah wajib pemerintah adalah...",
+                options: [
+                    "A. Melaporkan ke penegak hukum dalam 30 hari",
+                    "B. Membentuk tim pencari fakta independen",
+                    "C. Melakukan pemeriksaan internal",
+                    "D. Menyelesaikan tuntutan ganti rugi",
+                    "E. Memperbaiki sistem pengendalian intern"
+                ],
+                correctAnswer: 3,
+                explanation: "Pemerintah wajib selesaikan tuntutan ganti rugi (D) sesuai Pasal 8 ayat (3) UU No. 15/2006 tentang BPK sebelum langkah lain."
+            },
+            {
+                question: "Dalam penyusunan Perpres, konsultasi publik dilakukan pada tahap...",
+                options: [
+                    "A. Penyusunan rancangan awal",
+                    "B. Pembahasan antar kementerian",
+                    "C. Review oleh Kementerian Hukum dan HAM",
+                    "D. Pengesahan oleh Presiden",
+                    "E. Evaluasi pasca penetapan"
+                ],
+                correctAnswer: 0,
+                explanation: "Konsultasi publik pada tahap penyusunan rancangan awal (A) sesuai Pasal 53 UU No. 12/2011 tentang Pembentukan Peraturan Perundang-undangan."
+            }
                     ]
                 };
                 
