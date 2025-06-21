@@ -1533,130 +1533,1218 @@
         // Initialize question bank with sample questions
         function initializeQuestionBank() {
             const initialQuestions = [
-                {
-                    question: "Apa dasar negara Indonesia?",
-                    options: ["A. UUD 1945", "B. Pancasila", "C. Bhinneka Tunggal Ika", "D. NKRI", "E. Garuda Pancasila"],
-                    correctAnswer: 1,
-                    explanation: "Pancasila adalah dasar negara Indonesia yang tercantum dalam Pembukaan UUD 1945."
-                },
-                {
-                    question: "Lembaga negara yang bertugas memeriksa pengelolaan keuangan negara adalah?",
-                    options: ["A. KPK", "B. BPK", "C. KY", "D. DPR", "E. MK"],
-                    correctAnswer: 1,
-                    explanation: "Badan Pemeriksa Keuangan (BPK) adalah lembaga negara yang bertugas memeriksa pengelolaan keuangan negara."
-                },
-                {
-                    question: "Sistem pemerintahan Indonesia berdasarkan UUD 1945 adalah?",
-                    options: ["A. Presidensial", "B. Parlementer", "C. Monarki", "D. Federasi", "E. Komunis"],
-                    correctAnswer: 0,
-                    explanation: "Sistem pemerintahan Indonesia adalah presidensial dimana presiden berkedudukan sebagai kepala negara dan kepala pemerintahan."
-                },
-                {
-                    question: "Undang-Undang Dasar 1945 pertama kali disahkan pada tanggal?",
-                    options: ["A. 17 Agustus 1945", "B. 18 Agustus 1945", "C. 1 Juni 1945", "D. 22 Juni 1945", "E. 27 Desember 1949"],
-                    correctAnswer: 1,
-                    explanation: "UUD 1945 disahkan pada 18 Agustus 1945 oleh PPKI sehari setelah proklamasi kemerdekaan."
-                },
-                {
-                    question: "Lagu kebangsaan Indonesia Raya pertama kali diperdengarkan pada acara?",
-                    options: ["A. Proklamasi Kemerdekaan", "B. Sumpah Pemuda", "C. Konferensi Meja Bundar", "D. Pembentukan BPUPKI", "E. Penyerahan kedaulatan"],
-                    correctAnswer: 1,
-                    explanation: "Lagu Indonesia Raya pertama kali diperdengarkan pada Kongres Pemuda II (Sumpah Pemuda) tanggal 28 Oktober 1928."
-                },
-                {
-                    question: "Bentuk negara Indonesia adalah?",
-                    options: ["A. Kesatuan", "B. Federal", "C. Monarki", "D. Konfederasi", "E. Republik"],
-                    correctAnswer: 0,
-                    explanation: "Bentuk negara Indonesia adalah negara kesatuan sebagaimana diatur dalam Pasal 1 ayat (1) UUD 1945."
-                },
-                {
-                    question: "Lembaga negara yang berwenang mengubah UUD 1945 adalah?",
-                    options: ["A. MPR", "B. DPR", "C. Presiden", "D. MK", "E. MA"],
-                    correctAnswer: 0,
-                    explanation: "Majelis Permusyawaratan Rakyat (MPR) adalah lembaga negara yang berwenang mengubah UUD 1945."
-                },
-                {
-                    question: "Hak DPR untuk mengajukan rancangan undang-undang disebut?",
-                    options: ["A. Hak inisiatif", "B. Hak amandemen", "C. Hak interpelasi", "D. Hak angket", "E. Hak budget"],
-                    correctAnswer: 0,
-                    explanation: "Hak inisiatif adalah hak DPR untuk mengajukan rancangan undang-undang."
-                },
-                {
-                    question: "Lembaga negara yang bertugas memeriksa pengelolaan keuangan negara adalah?",
-                    options: ["A. KPK", "B. BPK", "C. KY", "D. DPR", "E. MK"],
-                    correctAnswer: 1,
-                    explanation: "Badan Pemeriksa Keuangan (BPK) adalah lembaga negara yang bertugas memeriksa pengelolaan keuangan negara."
-                },
-                {
-                    question: "Pancasila sebagai dasar negara tercantum dalam?",
-                    options: ["A. Pembukaan UUD 1945", "B. Batang Tubuh UUD 1945", "C. Penjelasan UUD 1945", "D. Dekrit Presiden", "E. Ketetapan MPR"],
-                    correctAnswer: 0,
-                    explanation: "Pancasila sebagai dasar negara tercantum dalam alinea keempat Pembukaan UUD 1945."
-                },
-                {
-                    question: "Yang termasuk nilai-nilai Pancasila sila pertama adalah?",
-                    options: ["A. Toleransi antar umat beragama", "B. Gotong royong", "C. Musyawarah mufakat", "D. Keadilan sosial", "E. Persatuan Indonesia"],
-                    correctAnswer: 0,
-                    explanation: "Toleransi antar umat beragama merupakan nilai dari sila pertama Pancasila."
-                },
-                {
-                    question: "Bentuk pemerintahan Indonesia menurut UUD 1945 adalah?",
-                    options: ["A. Republik", "B. Monarki", "C. Kesultanan", "D. Kekaisaran", "E. Federasi"],
-                    correctAnswer: 0,
-                    explanation: "Bentuk pemerintahan Indonesia adalah republik sebagaimana tercantum dalam Pembukaan UUD 1945."
-                },
-                {
-                    question: "Lembaga yang berwenang mengubah UUD 1945 adalah?",
-                    options: ["A. MPR", "B. DPR", "C. Presiden", "D. MK", "E. MA"],
-                    correctAnswer: 0,
-                    explanation: "MPR adalah lembaga yang berwenang mengubah UUD 1945 menurut Pasal 3 UUD 1945."
-                },
-                {
-                    question: "Hak DPR untuk meminta keterangan kepada pemerintah disebut?",
-                    options: ["A. Hak interpelasi", "B. Hak angket", "C. Hak budget", "D. Hak inisiatif", "E. Hak amandemen"],
-                    correctAnswer: 0,
-                    explanation: "Hak interpelasi adalah hak DPR untuk meminta keterangan kepada pemerintah."
-                },
-                {
-                    question: "Lembaga negara yang berwenang menguji undang-undang terhadap UUD 1945 adalah?",
-                    options: ["A. Mahkamah Konstitusi", "B. Mahkamah Agung", "C. Komisi Yudisial", "D. DPR", "E. MPR"],
-                    correctAnswer: 0,
-                    explanation: "Mahkamah Konstitusi berwenang menguji undang-undang terhadap UUD 1945."
-                },
-                {
-                    question: "Yang termasuk nilai-nilai Pancasila sila kedua adalah?",
-                    options: ["A. Mengakui persamaan derajat", "B. Toleransi beragama", "C. Musyawarah mufakat", "D. Keadilan sosial", "E. Persatuan Indonesia"],
-                    correctAnswer: 0,
-                    explanation: "Mengakui persamaan derajat merupakan nilai dari sila kedua Pancasila."
-                },
-                {
-                    question: "Sistem ekonomi Indonesia berdasarkan pada?",
-                    options: ["A. Pasal 33 UUD 1945", "B. Pasal 27 UUD 1945", "C. Pasal 28 UUD 1945", "D. Pasal 29 UUD 1945", "E. Pasal 30 UUD 1945"],
-                    correctAnswer: 0,
-                    explanation: "Sistem ekonomi Indonesia diatur dalam Pasal 33 UUD 1945."
-                },
-                {
-                    question: "Lembaga negara yang bertugas memeriksa pengelolaan keuangan negara adalah?",
-                    options: ["A. BPK", "B. KPK", "C. KY", "D. DPR", "E. MK"],
-                    correctAnswer: 0,
-                    explanation: "BPK (Badan Pemeriksa Keuangan) bertugas memeriksa pengelolaan keuangan negara."
-                },
-                {
-                    question: "Yang termasuk nilai-nilai Pancasila sila ketiga adalah?",
-                    options: ["A. Cinta tanah air", "B. Toleransi beragama", "C. Musyawarah mufakat", "D. Keadilan sosial", "E. Mengakui persamaan derajat"],
-                    correctAnswer: 0,
-                    explanation: "Cinta tanah air merupakan nilai dari sila ketiga Pancasila."
-                },
-                {
-                    question: "Lembaga yang berwenang mengadili pada tingkat kasasi adalah?",
-                    options: ["A. Mahkamah Agung", "B. Mahkamah Konstitusi", "C. Pengadilan Negeri", "D. Pengadilan Tinggi", "E. Komisi Yudisial"],
-                    correctAnswer: 0,
-                    explanation: "Mahkamah Agung berwenang mengadili pada tingkat kasasi."
-                }
-            ];
-            
-            originalQuestions = initialQuestions;
+                        {
+            question: "Berdasarkan Undang-Undang Nomor 23 Tahun 2014 tentang Pemerintahan Daerah, yang dimaksud dengan Otonomi Daerah adalah hak, wewenang, dan kewajiban daerah otonom untuk mengatur dan mengurus sendiri urusan pemerintahan dan kepentingan masyarakat setempat sesuai dengan...",
+            options: [
+                "A. Peraturan perundang-undangan",
+                "B. Kebijakan kepala daerah",
+                "C. Aspirasi masyarakat",
+                "D. Peraturan daerah setempat",
+                "E. Peraturan menteri dalam negeri"
+            ],
+            correctAnswer: 0,
+            explanation: "Menurut Pasal 1 angka 6 UU 23/2014, Otonomi Daerah adalah hak, wewenang, dan kewajiban daerah otonom untuk mengatur dan mengurus sendiri urusan pemerintahan dan kepentingan masyarakat setempat dalam sistem Negara Kesatuan Republik Indonesia sesuai dengan peraturan perundang-undangan."
+        },
+        {
+            question: "Dalam penyelenggaraan pemerintahan daerah, prinsip otonomi daerah menggunakan prinsip otonomi seluas-luasnya, nyata, dan bertanggung jawab. Yang dimaksud dengan prinsip otonomi nyata adalah...",
+            options: [
+                "A. Otonomi yang diberikan sesuai dengan kemampuan daerah",
+                "B. Otonomi yang diberikan berdasarkan potensi dan kekhasan daerah",
+                "C. Otonomi yang diberikan berdasarkan kebutuhan daerah",
+                "D. Otonomi yang diberikan berdasarkan permintaan daerah",
+                "E. Otonomi yang diberikan berdasarkan keputusan DPRD"
+            ],
+            correctAnswer: 1,
+            explanation: "Prinsip otonomi nyata berarti otonomi yang diberikan berdasarkan potensi dan kekhasan daerah, sehingga daerah dapat mengembangkan potensinya secara optimal."
+        },
+        {
+            question: "Menurut Undang-Undang Nomor 23 Tahun 2014, urusan pemerintahan absolut yang menjadi kewenangan Pemerintah Pusat meliputi hal-hal berikut, KECUALI...",
+            options: [
+                "A. Politik luar negeri",
+                "B. Pertahanan",
+                "C. Keamanan",
+                "D. Pendidikan",
+                "E. Yustisi"
+            ],
+            correctAnswer: 3,
+            explanation: "Pendidikan merupakan urusan konkuren (dibagi antara pemerintah pusat dan daerah), bukan urusan absolut. Urusan absolut meliputi politik luar negeri, pertahanan, keamanan, yustisi, moneter dan fiskal nasional, serta agama."
+        },
+        {
+            question: "Dalam sistem pemerintahan daerah, yang dimaksud dengan Dekonsentrasi adalah...",
+            options: [
+                "A. Pelimpahan wewenang dari pemerintah pusat kepada gubernur sebagai wakil pemerintah",
+                "B. Penyerahan wewenang dari pemerintah pusat kepada daerah otonom",
+                "C. Pemberian tugas dari pemerintah pusat kepada pemerintah daerah",
+                "D. Pelimpahan urusan pemerintahan dari pemerintah pusat kepada instansi vertikal",
+                "E. Pembagian urusan pemerintahan antara pemerintah pusat dan daerah"
+            ],
+            correctAnswer: 0,
+            explanation: "Dekonsentrasi adalah pelimpahan wewenang dari pemerintah pusat kepada gubernur sebagai wakil pemerintah dan/atau kepada instansi vertikal di wilayah tertentu."
+        },
+        {
+            question: "Menurut Peraturan Pemerintah Nomor 18 Tahun 2016 tentang Perangkat Daerah, perangkat daerah yang bertugas membantu kepala daerah dalam penyusunan kebijakan dan koordinasi di bidang pemerintahan, pembangunan, dan kemasyarakatan adalah...",
+            options: [
+                "A. Sekretariat Daerah",
+                "B. Dinas Daerah",
+                "C. Badan Perencanaan Pembangunan Daerah",
+                "D. Inspektorat",
+                "E. Badan Kepegawaian Daerah"
+            ],
+            correctAnswer: 0,
+            explanation: "Sekretariat Daerah merupakan perangkat daerah yang bertugas membantu kepala daerah dalam penyusunan kebijakan dan koordinasi di bidang pemerintahan, pembangunan, dan kemasyarakatan."
+        },
+        {
+            question: "Dalam penyelenggaraan pemerintahan daerah, musyawarah perencanaan pembangunan (musrenbang) dilaksanakan untuk menyusun...",
+            options: [
+                "A. Rencana Pembangunan Jangka Panjang Daerah (RPJPD)",
+                "B. Rencana Pembangunan Jangka Menengah Daerah (RPJMD)",
+                "C. Rencana Kerja Pemerintah Daerah (RKPD)",
+                "D. Rencana Strategis Satuan Kerja Perangkat Daerah (Renstra SKPD)",
+                "E. Rencana Kerja Satuan Kerja Perangkat Daerah (Renja SKPD)"
+            ],
+            correctAnswer: 2,
+            explanation: "Musrenbang dilaksanakan untuk menyusun RKPD (Rencana Kerja Pemerintah Daerah) sebagai penjabaran dari RPJMD."
+        },
+        {
+            question: "Menurut Undang-Undang Nomor 23 Tahun 2014, kepala daerah dapat diberhentikan oleh Presiden melalui usulan Menteri Dalam Negeri dengan alasan berikut, KECUALI...",
+            options: [
+                "A. Berakhir masa jabatannya",
+                "B. Tidak dapat melaksanakan tugas secara berkelanjutan",
+                "C. Melanggar sumpah/janji jabatan",
+                "D. Tidak melaksanakan kewajiban kepala daerah",
+                "E. Melanggar larangan bagi kepala daerah"
+            ],
+            correctAnswer: 0,
+            explanation: "Berakhirnya masa jabatan merupakan hal yang normal dan bukan alasan pemberhentian. Pemberhentian dilakukan karena alasan tertentu seperti pelanggaran atau ketidakmampuan melaksanakan tugas."
+        },
+        {
+            question: "Dalam sistem pemerintahan daerah, yang termasuk tugas dan wewenang DPRD adalah...",
+            options: [
+                "A. Menetapkan Peraturan Daerah",
+                "B. Mengangkat sekretaris daerah",
+                "C. Menetapkan kebijakan pemerintah daerah",
+                "D. Mengawasi pelaksanaan peraturan perundang-undangan",
+                "E. Menetapkan APBD"
+            ],
+            correctAnswer: 0,
+            explanation: "DPRD memiliki fungsi legislasi, anggaran, dan pengawasan. Salah satu tugas legislasi adalah menetapkan Peraturan Daerah bersama kepala daerah."
+        },
+        {
+            question: "Menurut Peraturan Pemerintah Nomor 12 Tahun 2017 tentang Pembinaan dan Pengawasan Penyelenggaraan Pemerintahan Daerah, yang dimaksud dengan pembinaan penyelenggaraan pemerintahan daerah adalah...",
+            options: [
+                "A. Proses pengawasan terhadap kinerja pemerintah daerah",
+                "B. Upaya untuk meningkatkan kapasitas penyelenggaraan pemerintahan daerah",
+                "C. Tindakan korektif terhadap penyimpangan dalam pemerintahan daerah",
+                "D. Evaluasi terhadap laporan penyelenggaraan pemerintahan daerah",
+                "E. Pemberian sanksi kepada pemerintah daerah yang melanggar"
+            ],
+            correctAnswer: 1,
+            explanation: "Pembinaan adalah upaya untuk meningkatkan kapasitas penyelenggaraan pemerintahan daerah melalui pemberian pedoman, bimbingan, pelatihan, supervisi, dan evaluasi."
+        },
+        {
+            question: "Dalam penyelenggaraan pemerintahan daerah, yang termasuk asas umum penyelenggaraan pemerintahan yang baik adalah...",
+            options: [
+                "A. Sentralisasi",
+                "B. Desentralisasi",
+                "C. Dekonsentrasi",
+                "D. Proporsionalitas",
+                "E. Tugas pembantuan"
+            ],
+            correctAnswer: 3,
+            explanation: "Asas umum penyelenggaraan pemerintahan yang baik meliputi: kepastian hukum, tertib penyelenggaraan negara, kepentingan umum, keterbukaan, proporsionalitas, profesionalitas, akuntabilitas, efisiensi, dan efektivitas."
+        },
+        {
+            question: "Menurut Undang-Undang Nomor 23 Tahun 2014, yang termasuk urusan pemerintahan wajib yang berkaitan dengan pelayanan dasar adalah...",
+            options: [
+                "A. Pertanian",
+                "B. Perikanan",
+                "C. Kesehatan",
+                "D. Perdagangan",
+                "E. Pariwisata"
+            ],
+            correctAnswer: 2,
+            explanation: "Urusan wajib yang berkaitan dengan pelayanan dasar meliputi: pendidikan, kesehatan, pekerjaan umum dan penataan ruang, perumahan rakyat dan kawasan permukiman, ketenteraman, ketertiban umum, dan perlindungan masyarakat, serta sosial."
+        },
+        {
+            question: "Dalam sistem pemerintahan daerah, yang dimaksud dengan tugas pembantuan adalah...",
+            options: [
+                "A. Penyerahan wewenang dari pemerintah pusat kepada daerah otonom",
+                "B. Pelimpahan wewenang dari pemerintah pusat kepada gubernur sebagai wakil pemerintah",
+                "C. Penugasan dari pemerintah kepada daerah untuk melaksanakan tugas tertentu",
+                "D. Pembagian urusan pemerintahan antara pemerintah pusat dan daerah",
+                "E. Pelimpahan urusan pemerintahan dari pemerintah pusat kepada instansi vertikal"
+            ],
+            correctAnswer: 2,
+            explanation: "Tugas pembantuan adalah penugasan dari pemerintah kepada daerah dan/atau desa untuk melaksanakan tugas tertentu yang disertai pembiayaan, sarana, dan prasarana serta sumber daya manusia dengan kewajiban melaporkan pelaksanaannya dan mempertanggungjawabkannya kepada yang menugaskan."
+        },
+        {
+            question: "Menurut Peraturan Pemerintah Nomor 18 Tahun 2016, perangkat daerah yang bertugas melaksanakan urusan pemerintahan yang menjadi kewenangan daerah adalah...",
+            options: [
+                "A. Sekretariat Daerah",
+                "B. Dinas Daerah",
+                "C. Badan",
+                "D. Inspektorat",
+                "E. Kantor"
+            ],
+            correctAnswer: 1,
+            explanation: "Dinas Daerah adalah perangkat daerah yang bertugas melaksanakan urusan pemerintahan yang menjadi kewenangan daerah."
+        },
+        {
+            question: "Dalam penyelenggaraan pemerintahan daerah, evaluasi rancangan Peraturan Daerah dilakukan oleh...",
+            options: [
+                "A. Mahkamah Agung",
+                "B. Mahkamah Konstitusi",
+                "C. Kementerian Dalam Negeri",
+                "D. Badan Pemeriksa Keuangan",
+                "E. Komisi Yudisial"
+            ],
+            correctAnswer: 2,
+            explanation: "Evaluasi rancangan Peraturan Daerah dilakukan oleh Kementerian Dalam Negeri sebelum ditetapkan menjadi Peraturan Daerah."
+        },
+        {
+            question: "Menurut Undang-Undang Nomor 23 Tahun 2014, kepala daerah dan wakil kepala daerah berhenti karena...",
+            options: [
+                "A. Mengundurkan diri",
+                "B. Tidak hadir dalam rapat DPRD",
+                "C. Tidak melaksanakan kunjungan kerja",
+                "D. Tidak menandatangani Perda dalam waktu tertentu",
+                "E. Tidak melaksanakan musrenbang"
+            ],
+            correctAnswer: 0,
+            explanation: "Kepala daerah dan wakil kepala daerah berhenti karena: meninggal dunia, mengundurkan diri, atau diberhentikan."
+        },
+        {
+            question: "Dalam sistem pemerintahan daerah, yang termasuk kewajiban kepala daerah adalah...",
+            options: [
+                "A. Memberikan laporan penyelenggaraan pemerintahan daerah kepada DPRD",
+                "B. Menetapkan Peraturan Daerah",
+                "C. Mengusulkan pengangkatan sekretaris daerah",
+                "D. Menyusun rancangan APBD",
+                "E. Mengawasi pelaksanaan Peraturan Daerah"
+            ],
+            correctAnswer: 0,
+            explanation: "Salah satu kewajiban kepala daerah adalah memberikan laporan penyelenggaraan pemerintahan daerah kepada pemerintah dan DPRD, serta menginformasikan laporan penyelenggaraan pemerintahan daerah kepada masyarakat."
+        },
+        {
+            question: "Menurut Peraturan Pemerintah Nomor 12 Tahun 2017, pembinaan dan pengawasan penyelenggaraan pemerintahan daerah dilakukan oleh...",
+            options: [
+                "A. Presiden",
+                "B. Menteri Dalam Negeri",
+                "C. Gubernur",
+                "D. DPRD",
+                "E. Inspektorat Daerah"
+            ],
+            correctAnswer: 1,
+            explanation: "Pembinaan dan pengawasan penyelenggaraan pemerintahan daerah dilakukan oleh Menteri Dalam Negeri untuk provinsi dan kabupaten/kota."
+        },
+        {
+            question: "Dalam penyelenggaraan pemerintahan daerah, yang termasuk prinsip penyusunan APBD adalah...",
+            options: [
+                "A. Sentralisasi",
+                "B. Dekonsentrasi",
+                "C. Tugas pembantuan",
+                "D. Keterbukaan",
+                "E. Desentralisasi"
+            ],
+            correctAnswer: 3,
+            explanation: "Prinsip penyusunan APBD meliputi: keterbukaan, partisipasi, akuntabilitas, efisiensi, efektivitas, dan berkeadilan."
+        },
+        {
+            question: "Menurut Undang-Undang Nomor 23 Tahun 2014, yang termasuk hak DPRD adalah...",
+            options: [
+                "A. Menetapkan Peraturan Daerah",
+                "B. Mengusulkan pengangkatan sekretaris daerah",
+                "C. Menyusun rancangan APBD",
+                "D. Meminta laporan kepada kepala daerah",
+                "E. Mengawasi pelaksanaan Peraturan Daerah"
+            ],
+            correctAnswer: 3,
+            explanation: "Hak DPRD meliputi: meminta keterangan kepada kepala daerah, mengadakan penyelidikan, menyatakan pendapat, dan hak lainnya yang diatur dalam peraturan perundang-undangan."
+        },
+
+        // Kepegawaian (20 soal)
+        {
+            question: "Berdasarkan Undang-Undang Nomor 5 Tahun 2014 tentang Aparatur Sipil Negara, yang dimaksud dengan Aparatur Sipil Negara adalah...",
+            options: [
+                "A. Pegawai negeri sipil dan pegawai pemerintah dengan perjanjian kerja",
+                "B. Pegawai negeri sipil, pegawai pemerintah dengan perjanjian kerja, dan pegawai honorer",
+                "C. Pegawai negeri sipil, pegawai pemerintah dengan perjanjian kerja, dan pejabat negara",
+                "D. Pegawai negeri sipil, pegawai pemerintah dengan perjanjian kerja, dan pegawai swasta yang bekerja untuk pemerintah",
+                "E. Pegawai negeri sipil, pegawai pemerintah dengan perjanjian kerja, dan pegawai BUMN/BUMD"
+            ],
+            correctAnswer: 0,
+            explanation: "ASN adalah profesi bagi pegawai negeri sipil dan pegawai pemerintah dengan perjanjian kerja yang bekerja pada instansi pemerintah."
+        },
+        {
+            question: "Menurut Peraturan Pemerintah Nomor 11 Tahun 2017 tentang Manajemen Pegawai Negeri Sipil, yang termasuk prinsip manajemen ASN adalah...",
+            options: [
+                "A. Sentralisasi",
+                "B. Kekeluargaan",
+                "C. Keterbukaan",
+                "D. Senioritas",
+                "E. Kesukuan"
+            ],
+            correctAnswer: 2,
+            explanation: "Prinsip manajemen ASN meliputi: kepastian hukum, profesionalitas, proporsionalitas, keterbukaan, akuntabilitas, efisiensi, efektivitas, dan nondiskriminatif."
+        },
+        {
+            question: "Dalam sistem kepegawaian, yang termasuk hak Pegawai Negeri Sipil adalah...",
+            options: [
+                "A. Memperoleh gaji dan tunjangan",
+                "B. Melakukan mogok kerja",
+                "C. Bergabung dengan partai politik",
+                "D. Mendirikan serikat pekerja independen",
+                "E. Menolak tugas yang diberikan atasan"
+            ],
+            correctAnswer: 0,
+            explanation: "Hak PNS meliputi: gaji, tunjangan, cuti, pensiun, jaminan kesehatan, dan hak lainnya sesuai ketentuan peraturan perundang-undangan."
+        },
+        {
+            question: "Menurut Peraturan Pemerintah Nomor 17 Tahun 2020 tentang Perubahan atas Peraturan Pemerintah Nomor 11 Tahun 2017, yang termasuk larangan bagi Pegawai Negeri Sipil adalah...",
+            options: [
+                "A. Melaksanakan tugas kedinasan",
+                "B. Mengikuti pendidikan dan pelatihan",
+                "C. Menjadi anggota partai politik",
+                "D. Menerima penghargaan",
+                "E. Mengajukan kenaikan pangkat"
+            ],
+            correctAnswer: 2,
+            explanation: "PNS dilarang menjadi anggota partai politik, kecuali bagi PNS yang menduduki jabatan tertentu di KPU, Bawaslu, dan KPPU."
+        },
+        {
+            question: "Dalam sistem pengembangan kompetensi ASN, yang termasuk jenis pendidikan dan pelatihan adalah...",
+            options: [
+                "A. Diklat prajabatan dan diklat kepemimpinan",
+                "B. Diklat teknis dan diklat fungsional",
+                "C. Diklat manajerial dan diklat sosial kultural",
+                "D. Diklat dasar dan diklat lanjutan",
+                "E. Diklat struktural dan diklat non struktural"
+            ],
+            correctAnswer: 0,
+            explanation: "Jenis diklat ASN meliputi: diklat prajabatan, diklat kepemimpinan, diklat teknis, dan diklat fungsional."
+        },
+        {
+            question: "Menurut Peraturan Pemerintah Nomor 11 Tahun 2017, sistem merit dalam manajemen ASN dilaksanakan melalui...",
+            options: [
+                "A. Rekrutmen, pengembangan karier, dan pemberhentian",
+                "B. Pengangkatan, penempatan, dan promosi",
+                "C. Penilaian kinerja, penggajian, dan pensiun",
+                "D. Pembinaan, pengawasan, dan pemberian sanksi",
+                "E. Pelatihan, sertifikasi, dan mutasi"
+            ],
+            correctAnswer: 1,
+            explanation: "Sistem merit dilaksanakan melalui pengangkatan, penempatan, dan promosi berdasarkan kualifikasi, kompetensi, dan kinerja secara adil dan wajar tanpa diskriminasi."
+        },
+        {
+            question: "Dalam sistem penilaian kinerja PNS, yang termasuk aspek yang dinilai adalah...",
+            options: [
+                "A. Sikap dan perilaku",
+                "B. Kehadiran dan ketepatan waktu",
+                "C. Jumlah tugas yang diselesaikan",
+                "D. Lama bekerja sebagai PNS",
+                "E. Jumlah pelatihan yang diikuti"
+            ],
+            correctAnswer: 0,
+            explanation: "Aspek penilaian kinerja PNS meliputi: sikap dan perilaku, prestasi kerja, dan ketaatan."
+        },
+        {
+            question: "Menurut Peraturan Pemerintah Nomor 17 Tahun 2020, mutasi PNS dapat dilakukan karena...",
+            options: [
+                "A. Permintaan sendiri",
+                "B. Kebutuhan instansi",
+                "C. Pertimbangan keluarga",
+                "D. Keinginan pimpinan",
+                "E. Usulan rekan kerja"
+            ],
+            correctAnswer: 1,
+            explanation: "Mutasi PNS dilakukan berdasarkan kebutuhan instansi, pengembangan karier, permintaan sendiri, atau karena alasan lain yang sah."
+        },
+        {
+            question: "Dalam sistem penggajian PNS, yang termasuk komponen gaji adalah...",
+            options: [
+                "A. Gaji pokok dan tunjangan keluarga",
+                "B. Tunjangan jabatan dan tunjangan kinerja",
+                "C. Tunjangan daerah terpencil dan tunjangan khusus",
+                "D. Tunjangan hari raya dan tunjangan transport",
+                "E. Tunjangan pangan dan tunjangan perumahan"
+            ],
+            correctAnswer: 0,
+            explanation: "Komponen gaji PNS meliputi: gaji pokok, tunjangan keluarga, tunjangan jabatan, tunjangan kinerja, dan tunjangan lainnya sesuai ketentuan."
+        },
+        {
+            question: "Menurut Peraturan Pemerintah Nomor 11 Tahun 2017, pemberhentian PNS dengan hormat dapat dilakukan karena...",
+            options: [
+                "A. Meninggal dunia",
+                "B. Melakukan pelanggaran disiplin",
+                "C. Tidak cakap jasmani atau rohani",
+                "D. Dipidana karena tindak pidana kejahatan",
+                "E. Tidak memenuhi syarat sebagai PNS"
+            ],
+            correctAnswer: 0,
+            explanation: "Pemberhentian dengan hormat dilakukan karena: meninggal dunia, permintaan sendiri, mencapai batas usia pensiun, atau tidak cakap jasmani/rohani secara terus-menerus."
+        },
+        {
+            question: "Dalam sistem pembinaan karier PNS, promosi jabatan dilakukan berdasarkan...",
+            options: [
+                "A. Senioritas",
+                "B. Kebutuhan instansi",
+                "C. Penilaian prestasi kerja",
+                "D. Pertimbangan pimpinan",
+                "E. Usulan rekan kerja"
+            ],
+            correctAnswer: 2,
+            explanation: "Promosi jabatan dilakukan berdasarkan penilaian prestasi kerja, kompetensi, dan persyaratan jabatan."
+        },
+        {
+            question: "Menurut Peraturan Pemerintah Nomor 17 Tahun 2020, cuti PNS meliputi jenis berikut, KECUALI...",
+            options: [
+                "A. Cuti tahunan",
+                "B. Cuti besar",
+                "C. Cuti sakit",
+                "D. Cuti melahirkan",
+                "E. Cuti karena alasan penting"
+            ],
+            correctAnswer: 1,
+            explanation: "Jenis cuti PNS meliputi: cuti tahunan, cuti sakit, cuti melahirkan, cuti karena alasan penting, cuti di luar tanggungan negara, dan cuti bersalin (khusus perempuan). Tidak ada cuti besar dalam peraturan tersebut."
+        },
+        {
+            question: "Dalam sistem disiplin PNS, yang termasuk hukuman disiplin tingkat sedang adalah...",
+            options: [
+                "A. Teguran lisan",
+                "B. Teguran tertulis",
+                "C. Penundaan kenaikan gaji berkala",
+                "D. Penurunan pangkat",
+                "E. Pemberhentian dengan tidak hormat"
+            ],
+            correctAnswer: 2,
+            explanation: "Hukuman disiplin tingkat sedang meliputi: penundaan kenaikan gaji berkala selama 1 tahun dan penundaan kenaikan pangkat selama 1 tahun."
+        },
+        {
+            question: "Menurut Peraturan Pemerintah Nomor 11 Tahun 2017, masa percobaan bagi CPNS berlangsung selama...",
+            options: [
+                "A. 6 bulan",
+                "B. 1 tahun",
+                "C. 18 bulan",
+                "D. 2 tahun",
+                "E. 3 tahun"
+            ],
+            correctAnswer: 1,
+            explanation: "Masa percobaan bagi CPNS berlangsung selama 1 (satu) tahun dan dapat diperpanjang paling lama 1 (satu) tahun."
+        },
+        {
+            question: "Dalam sistem pensiun PNS, yang termasuk syarat untuk memperoleh pensiun adalah...",
+            options: [
+                "A. Telah bekerja minimal 10 tahun",
+                "B. Telah mencapai usia 56 tahun",
+                "C. Telah memenuhi masa kerja dan usia pensiun",
+                "D. Telah mengikuti pelatihan pensiun",
+                "E. Telah mendapatkan persetujuan pimpinan"
+            ],
+            correctAnswer: 2,
+            explanation: "PNS berhak memperoleh pensiun apabila telah memenuhi masa kerja dan usia pensiun sesuai ketentuan peraturan perundang-undangan."
+        },
+        {
+            question: "Menurut Peraturan Pemerintah Nomor 17 Tahun 2020, yang termasuk kewajiban PNS adalah...",
+            options: [
+                "A. Memperoleh cuti tahunan",
+                "B. Mengajukan kenaikan pangkat",
+                "C. Setia dan taat kepada Pancasila, UUD 1945, NKRI, dan pemerintah",
+                "D. Mendapatkan tunjangan kinerja",
+                "E. Mengikuti pendidikan dan pelatihan"
+            ],
+            correctAnswer: 2,
+            explanation: "Kewajiban PNS meliputi: setia dan taat kepada Pancasila, UUD 1945, NKRI, dan pemerintah; menjaga persatuan dan kesatuan bangsa; dan melaksanakan tugas dengan penuh tanggung jawab."
+        },
+        {
+            question: "Dalam sistem pengawasan ASN, pengawasan melekat dilakukan oleh...",
+            options: [
+                "A. Inspektorat Jenderal",
+                "B. Badan Pengawasan Keuangan dan Pembangunan",
+                "C. Atasan langsung",
+                "D. Komisi Pemberantasan Korupsi",
+                "E. Ombudsman Republik Indonesia"
+            ],
+            correctAnswer: 2,
+            explanation: "Pengawasan melekat adalah pengawasan yang dilakukan oleh atasan langsung terhadap bawahannya dalam pelaksanaan tugas sehari-hari."
+        },
+        {
+            question: "Menurut Peraturan Pemerintah Nomor 11 Tahun 2017, yang termasuk tujuan manajemen ASN adalah...",
+            options: [
+                "A. Meningkatkan kesejahteraan PNS",
+                "B. Menjamin kepastian hukum bagi PNS",
+                "C. Mewujudkan ASN yang profesional dan berintegritas",
+                "D. Mempercepat promosi jabatan",
+                "E. Mempermudah proses rekrutmen"
+            ],
+            correctAnswer: 2,
+            explanation: "Tujuan manajemen ASN adalah mewujudkan ASN yang profesional, berbudi luhur, bersih dari praktik korupsi, kolusi, dan nepotisme, serta mampu menyelenggarakan pelayanan publik bagi masyarakat dan melaksanakan pembangunan nasional."
+        },
+        {
+            question: "Dalam sistem pengembangan kompetensi ASN, sertifikasi kompetensi bertujuan untuk...",
+            options: [
+                "A. Memberikan tambahan penghasilan",
+                "B. Meningkatkan jenjang karier",
+                "C. Membuktikan penguasaan kompetensi tertentu",
+                "D. Memenuhi syarat administrasi",
+                "E. Mengikuti perkembangan teknologi"
+            ],
+            correctAnswer: 2,
+            explanation: "Sertifikasi kompetensi adalah proses pemberian sertifikat kompetensi yang dilakukan secara sistematis dan obyektif melalui uji kompetensi yang mengacu pada standar kompetensi untuk membuktikan penguasaan kompetensi tertentu."
+        },
+        {
+            question: "Menurut Peraturan Pemerintah Nomor 17 Tahun 2020, yang termasuk prinsip pengembangan karier ASN adalah...",
+            options: [
+                "A. Senioritas",
+                "B. Kekeluargaan",
+                "C. Kesetaraan",
+                "D. Kesukuan",
+                "E. Kedekatan"
+            ],
+            correctAnswer: 2,
+            explanation: "Prinsip pengembangan karier ASN meliputi: kesetaraan, nondiskriminasi, objektivitas, kompetensi, dan kinerja."
+        },
+
+        // Keuangan Daerah (20 soal)
+        {
+            question: "Berdasarkan Undang-Undang Nomor 1 Tahun 2022 tentang Hubungan Keuangan antara Pemerintah Pusat dan Pemerintahan Daerah, yang dimaksud dengan Dana Perimbangan adalah...",
+            options: [
+                "A. Dana yang bersumber dari APBN yang dialokasikan kepada daerah untuk mendanai kebutuhan daerah dalam rangka pelaksanaan desentralisasi",
+                "B. Dana yang bersumber dari APBD yang dialokasikan untuk membiayai urusan pemerintahan yang menjadi kewenangan daerah",
+                "C. Dana yang bersumber dari pinjaman daerah untuk membiayai pembangunan infrastruktur",
+                "D. Dana yang berasal dari hasil kerjasama daerah dengan pihak ketiga",
+                "E. Dana yang berasal dari sumbangan masyarakat untuk pembangunan daerah"
+            ],
+            correctAnswer: 0,
+            explanation: "Dana Perimbangan adalah dana yang bersumber dari APBN yang dialokasikan kepada daerah untuk mendanai kebutuhan daerah dalam rangka pelaksanaan desentralisasi, terdiri dari Dana Transfer Umum dan Dana Transfer Khusus."
+        },
+        {
+            question: "Menurut Peraturan Pemerintah Nomor 12 Tahun 2019 tentang Pengelolaan Keuangan Daerah, prinsip pengelolaan keuangan daerah harus memenuhi asas berikut, KECUALI...",
+            options: [
+                "A. Efisiensi",
+                "B. Efektivitas",
+                "C. Sentralisasi",
+                "D. Transparansi",
+                "E. Akuntabilitas"
+            ],
+            correctAnswer: 2,
+            explanation: "Prinsip pengelolaan keuangan daerah meliputi: efisiensi, efektivitas, transparansi, akuntabilitas, kepatuhan, dan keberlanjutan. Sentralisasi bukan prinsip pengelolaan keuangan daerah."
+        },
+        {
+            question: "Dalam sistem penganggaran daerah, APBD disusun dengan pendekatan...",
+            options: [
+                "A. Line-item budgeting",
+                "B. Performance budgeting",
+                "C. Zero-based budgeting",
+                "D. Planning programming budgeting system",
+                "E. Incremental budgeting"
+            ],
+            correctAnswer: 1,
+            explanation: "APBD disusun dengan pendekatan kinerja (performance budgeting) yang mengaitkan pendanaan dengan keluaran/hasil yang diharapkan."
+        },
+        {
+            question: "Menurut Peraturan Menteri Dalam Negeri Nomor 13 Tahun 2006 tentang Pedoman Pengelolaan Keuangan Daerah, yang termasuk komponen belanja daerah adalah...",
+            options: [
+                "A. Belanja pegawai, belanja barang, dan belanja modal",
+                "B. Belanja rutin dan belanja pembangunan",
+                "C. Belanja langsung dan belanja tidak langsung",
+                "D. Belanja operasi dan belanja investasi",
+                "E. Belanja administrasi dan belanja program"
+            ],
+            correctAnswer: 0,
+            explanation: "Komponen belanja daerah meliputi: belanja pegawai, belanja barang, belanja modal, belanja bunga, subsidi, hibah, bantuan sosial, dan belanja tidak terduga."
+        },
+        {
+            question: "Dalam sistem pendapatan daerah, yang termasuk Pendapatan Asli Daerah (PAD) adalah...",
+            options: [
+                "A. Dana Alokasi Umum",
+                "B. Dana Bagi Hasil",
+                "C. Pajak Daerah",
+                "D. Dana Otonomi Khusus",
+                "E. Dana Desa"
+            ],
+            correctAnswer: 2,
+            explanation: "PAD meliputi: pajak daerah, retribusi daerah, hasil pengelolaan kekayaan daerah yang dipisahkan, dan lain-lain PAD yang sah."
+        },
+        {
+            question: "Menurut Undang-Undang Nomor 1 Tahun 2022, yang termasuk Dana Transfer Khusus adalah...",
+            options: [
+                "A. Dana Alokasi Umum",
+                "B. Dana Alokasi Khusus",
+                "C. Dana Bagi Hasil",
+                "D. Dana Otonomi Khusus",
+                "E. Dana Insentif Daerah"
+            ],
+            correctAnswer: 1,
+            explanation: "Dana Transfer Khusus meliputi: Dana Alokasi Khusus, Dana Otonomi Khusus, dan Dana Keistimewaan DIY."
+        },
+        {
+            question: "Dalam sistem akuntansi keuangan daerah, yang bertanggung jawab atas pelaksanaan akuntansi dan pelaporan keuangan daerah adalah...",
+            options: [
+                "A. Kepala Daerah",
+                "B. Sekretaris Daerah",
+                "C. Bendahara Umum Daerah",
+                "D. Kepala Dinas Pendapatan Daerah",
+                "E. Inspektorat Daerah"
+            ],
+            correctAnswer: 2,
+            explanation: "Bendahara Umum Daerah bertanggung jawab atas pelaksanaan akuntansi dan penyusunan laporan keuangan daerah."
+        },
+        {
+            question: "Menurut Peraturan Pemerintah Nomor 12 Tahun 2019, laporan keuangan pemerintah daerah harus disusun berdasarkan standar...",
+            options: [
+                "A. Standar Akuntansi Keuangan",
+                "B. Standar Akuntansi Pemerintahan",
+                "C. Standar Pelaporan Keuangan Internasional",
+                "D. Standar Akuntansi Sektor Publik",
+                "E. Standar Akuntansi Keuangan Daerah"
+            ],
+            correctAnswer: 1,
+            explanation: "Laporan keuangan pemerintah daerah disusun berdasarkan Standar Akuntansi Pemerintahan (SAP) yang ditetapkan dengan peraturan pemerintah."
+        },
+        {
+            question: "Dalam sistem pengelolaan barang milik daerah, yang termasuk asas pengelolaan barang milik daerah adalah...",
+            options: [
+                "A. Sentralisasi",
+                "B. Kekeluargaan",
+                "C. Kepastian hukum",
+                "D. Kesukuan",
+                "E. Kedekatan"
+            ],
+            correctAnswer: 2,
+            explanation: "Asas pengelolaan barang milik daerah meliputi: kepastian hukum, efisiensi, efektivitas, transparansi, akuntabilitas, dan kemanfaatan."
+        },
+        {
+            question: "Menurut Peraturan Pemerintah Nomor 27 Tahun 2014 tentang Pengelolaan Barang Milik Daerah, yang termasuk kategori barang milik daerah adalah...",
+            options: [
+                "A. Tanah, bangunan, dan kendaraan",
+                "B. Uang, surat berharga, dan piutang",
+                "C. Hak kekayaan intelektual dan hak atas benda tidak berwujud lainnya",
+                "D. Barang persediaan dan konstruksi dalam pengerjaan",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 4,
+            explanation: "Barang milik daerah meliputi: tanah; peralatan dan mesin; gedung dan bangunan; jalan, irigasi, dan jaringan; aset tetap lainnya; konstruksi dalam pengerjaan; dan barang tidak berwujud."
+        },
+        {
+            question: "Dalam sistem perencanaan keuangan daerah, dokumen perencanaan keuangan daerah meliputi...",
+            options: [
+                "A. RKPD dan APBD",
+                "B. RPJMD dan RKA-SKPD",
+                "C. Renstra SKPD dan DPA-SKPD",
+                "D. Rencana Kerja dan Anggaran",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 4,
+            explanation: "Dokumen perencanaan keuangan daerah meliputi: RPJPD, RPJMD, RKPD, Renstra SKPD, Renja SKPD, RKA-SKPD, dan APBD."
+        },
+        {
+            question: "Menurut Peraturan Menteri Dalam Negeri Nomor 21 Tahun 2011 tentang Pedoman Pengelolaan Barang Milik Daerah, penghapusan barang milik daerah dilakukan karena...",
+            options: [
+                "A. Barang sudah tidak digunakan",
+                "B. Barang rusak berat",
+                "C. Barang tidak ekonomis untuk diperbaiki",
+                "D. Barang sudah mencapai masa pakai",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 4,
+            explanation: "Penghapusan barang milik daerah dilakukan karena: sudah tidak digunakan, rusak berat, tidak ekonomis untuk diperbaiki, sudah mencapai masa pakai, atau karena alasan lain sesuai ketentuan."
+        },
+        {
+            question: "Dalam sistem pengadaan barang/jasa pemerintah, prinsip pengadaan barang/jasa meliputi...",
+            options: [
+                "A. Efisien, efektif, transparan, dan akuntabel",
+                "B. Terbuka, bersaing, adil, dan tidak diskriminatif",
+                "C. Kepatuhan, nilai uang, dan manfaat",
+                "D. Jawaban A dan B benar",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 4,
+            explanation: "Prinsip pengadaan barang/jasa pemerintah meliputi: efisien, efektif, transparan, terbuka, bersaing, adil, akuntabel, tidak diskriminatif, dan sesuai dengan kepatuhan serta nilai uang."
+        },
+        {
+            question: "Menurut Peraturan Presiden Nomor 12 Tahun 2021 tentang Pengadaan Barang/Jasa Pemerintah, nilai batas pengadaan langsung adalah...",
+            options: [
+                "A. Rp50.000.000,- (lima puluh juta rupiah)",
+                "B. Rp100.000.000,- (seratus juta rupiah)",
+                "C. Rp200.000.000,- (dua ratus juta rupiah)",
+                "D. Rp500.000.000,- (lima ratus juta rupiah)",
+                "E. Rp1.000.000.000,- (satu miliar rupiah)"
+            ],
+            correctAnswer: 2,
+            explanation: "Batas pengadaan langsung adalah paling tinggi Rp200.000.000,- (dua ratus juta rupiah) untuk pekerjaan konstruksi, barang, dan jasa lainnya."
+        },
+        {
+            question: "Dalam sistem pengendalian intern pemerintah, unsur pengendalian intern meliputi...",
+            options: [
+                "A. Lingkungan pengendalian, penilaian risiko, dan aktivitas pengendalian",
+                "B. Informasi dan komunikasi, serta pemantauan",
+                "C. Struktur organisasi dan kebijakan akuntansi",
+                "D. Jawaban A dan B benar",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 3,
+            explanation: "Unsur pengendalian intern pemerintah meliputi: lingkungan pengendalian, penilaian risiko, aktivitas pengendalian, informasi dan komunikasi, serta pemantauan."
+        },
+        {
+            question: "Menurut Peraturan Pemerintah Nomor 60 Tahun 2008 tentang Sistem Pengendalian Intern Pemerintah, yang bertanggung jawab atas pengendalian intern di pemerintah daerah adalah...",
+            options: [
+                "A. Kepala Daerah",
+                "B. Sekretaris Daerah",
+                "C. Inspektorat Daerah",
+                "D. Bendahara Umum Daerah",
+                "E. Semua pejabat sesuai dengan kewenangannya"
+            ],
+            correctAnswer: 4,
+            explanation: "Setiap pejabat pemerintah bertanggung jawab atas pengendalian intern di unit kerjanya masing-masing sesuai dengan kewenangannya."
+        },
+        {
+            question: "Dalam sistem pengawasan keuangan daerah, audit investigasi dilakukan untuk...",
+            options: [
+                "A. Menilai ketaatan terhadap peraturan perundang-undangan",
+                "B. Mengungkap indikasi penyimpangan atau fraud",
+                "C. Menilai efektivitas program pemerintah",
+                "D. Mengevaluasi sistem pengendalian intern",
+                "E. Memeriksa laporan keuangan daerah"
+            ],
+            correctAnswer: 1,
+            explanation: "Audit investigasi dilakukan untuk mengungkap indikasi penyimpangan atau fraud dalam pengelolaan keuangan daerah."
+        },
+        {
+            question: "Menurut Peraturan Pemerintah Nomor 12 Tahun 2019, laporan keuangan pemerintah daerah terdiri dari...",
+            options: [
+                "A. Laporan Realisasi Anggaran, Neraca, dan Laporan Arus Kas",
+                "B. Laporan Operasional dan Laporan Perubahan Ekuitas",
+                "C. Catatan atas Laporan Keuangan",
+                "D. Jawaban A dan C benar",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 4,
+            explanation: "Laporan keuangan pemerintah daerah terdiri dari: Laporan Realisasi Anggaran, Neraca, Laporan Operasional, Laporan Arus Kas, Laporan Perubahan Ekuitas, dan Catatan atas Laporan Keuangan."
+        },
+        {
+            question: "Dalam sistem pengelolaan piutang daerah, piutang daerah yang sudah tidak mungkin ditagih dapat dihapusbukukan setelah memenuhi persyaratan berikut, KECUALI...",
+            options: [
+                "A. Sudah dilakukan upaya penagihan secara intensif",
+                "B. Debitur sudah tidak diketahui keberadaannya",
+                "C. Debitur tidak mampu membayar",
+                "D. Piutang telah melewati jangka waktu 5 tahun",
+                "E. Ada rekomendasi dari DPRD"
+            ],
+            correctAnswer: 4,
+            explanation: "Penghapusan piutang daerah tidak memerlukan rekomendasi DPRD, tetapi memerlukan keputusan kepala daerah setelah memenuhi persyaratan tertentu."
+        },
+        {
+            question: "Menurut Peraturan Menteri Dalam Negeri Nomor 32 Tahun 2011 tentang Pedoman Pemberian Hibah dan Bantuan Sosial yang Bersumber dari APBD, hibah kepada masyarakat diberikan dalam bentuk...",
+            options: [
+                "A. Uang",
+                "B. Barang",
+                "C. Jasa",
+                "D. Jawaban A dan B benar",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 3,
+            explanation: "Hibah kepada masyarakat dapat diberikan dalam bentuk uang atau barang, sesuai dengan ketentuan peraturan perundang-undangan."
+        },
+        {
+            question: "Dalam sistem pengelolaan keuangan daerah, yang termasuk prinsip pengelolaan kas daerah adalah...",
+            options: [
+                "A. Sentralisasi",
+                "B. Efisiensi",
+                "C. Kekeluargaan",
+                "D. Kesukuan",
+                "E. Kedekatan"
+            ],
+            correctAnswer: 1,
+            explanation: "Prinsip pengelolaan kas daerah meliputi: sentralisasi, efisiensi, efektivitas, akuntabilitas, dan transparansi."
+        },
+
+        // Aset Daerah (20 soal)
+        {
+            question: "Berdasarkan Peraturan Pemerintah Nomor 27 Tahun 2014 tentang Pengelolaan Barang Milik Daerah, yang dimaksud dengan Barang Milik Daerah adalah...",
+            options: [
+                "A. Semua barang yang dibeli atau diperoleh atas beban APBD atau berasal dari perolehan lainnya yang sah",
+                "B. Barang yang digunakan untuk penyelenggaraan pemerintahan daerah",
+                "C. Barang yang dikuasai oleh pemerintah daerah",
+                "D. Barang yang dimiliki oleh pemerintah daerah",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 4,
+            explanation: "Barang Milik Daerah adalah semua barang yang dibeli atau diperoleh atas beban APBD atau berasal dari perolehan lainnya yang sah, baik yang berada dalam penguasaan pejabat/instansi daerah maupun pihak lain."
+        },
+        {
+            question: "Menurut Peraturan Menteri Dalam Negeri Nomor 19 Tahun 2016 tentang Pedoman Pengelolaan Barang Milik Daerah, yang termasuk kategori aset tetap daerah adalah...",
+            options: [
+                "A. Tanah",
+                "B. Peralatan dan mesin",
+                "C. Gedung dan bangunan",
+                "D. Jalan, irigasi, dan jaringan",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 4,
+            explanation: "Aset tetap daerah meliputi: tanah; peralatan dan mesin; gedung dan bangunan; jalan, irigasi, dan jaringan; aset tetap lainnya; dan konstruksi dalam pengerjaan."
+        },
+        {
+            question: "Dalam sistem pencatatan barang milik daerah, kode barang digunakan untuk...",
+            options: [
+                "A. Mengidentifikasi jenis barang",
+                "B. Memudahkan pengadministrasian",
+                "C. Mengetahui lokasi barang",
+                "D. Menghitung penyusutan barang",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 4,
+            explanation: "Kode barang digunakan untuk mengidentifikasi jenis barang, memudahkan pengadministrasian, mengetahui lokasi barang, dan menghitung penyusutan barang."
+        },
+        {
+            question: "Menurut Peraturan Menteri Dalam Negeri Nomor 19 Tahun 2016, yang termasuk tahapan pengelolaan barang milik daerah adalah...",
+            options: [
+                "A. Perencanaan kebutuhan",
+                "B. Pengadaan",
+                "C. Penggunaan dan pemanfaatan",
+                "D. Pemeliharaan dan penghapusan",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 4,
+            explanation: "Tahapan pengelolaan barang milik daerah meliputi: perencanaan kebutuhan, pengadaan, penggunaan, pemanfaatan, pengamanan dan pemeliharaan, penilaian, penghapusan, pemindahtanganan, dan pembinaan, pengawasan, dan pengendalian."
+        },
+        {
+            question: "Dalam sistem inventarisasi barang milik daerah, yang termasuk data yang harus dicatat adalah...",
+            options: [
+                "A. Nama barang",
+                "B. Nomor kode barang",
+                "C. Nilai barang",
+                "D. Kondisi barang",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 4,
+            explanation: "Data yang harus dicatat dalam inventarisasi barang milik daerah meliputi: nama barang, nomor kode barang, nilai barang, kondisi barang, lokasi barang, dan data pendukung lainnya."
+        },
+        {
+            question: "Menurut Peraturan Pemerintah Nomor 27 Tahun 2014, pemanfaatan barang milik daerah dapat dilakukan melalui...",
+            options: [
+                "A. Sewa",
+                "B. Pinjam pakai",
+                "C. Kerjasama pemanfaatan",
+                "D. Bangun guna serah",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 4,
+            explanation: "Pemanfaatan barang milik daerah dapat dilakukan melalui: sewa, pinjam pakai, kerjasama pemanfaatan, atau bangun guna serah sesuai ketentuan peraturan perundang-undangan."
+        },
+        {
+            question: "Dalam sistem penghapusan barang milik daerah, alasan penghapusan meliputi...",
+            options: [
+                "A. Barang sudah tidak digunakan",
+                "B. Barang rusak berat",
+                "C. Barang tidak ekonomis untuk diperbaiki",
+                "D. Barang sudah mencapai masa pakai",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 4,
+            explanation: "Penghapusan barang milik daerah dapat dilakukan karena: barang sudah tidak digunakan, rusak berat, tidak ekonomis untuk diperbaiki, sudah mencapai masa pakai, atau karena alasan lain sesuai ketentuan."
+        },
+        {
+            question: "Menurut Peraturan Menteri Dalam Negeri Nomor 19 Tahun 2016, yang berwenang menetapkan penghapusan barang milik daerah adalah...",
+            options: [
+                "A. Kepala Daerah",
+                "B. Sekretaris Daerah",
+                "C. Kepala Dinas Pengelola Keuangan dan Aset Daerah",
+                "D. Inspektorat Daerah",
+                "E. DPRD"
+            ],
+            correctAnswer: 0,
+            explanation: "Penghapusan barang milik daerah ditetapkan dengan keputusan kepala daerah berdasarkan rekomendasi tim penghapusan barang milik daerah."
+        },
+        {
+            question: "Dalam sistem pemindahtanganan barang milik daerah, yang termasuk bentuk pemindahtanganan adalah...",
+            options: [
+                "A. Dijual",
+                "B. Ditukar",
+                "C. Dihibahkan",
+                "D. Disertakan sebagai modal daerah",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 4,
+            explanation: "Pemindahtanganan barang milik daerah dapat dilakukan melalui: dijual, ditukar, dihibahkan, atau disertakan sebagai modal daerah sesuai ketentuan peraturan perundang-undangan."
+        },
+        {
+            question: "Menurut Peraturan Pemerintah Nomor 27 Tahun 2014, penilaian barang milik daerah dilakukan untuk...",
+            options: [
+                "A. Mengetahui nilai wajar barang",
+                "B. Dasar penghapusan atau pemindahtanganan",
+                "C. Penyusunan neraca daerah",
+                "D. Penentuan penyusutan",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 4,
+            explanation: "Penilaian barang milik daerah dilakukan untuk mengetahui nilai wajar barang, sebagai dasar penghapusan atau pemindahtanganan, penyusunan neraca daerah, dan penentuan penyusutan."
+        },
+        {
+            question: "Dalam sistem pengamanan barang milik daerah, yang termasuk upaya pengamanan adalah...",
+            options: [
+                "A. Pembuatan berita acara serah terima",
+                "B. Pemasangan label identifikasi",
+                "C. Penyimpanan di tempat aman",
+                "D. Pemantauan berkala",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 4,
+            explanation: "Upaya pengamanan barang milik daerah meliputi: pembuatan berita acara serah terima, pemasangan label identifikasi, penyimpanan di tempat aman, pemantauan berkala, dan upaya lainnya."
+        },
+        {
+            question: "Menurut Peraturan Menteri Dalam Negeri Nomor 19 Tahun 2016, yang bertanggung jawab atas pengelolaan barang milik daerah di tingkat satuan kerja adalah...",
+            options: [
+                "A. Kepala Satuan Kerja",
+                "B. Pejabat Pengelola Barang Milik Daerah",
+                "C. Bendahara Pengeluaran",
+                "D. Pengurus Barang",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 0,
+            explanation: "Kepala satuan kerja bertanggung jawab atas pengelolaan barang milik daerah di tingkat satuan kerjanya masing-masing."
+        },
+        {
+            question: "Dalam sistem pembinaan pengelolaan barang milik daerah, pembinaan dilakukan oleh...",
+            options: [
+                "A. Kementerian Dalam Negeri",
+                "B. Kementerian Keuangan",
+                "C. BPKP",
+                "D. Jawaban A dan B benar",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 3,
+            explanation: "Pembinaan pengelolaan barang milik daerah dilakukan oleh Kementerian Dalam Negeri dan Kementerian Keuangan sesuai dengan kewenangannya."
+        },
+        {
+            question: "Menurut Peraturan Pemerintah Nomor 27 Tahun 2014, yang termasuk kriteria barang milik daerah yang dapat dihibahkan adalah...",
+            options: [
+                "A. Tidak digunakan lagi oleh pemerintah daerah",
+                "B. Tidak mengganggu kelancaran tugas pemerintah daerah",
+                "C. Memiliki nilai manfaat bagi penerima hibah",
+                "D. Tidak bertentangan dengan peraturan perundang-undangan",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 4,
+            explanation: "Barang milik daerah yang dapat dihibahkan harus memenuhi kriteria: tidak digunakan lagi, tidak mengganggu tugas pemerintah daerah, bermanfaat bagi penerima, dan tidak bertentangan dengan peraturan."
+        },
+        {
+            question: "Dalam sistem pengawasan pengelolaan barang milik daerah, pengawasan dilakukan oleh...",
+            options: [
+                "A. Inspektorat Daerah",
+                "B. BPKP",
+                "C. BPK",
+                "D. Jawaban A dan B benar",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 4,
+            explanation: "Pengawasan pengelolaan barang milik daerah dilakukan oleh Inspektorat Daerah, BPKP, dan BPK sesuai dengan kewenangannya."
+        },
+        {
+            question: "Menurut Peraturan Menteri Dalam Negeri Nomor 19 Tahun 2016, yang termasuk dokumen dalam pengelolaan barang milik daerah adalah...",
+            options: [
+                "A. Berita Acara Serah Terima",
+                "B. Daftar Barang Inventaris",
+                "C. Kartu Barang",
+                "D. Buku Induk Barang",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 4,
+            explanation: "Dokumen pengelolaan barang milik daerah meliputi: Berita Acara Serah Terima, Daftar Barang Inventaris, Kartu Barang, Buku Induk Barang, dan dokumen pendukung lainnya."
+        },
+        {
+            question: "Dalam sistem penilaian barang milik daerah, metode penilaian yang dapat digunakan adalah...",
+            options: [
+                "A. Metode biaya historis",
+                "B. Metode nilai pasar",
+                "C. Metode pendapatan",
+                "D. Jawaban A dan B benar",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 4,
+            explanation: "Metode penilaian barang milik daerah meliputi: metode biaya historis, nilai pasar, pendapatan, atau metode lain yang sesuai dengan standar penilaian."
+        },
+        {
+            question: "Menurut Peraturan Pemerintah Nomor 27 Tahun 2014, yang termasuk larangan dalam pengelolaan barang milik daerah adalah...",
+            options: [
+                "A. Memindahtangankan tanpa hak",
+                "B. Menggunakan untuk kepentingan pribadi",
+                "C. Menyewakan tanpa izin",
+                "D. Merusak atau menghilangkan",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 4,
+            explanation: "Larangan dalam pengelolaan barang milik daerah meliputi: memindahtangankan tanpa hak, menggunakan untuk kepentingan pribadi, menyewakan tanpa izin, merusak, atau menghilangkan."
+        },
+        {
+            question: "Dalam sistem pengelolaan aset daerah, yang termasuk tujuan pengelolaan aset daerah adalah...",
+            options: [
+                "A. Menjamin kepastian hukum",
+                "B. Meningkatkan efisiensi dan efektivitas",
+                "C. Menjamin akuntabilitas",
+                "D. Meningkatkan kemanfaatan",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 4,
+            explanation: "Tujuan pengelolaan aset daerah meliputi: menjamin kepastian hukum, meningkatkan efisiensi dan efektivitas, menjamin akuntabilitas, dan meningkatkan kemanfaatan aset."
+        },
+        {
+            question: "Menurut Peraturan Menteri Dalam Negeri Nomor 19 Tahun 2016, yang termasuk prinsip pengelolaan barang milik daerah adalah...",
+            options: [
+                "A. Efisiensi",
+                "B. Efektivitas",
+                "C. Transparansi",
+                "D. Akuntabilitas",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 4,
+            explanation: "Prinsip pengelolaan barang milik daerah meliputi: efisiensi, efektivitas, transparansi, akuntabilitas, kepastian hukum, dan kemanfaatan."
+        },
+
+        // Layanan Operasional dan Teknis Kepemerintahan Daerah (20 soal)
+        {
+            question: "Berdasarkan Undang-Undang Nomor 25 Tahun 2009 tentang Pelayanan Publik, yang dimaksud dengan Pelayanan Publik adalah...",
+            options: [
+                "A. Kegiatan atau rangkaian kegiatan dalam rangka pemenuhan kebutuhan pelayanan sesuai dengan peraturan perundang-undangan bagi setiap warga negara dan penduduk atas barang, jasa, dan/atau pelayanan administratif yang disediakan oleh penyelenggara pelayanan publik",
+                "B. Pemberian bantuan oleh pemerintah kepada masyarakat dalam bentuk barang atau jasa",
+                "C. Pelayanan yang diberikan oleh pemerintah daerah kepada masyarakat di wilayahnya",
+                "D. Kegiatan pelayanan yang dibiayai oleh APBD",
+                "E. Semua bentuk pelayanan yang diberikan oleh instansi pemerintah"
+            ],
+            correctAnswer: 0,
+            explanation: "Pelayanan Publik adalah kegiatan atau rangkaian kegiatan dalam rangka pemenuhan kebutuhan pelayanan sesuai dengan peraturan perundang-undangan bagi setiap warga negara dan penduduk atas barang, jasa, dan/atau pelayanan administratif yang disediakan oleh penyelenggara pelayanan publik."
+        },
+        {
+            question: "Menurut Peraturan Pemerintah Nomor 96 Tahun 2012 tentang Pelaksanaan Undang-Undang Nomor 25 Tahun 2009 tentang Pelayanan Publik, prinsip pelayanan publik meliputi...",
+            options: [
+                "A. Kepentingan umum",
+                "B. Kepastian hukum",
+                "C. Keterbukaan",
+                "D. Akuntabilitas",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 4,
+            explanation: "Prinsip pelayanan publik meliputi: kepentingan umum, kepastian hukum, kesamaan hak, keseimbangan hak dan kewajiban, keprofesionalan, partisipatif, persamaan perlakuan, keterbukaan, akuntabilitas, fasilitas dan perlakuan khusus bagi kelompok rentan, ketepatan waktu, dan kecepatan, kemudahan, dan keterjangkauan."
+        },
+        {
+            question: "Dalam sistem pelayanan terpadu satu pintu (PTSP), tujuan pembentukan PTSP adalah...",
+            options: [
+                "A. Mempermudah masyarakat mengakses pelayanan",
+                "B. Meningkatkan efisiensi dan efektivitas pelayanan",
+                "C. Meningkatkan transparansi dan akuntabilitas",
+                "D. Mengurangi praktik pungutan liar",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 4,
+            explanation: "Tujuan PTSP meliputi: mempermudah masyarakat mengakses pelayanan, meningkatkan efisiensi dan efektivitas, meningkatkan transparansi dan akuntabilitas, serta mengurangi praktik pungutan liar."
+        },
+        {
+            question: "Menurut Peraturan Menteri Pendayagunaan Aparatur Negara dan Reformasi Birokrasi Nomor 36 Tahun 2012 tentang Pedoman Penyusunan Standar Pelayanan Publik, yang termasuk komponen standar pelayanan adalah...",
+            options: [
+                "A. Dasar hukum",
+                "B. Persyaratan",
+                "C. Prosedur pelayanan",
+                "D. Biaya/tarif",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 4,
+            explanation: "Komponen standar pelayanan meliputi: dasar hukum, persyaratan, sistem, mekanisme, dan prosedur, jangka waktu penyelesaian, biaya/tarif, produk pelayanan, sarana dan prasarana, kompetensi petugas, pengawasan internal, penanganan pengaduan, jumlah penerima, dan jaminan pelayanan."
+        },
+        {
+            question: "Dalam sistem pengaduan pelayanan publik, mekanisme pengaduan dapat dilakukan melalui...",
+            options: [
+                "A. Lembaga Ombudsman",
+                "B. Unit Pengaduan di instansi penyelenggara",
+                "C. Media sosial",
+                "D. Aplikasi pengaduan online",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 4,
+            explanation: "Mekanisme pengaduan pelayanan publik dapat dilakukan melalui: lembaga Ombudsman, unit pengaduan di instansi penyelenggara, media sosial, aplikasi pengaduan online, atau saluran lainnya."
+        },
+        {
+            question: "Menurut Peraturan Pemerintah Nomor 96 Tahun 2012, yang termasuk jenis pelayanan publik adalah...",
+            options: [
+                "A. Pelayanan administratif",
+                "B. Pelayanan barang",
+                "C. Pelayanan jasa publik",
+                "D. Jawaban A dan C benar",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 4,
+            explanation: "Jenis pelayanan publik meliputi: pelayanan administratif, pelayanan barang, dan pelayanan jasa publik."
+        },
+        {
+            question: "Dalam sistem penilaian kinerja pelayanan publik, indikator kinerja meliputi...",
+            options: [
+                "A. Waktu penyelesaian",
+                "B. Biaya pelayanan",
+                "C. Kepuasan masyarakat",
+                "D. Kualitas pelayanan",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 4,
+            explanation: "Indikator kinerja pelayanan publik meliputi: waktu penyelesaian, biaya pelayanan, kepuasan masyarakat, kualitas pelayanan, dan indikator lainnya."
+        },
+        {
+            question: "Menurut Peraturan Menteri PANRB Nomor 14 Tahun 2017 tentang Pedoman Penyusunan Survei Kepuasan Masyarakat, tujuan survei kepuasan masyarakat adalah...",
+            options: [
+                "A. Mengetahui tingkat kepuasan masyarakat",
+                "B. Menjadi bahan evaluasi penyelenggara pelayanan",
+                "C. Meningkatkan kualitas pelayanan publik",
+                "D. Jawaban A dan B benar",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 4,
+            explanation: "Tujuan survei kepuasan masyarakat meliputi: mengetahui tingkat kepuasan, menjadi bahan evaluasi, dan meningkatkan kualitas pelayanan publik."
+        },
+        {
+            question: "Dalam sistem pelayanan perizinan, prinsip perizinan meliputi...",
+            options: [
+                "A. Kecepatan",
+                "B. Kemudahan",
+                "C. Keterjangkauan",
+                "D. Transparansi",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 4,
+            explanation: "Prinsip perizinan meliputi: kecepatan, kemudahan, keterjangkauan, transparansi, akuntabilitas, dan kepastian hukum."
+        },
+        {
+            question: "Menurut Peraturan Pemerintah Nomor 24 Tahun 2018 tentang Pelayanan Perizinan Berusaha Terintegrasi Secara Elektronik, yang dimaksud dengan OSS adalah...",
+            options: [
+                "A. Online Single Submission",
+                "B. One Stop Service",
+                "C. Online Service System",
+                "D. One Single System",
+                "E. Online Submission System"
+            ],
+            correctAnswer: 0,
+            explanation: "OSS adalah Online Single Submission, yaitu sistem pelayanan perizinan berusaha terintegrasi secara elektronik."
+        },
+        {
+            question: "Dalam sistem pelayanan administrasi kependudukan, dokumen kependudukan meliputi...",
+            options: [
+                "A. Kartu Keluarga",
+                "B. KTP elektronik",
+                "C. Akta kelahiran",
+                "D. Akta kematian",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 4,
+            explanation: "Dokumen kependudukan meliputi: Kartu Keluarga, KTP elektronik, akta kelahiran, akta kematian, dan dokumen lainnya."
+        },
+        {
+            question: "Menurut Peraturan Presiden Nomor 96 Tahun 2018 tentang Persyaratan dan Tata Cara Pendaftaran Penduduk dan Pencatatan Sipil, kewajiban melaporkan kelahiran paling lambat...",
+            options: [
+                "A. 14 hari",
+                "B. 30 hari",
+                "C. 60 hari",
+                "D. 90 hari",
+                "E. 1 tahun"
+            ],
+            correctAnswer: 2,
+            explanation: "Kewajiban melaporkan kelahiran paling lambat 60 (enam puluh) hari sejak tanggal kelahiran."
+        },
+        {
+            question: "Dalam sistem pelayanan kesehatan dasar, yang termasuk jenis pelayanan kesehatan dasar adalah...",
+            options: [
+                "A. Promotif",
+                "B. Preventif",
+                "C. Kuratif",
+                "D. Rehabilitatif",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 4,
+            explanation: "Pelayanan kesehatan dasar meliputi: promotif, preventif, kuratif, dan rehabilitatif."
+        },
+        {
+            question: "Menurut Peraturan Menteri Kesehatan Nomor 75 Tahun 2014 tentang Pusat Kesehatan Masyarakat, tugas Puskesmas meliputi...",
+            options: [
+                "A. Penyelenggaraan upaya kesehatan masyarakat",
+                "B. Penyelenggaraan upaya kesehatan perseorangan",
+                "C. Pembinaan upaya kesehatan masyarakat",
+                "D. Jawaban A dan B benar",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 4,
+            explanation: "Tugas Puskesmas meliputi: penyelenggaraan upaya kesehatan masyarakat dan perseorangan, serta pembinaan upaya kesehatan masyarakat."
+        },
+        {
+            question: "Dalam sistem pelayanan pendidikan dasar, yang termasuk program wajib belajar adalah...",
+            options: [
+                "A. Pendidikan dasar 9 tahun",
+                "B. Pendidikan anak usia dini",
+                "C. Pendidikan menengah",
+                "D. Pendidikan nonformal",
+                "E. Pendidikan khusus"
+            ],
+            correctAnswer: 0,
+            explanation: "Program wajib belajar adalah pendidikan dasar 9 tahun (SD/MI 6 tahun dan SMP/MTs 3 tahun)."
+        },
+        {
+            question: "Menurut Peraturan Menteri Pendidikan dan Kebudayaan Nomor 44 Tahun 2019 tentang Penerimaan Peserta Didik Baru, prinsip PPDB meliputi...",
+            options: [
+                "A. Objektif",
+                "B. Transparan",
+                "C. Akuntabel",
+                "D. Nondiskriminatif",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 4,
+            explanation: "Prinsip PPDB meliputi: objektif, transparan, akuntabel, nondiskriminatif, dan berkeadilan."
+        },
+        {
+            question: "Dalam sistem pelayanan pertanahan, yang termasuk jenis pelayanan pertanahan adalah...",
+            options: [
+                "A. Pendaftaran tanah",
+                "B. Pemberian sertifikat hak atas tanah",
+                "C. Penyelesaian sengketa tanah",
+                "D. Jawaban A dan B benar",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 3,
+            explanation: "Pelayanan pertanahan meliputi: pendaftaran tanah dan pemberian sertifikat hak atas tanah. Penyelesaian sengketa tanah bukan termasuk pelayanan rutin pertanahan."
+        },
+        {
+            question: "Menurut Peraturan Menteri ATR/BPN Nomor 11 Tahun 2016 tentang Pelayanan Pengukuran dan Pemetaan Kadastral, jangka waktu penyelesaian pengukuran bidang tanah untuk pertama kali adalah...",
+            options: [
+                "A. 30 hari kerja",
+                "B. 60 hari kerja",
+                "C. 90 hari kerja",
+                "D. 120 hari kerja",
+                "E. 180 hari kerja"
+            ],
+            correctAnswer: 2,
+            explanation: "Jangka waktu penyelesaian pengukuran bidang tanah untuk pertama kali adalah 90 (sembilan puluh) hari kerja."
+        },
+        {
+            question: "Dalam sistem pelayanan transportasi, yang termasuk pelayanan transportasi publik adalah...",
+            options: [
+                "A. Angkutan umum",
+                "B. Terminal",
+                "C. Halte",
+                "D. Jawaban A dan B benar",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 3,
+            explanation: "Pelayanan transportasi publik meliputi: angkutan umum dan terminal. Halte merupakan bagian dari fasilitas pendukung."
+        },
+        {
+            question: "Menurut Peraturan Menteri Perhubungan Nomor 35 Tahun 2015 tentang Penyelenggaraan Angkutan Orang di Jalan dengan Kendaraan Umum, prinsip penyelenggaraan angkutan umum meliputi...",
+            options: [
+                "A. Keselamatan",
+                "B. Keamanan",
+                "C. Keterjangkauan",
+                "D. Kenyamanan",
+                "E. Semua jawaban benar"
+            ],
+            correctAnswer: 4,
+            explanation: "Prinsip penyelenggaraan angkutan umum meliputi: keselamatan, keamanan, keterjangkauan, kenyamanan, dan kesetaraan."
         }
+    ];
+    
+    originalQuestions = initialQuestions;
+}
         
         // Enhanced storage functions with fallback to sessionStorage if localStorage fails
         function loadParticipantsFromStorage() {
