@@ -683,6 +683,22 @@
             .certificate-recipient {
                 font-size: 42px;
             }
+            
+            .floating-buttons {
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .floating-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 18px;
+            }
+
+            .modal-content {
+                width: 95%;
+                padding: 20px;
+            }
         }
 
         @media (max-width: 768px) {
@@ -887,81 +903,6 @@
             border-bottom: none;
         }
 
-        /* Question Bank Styles */
-        .questions-list {
-            max-height: 300px;
-            overflow-y: auto;
-            border: 1px solid #eee;
-            border-radius: 8px;
-            padding: 10px;
-        }
-
-        .question-item {
-            padding: 10px;
-            border-bottom: 1px solid #eee;
-            font-size: 14px;
-            position: relative;
-        }
-
-        .question-item:last-child {
-            border-bottom: none;
-        }
-
-        .question-actions {
-            position: absolute;
-            right: 10px;
-            top: 10px;
-            display: flex;
-            gap: 5px;
-        }
-
-        .question-action-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-            padding: 2px 5px;
-            border-radius: 3px;
-            transition: var(--transition);
-        }
-
-        .question-action-btn:hover {
-            transform: scale(1.1);
-        }
-
-        .edit-btn {
-            color: var(--color-info);
-        }
-
-        .delete-btn {
-            color: var(--color-error);
-        }
-
-        .view-btn {
-            color: var(--color-success);
-        }
-
-        .options-container {
-            display: grid;
-            gap: 5px;
-            margin: 10px 0;
-        }
-
-        /* Loading Indicator */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(0,0,0,.3);
-            border-radius: 50%;
-            border-top-color: var(--color-primary-dark);
-            animation: spin 1s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
         /* Table Styles */
         .data-table {
             width: 100%;
@@ -1010,8 +951,8 @@
             color: #666;
         }
 
-        /* Edit Question Modal */
-        .edit-question-modal {
+        /* Edit Participant Modal */
+        .edit-participant-modal {
             display: none;
             position: fixed;
             top: 0;
@@ -1024,19 +965,19 @@
             align-items: center;
         }
 
-        .edit-question-content {
+        .edit-participant-content {
             background: white;
             color: var(--color-text-dark);
             border-radius: 15px;
             padding: 30px;
             width: 90%;
-            max-width: 800px;
+            max-width: 600px;
             max-height: 90vh;
             overflow-y: auto;
             position: relative;
         }
 
-        .edit-question-close {
+        .edit-participant-close {
             position: absolute;
             top: 15px;
             right: 15px;
@@ -1076,76 +1017,6 @@
             background: rgba(255, 255, 255, 0.1);
             border-radius: 8px;
             font-size: 14px;
-        }
-
-        /* View Question Modal */
-        .view-question-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .view-question-content {
-            background: white;
-            color: var(--color-text-dark);
-            border-radius: 15px;
-            padding: 30px;
-            width: 90%;
-            max-width: 800px;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-        }
-
-        .view-question-close {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 24px;
-            cursor: pointer;
-            color: #666;
-        }
-
-        /* Edit Participant Modal */
-        .edit-participant-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .edit-participant-content {
-            background: white;
-            color: var(--color-text-dark);
-            border-radius: 15px;
-            padding: 30px;
-            width: 90%;
-            max-width: 600px;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-        }
-
-        .edit-participant-close {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 24px;
-            cursor: pointer;
-            color: #666;
         }
 
         /* Search Box Styles */
@@ -1423,11 +1294,6 @@
             <span class="tooltip">Chat Admin</span>
         </button>
         
-        <button class="floating-btn" id="question-bank-btn">
-            <i class="fas fa-book"></i>
-            <span class="tooltip">Bank Soal</span>
-        </button>
-        
         <button class="floating-btn" id="admin-panel-btn">
             <i class="fas fa-cog"></i>
             <span class="tooltip">Admin Panel</span>
@@ -1435,71 +1301,6 @@
     </div>
     
     <!-- Modals -->
-    <!-- Question Bank Modal -->
-    <div class="modal" id="question-bank-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Bank Soal CPNS/P3K</h3>
-                <button class="modal-close" id="close-question-bank-modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="question-bank-code" class="form-label">Kode Bank Soal</label>
-                    <input type="password" id="question-bank-code" class="form-control" placeholder="Masukkan kode bank soal" style="color: var(--color-text-dark);">
-                    <button id="submit-question-bank-code" class="btn">Masuk</button>
-                </div>
-                
-                <div id="question-bank-content" style="display: none;">
-                    <h4>Bank Soal CPNS/P3K</h4>
-                    <div class="admin-section">
-                        <h5>Tambah Soal Baru</h5>
-                        <div class="form-group">
-                            <label class="form-label">Pertanyaan</label>
-                            <textarea id="question-text-input" class="form-control" rows="3" style="color: var(--color-text-dark);"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Opsi Jawaban</label>
-                            <div class="options-container">
-                                <input type="text" id="option-a" class="form-control" placeholder="Opsi A" style="color: var(--color-text-dark); margin-bottom: 5px;">
-                                <input type="text" id="option-b" class="form-control" placeholder="Opsi B" style="color: var(--color-text-dark); margin-bottom: 5px;">
-                                <input type="text" id="option-c" class="form-control" placeholder="Opsi C" style="color: var(--color-text-dark); margin-bottom: 5px;">
-                                <input type="text" id="option-d" class="form-control" placeholder="Opsi D" style="color: var(--color-text-dark); margin-bottom: 5px;">
-                                <input type="text" id="option-e" class="form-control" placeholder="Opsi E" style="color: var(--color-text-dark);">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Jawaban Benar</label>
-                            <select id="correct-answer" class="form-control" style="color: var(--color-text-dark);">
-                                <option value="0">A</option>
-                                <option value="1">B</option>
-                                <option value="2">C</option>
-                                <option value="3">D</option>
-                                <option value="4">E</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Penjelasan</label>
-                            <textarea id="explanation-input" class="form-control" rows="3" style="color: var(--color-text-dark);"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Upload Gambar (Opsional)</label>
-                            <input type="file" id="question-image" class="form-control">
-                        </div>
-                        <button id="add-question-btn" class="btn btn-success">Tambah Soal</button>
-                    </div>
-                    
-                    <div class="admin-section">
-                        <h5>Daftar Soal</h5>
-                        <div class="questions-list">
-                            <!-- Questions will be loaded here -->
-                            <p id="no-questions-message">Belum ada soal yang tersedia.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
     <!-- Admin Panel Modal -->
     <div class="modal" id="admin-panel-modal">
         <div class="modal-content">
@@ -1523,13 +1324,8 @@
                         </div>
                         
                         <div class="form-group">
-                            <label class="form-label">Kode Bank Soal Baru</label>
-                            <input type="password" id="new-question-bank-code" class="form-control" placeholder="Masukkan kode bank soal baru" style="color: var(--color-text-dark);">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">Kode Ujian CPNS Baru</label>
-                            <input type="password" id="new-cpns-code" class="form-control" placeholder="Masukkan kode ujian CPNS baru" style="color: var(--color-text-dark);">
+                            <label class="form-label">Kode Lisensi CPNS Baru</label>
+                            <input type="password" id="new-cpns-code" class="form-control" placeholder="Masukkan kode lisensi CPNS baru" style="color: var(--color-text-dark);">
                         </div>
                         
                         <div class="form-group">
@@ -1545,21 +1341,11 @@
                         <div class="admin-controls">
                             <div class="admin-control-group">
                                 <label class="admin-control-label">Durasi Ujian (menit)</label>
-                                <input type="number" id="exam-duration" class="admin-control-input" value="120" min="5" max="300">
+                                <input type="number" id="exam-duration" class="admin-control-input" value="120" min="5">
                             </div>
                             <div class="admin-control-group">
                                 <label class="admin-control-label">Jumlah Soal</label>
-                                <select id="question-count" class="admin-control-input">
-                                    <option value="5">5</option>
-                                    <option value="10">10</option>
-                                    <option value="15">15</option>
-                                    <option value="20">20</option>
-                                    <option value="25">25</option>
-                                    <option value="30">30</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                    <option value="150">150</option>
-                                </select>
+                                <input type="number" id="question-count" class="admin-control-input" value="30" min="1">
                             </div>
                         </div>
                         <div class="admin-control-group">
@@ -1645,79 +1431,6 @@
         </div>
     </div>
     
-    <!-- Edit Question Modal -->
-    <div class="edit-question-modal" id="edit-question-modal">
-        <div class="edit-question-content">
-            <span class="edit-question-close" id="close-edit-question-modal">&times;</span>
-            <h3>Edit Soal</h3>
-            
-            <div class="form-group">
-                <label class="form-label">Pertanyaan</label>
-                <textarea id="edit-question-text" class="form-control" rows="3" style="color: var(--color-text-dark);"></textarea>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Opsi Jawaban</label>
-                <div class="options-container">
-                    <input type="text" id="edit-option-a" class="form-control" placeholder="Opsi A" style="color: var(--color-text-dark); margin-bottom: 5px;">
-                    <input type="text" id="edit-option-b" class="form-control" placeholder="Opsi B" style="color: var(--color-text-dark); margin-bottom: 5px;">
-                    <input type="text" id="edit-option-c" class="form-control" placeholder="Opsi C" style="color: var(--color-text-dark); margin-bottom: 5px;">
-                    <input type="text" id="edit-option-d" class="form-control" placeholder="Opsi D" style="color: var(--color-text-dark); margin-bottom: 5px;">
-                    <input type="text" id="edit-option-e" class="form-control" placeholder="Opsi E" style="color: var(--color-text-dark);">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Jawaban Benar</label>
-                <select id="edit-correct-answer" class="form-control" style="color: var(--color-text-dark);">
-                    <option value="0">A</option>
-                    <option value="1">B</option>
-                    <option value="2">C</option>
-                    <option value="3">D</option>
-                    <option value="4">E</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Penjelasan</label>
-                <textarea id="edit-explanation" class="form-control" rows="3" style="color: var(--color-text-dark);"></textarea>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Upload Gambar (Opsional)</label>
-                <input type="file" id="edit-question-image" class="form-control">
-            </div>
-            
-            <div class="form-group" style="display: flex; justify-content: space-between;">
-                <button id="save-edit-question-btn" class="btn btn-success">Simpan Perubahan</button>
-                <button id="delete-question-btn" class="btn btn-danger">Hapus Soal</button>
-            </div>
-            
-            <input type="hidden" id="edit-question-index">
-        </div>
-    </div>
-    
-    <!-- View Question Modal -->
-    <div class="view-question-modal" id="view-question-modal">
-        <div class="view-question-content">
-            <span class="view-question-close" id="close-view-question-modal">&times;</span>
-            <h3>Detail Soal</h3>
-            
-            <div class="form-group">
-                <label class="form-label">Pertanyaan</label>
-                <p id="view-question-text" style="padding: 10px; background: #f5f5f5; border-radius: 5px;"></p>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Opsi Jawaban</label>
-                <div id="view-options-container" style="padding: 10px; background: #f5f5f5; border-radius: 5px;"></div>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Jawaban Benar</label>
-                <p id="view-correct-answer" style="padding: 10px; background: #f5f5f5; border-radius: 5px;"></p>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Penjelasan</label>
-                <p id="view-explanation" style="padding: 10px; background: #f5f5f5; border-radius: 5px;"></p>
-            </div>
-        </div>
-    </div>
-    
     <!-- Edit Participant Modal -->
     <div class="edit-participant-modal" id="edit-participant-modal">
         <div class="edit-participant-content">
@@ -1797,7 +1510,6 @@
         
         // Default codes (should be changed in production)
         const DEFAULT_LOGIN_CODE = '12345';
-        const DEFAULT_QUESTION_BANK_CODE = 'OPENLOCK-1926';
         const DEFAULT_CPNS_LICENSE_CODE = 'OPENLOCK-1945';
         const DEFAULT_ADMIN_PANEL_CODE = '65614222';
         
@@ -1807,7 +1519,6 @@
         // Store admin settings with enhanced storage mechanism
         let adminSettings = {
             loginCode: DEFAULT_LOGIN_CODE,
-            questionBankCode: DEFAULT_QUESTION_BANK_CODE,
             cpnsLicenseCode: DEFAULT_CPNS_LICENSE_CODE,
             adminPanelCode: DEFAULT_ADMIN_PANEL_CODE,
             examDuration: 120,
@@ -1819,122 +1530,75 @@
             motivationMessage: ""
         };
         
-        // Initialize question bank with more sample questions
+        // Initialize question bank with sample questions
         function initializeQuestionBank() {
-            // Load from localStorage first
-            const storedQuestions = loadQuestionsFromStorage();
+            const initialQuestions = [
+                {
+                    question: "Apa dasar negara Indonesia?",
+                    options: ["A. UUD 1945", "B. Pancasila", "C. Bhinneka Tunggal Ika", "D. NKRI", "E. Garuda Pancasila"],
+                    correctAnswer: 1,
+                    explanation: "Pancasila adalah dasar negara Indonesia yang tercantum dalam Pembukaan UUD 1945."
+                },
+                {
+                    question: "Lembaga negara yang bertugas memeriksa pengelolaan keuangan negara adalah?",
+                    options: ["A. KPK", "B. BPK", "C. KY", "D. DPR", "E. MK"],
+                    correctAnswer: 1,
+                    explanation: "Badan Pemeriksa Keuangan (BPK) adalah lembaga negara yang bertugas memeriksa pengelolaan keuangan negara."
+                },
+                {
+                    question: "Sistem pemerintahan Indonesia berdasarkan UUD 1945 adalah?",
+                    options: ["A. Presidensial", "B. Parlementer", "C. Monarki", "D. Federasi", "E. Komunis"],
+                    correctAnswer: 0,
+                    explanation: "Sistem pemerintahan Indonesia adalah presidensial dimana presiden berkedudukan sebagai kepala negara dan kepala pemerintahan."
+                },
+                {
+                    question: "Undang-Undang Dasar 1945 pertama kali disahkan pada tanggal?",
+                    options: ["A. 17 Agustus 1945", "B. 18 Agustus 1945", "C. 1 Juni 1945", "D. 22 Juni 1945", "E. 27 Desember 1949"],
+                    correctAnswer: 1,
+                    explanation: "UUD 1945 disahkan pada 18 Agustus 1945 oleh PPKI sehari setelah proklamasi kemerdekaan."
+                },
+                {
+                    question: "Lagu kebangsaan Indonesia Raya pertama kali diperdengarkan pada acara?",
+                    options: ["A. Proklamasi Kemerdekaan", "B. Sumpah Pemuda", "C. Konferensi Meja Bundar", "D. Pembentukan BPUPKI", "E. Penyerahan kedaulatan"],
+                    correctAnswer: 1,
+                    explanation: "Lagu Indonesia Raya pertama kali diperdengarkan pada Kongres Pemuda II (Sumpah Pemuda) tanggal 28 Oktober 1928."
+                },
+                {
+                    question: "Bentuk negara Indonesia adalah?",
+                    options: ["A. Kesatuan", "B. Federal", "C. Monarki", "D. Konfederasi", "E. Republik"],
+                    correctAnswer: 0,
+                    explanation: "Bentuk negara Indonesia adalah negara kesatuan sebagaimana diatur dalam Pasal 1 ayat (1) UUD 1945."
+                },
+                {
+                    question: "Lembaga negara yang berwenang mengubah UUD 1945 adalah?",
+                    options: ["A. MPR", "B. DPR", "C. Presiden", "D. MK", "E. MA"],
+                    correctAnswer: 0,
+                    explanation: "Majelis Permusyawaratan Rakyat (MPR) adalah lembaga negara yang berwenang mengubah UUD 1945."
+                },
+                {
+                    question: "Hak DPR untuk mengajukan rancangan undang-undang disebut?",
+                    options: ["A. Hak inisiatif", "B. Hak amandemen", "C. Hak interpelasi", "D. Hak angket", "E. Hak budget"],
+                    correctAnswer: 0,
+                    explanation: "Hak inisiatif adalah hak DPR untuk mengajukan rancangan undang-undang."
+                },
+                {
+                    question: "Lembaga negara yang bertugas memeriksa pengelolaan keuangan negara adalah?",
+                    options: ["A. KPK", "B. BPK", "C. KY", "D. DPR", "E. MK"],
+                    correctAnswer: 1,
+                    explanation: "Badan Pemeriksa Keuangan (BPK) adalah lembaga negara yang bertugas memeriksa pengelolaan keuangan negara."
+                },
+                {
+                    question: "Pancasila sebagai dasar negara tercantum dalam?",
+                    options: ["A. Pembukaan UUD 1945", "B. Batang Tubuh UUD 1945", "C. Penjelasan UUD 1945", "D. Dekrit Presiden", "E. Ketetapan MPR"],
+                    correctAnswer: 0,
+                    explanation: "Pancasila sebagai dasar negara tercantum dalam alinea keempat Pembukaan UUD 1945."
+                }
+            ];
             
-            // If no questions in storage, initialize with default questions
-            if (!storedQuestions || storedQuestions.length === 0) {
-                const initialQuestions = [
-                    {
-                        question: "Apa dasar negara Indonesia?",
-                        options: ["A. UUD 1945", "B. Pancasila", "C. Bhinneka Tunggal Ika", "D. NKRI", "E. Garuda Pancasila"],
-                        correctAnswer: 1,
-                        explanation: "Pancasila adalah dasar negara Indonesia yang tercantum dalam Pembukaan UUD 1945."
-                    },
-                    {
-                        question: "Lembaga negara yang bertugas memeriksa pengelolaan keuangan negara adalah?",
-                        options: ["A. KPK", "B. BPK", "C. KY", "D. DPR", "E. MK"],
-                        correctAnswer: 1,
-                        explanation: "Badan Pemeriksa Keuangan (BPK) adalah lembaga negara yang bertugas memeriksa pengelolaan keuangan negara."
-                    },
-                    {
-                        question: "Sistem pemerintahan Indonesia berdasarkan UUD 1945 adalah?",
-                        options: ["A. Presidensial", "B. Parlementer", "C. Monarki", "D. Federasi", "E. Komunis"],
-                        correctAnswer: 0,
-                        explanation: "Sistem pemerintahan Indonesia adalah presidensial dimana presiden berkedudukan sebagai kepala negara dan kepala pemerintahan."
-                    },
-                    {
-                        question: "Undang-Undang Dasar 1945 pertama kali disahkan pada tanggal?",
-                        options: ["A. 17 Agustus 1945", "B. 18 Agustus 1945", "C. 1 Juni 1945", "D. 22 Juni 1945", "E. 27 Desember 1949"],
-                        correctAnswer: 1,
-                        explanation: "UUD 1945 disahkan pada 18 Agustus 1945 oleh PPKI sehari setelah proklamasi kemerdekaan."
-                    },
-                    {
-                        question: "Lagu kebangsaan Indonesia Raya pertama kali diperdengarkan pada acara?",
-                        options: ["A. Proklamasi Kemerdekaan", "B. Sumpah Pemuda", "C. Konferensi Meja Bundar", "D. Pembentukan BPUPKI", "E. Penyerahan kedaulatan"],
-                        correctAnswer: 1,
-                        explanation: "Lagu Indonesia Raya pertama kali diperdengarkan pada Kongres Pemuda II (Sumpah Pemuda) tanggal 28 Oktober 1928."
-                    },
-                    {
-                        question: "Bentuk negara Indonesia adalah?",
-                        options: ["A. Kesatuan", "B. Federal", "C. Monarki", "D. Konfederasi", "E. Republik"],
-                        correctAnswer: 0,
-                        explanation: "Bentuk negara Indonesia adalah negara kesatuan sebagaimana diatur dalam Pasal 1 ayat (1) UUD 1945."
-                    },
-                    {
-                        question: "Lembaga negara yang berwenang mengubah UUD 1945 adalah?",
-                        options: ["A. MPR", "B. DPR", "C. Presiden", "D. MK", "E. MA"],
-                        correctAnswer: 0,
-                        explanation: "Majelis Permusyawaratan Rakyat (MPR) adalah lembaga negara yang berwenang mengubah UUD 1945."
-                    },
-                    {
-                        question: "Hak DPR untuk mengajukan rancangan undang-undang disebut?",
-                        options: ["A. Hak inisiatif", "B. Hak amandemen", "C. Hak interpelasi", "D. Hak angket", "E. Hak budget"],
-                        correctAnswer: 0,
-                        explanation: "Hak inisiatif adalah hak DPR untuk mengajukan rancangan undang-undang."
-                    },
-                    {
-                        question: "Lembaga negara yang bertugas memeriksa pengelolaan keuangan negara adalah?",
-                        options: ["A. KPK", "B. BPK", "C. KY", "D. DPR", "E. MK"],
-                        correctAnswer: 1,
-                        explanation: "Badan Pemeriksa Keuangan (BPK) adalah lembaga negara yang bertugas memeriksa pengelolaan keuangan negara."
-                    },
-                    {
-                        question: "Pancasila sebagai dasar negara tercantum dalam?",
-                        options: ["A. Pembukaan UUD 1945", "B. Batang Tubuh UUD 1945", "C. Penjelasan UUD 1945", "D. Dekrit Presiden", "E. Ketetapan MPR"],
-                        correctAnswer: 0,
-                        explanation: "Pancasila sebagai dasar negara tercantum dalam alinea keempat Pembukaan UUD 1945."
-                    }
-                ];
-                
-                saveQuestionsToStorage(initialQuestions);
-            }
+            originalQuestions = initialQuestions;
         }
         
         // Enhanced storage functions with fallback to sessionStorage if localStorage fails
-        function loadQuestionsFromStorage() {
-            try {
-                const storedQuestions = localStorage.getItem('pergunusmart_question_bank');
-                if (storedQuestions) {
-                    return JSON.parse(storedQuestions);
-                }
-            } catch (e) {
-                console.error('Error loading questions from localStorage:', e);
-                // Try sessionStorage as fallback
-                try {
-                    const storedQuestions = sessionStorage.getItem('pergunusmart_question_bank');
-                    if (storedQuestions) {
-                        return JSON.parse(storedQuestions);
-                    }
-                } catch (e2) {
-                    console.error('Error loading questions from sessionStorage:', e2);
-                }
-            }
-            return null;
-        }
-        
-        function saveQuestionsToStorage(questions) {
-            try {
-                localStorage.setItem('pergunusmart_question_bank', JSON.stringify(questions));
-                // Also save to sessionStorage as backup
-                sessionStorage.setItem('pergunusmart_question_bank', JSON.stringify(questions));
-                return true;
-            } catch (e) {
-                console.error('Error saving questions to localStorage:', e);
-                // Try sessionStorage as fallback
-                try {
-                    sessionStorage.setItem('pergunusmart_question_bank', JSON.stringify(questions));
-                    return true;
-                } catch (e2) {
-                    console.error('Failed to save questions to sessionStorage:', e2);
-                    alert('Gagal menyimpan soal. Penyimpanan lokal penuh. Silakan hubungi admin.');
-                    return false;
-                }
-            }
-        }
-        
         function loadParticipantsFromStorage() {
             try {
                 const storedParticipants = localStorage.getItem('pergunusmart_participants');
@@ -2017,12 +1681,6 @@
             }
         }
         
-        // Get questions from storage
-        function getQuestionsFromStorage() {
-            const storedQuestions = loadQuestionsFromStorage();
-            return storedQuestions || [];
-        }
-        
         // Motivational messages based on score
         const MOTIVATIONAL_MESSAGES = {
             '90-100': 'Sempurna! Anda sangat luar biasa dalam menguasai materi ini. Pertahankan prestasi ini.',
@@ -2043,7 +1701,7 @@
             
             participantsData = loadParticipantsFromStorage();
             
-            // Initialize question bank if not exists
+            // Initialize question bank
             initializeQuestionBank();
             
             // Initialize particles.js for background
@@ -2254,18 +1912,13 @@
             
             // Floating buttons
             document.getElementById('whatsapp-btn').addEventListener('click', contactAdmin);
-            document.getElementById('question-bank-btn').addEventListener('click', showQuestionBankModal);
             document.getElementById('admin-panel-btn').addEventListener('click', showAdminPanelModal);
             
             // Modal close buttons
-            document.getElementById('close-question-bank-modal').addEventListener('click', hideQuestionBankModal);
             document.getElementById('close-admin-panel-modal').addEventListener('click', hideAdminPanelModal);
-            document.getElementById('close-edit-question-modal').addEventListener('click', hideEditQuestionModal);
-            document.getElementById('close-view-question-modal').addEventListener('click', hideViewQuestionModal);
             document.getElementById('close-edit-participant-modal').addEventListener('click', hideEditParticipantModal);
             
             // Modal submit buttons
-            document.getElementById('submit-question-bank-code').addEventListener('click', submitQuestionBankCode);
             document.getElementById('submit-admin-panel-code').addEventListener('click', submitAdminPanelCode);
             
             // Check form validity when fields change
@@ -2279,17 +1932,12 @@
             document.querySelectorAll('.toggle-switch input').forEach(toggle => {
                 toggle.addEventListener('change', function() {
                     const statusElement = document.getElementById(`${this.id}-status`);
-                    statusElement.textContent = this.checked ? 'Aktif' : 'Nonaktif';
+                    if (statusElement) {
+                        statusElement.textContent = this.checked ? 'Aktif' : 'Nonaktif';
+                    }
                 });
             });
 
-            // Question bank buttons
-            document.getElementById('add-question-btn').addEventListener('click', addQuestionToBank);
-            
-            // Edit question modal buttons
-            document.getElementById('save-edit-question-btn').addEventListener('click', saveEditedQuestion);
-            document.getElementById('delete-question-btn').addEventListener('click', deleteQuestion);
-            
             // Admin panel buttons
             document.getElementById('save-codes-btn').addEventListener('click', saveCodes);
             document.getElementById('save-content-btn').addEventListener('click', saveContent);
@@ -2363,7 +2011,6 @@
             
             // Set admin panel form values
             document.getElementById('new-login-code').value = adminSettings.loginCode;
-            document.getElementById('new-question-bank-code').value = adminSettings.questionBankCode;
             document.getElementById('new-cpns-code').value = adminSettings.cpnsLicenseCode;
             document.getElementById('new-admin-code').value = adminSettings.adminPanelCode;
             
@@ -2513,8 +2160,7 @@
                 examDate: new Date().toISOString()
             };
             
-            // Get questions from storage
-            originalQuestions = getQuestionsFromStorage();
+            // Get questions from question bank
             questions = [...originalQuestions]; // Create a copy for exam
             
             // Check if there are enough questions
@@ -3000,26 +2646,6 @@
             window.open(`https://wa.me/6285647709114?text=${message}`, '_blank');
         }
         
-        function showQuestionBankModal() {
-            document.getElementById('question-bank-modal').style.display = 'flex';
-        }
-        
-        function hideQuestionBankModal() {
-            document.getElementById('question-bank-modal').style.display = 'none';
-        }
-        
-        function submitQuestionBankCode() {
-            const code = document.getElementById('question-bank-code').value;
-            
-            if (code === adminSettings.questionBankCode) {
-                // Show question bank content
-                document.getElementById('question-bank-content').style.display = 'block';
-                loadQuestionsList();
-            } else {
-                alert('Kode bank soal salah. Silakan coba lagi.');
-            }
-        }
-        
         function showAdminPanelModal() {
             document.getElementById('admin-panel-modal').style.display = 'flex';
         }
@@ -3040,253 +2666,6 @@
             }
         }
 
-        function addQuestionToBank() {
-            const questionText = document.getElementById('question-text-input').value.trim();
-            const options = [
-                document.getElementById('option-a').value.trim(),
-                document.getElementById('option-b').value.trim(),
-                document.getElementById('option-c').value.trim(),
-                document.getElementById('option-d').value.trim(),
-                document.getElementById('option-e').value.trim()
-            ];
-            const correctAnswer = parseInt(document.getElementById('correct-answer').value);
-            const explanation = document.getElementById('explanation-input').value.trim();
-            
-            // Validate inputs
-            if (!questionText) {
-                alert('Pertanyaan tidak boleh kosong');
-                return;
-            }
-            
-            if (options.some(opt => !opt)) {
-                alert('Semua opsi jawaban harus diisi');
-                return;
-            }
-            
-            if (!explanation) {
-                alert('Penjelasan tidak boleh kosong');
-                return;
-            }
-            
-            // Get current questions from storage
-            const questionBank = getQuestionsFromStorage();
-            
-            // Add question
-            questionBank.push({
-                question: questionText,
-                options: options.map((opt, i) => `${String.fromCharCode(65 + i)}. ${opt}`),
-                correctAnswer: correctAnswer,
-                explanation: explanation
-            });
-            
-            // Save to storage
-            if (saveQuestionsToStorage(questionBank)) {
-                // Clear form
-                document.getElementById('question-text-input').value = '';
-                document.getElementById('option-a').value = '';
-                document.getElementById('option-b').value = '';
-                document.getElementById('option-c').value = '';
-                document.getElementById('option-d').value = '';
-                document.getElementById('option-e').value = '';
-                document.getElementById('explanation-input').value = '';
-                
-                // Refresh questions list
-                loadQuestionsList();
-                
-                alert('Soal berhasil ditambahkan ke bank soal!');
-            }
-        }
-
-        function loadQuestionsList() {
-            const questionsList = document.querySelector('.questions-list');
-            
-            questionsList.innerHTML = '';
-            
-            // Get questions from storage
-            const questionBank = getQuestionsFromStorage();
-            
-            if (questionBank.length === 0) {
-                questionsList.innerHTML = '<p id="no-questions-message">Belum ada soal yang tersedia.</p>';
-                return;
-            }
-            
-            questionBank.forEach((q, i) => {
-                const questionItem = document.createElement('div');
-                questionItem.className = 'question-item';
-                
-                questionItem.innerHTML = `
-                    <p><strong>Soal ${i + 1}:</strong> ${q.question}</p>
-                    <div class="options-container">
-                        ${q.options.map(opt => `<p>${opt}</p>`).join('')}
-                    </div>
-                    <p><strong>Jawaban:</strong> ${q.options[q.correctAnswer]}</p>
-                    <p><strong>Penjelasan:</strong> ${q.explanation}</p>
-                    <div class="question-actions">
-                        <button class="question-action-btn edit-btn" data-index="${i}">
-                            <i class="fas fa-edit"></i> Edit
-                        </button>
-                        <button class="question-action-btn delete-btn" data-index="${i}">
-                            <i class="fas fa-trash"></i> Hapus
-                        </button>
-                        <button class="question-action-btn view-btn" data-index="${i}">
-                            <i class="fas fa-eye"></i> View
-                        </button>
-                    </div>
-                `;
-                
-                questionsList.appendChild(questionItem);
-            });
-            
-            // Add event listeners to edit, delete and view buttons
-            document.querySelectorAll('.edit-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const index = parseInt(this.getAttribute('data-index'));
-                    editQuestion(index);
-                });
-            });
-            
-            document.querySelectorAll('.delete-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const index = parseInt(this.getAttribute('data-index'));
-                    
-                    if (confirm('Apakah Anda yakin ingin menghapus soal ini?')) {
-                        deleteQuestion(index);
-                    }
-                });
-            });
-            
-            document.querySelectorAll('.view-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const index = parseInt(this.getAttribute('data-index'));
-                    viewQuestion(index);
-                });
-            });
-        }
-        
-        function editQuestion(index) {
-            const questionBank = getQuestionsFromStorage();
-            const question = questionBank[index];
-            
-            // Fill the edit form
-            document.getElementById('edit-question-text').value = question.question;
-            
-            // Extract option texts (remove "A. ", "B. ", etc.)
-            document.getElementById('edit-option-a').value = question.options[0].substring(3);
-            document.getElementById('edit-option-b').value = question.options[1].substring(3);
-            document.getElementById('edit-option-c').value = question.options[2].substring(3);
-            document.getElementById('edit-option-d').value = question.options[3].substring(3);
-            document.getElementById('edit-option-e').value = question.options[4]?.substring(3) || '';
-            
-            document.getElementById('edit-correct-answer').value = question.correctAnswer;
-            document.getElementById('edit-explanation').value = question.explanation;
-            
-            // Store original data for reference
-            document.getElementById('edit-question-index').value = index;
-            
-            // Show the modal
-            document.getElementById('edit-question-modal').style.display = 'flex';
-        }
-        
-        function hideEditQuestionModal() {
-            document.getElementById('edit-question-modal').style.display = 'none';
-        }
-        
-        function viewQuestion(index) {
-            const questionBank = getQuestionsFromStorage();
-            const question = questionBank[index];
-            
-            // Fill the view form
-            document.getElementById('view-question-text').textContent = question.question;
-            
-            // Display options
-            const optionsContainer = document.getElementById('view-options-container');
-            optionsContainer.innerHTML = '';
-            question.options.forEach(opt => {
-                const p = document.createElement('p');
-                p.textContent = opt;
-                optionsContainer.appendChild(p);
-            });
-            
-            // Display correct answer and explanation
-            document.getElementById('view-correct-answer').textContent = question.options[question.correctAnswer];
-            document.getElementById('view-explanation').textContent = question.explanation;
-            
-            // Show the modal
-            document.getElementById('view-question-modal').style.display = 'flex';
-        }
-        
-        function hideViewQuestionModal() {
-            document.getElementById('view-question-modal').style.display = 'none';
-        }
-        
-        function saveEditedQuestion() {
-            const index = parseInt(document.getElementById('edit-question-index').value);
-            const questionText = document.getElementById('edit-question-text').value.trim();
-            const options = [
-                document.getElementById('edit-option-a').value.trim(),
-                document.getElementById('edit-option-b').value.trim(),
-                document.getElementById('edit-option-c').value.trim(),
-                document.getElementById('edit-option-d').value.trim(),
-                document.getElementById('edit-option-e').value.trim()
-            ];
-            const correctAnswer = parseInt(document.getElementById('edit-correct-answer').value);
-            const explanation = document.getElementById('edit-explanation').value.trim();
-            
-            // Validate inputs
-            if (!questionText) {
-                alert('Pertanyaan tidak boleh kosong');
-                return;
-            }
-            
-            if (options.some(opt => !opt)) {
-                alert('Semua opsi jawaban harus diisi');
-                return;
-            }
-            
-            if (!explanation) {
-                alert('Penjelasan tidak boleh kosong');
-                return;
-            }
-            
-            // Get current questions from storage
-            const questionBank = getQuestionsFromStorage();
-            
-            // Update question
-            questionBank[index] = {
-                question: questionText,
-                options: options.map((opt, i) => `${String.fromCharCode(65 + i)}. ${opt}`),
-                correctAnswer: correctAnswer,
-                explanation: explanation
-            };
-            
-            // Save to storage
-            if (saveQuestionsToStorage(questionBank)) {
-                // Refresh questions list
-                loadQuestionsList();
-                
-                // Hide modal
-                hideEditQuestionModal();
-                
-                alert('Perubahan soal berhasil disimpan!');
-            }
-        }
-        
-        function deleteQuestion(index) {
-            // Get current questions from storage
-            const questionBank = getQuestionsFromStorage();
-            
-            // Remove question from the array
-            questionBank.splice(index, 1);
-            
-            // Save to storage
-            if (saveQuestionsToStorage(questionBank)) {
-                // Refresh questions list
-                loadQuestionsList();
-                
-                alert('Soal berhasil dihapus!');
-            }
-        }
-        
         function loadParticipantsData() {
             const tableBody = document.getElementById('participants-table-body');
             tableBody.innerHTML = '';
@@ -3554,14 +2933,12 @@
         
         function saveCodes() {
             const newLoginCode = document.getElementById('new-login-code').value;
-            const newQuestionBankCode = document.getElementById('new-question-bank-code').value;
             const newCpnsCode = document.getElementById('new-cpns-code').value;
             const newAdminCode = document.getElementById('new-admin-code').value;
             
-            if (newLoginCode || newQuestionBankCode || newCpnsCode || newAdminCode) {
+            if (newLoginCode || newCpnsCode || newAdminCode) {
                 // Update admin settings
                 if (newLoginCode) adminSettings.loginCode = newLoginCode;
-                if (newQuestionBankCode) adminSettings.questionBankCode = newQuestionBankCode;
                 if (newCpnsCode) adminSettings.cpnsLicenseCode = newCpnsCode;
                 if (newAdminCode) adminSettings.adminPanelCode = newAdminCode;
                 
@@ -3570,7 +2947,6 @@
                 
                 // Clear the fields
                 document.getElementById('new-login-code').value = '';
-                document.getElementById('new-question-bank-code').value = '';
                 document.getElementById('new-cpns-code').value = '';
                 document.getElementById('new-admin-code').value = '';
                 
